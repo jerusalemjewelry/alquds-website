@@ -286,38 +286,38 @@
     <!-- Live Metal Prices Ticker -->
     <div class="metal-ticker">
         <div class="metal-prices-wrapper">
-            <div class="metal-prices">
+            <div class="metal-prices" id="metal-prices-ticker">
                 <!-- First set -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price">$2,630.50/oz</span>
-                    <span class="metal-change up">+0.8%</span>
+                    <span class="metal-price" id="gold-price">Loading...</span>
+                    <span class="metal-change" id="gold-change">--</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price">$30.25/oz</span>
-                    <span class="metal-change up">+1.2%</span>
+                    <span class="metal-price" id="silver-price">Loading...</span>
+                    <span class="metal-change" id="silver-change">--</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price">$975.00/oz</span>
-                    <span class="metal-change down">-0.3%</span>
+                    <span class="metal-price" id="platinum-price">Loading...</span>
+                    <span class="metal-change" id="platinum-change">--</span>
                 </div>
                 <!-- Duplicate set for seamless scroll -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price">$2,630.50/oz</span>
-                    <span class="metal-change up">+0.8%</span>
+                    <span class="metal-price" id="gold-price-2">Loading...</span>
+                    <span class="metal-change" id="gold-change-2">--</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price">$30.25/oz</span>
-                    <span class="metal-change up">+1.2%</span>
+                    <span class="metal-price" id="silver-price-2">Loading...</span>
+                    <span class="metal-change" id="silver-change-2">--</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price">$975.00/oz</span>
-                    <span class="metal-change down">-0.3%</span>
+                    <span class="metal-price" id="platinum-price-2">Loading...</span>
+                    <span class="metal-change" id="platinum-change-2">--</span>
                 </div>
             </div>
         </div>
@@ -343,13 +343,29 @@
                 <a href="contact.html" class="nav-link">Contact</a>
             </nav>
 
-            <div class="header-actions flex gap-4">
+            <div class="header-actions flex gap-4 items-center">
                 <a href="#" class="text-white"><i class="fa-solid fa-search"></i></a>
                 <a href="cart.html" class="text-white relative">
                     <i class="fa-solid fa-shopping-bag"></i>
                     <span id="cart-count"
                         style="position: absolute; top: -8px; right: -8px; background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%;">0</span>
                 </a>
+                <!-- Social Media Icons -->
+                <div class="social-icons flex gap-8"
+                    style="margin-left: 15px; padding-left: 15px; border-left: 1px solid var(--color-gray);">
+                    <a href="https://www.tiktok.com/@jerusalemjewelryil?is_from_webapp=1&sender_device=pc"
+                        target="_blank" class="social-link social-tiktok" title="TikTok">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.instagram.com/jerusalemjewelry?igsh=MzltbXhsdDh6Nmx4&utm_source=qr"
+                        target="_blank" class="social-link social-instagram" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/share/17H2dcBhUd/?mibextid=wwXIfr" target="_blank"
+                        class="social-link social-facebook" title="Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </header>
@@ -374,42 +390,42 @@
         <div class="text-center mb-5">
             <h2 class="section-title">Shop By Category</h2>
             <div style="width: 60px; height: 3px; background: var(--color-gold); margin: 0 auto 30px;"></div>
-        </div>
+            <div class="grid grid-cols-4">
+                <!-- Category Item 1 -->
+                <a href="catalog.html?cat=bangles" class="product-card" style="height: 250px;">
+                    <img src="assets/cat_bangles.png" alt="Bangles" class="product-image" style="height: 100%;">
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                        <h3 class="text-white text-center">Bangle Sets</h3>
+                    </div>
+                </a>
+                <!-- Category Item 2 -->
+                <a href="catalog.html?cat=chains" class="product-card" style="height: 250px;">
+                    <img src="assets/cat_chains.png" alt="Chains" class="product-image" style="height: 100%;">
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                        <h3 class="text-white text-center">Chains</h3>
+                    </div>
+                </a>
+                <!-- Category Item 3 -->
+                <a href="catalog.html?cat=rings" class="product-card" style="height: 250px;">
+                    <img src="assets/cat_rings.png" alt="Rings" class="product-image" style="height: 100%;">
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                        <h3 class="text-white text-center">Rings</h3>
+                    </div>
+                </a>
+                <!-- Category Item 4 -->
+                <a href="catalog.html?cat=custom" class="product-card" style="height: 250px;">
+                    <img src="assets/cat_custom.png" alt="Custom" class="product-image" style="height: 100%;">
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                        <h3 class="text-white text-center">Custom Nameplates</h3>
+                    </div>
+                </a>
+            </div>
 
-        <div class="grid grid-cols-4">
-            <!-- Category Item 1 -->
-            <a href="catalog.html?cat=bangles" class="product-card" style="height: 250px;">
-                <img src="assets/cat_bangles.png" alt="Bangles" class="product-image" style="height: 100%;">
-                <div
-                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
-                    <h3 class="text-white text-center">Bangle Sets</h3>
-                </div>
-            </a>
-            <!-- Category Item 2 -->
-            <a href="catalog.html?cat=chains" class="product-card" style="height: 250px;">
-                <img src="assets/cat_chains.png" alt="Chains" class="product-image" style="height: 100%;">
-                <div
-                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
-                    <h3 class="text-white text-center">Chains</h3>
-                </div>
-            </a>
-            <!-- Category Item 3 -->
-            <a href="catalog.html?cat=rings" class="product-card" style="height: 250px;">
-                <img src="assets/cat_rings.png" alt="Rings" class="product-image" style="height: 100%;">
-                <div
-                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
-                    <h3 class="text-white text-center">Rings</h3>
-                </div>
-            </a>
-            <!-- Category Item 4 -->
-            <a href="catalog.html?cat=custom" class="product-card" style="height: 250px;">
-                <img src="assets/cat_custom.png" alt="Custom" class="product-image" style="height: 100%;">
-                <div
-                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
-                    <h3 class="text-white text-center">Custom Nameplates</h3>
-                </div>
-            </a>
-        </div>
+
     </section>
 
     <!-- Featured Products (Dynamic) -->
@@ -495,7 +511,7 @@
     </section>
 
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/15551234567" target="_blank" class="whatsapp-float" title="Chat with us on WhatsApp">
+    <a href="https://wa.me/17089855310" target="_blank" class="whatsapp-float" title="Chat with us on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -549,6 +565,62 @@
     <script src="js/main.js"></script>
 
     <script>
+        // Load Live Metal Prices from pricing.json
+        async function loadMetalPrices() {
+            try {
+                const response = await fetch('data/pricing.json');
+                const data = await response.json();
+
+                // Format prices
+                const goldPrice = `$${data.spotPrice24kOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
+                const silverPrice = `$${data.silverPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
+                const platinumPrice = `$${data.platinumPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
+
+                // Update both sets of prices (original and duplicate for scrolling)
+                document.getElementById('gold-price').textContent = goldPrice;
+                document.getElementById('gold-price-2').textContent = goldPrice;
+                document.getElementById('silver-price').textContent = silverPrice;
+                document.getElementById('silver-price-2').textContent = silverPrice;
+                document.getElementById('platinum-price').textContent = platinumPrice;
+                document.getElementById('platinum-price-2').textContent = platinumPrice;
+
+                // Update change percentages
+                updateChange('gold-change', data.goldChange);
+                updateChange('gold-change-2', data.goldChange);
+                updateChange('silver-change', data.silverChange);
+                updateChange('silver-change-2', data.silverChange);
+                updateChange('platinum-change', data.platinumChange);
+                updateChange('platinum-change-2', data.platinumChange);
+
+                console.log('Metal prices loaded successfully!', data.lastUpdated);
+            } catch (error) {
+                console.error('Error loading metal prices:', error);
+                // Keep "Loading..." text on error
+            }
+        }
+
+        function updateChange(elementId, changePercent) {
+            const element = document.getElementById(elementId);
+            if (!element || changePercent === undefined || changePercent === null) return;
+
+            const formattedChange = `${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
+            element.textContent = formattedChange;
+
+            // Add appropriate class
+            element.classList.remove('up', 'down');
+            if (changePercent > 0) {
+                element.classList.add('up');
+            } else if (changePercent < 0) {
+                element.classList.add('down');
+            }
+        }
+
+        // Load prices on page load
+        window.addEventListener('load', loadMetalPrices);
+
+        // Refresh prices every 5 minutes
+        setInterval(loadMetalPrices, 5 * 60 * 1000);
+
         // Scroll Reveal Animations
         function revealOnScroll() {
             const reveals = document.querySelectorAll('.scroll-reveal');
