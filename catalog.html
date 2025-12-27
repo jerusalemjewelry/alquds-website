@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +11,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-
     <header class="header-main">
         <div class="container flex justify-between items-center">
             <div class="logo">
@@ -39,7 +36,6 @@
             </div>
         </div>
     </header>
-
     <div class="container" style="padding: 40px 20px; display: flex; gap: 40px;">
         <!-- Sidebar -->
         <aside style="width: 250px; flex-shrink: 0;">
@@ -77,7 +73,6 @@
                         <li><a href="catalog.html?cat=mens" class="text-muted hover-gold">Men's Jewelry</a></li>
                     </ul>
                 </li>
-
                 <!-- Coins & Bullions (Collapsible) -->
                 <li>
                     <div class="flex justify-between items-center" style="cursor: pointer;"
@@ -99,7 +94,6 @@
                                 class="text-muted hover-gold">Silver Bullion</a></li>
                     </ul>
                 </li>
-
                 <!-- Other Main Categories -->
                 <li><a href="catalog.html?cat=white-gold" class="text-white hover-gold text-uppercase"
                         style="font-weight: bold;">White Gold</a></li>
@@ -107,10 +101,8 @@
                         style="font-weight: bold;">Silver Jewelry</a></li>
                 <li><a href="catalog.html?cat=diamond" class="text-white hover-gold text-uppercase"
                         style="font-weight: bold;">Diamond Jewelry</a></li>
-
             </ul>
         </aside>
-
         <!-- Main Grid -->
         <main style="flex-grow: 1;">
             <h2 id="page-title" class="mb-4">All Collections</h2>
@@ -120,11 +112,9 @@
             </div>
         </main>
     </div>
-
     <footer class="text-center py-4" style="border-top: 1px solid #333; margin-top: 40px;">
         <p class="text-muted">&copy; 2025 Alquds Jewelry. All Rights Reserved. v1.1</p>
     </footer>
-
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
     <script>
@@ -133,7 +123,6 @@
         function toggleSubmenu(submenuId, iconId) {
             const submenu = document.getElementById(submenuId);
             const icon = document.getElementById(iconId);
-
             if (submenu.style.display === 'none') {
                 submenu.style.display = 'block';
                 icon.style.transform = 'rotate(135deg)';
@@ -142,12 +131,10 @@
                 icon.style.transform = 'rotate(0deg)';
             }
         }
-
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('cat');
             const sub = urlParams.get('sub');
-
             // Highlight active sub-category if present
             if (sub) {
                 const activeLinks = document.querySelectorAll(`a[href*="sub=${sub}"]`);
@@ -157,7 +144,6 @@
                     link.style.padding = '2px 8px';
                     link.style.borderRadius = '2px';
                     link.style.fontWeight = 'bold';
-
                     // Auto-open the parent menu
                     const parentMenu = link.closest('ul');
                     if (parentMenu) {
@@ -179,7 +165,6 @@
                     const icon = document.getElementById('icon-yellow-gold');
                     if (menu) menu.style.display = 'block';
                     if (icon) icon.style.transform = 'rotate(135deg)';
-
                     // Highlight the link
                     const link = document.querySelector(`a[href*="cat=${category}"]`);
                     if (link) {
@@ -191,12 +176,9 @@
                     }
                 }
             }
-
             const grid = document.getElementById('product-grid');
             const title = document.getElementById('page-title');
-
             let filteredProducts = products;
-
             if (category) {
                 // Capitalize first letter
                 // Handle special case for coins-bullions display
@@ -205,10 +187,8 @@
                 } else {
                     title.innerText = category.charAt(0).toUpperCase() + category.slice(1);
                 }
-
                 filteredProducts = products.filter(p => p.category === category);
             }
-
             if (filteredProducts.length === 0) {
                 grid.innerHTML = '<p>No products found in this category.</p>';
             } else {
@@ -217,5 +197,4 @@
         });
     </script>
 </body>
-
 </html>
