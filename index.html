@@ -316,8 +316,34 @@
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
+                    <span class="metal-price" id="platinum-price">Loading...</span>
+                    <span class="metal-change" id="platinum-change">--</span>
+                </div>
+                <!-- Market Timer -->
+                <div class="metal-item" id="market-timer-1">
+                    <span class="metal-label" id="market-status-label-1">MARKET:</span>
+                    <span class="metal-price" id="market-countdown-1">Calculating...</span>
+                </div>
+                <!-- Duplicate set for seamless scroll -->
+                <div class="metal-item">
+                    <span class="metal-label">GOLD 24K:</span>
+                    <span class="metal-price" id="gold-price-2">Loading...</span>
+                    <span class="metal-change" id="gold-change-2">--</span>
+                </div>
+                <div class="metal-item">
+                    <span class="metal-label">SILVER:</span>
+                    <span class="metal-price" id="silver-price-2">Loading...</span>
+                    <span class="metal-change" id="silver-change-2">--</span>
+                </div>
+                <div class="metal-item">
+                    <span class="metal-label">PLATINUM:</span>
                     <span class="metal-price" id="platinum-price-2">Loading...</span>
                     <span class="metal-change" id="platinum-change-2">--</span>
+                </div>
+                <!-- Market Timer Duplicate -->
+                <div class="metal-item" id="market-timer-2">
+                    <span class="metal-label" id="market-status-label-2">MARKET:</span>
+                    <span class="metal-price" id="market-countdown-2">Calculating...</span>
                 </div>
             </div>
         </div>
@@ -620,6 +646,93 @@
 
         // Refresh prices every 5 minutes
         setInterval(loadMetalPrices, 5 * 60 * 1000);
+
+        // Market Countdown Timer (Chicago/Central Time)
+        function updateMarketCountdown() {
+            // Get current time in Chicago (Central Time)
+            const now = new Date();
+            const chicagoTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+
+            const day = chicagoTime.getDay(); // 0 = Sunday, 6 = Saturday
+            const hours = chicagoTime.getHours();
+            const minutes = chicagoTime.getMinutes();
+            const seconds = chicagoTime.getSeconds();
+
+            // Precious metals market hours: Sunday 6:00 PM CT - Friday 5:00 PM CT
+            let isMarketOpen = false;
+            let nextEventTime;
+            let statusText;
+
+            // Check if market is open
+            if (day === 0) { // Sunday
+                isMarketOpen = hours >= 18; // Open from 6 PM onwards
+            } else if (day >= 1 && day <= 4) { // Monday - Thursday
+                isMarketOpen = true; // Open all day
+            } else if (day === 5) { // Friday
+                isMarketOpen = hours < 17; // Open until 5 PM
+            } else { // Saturday
+                isMarketOpen = false;
+            }
+
+            // Calculate next event time
+            if (isMarketOpen) {
+                // Market is open - calculate time until close (Friday 5 PM)
+                statusText = "CLOSES IN";
+                nextEventTime = new Date(chicagoTime);
+
+                if (day === 5) { // Friday
+                    nextEventTime.setHours(17, 0, 0, 0);
+                } else {
+                    // Days until Friday
+                    const daysUntilFriday = (5 - day + 7) % 7 || 7;
+                    nextEventTime.setDate(nextEventTime.getDate() + daysUntilFriday);
+                    nextEventTime.setHours(17, 0, 0, 0);
+                }
+            } else {
+                // Market is closed - calculate time until open (Sunday 6 PM)
+                statusText = "OPENS IN";
+                nextEventTime = new Date(chicagoTime);
+
+                if (day === 6) { // Saturday
+                    nextEventTime.setDate(nextEventTime.getDate() + 1); // Tomorrow (Sunday)
+                    nextEventTime.setHours(18, 0, 0, 0);
+                } else if (day === 0 && hours < 18) { // Sunday before 6 PM
+                    nextEventTime.setHours(18, 0, 0, 0);
+                } else if (day === 5 && hours >= 17) { // Friday after 5 PM
+                    nextEventTime.setDate(nextEventTime.getDate() + 2); // Sunday
+                    nextEventTime.setHours(18, 0, 0, 0);
+                }
+            }
+
+            // Calculate time difference
+            const diff = nextEventTime - chicagoTime;
+            const daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hoursLeft = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Format countdown
+            let countdown = '';
+            if (daysLeft > 0) {
+                countdown += `${daysLeft}d `;
+            }
+            countdown += `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+
+            // Update both timer instances
+            const label1 = document.getElementById('market-status-label-1');
+            const label2 = document.getElementById('market-status-label-2');
+            const countdown1 = document.getElementById('market-countdown-1');
+            const countdown2 = document.getElementById('market-countdown-2');
+
+            if (label1) label1.textContent = statusText + ':';
+            if (label2) label2.textContent = statusText + ':';
+            if (countdown1) countdown1.textContent = countdown;
+            if (countdown2) countdown2.textContent = countdown;
+        }
+
+        // Update countdown every second
+        updateMarketCountdown();
+        setInterval(updateMarketCountdown, 1000);
 
         // Scroll Reveal Animations
         function revealOnScroll() {
