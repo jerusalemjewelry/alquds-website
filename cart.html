@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart - Alquds Jewelry</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem;">ALQUDS <span
+                        class="text-white">JEWELRY</span></a>
+            </div>
+            <div class="header-actions">
+                <a href="cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 60px 20px; max-width: 800px;">
+        <h1 class="mb-5">Your Bag</h1>
+
+        <div id="cart-items">
+            <!-- JS Populated -->
+        </div>
+
+        <div id="cart-total" class="flex justify-between items-center"
+            style="border-top: 1px solid #333; padding-top: 20px; margin-top: 30px; font-size: 1.5rem;">
+            <span class="text-muted">Total</span>
+            <span class="text-gold" id="total-price">$0.00</span>
+        </div>
+
+        <div class="mt-5 text-center">
+            <button class="btn btn-primary" style="width: 100%; padding: 20px;">PROCEED TO CHECKOUT</button>
+            <a href="catalog.html" class="block mt-4 text-muted text-sm">Continue Shopping</a>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('total-price');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-muted">Your bag is empty.</p>';
+            } else {
+                let total = 0;
+                container.innerHTML = cart.map(item => {
+                    total += item.price * item.quantity;
+                    return `
+                        <div class="flex items-center gap-4 mb-4" style="background: #1a1a1a; padding: 15px;">
+                            <img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover;">
+                            <div style="flex: 1;">
+                                <h4 class="text-white">${item.name}</h4>
+                                <div class="text-gold">$${item.price.toLocaleString()}</div>
+                            </div>
+                            <div class="text-muted">x${item.quantity}</div>
+                        </div>
+                    `;
+                }).join('');
+                totalEl.innerText = '$' + total.toLocaleString();
+            }
+        });
+    </script>
+</body>
+
+</html>
