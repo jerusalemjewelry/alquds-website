@@ -290,55 +290,55 @@
                 <!-- First set -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price" id="gold-price">$4,533.42/oz</span>
-                    <span class="metal-change up" id="gold-change">+1.21%</span>
+                    <span class="metal-price price-gold">$4,533.42/oz</span>
+                    <span class="metal-change change-gold up">+1.21%</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price" id="silver-price">$79.33/oz</span>
-                    <span class="metal-change up" id="silver-change">+10.43%</span>
+                    <span class="metal-price price-silver">$79.33/oz</span>
+                    <span class="metal-change change-silver up">+10.43%</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price" id="platinum-price">$2,455.49/oz</span>
-                    <span class="metal-change up" id="platinum-change">+9.30%</span>
+                    <span class="metal-price price-platinum">$2,455.49/oz</span>
+                    <span class="metal-change change-platinum up">+9.30%</span>
                 </div>
-                <!-- Duplicate set for seamless scroll -->
+                <!-- Duplicate set 1 -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price" id="gold-price-2">$4,533.42/oz</span>
-                    <span class="metal-change up" id="gold-change-2">+1.21%</span>
+                    <span class="metal-price price-gold">$4,533.42/oz</span>
+                    <span class="metal-change change-gold up">+1.21%</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price" id="silver-price-2">$79.33/oz</span>
-                    <span class="metal-change up" id="silver-change-2">+10.43%</span>
+                    <span class="metal-price price-silver">$79.33/oz</span>
+                    <span class="metal-change change-silver up">+10.43%</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price" id="platinum-price-2">$2,455.49/oz</span>
-                    <span class="metal-change up" id="platinum-change-2">+9.30%</span>
+                    <span class="metal-price price-platinum">$2,455.49/oz</span>
+                    <span class="metal-change change-platinum up">+9.30%</span>
                 </div>
                 <!-- Market Timer -->
                 <div class="metal-item" id="market-timer-1">
                     <span class="metal-label" id="market-status-label-1">MARKET:</span>
                     <span class="metal-price" id="market-countdown-1">Calculating...</span>
                 </div>
-                <!-- Duplicate set for seamless scroll -->
+                <!-- Duplicate set 2 -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price" id="gold-price-2">Loading...</span>
-                    <span class="metal-change" id="gold-change-2">--</span>
+                    <span class="metal-price price-gold">$4,533.42/oz</span>
+                    <span class="metal-change change-gold up">+1.21%</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price" id="silver-price-2">Loading...</span>
-                    <span class="metal-change" id="silver-change-2">--</span>
+                    <span class="metal-price price-silver">$79.33/oz</span>
+                    <span class="metal-change change-silver up">+10.43%</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price" id="platinum-price-2">$950.00/oz</span>
-                    <span class="metal-change" id="platinum-change-2">-0.45%</span>
+                    <span class="metal-price price-platinum">$2,455.49/oz</span>
+                    <span class="metal-change change-platinum up">+9.30%</span>
                 </div>
                 <!-- Market Timer Duplicate -->
                 <div class="metal-item" id="market-timer-2">
@@ -602,31 +602,23 @@
                 const silverPrice = `$${data.silverPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
                 const platinumPrice = `$${data.platinumPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
 
-                // Update both sets of prices (original and duplicate for scrolling)
-                document.getElementById('gold-price').textContent = goldPrice;
-                document.getElementById('gold-price-2').textContent = goldPrice;
-                document.getElementById('silver-price').textContent = silverPrice;
-                document.getElementById('silver-price-2').textContent = silverPrice;
-                document.getElementById('platinum-price').textContent = platinumPrice;
-                document.getElementById('platinum-price-2').textContent = platinumPrice;
+                // Update ALL sets of prices (using classes)
+                document.querySelectorAll('.price-gold').forEach(el => el.textContent = goldPrice);
+                document.querySelectorAll('.price-silver').forEach(el => el.textContent = silverPrice);
+                document.querySelectorAll('.price-platinum').forEach(el => el.textContent = platinumPrice);
 
                 // Update change percentages
-                updateChange('gold-change', data.goldChange);
-                updateChange('gold-change-2', data.goldChange);
-                updateChange('silver-change', data.silverChange);
-                updateChange('silver-change-2', data.silverChange);
-                updateChange('platinum-change', data.platinumChange);
-                updateChange('platinum-change-2', data.platinumChange);
+                document.querySelectorAll('.change-gold').forEach(el => updateChange(el, data.goldChange));
+                document.querySelectorAll('.change-silver').forEach(el => updateChange(el, data.silverChange));
+                document.querySelectorAll('.change-platinum').forEach(el => updateChange(el, data.platinumChange));
 
                 console.log('Metal prices loaded successfully!', data.lastUpdated);
             } catch (error) {
                 console.error('Error loading metal prices:', error);
-                // Keep "Loading..." text on error
             }
         }
 
-        function updateChange(elementId, changePercent) {
-            const element = document.getElementById(elementId);
+        function updateChange(element, changePercent) {
             if (!element || changePercent === undefined || changePercent === null) return;
 
             const formattedChange = `${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
