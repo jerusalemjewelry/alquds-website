@@ -1,9 +1,10 @@
 {
-    "spotPrice24kOunce": 4319.53,
-    "silverPriceOunce": 71.56,
-    "platinumPriceOunce": 2455.49,
+    "spotPrice24kOunce": 4334.00,
+    "silverPriceOunce": 72.20,
+    "platinumPriceOunce": 2108.00,
     "openingPriceGold": 4266.20,
     "openingPriceSilver": 79.33,
     "openingPricePlatinum": 2246.56,
     "lastUpdated": "2025-12-29T12:05:00.000Z"
+
 }
