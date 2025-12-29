@@ -1,22 +1,19 @@
-const https = require('https');
 const fs = require('fs');
+const https = require('https');
 const path = require('path');
 
-// Configuration
 const API_KEY = process.env.GOLD_API_KEY;
 const PRICING_FILE = path.join(__dirname, 'data', 'pricing.json');
 
-if (!API_KEY) {
-    console.error("Error: GOLD_API_KEY environment variable is missing.");
-    process.exit(1);
-}
+// Symbols to fetch
+const METALS = ['XAU', 'XAG', 'XPT']; // Gold, Silver, Platinum
+const CURRENCY = 'USD';
 
-// Fetch price for a specific metal
-function fetchMetalPrice(metal) {
+async function fetchPrice(metal) {
     return new Promise((resolve, reject) => {
         const options = {
-            hostname: 'www.goldapi.io',
-            path: `/api/${metal}/USD`,
+            hostname: 'api.gold-api.com',
+            path: `/api/${metal}/${CURRENCY}`,
             method: 'GET',
             headers: {
                 'x-access-token': API_KEY,
@@ -24,130 +21,61 @@ function fetchMetalPrice(metal) {
             }
         };
 
-        const req = https.request(options, res => {
+        const req = https.request(options, (res) => {
             let data = '';
-
-            res.on('data', chunk => {
-                data += chunk;
-            });
-
+            res.on('data', (chunk) => data += chunk);
             res.on('end', () => {
-                if (res.statusCode === 200) {
+                if (res.statusCode >= 200 && res.statusCode < 300) {
                     try {
-                        const response = JSON.parse(data);
-                        resolve({
-                            metal: metal,
-                            price: response.price,
-                            change: response.ch || 0,
-                            changePercent: response.chp || 0,
-                            success: true
-                        });
+                        const json = JSON.parse(data);
+                        resolve(json);
                     } catch (e) {
-                        console.warn(`Warning: Could not parse ${metal} response`);
-                        resolve({ metal, success: false });
+                        reject(e);
                     }
                 } else {
-                    console.warn(`Warning: ${metal} returned status ${res.statusCode} - may not be available in free tier`);
-                    resolve({ metal, success: false });
+                    reject(new Error(`API Error: ${res.statusCode} ${data}`));
                 }
             });
         });
 
-        req.on('error', error => {
-            console.warn(`Warning: Network error for ${metal}`);
-            resolve({ metal, success: false });
-        });
-
+        req.on('error', (e) => reject(e));
         req.end();
     });
 }
 
-console.log("Fetching live metal prices...");
-
-// Fetch all three metals
-Promise.all([
-    fetchMetalPrice('XAU'), // Gold
-    fetchMetalPrice('XAG'), // Silver
-    fetchMetalPrice('XPT')  // Platinum
-])
-    .then(results => {
-        const [gold, silver, platinum] = results;
-
-        // Check which metals we successfully got
-        if (gold.success) {
-            console.log(`✅ Gold: $${gold.price} (${gold.changePercent > 0 ? '+' : ''}${gold.changePercent}%)`);
-        } else {
-            console.error("❌ Failed to fetch Gold price");
+async function main() {
+    try {
+        console.log('Starting price update...');
+        // Read existing file
+        let pricing = {};
+        if (fs.existsSync(PRICING_FILE)) {
+            pricing = JSON.parse(fs.readFileSync(PRICING_FILE, 'utf8'));
         }
 
-        if (silver.success) {
-            console.log(`✅ Silver: $${silver.price} (${silver.changePercent > 0 ? '+' : ''}${silver.changePercent}%)`);
-        } else {
-            console.log("⚠️  Silver: Not available in free tier, using fallback");
-        }
+        // Fetch prices
+        const goldData = await fetchPrice('XAU');
+        const silverData = await fetchPrice('XAG');
+        const platinumData = await fetchPrice('XPT');
 
-        if (platinum.success) {
-            console.log(`✅ Platinum: $${platinum.price} (${platinum.changePercent > 0 ? '+' : ''}${platinum.changePercent}%)`);
-        } else {
-            console.log("⚠️  Platinum: Not available in free tier, using fallback");
-        }
+        // Update pricing object
+        if (goldData.price) pricing.spotPrice24kOunce = goldData.price;
+        if (silverData.price) pricing.silverPriceOunce = silverData.price;
+        if (platinumData.price) pricing.platinumPriceOunce = platinumData.price;
 
-        updatePricingFile(gold, silver, platinum);
-    })
-    .catch(error => {
-        console.error("Error fetching prices:", error.message);
-        process.exit(1);
-    });
-
-function updatePricingFile(gold, silver, platinum) {
-    fs.readFile(PRICING_FILE, 'utf8', (err, data) => {
-        let pricing = {
-            // Fallback values for Silver and Platinum
-            silverPriceOunce: 30.12,
-            platinumPriceOunce: 982.50,
-            silverChange: 0,
-            platinumChange: 0
-        };
-
-        if (!err) {
-            try {
-                pricing = JSON.parse(data);
-            } catch (e) {
-                console.log("Creating new pricing file...");
-            }
-        }
-
-        // Update Gold (should always work)
-        if (gold.success) {
-            pricing.spotPrice24kOunce = gold.price;
-            pricing.goldChange = gold.changePercent;
-        }
-
-        // Update Silver if available
-        if (silver.success) {
-            pricing.silverPriceOunce = silver.price;
-            pricing.silverChange = silver.changePercent;
-        }
-
-        // Update Platinum if available
-        if (platinum.success) {
-            pricing.platinumPriceOunce = platinum.price;
-            pricing.platinumChange = platinum.changePercent;
-        }
+        if (goldData.chp) pricing.goldChangePercent = goldData.chp;
+        if (silverData.chp) pricing.silverChangePercent = silverData.chp;
+        if (platinumData.chp) pricing.platinumChangePercent = platinumData.chp;
 
         pricing.lastUpdated = new Date().toISOString();
-        pricing.gramsPerOunce = 31.104;
 
-        fs.writeFile(PRICING_FILE, JSON.stringify(pricing, null, 4), err => {
-            if (err) {
-                console.error("Error writing pricing file:", err);
-                process.exit(1);
-            }
-            console.log(`\n✅ Success! Updated pricing file at ${pricing.lastUpdated}`);
-            console.log(`   📊 Final prices:`);
-            console.log(`   Gold: $${pricing.spotPrice24kOunce}`);
-            console.log(`   Silver: $${pricing.silverPriceOunce}`);
-            console.log(`   Platinum: $${pricing.platinumPriceOunce}`);
-        });
-    });
+        // Write file
+        fs.writeFileSync(PRICING_FILE, JSON.stringify(pricing, null, 4));
+        console.log('Successfully updated prices:', pricing);
+
+    } catch (error) {
+        console.error('Failed to update prices:', error);
+        process.exit(1);
+    }
 }
+
+main();

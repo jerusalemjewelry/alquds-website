@@ -599,7 +599,8 @@
         // Load Live Metal Prices from pricing.json
         async function loadMetalPrices() {
             try {
-                const response = await fetch('data/pricing.json');
+                // Add timestamp to bust cache
+                const response = await fetch('data/pricing.json?t=' + new Date().getTime());
                 const data = await response.json();
 
                 // Format prices
@@ -674,21 +675,25 @@
             nextEventTime = new Date(chicagoTime);
 
             if (isMarketOpen) {
-                // Market is open - calculate time until close (Friday 12:15 PM)
-                statusText = "CLOSES IN";
+                // Market is open - Just show "MARKET OPEN"
+                document.getElementById('market-status-text').textContent = "MARKET:";
+                document.getElementById('market-status-text').classList.remove('text-red-500');
+                document.getElementById('market-status-text').classList.add('text-green-500');
 
-                if (day === 5) { // Friday
-                    nextEventTime.setHours(12, 15, 0, 0);
-                } else {
-                    // Days until Friday
-                    const daysUntilFriday = (5 - day + 7) % 7;
-                    nextEventTime.setDate(nextEventTime.getDate() + daysUntilFriday);
-                    nextEventTime.setHours(12, 15, 0, 0);
-                }
+                document.getElementById('market-countdown').textContent = "OPEN";
+                document.getElementById('market-countdown').classList.remove('text-red-500');
+                document.getElementById('market-countdown').classList.add('text-green-500');
             } else {
-                // Market is closed - calculate time until open (Monday 7:30 AM)
-                statusText = "OPENS IN";
+                // Market is closed - show "OPENS IN" and countdown
+                statusText = "OPENS IN:";
+                document.getElementById('market-status-text').textContent = statusText;
+                document.getElementById('market-status-text').classList.remove('text-green-500');
+                document.getElementById('market-status-text').classList.add('text-red-500');
 
+                document.getElementById('market-countdown').classList.remove('text-green-500');
+                document.getElementById('market-countdown').classList.add('text-white'); // or keep it white
+
+                // Determine the next opening time
                 if (day === 0) { // Sunday
                     nextEventTime.setDate(nextEventTime.getDate() + 1); // Tomorrow (Monday)
                     nextEventTime.setHours(7, 30, 0, 0);
@@ -700,56 +705,36 @@
                 } else if (day === 5 && (hours > 12 || (hours === 12 && minutes >= 15))) { // Friday after 12:15 PM
                     nextEventTime.setDate(nextEventTime.getDate() + 3); // Next Monday
                     nextEventTime.setHours(7, 30, 0, 0);
+                    const countdown1 = document.getElementById('market-countdown-1');
+                    const countdown2 = document.getElementById('market-countdown-2');
+
+                    if (label1) label1.textContent = statusText + ':';
+                    if (label2) label2.textContent = statusText + ':';
+                    if (countdown1) countdown1.textContent = countdown;
+                    if (countdown2) countdown2.textContent = countdown;
                 }
-            }
 
-            // Calculate time difference
-            const diff = nextEventTime - chicagoTime;
-            const daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hoursLeft = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
+                // Update countdown every second
+                updateMarketCountdown();
+                setInterval(updateMarketCountdown, 1000);
 
-            // Format countdown
-            let countdown = '';
-            if (daysLeft > 0) {
-                countdown += `${daysLeft}d `;
-            }
-            countdown += `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+                // Scroll Reveal Animations
+                function revealOnScroll() {
+                    const reveals = document.querySelectorAll('.scroll-reveal');
 
-            // Update both timer instances
-            const label1 = document.getElementById('market-status-label-1');
-            const label2 = document.getElementById('market-status-label-2');
-            const countdown1 = document.getElementById('market-countdown-1');
-            const countdown2 = document.getElementById('market-countdown-2');
+                    reveals.forEach(element => {
+                        const windowHeight = window.innerHeight;
+                        const elementTop = element.getBoundingClientRect().top;
+                        const revealPoint = 100;
 
-            if (label1) label1.textContent = statusText + ':';
-            if (label2) label2.textContent = statusText + ':';
-            if (countdown1) countdown1.textContent = countdown;
-            if (countdown2) countdown2.textContent = countdown;
-        }
-
-        // Update countdown every second
-        updateMarketCountdown();
-        setInterval(updateMarketCountdown, 1000);
-
-        // Scroll Reveal Animations
-        function revealOnScroll() {
-            const reveals = document.querySelectorAll('.scroll-reveal');
-
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const revealPoint = 100;
-
-                if (elementTop < windowHeight - revealPoint) {
-                    element.classList.add('revealed');
+                        if (elementTop < windowHeight - revealPoint) {
+                            element.classList.add('revealed');
+                        }
+                    });
                 }
-            });
-        }
 
-        window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load', revealOnScroll);
+                window.addEventListener('scroll', revealOnScroll);
+                window.addEventListener('load', revealOnScroll);
     </script>
 </body>
 
