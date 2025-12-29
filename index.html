@@ -608,15 +608,21 @@
                 const silverPrice = `$${data.silverPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
                 const platinumPrice = `$${data.platinumPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
 
+                // Calculate Change Percentages Dynamically
+                // Formula: ((Current - Opening) / Opening) * 100
+                const goldChange = ((data.spotPrice24kOunce - data.openingPriceGold) / data.openingPriceGold) * 100;
+                const silverChange = ((data.silverPriceOunce - data.openingPriceSilver) / data.openingPriceSilver) * 100;
+                const platinumChange = ((data.platinumPriceOunce - data.openingPricePlatinum) / data.openingPricePlatinum) * 100;
+
                 // Update ALL sets of prices (using classes)
                 document.querySelectorAll('.price-gold').forEach(el => el.textContent = goldPrice);
                 document.querySelectorAll('.price-silver').forEach(el => el.textContent = silverPrice);
                 document.querySelectorAll('.price-platinum').forEach(el => el.textContent = platinumPrice);
 
                 // Update change percentages
-                document.querySelectorAll('.change-gold').forEach(el => updateChange(el, data.goldChange));
-                document.querySelectorAll('.change-silver').forEach(el => updateChange(el, data.silverChange));
-                document.querySelectorAll('.change-platinum').forEach(el => updateChange(el, data.platinumChange));
+                document.querySelectorAll('.change-gold').forEach(el => updateChange(el, goldChange));
+                document.querySelectorAll('.change-silver').forEach(el => updateChange(el, silverChange));
+                document.querySelectorAll('.change-platinum').forEach(el => updateChange(el, platinumChange));
 
                 console.log('Metal prices loaded successfully!', data.lastUpdated);
             } catch (error) {
