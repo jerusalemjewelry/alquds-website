@@ -597,11 +597,15 @@
 
     <script>
         // Load Live Metal Prices from pricing.json
-        async function loadMetalPrices() {
+        function loadMetalPrices() {
             try {
-                // Add timestamp to bust cache
-                const response = await fetch('data/pricing.json?t=' + new Date().getTime());
-                const data = await response.json();
+                // Read from loaded JS file (window.metalPrices)
+                const data = window.metalPrices;
+
+                if (!data) {
+                    console.error("Metal prices data not found!");
+                    return;
+                }
 
                 // Format prices
                 const goldPrice = `$${data.spotPrice24kOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
@@ -648,7 +652,7 @@
         // Load prices on page load
         window.addEventListener('load', loadMetalPrices);
 
-        // Refresh prices every 5 minutes
+        // Refresh prices every 5 minutes (if the variable changes somehow, or just to re-render)
         setInterval(loadMetalPrices, 5 * 60 * 1000);
 
         // Market Countdown Timer (Chicago/Central Time)
@@ -772,6 +776,8 @@
         window.addEventListener('scroll', revealOnScroll);
         window.addEventListener('load', revealOnScroll);
     </script>
+    <!-- Load Pricing Data -->
+    <script src="data/pricing.js"></script>
 </body>
 
 </html>
