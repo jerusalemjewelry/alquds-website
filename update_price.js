@@ -6,7 +6,6 @@ const API_KEY = process.env.GOLD_API_KEY;
 const PRICING_FILE = path.join(__dirname, 'data', 'pricing.json');
 
 // Symbols to fetch
-const METALS = ['XAU', 'XAG', 'XPT']; // Gold, Silver, Platinum
 const CURRENCY = 'USD';
 
 async function fetchPrice(metal) {
@@ -56,6 +55,13 @@ async function main() {
         const goldData = await fetchPrice('XAU');
         const silverData = await fetchPrice('XAG');
         const platinumData = await fetchPrice('XPT');
+
+        // SAFU GUARD: Block 2024 prices from overwriting 2025 data
+        // If Gold is < $3000, assume the API is returning old/legacy data and SKIP update.
+        if (goldData.price && goldData.price < 3000) {
+            console.warn(`WARNING: API returned legacy/2024 price ($${goldData.price}). Ignoring to preserve 2025 accuracy.`);
+            return;
+        }
 
         // Update pricing object
         if (goldData.price) pricing.spotPrice24kOunce = goldData.price;
