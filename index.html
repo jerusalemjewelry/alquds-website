@@ -290,34 +290,34 @@
                 <!-- First set -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price price-gold">$4,533.42/oz</span>
-                    <span class="metal-change change-gold up">+1.21%</span>
+                    <span class="metal-price price-gold">Loading...</span>
+                    <span class="metal-change change-gold">---</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price price-silver">$79.33/oz</span>
-                    <span class="metal-change change-silver up">+10.43%</span>
+                    <span class="metal-price price-silver">Loading...</span>
+                    <span class="metal-change change-silver">---</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price price-platinum">$2,455.49/oz</span>
-                    <span class="metal-change change-platinum up">+9.30%</span>
+                    <span class="metal-price price-platinum">Loading...</span>
+                    <span class="metal-change change-platinum">---</span>
                 </div>
                 <!-- Duplicate set 1 -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price price-gold">$4,319.53/oz</span>
-                    <span class="metal-change change-gold up">+1.25%</span>
+                    <span class="metal-price price-gold">Loading...</span>
+                    <span class="metal-change change-gold">---</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price price-silver">$71.56/oz</span>
-                    <span class="metal-change change-silver down">-9.79%</span>
+                    <span class="metal-price price-silver">Loading...</span>
+                    <span class="metal-change change-silver">---</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price price-platinum">$2,455.49/oz</span>
-                    <span class="metal-change change-platinum up">+9.30%</span>
+                    <span class="metal-price price-platinum">Loading...</span>
+                    <span class="metal-change change-platinum">---</span>
                 </div>
                 <!-- Market Timer -->
                 <div class="metal-item" id="market-timer-1">
@@ -327,18 +327,18 @@
                 <!-- Duplicate set 2 -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price price-gold">$4,319.53/oz</span>
-                    <span class="metal-change change-gold up">+1.25%</span>
+                    <span class="metal-price price-gold">Loading...</span>
+                    <span class="metal-change change-gold">---</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">SILVER:</span>
-                    <span class="metal-price price-silver">$71.56/oz</span>
-                    <span class="metal-change change-silver down">-9.79%</span>
+                    <span class="metal-price price-silver">Loading...</span>
+                    <span class="metal-change change-silver">---</span>
                 </div>
                 <div class="metal-item">
                     <span class="metal-label">PLATINUM:</span>
-                    <span class="metal-price price-platinum">$2,455.49/oz</span>
-                    <span class="metal-change change-platinum up">+9.30%</span>
+                    <span class="metal-price price-platinum">Loading...</span>
+                    <span class="metal-change change-platinum">---</span>
                 </div>
                 <!-- Market Timer Duplicate -->
                 <div class="metal-item" id="market-timer-2">
@@ -597,15 +597,11 @@
 
     <script>
         // Load Live Metal Prices from pricing.json
-        function loadMetalPrices() {
+        async function loadMetalPrices() {
             try {
-                // Read from loaded JS file (window.metalPrices)
-                const data = window.metalPrices;
-
-                if (!data) {
-                    console.error("Metal prices data not found!");
-                    return;
-                }
+                // Add timestamp to bust cache
+                const response = await fetch('data/pricing.json?t=' + new Date().getTime());
+                const data = await response.json();
 
                 // Format prices
                 const goldPrice = `$${data.spotPrice24kOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
@@ -776,8 +772,6 @@
         window.addEventListener('scroll', revealOnScroll);
         window.addEventListener('load', revealOnScroll);
     </script>
-    <!-- Load Pricing Data -->
-    <script src="data/pricing.js"></script>
 </body>
 
 </html>
