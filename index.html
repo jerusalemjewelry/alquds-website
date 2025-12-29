@@ -306,7 +306,7 @@
                 <!-- Duplicate set 1 -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price price-gold">$4,533.42/oz</span>
+                    <span class="metal-price price-gold">$4,325.30/oz</span>
                     <span class="metal-change change-gold up">+1.21%</span>
                 </div>
                 <div class="metal-item">
@@ -327,7 +327,7 @@
                 <!-- Duplicate set 2 -->
                 <div class="metal-item">
                     <span class="metal-label">GOLD 24K:</span>
-                    <span class="metal-price price-gold">$4,533.42/oz</span>
+                    <span class="metal-price price-gold">$4,325.30/oz</span>
                     <span class="metal-change change-gold up">+1.21%</span>
                 </div>
                 <div class="metal-item">
@@ -676,22 +676,26 @@
 
             if (isMarketOpen) {
                 // Market is open - Just show "MARKET OPEN"
-                document.getElementById('market-status-text').textContent = "MARKET:";
-                document.getElementById('market-status-text').classList.remove('text-red-500');
-                document.getElementById('market-status-text').classList.add('text-green-500');
+                statusText = "MARKET:";
+                countdown = "OPEN";
 
-                document.getElementById('market-countdown').textContent = "OPEN";
-                document.getElementById('market-countdown').classList.remove('text-red-500');
-                document.getElementById('market-countdown').classList.add('text-green-500');
+                // Update text
+                document.getElementById('market-status-label-1').textContent = statusText;
+                document.getElementById('market-status-label-2').textContent = statusText;
+                document.getElementById('market-countdown-1').textContent = countdown;
+                document.getElementById('market-countdown-2').textContent = countdown;
+
+                // Update colors (Green)
+                document.getElementById('market-status-label-1').classList.add('text-green-500');
+                document.getElementById('market-status-label-2').classList.add('text-green-500');
+                document.getElementById('market-countdown-1').classList.remove('text-red-500', 'text-white');
+                document.getElementById('market-countdown-2').classList.remove('text-red-500', 'text-white');
+                document.getElementById('market-countdown-1').classList.add('text-green-500');
+                document.getElementById('market-countdown-2').classList.add('text-green-500');
+
             } else {
                 // Market is closed - show "OPENS IN" and countdown
                 statusText = "OPENS IN:";
-                document.getElementById('market-status-text').textContent = statusText;
-                document.getElementById('market-status-text').classList.remove('text-green-500');
-                document.getElementById('market-status-text').classList.add('text-red-500');
-
-                document.getElementById('market-countdown').classList.remove('text-green-500');
-                document.getElementById('market-countdown').classList.add('text-white'); // or keep it white
 
                 // Determine the next opening time
                 if (day === 0) { // Sunday
@@ -705,36 +709,62 @@
                 } else if (day === 5 && (hours > 12 || (hours === 12 && minutes >= 15))) { // Friday after 12:15 PM
                     nextEventTime.setDate(nextEventTime.getDate() + 3); // Next Monday
                     nextEventTime.setHours(7, 30, 0, 0);
-                    const countdown1 = document.getElementById('market-countdown-1');
-                    const countdown2 = document.getElementById('market-countdown-2');
-
-                    if (label1) label1.textContent = statusText + ':';
-                    if (label2) label2.textContent = statusText + ':';
-                    if (countdown1) countdown1.textContent = countdown;
-                    if (countdown2) countdown2.textContent = countdown;
                 }
 
-                // Update countdown every second
-                updateMarketCountdown();
-                setInterval(updateMarketCountdown, 1000);
+                // Calculate time difference
+                const diff = nextEventTime - chicagoTime;
+                const daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hoursLeft = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
 
-                // Scroll Reveal Animations
-                function revealOnScroll() {
-                    const reveals = document.querySelectorAll('.scroll-reveal');
-
-                    reveals.forEach(element => {
-                        const windowHeight = window.innerHeight;
-                        const elementTop = element.getBoundingClientRect().top;
-                        const revealPoint = 100;
-
-                        if (elementTop < windowHeight - revealPoint) {
-                            element.classList.add('revealed');
-                        }
-                    });
+                // Format countdown
+                countdown = '';
+                if (daysLeft > 0) {
+                    countdown += `${daysLeft}d `;
                 }
+                countdown += `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
 
-                window.addEventListener('scroll', revealOnScroll);
-                window.addEventListener('load', revealOnScroll);
+                // Update text
+                document.getElementById('market-status-label-1').textContent = statusText;
+                document.getElementById('market-status-label-2').textContent = statusText;
+                document.getElementById('market-countdown-1').textContent = countdown;
+                document.getElementById('market-countdown-2').textContent = countdown;
+
+                // Update colors (Red/White)
+                document.getElementById('market-status-label-1').classList.remove('text-green-500');
+                document.getElementById('market-status-label-2').classList.remove('text-green-500');
+                document.getElementById('market-status-label-1').classList.add('text-red-500');
+                document.getElementById('market-status-label-2').classList.add('text-red-500');
+
+                document.getElementById('market-countdown-1').classList.remove('text-green-500');
+                document.getElementById('market-countdown-2').classList.remove('text-green-500');
+                document.getElementById('market-countdown-1').classList.add('text-white');
+                document.getElementById('market-countdown-2').classList.add('text-white');
+            }
+        }
+
+        // Update countdown every second
+        updateMarketCountdown();
+        setInterval(updateMarketCountdown, 1000);
+
+        // Scroll Reveal Animations
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.scroll-reveal');
+
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 100;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('revealed');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
     </script>
 </body>
 
