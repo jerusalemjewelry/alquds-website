@@ -141,10 +141,8 @@
         <p class="text-muted">&copy; 2025 Alquds Jewelry. All Rights Reserved. v1.1</p>
     </footer>
 
-    <script src="js/data.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // Sidebar Toggle Function
         // Sidebar Toggle Function
         function toggleSubmenu(submenuId, iconId) {
             const submenu = document.getElementById(submenuId);
@@ -160,6 +158,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Optional: Keep UI highlight logic here if not moved to main.js
+            // But the main rendering is now in initApp().
+            // We can keep the submenu expansion logic here as it is purely UI.
+
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('cat');
             const sub = urlParams.get('sub');
@@ -178,17 +180,13 @@
                     const parentMenu = link.closest('ul');
                     if (parentMenu) {
                         parentMenu.style.display = 'block';
-                        // find the toggle icon for this menu to rotate it
-                        // This is a bit tricky without ID mapping, but visual open is most important.
-                        // We can deduce the icon ID if we assume structure, but strictly expected behavior is just the menu being open.
                         const parentLi = parentMenu.parentElement;
                         const icon = parentLi.querySelector('i.fa-plus');
                         if (icon) icon.style.transform = 'rotate(135deg)';
                     }
                 });
             } else if (category && category !== 'coins-bullions') {
-                // Auto-open Yellow Gold if a yellow gold sub-cat is active (e.g. bangles)
-                // This logic helps keep the user context
+                // Auto-open Yellow Gold if applicable
                 const yellowGoldSubCats = ['anklets', 'bangles', 'bangle-sets', 'belts', 'bracelets', 'children', 'chains', 'coins', 'custom', 'earrings', 'hand-bracelets', 'necklaces', 'pendants', 'rings', 'mens'];
                 if (yellowGoldSubCats.includes(category)) {
                     const menu = document.getElementById('yellow-gold-submenu');
@@ -196,39 +194,12 @@
                     if (menu) menu.style.display = 'block';
                     if (icon) icon.style.transform = 'rotate(135deg)';
 
-                    // Highlight the link
                     const link = document.querySelector(`a[href*="cat=${category}"]`);
                     if (link) {
-                        // Optional: highlight main category links too?
-                        // User asked for "white background" for selected sub items.
-                        // Let's apply it subtly or just stick to text color for standard links.
                         link.classList.remove('text-muted');
                         link.classList.add('text-white');
                     }
                 }
-            }
-
-            const grid = document.getElementById('product-grid');
-            const title = document.getElementById('page-title');
-
-            let filteredProducts = products;
-
-            if (category) {
-                // Capitalize first letter
-                // Handle special case for coins-bullions display
-                if (category === 'coins-bullions') {
-                    title.innerText = 'Coins & Bullions';
-                } else {
-                    title.innerText = category.charAt(0).toUpperCase() + category.slice(1);
-                }
-
-                filteredProducts = products.filter(p => p.category === category);
-            }
-
-            if (filteredProducts.length === 0) {
-                grid.innerHTML = '<p>No products found in this category.</p>';
-            } else {
-                grid.innerHTML = filteredProducts.map(createProductCard).join('');
             }
         });
     </script>

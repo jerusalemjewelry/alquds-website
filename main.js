@@ -113,17 +113,58 @@ async function initApp() {
             return { ...p, price: calculatedPrice };
         });
 
-        // 3. Render Featured Products
+        // 3. Render Featured Products (Home)
         const featuredGrid = document.getElementById('featured-products-grid');
         if (featuredGrid) {
             const featured = products.filter(p => p.featured);
             featuredGrid.innerHTML = featured.map(createProductCard).join('');
         }
 
+        // 4. Render Catalog (Catalog Page)
+        const catalogGrid = document.getElementById('product-grid');
+        if (catalogGrid) {
+            renderCatalog();
+        }
+
     } catch (error) {
         console.error("Error loading jewelry data:", error);
         const featuredGrid = document.getElementById('featured-products-grid');
         if (featuredGrid) featuredGrid.innerHTML = '<p class="text-white text-center">Unable to load prices. Please refresh.</p>';
+    }
+}
+
+// Render Catalog Function (Handles filtering)
+function renderCatalog() {
+    const grid = document.getElementById('product-grid');
+    const title = document.getElementById('page-title');
+    if (!grid) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('cat');
+    const sub = urlParams.get('sub');
+
+    let filteredProducts = products;
+
+    if (category) {
+        // Update Title
+        if (title) {
+            if (category === 'coins-bullions') {
+                title.innerText = 'Coins & Bullions';
+            } else {
+                title.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+            }
+        }
+
+        // Filter
+        filteredProducts = products.filter(p => p.category === category);
+    }
+
+    // Fallback if empty (or just show all if no category? Logic says 'All Collections' is default)
+
+    if (filteredProducts.length === 0) {
+        grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this category.</p>';
+    } else {
+        grid.innerHTML = filteredProducts.map(createProductCard).join('');
     }
 }
 
