@@ -87,8 +87,8 @@
             try {
                 // 1. Fetch Data
                 const [pricingRes, productsRes] = await Promise.all([
-                    fetch('data/pricing.json'),
-                    fetch('data/products.json')
+                    fetch('pricing.json?t=' + new Date().getTime()),
+                    fetch('data/products.json?t=' + new Date().getTime())
                 ]);
 
                 if (!pricingRes.ok || !productsRes.ok) throw new Error("Failed to load data");
