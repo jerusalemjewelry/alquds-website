@@ -184,7 +184,7 @@ img {
 
     /* Fix Header Overflow on Mobile */
     .header-actions .social-icons {
-        display: none;
+        display: none !important;
     }
 
     /* Adjust Logo size */
