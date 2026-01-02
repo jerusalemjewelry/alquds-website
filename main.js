@@ -47,8 +47,10 @@ function createProductCard(product) {
     return `
         <div class="product-card">
             <div style="position: relative; overflow: hidden;">
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                <button onclick="addToCart(${product.id})" style="position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                <a href="product.html?id=${product.id}">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                </a>
+                <button onclick="addToCart(${product.id})" style="position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 2;">
                     <i class="fa-solid fa-plus text-gold"></i>
                 </button>
             </div>
