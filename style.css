@@ -27,6 +27,14 @@
     padding: 0;
 }
 
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: url('../assets/jerusalem-bg.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -34,7 +42,6 @@ body {
     color: var(--color-text-light);
     font-family: var(--font-body);
     line-height: 1.6;
-    overflow-x: hidden;
     min-height: 100vh;
 }
 
