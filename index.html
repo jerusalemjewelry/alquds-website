@@ -653,103 +653,110 @@
         setInterval(loadMetalPrices, 5 * 60 * 1000);
 
         // Market Countdown Timer (Chicago/Central Time)
+        // Market Countdown Timer (Chicago/Central Time)
         function updateMarketCountdown() {
             // Get current time in Chicago (Central Time)
             const now = new Date();
             const chicagoTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
 
-            const day = chicagoTime.getDay(); // 0 = Sunday, 6 = Saturday
+            const day = chicagoTime.getDay(); // 0 = Sunday, 1 = Mon, ... 6 = Sat
             const hours = chicagoTime.getHours();
             const minutes = chicagoTime.getMinutes();
             const seconds = chicagoTime.getSeconds();
 
-            // COMEX precious metals market hours: Monday 7:30 AM CT - Friday 12:15 PM CT
+            // CME Market Hours (Chicago Time):
+            // Sunday: Opens 5:00 PM (17:00)
+            // Mon-Thu: Open until 4:00 PM (16:00), Breaks 4-5 PM, Opens 5:00 PM (17:00)
+            // Friday: Closes 4:00 PM (16:00)
+            // Saturday: Closed
+
             let isMarketOpen = false;
-            let nextEventTime;
-            let statusText;
+            let nextEventTime = new Date(chicagoTime);
+            let statusText = "MARKET:";
+            let countdown = "OPEN";
 
-            // Check if market is open
-            if (day === 1) { // Monday
-                isMarketOpen = (hours > 7 || (hours === 7 && minutes >= 30));
-            } else if (day >= 2 && day <= 4) { // Tuesday - Thursday
-                isMarketOpen = true; // Open all day
+            // Determine if Open
+            if (day === 0) { // Sunday
+                if (hours >= 17) isMarketOpen = true;
+            } else if (day >= 1 && day <= 4) { // Mon-Thu
+                if (hours < 16 || hours >= 17) isMarketOpen = true;
             } else if (day === 5) { // Friday
-                isMarketOpen = (hours < 12 || (hours === 12 && minutes < 15));
+                if (hours < 16) isMarketOpen = true;
             }
-            // Saturday and Sunday: market is closed
-
-            // Calculate next event time
-            nextEventTime = new Date(chicagoTime);
+            // Saturday is always closed
 
             if (isMarketOpen) {
-                // Market is open - Just show "MARKET OPEN"
-                statusText = "MARKET:";
-                countdown = "OPEN";
+                // Market is OPEN
+                document.getElementById('market-status-label-1').textContent = "MARKET:";
+                document.getElementById('market-status-label-2').textContent = "MARKET:";
+                document.getElementById('market-countdown-1').textContent = "OPEN";
+                document.getElementById('market-countdown-2').textContent = "OPEN";
 
-                // Update text
-                document.getElementById('market-status-label-1').textContent = statusText;
-                document.getElementById('market-status-label-2').textContent = statusText;
-                document.getElementById('market-countdown-1').textContent = countdown;
-                document.getElementById('market-countdown-2').textContent = countdown;
-
-                // Update colors (Green)
-                document.getElementById('market-status-label-1').classList.add('text-green-500');
-                document.getElementById('market-status-label-2').classList.add('text-green-500');
-                document.getElementById('market-countdown-1').classList.remove('text-red-500', 'text-white');
-                document.getElementById('market-countdown-2').classList.remove('text-red-500', 'text-white');
-                document.getElementById('market-countdown-1').classList.add('text-green-500');
-                document.getElementById('market-countdown-2').classList.add('text-green-500');
-
+                document.getElementById('market-status-label-1').className = 'metal-label text-green-500';
+                document.getElementById('market-status-label-2').className = 'metal-label text-green-500';
+                document.getElementById('market-countdown-1').className = 'metal-change text-green-500';
+                document.getElementById('market-countdown-2').className = 'metal-change text-green-500';
             } else {
-                // Market is closed - show "OPENS IN" and countdown
+                // Market is CLOSED - Determine next open time
                 statusText = "OPENS IN:";
 
-                // Determine the next opening time
-                if (day === 0) { // Sunday
-                    nextEventTime.setDate(nextEventTime.getDate() + 1); // Tomorrow (Monday)
-                    nextEventTime.setHours(7, 30, 0, 0);
-                } else if (day === 6) { // Saturday
-                    nextEventTime.setDate(nextEventTime.getDate() + 2); // Monday
-                    nextEventTime.setHours(7, 30, 0, 0);
-                } else if (day === 1 && (hours < 7 || (hours === 7 && minutes < 30))) { // Monday before 7:30 AM
-                    nextEventTime.setHours(7, 30, 0, 0);
-                } else if (day === 5 && (hours > 12 || (hours === 12 && minutes >= 15))) { // Friday after 12:15 PM
-                    nextEventTime.setDate(nextEventTime.getDate() + 3); // Next Monday
-                    nextEventTime.setHours(7, 30, 0, 0);
+                // Reset nextEventTime to Today
+                nextEventTime = new Date(chicagoTime);
+                nextEventTime.setSeconds(0);
+                nextEventTime.setMilliseconds(0);
+
+                if (day === 5 && hours >= 16) {
+                    // Friday after close -> Opens Sunday 17:00
+                    nextEventTime.setDate(nextEventTime.getDate() + 2);
+                    nextEventTime.setHours(17, 0, 0);
+                } else if (day === 6) {
+                    // Saturday -> Opens Sunday 17:00
+                    nextEventTime.setDate(nextEventTime.getDate() + 1);
+                    nextEventTime.setHours(17, 0, 0);
+                } else if (day === 0 && hours < 17) {
+                    // Sunday before open -> Opens Today 17:00
+                    nextEventTime.setHours(17, 0, 0);
+                } else if (day >= 1 && day <= 4 && hours >= 16 && hours < 17) {
+                    // Mon-Thu Break -> Opens Today 17:00
+                    nextEventTime.setHours(17, 0, 0);
+                } else {
+                    // Catch-all (shouldn't happen with above logic, but default to next day 17:00 usually?
+                    // Or if it's Mon-Thu morning before... wait, Mon-Thu morning is OPEN.
+                    // The only other closed time is if logic is weird.
+                    // Let's assume Next Day 17:00 if strictly needed, but logic covers all closings.
+                    // Actually, if it's Sunday before 17:00 covered.
+                    // If it's Mon-Thu 16:30 covered.
                 }
 
-                // Calculate time difference
-                const diff = nextEventTime - chicagoTime;
+                // Calculate Diff
+                let diff = nextEventTime - chicagoTime;
+                if (diff < 0) diff = 0; // Should not happen
+
                 const daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hoursLeft = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
 
-                // Format countdown
-                countdown = '';
                 if (daysLeft > 0) {
-                    countdown += `${daysLeft}d `;
+                    countdown = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m`;
+                } else if (hoursLeft > 0) {
+                    countdown = `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+                } else {
+                    countdown = `${minutesLeft}m ${secondsLeft}s`;
                 }
-                countdown += `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
 
-                // Update text
-                document.getElementById('market-status-label-1').textContent = statusText;
-                document.getElementById('market-status-label-2').textContent = statusText;
+                document.getElementById('market-status-label-1').textContent = "OPENS IN:";
+                document.getElementById('market-status-label-2').textContent = "OPENS IN:";
                 document.getElementById('market-countdown-1').textContent = countdown;
                 document.getElementById('market-countdown-2').textContent = countdown;
 
-                // Update colors (Red/White)
-                document.getElementById('market-status-label-1').classList.remove('text-green-500');
-                document.getElementById('market-status-label-2').classList.remove('text-green-500');
-                document.getElementById('market-status-label-1').classList.add('text-red-500');
-                document.getElementById('market-status-label-2').classList.add('text-red-500');
-
-                document.getElementById('market-countdown-1').classList.remove('text-green-500');
-                document.getElementById('market-countdown-2').classList.remove('text-green-500');
-                document.getElementById('market-countdown-1').classList.add('text-white');
-                document.getElementById('market-countdown-2').classList.add('text-white');
+                document.getElementById('market-status-label-1').className = 'metal-label text-red-500';
+                document.getElementById('market-status-label-2').className = 'metal-label text-red-500';
+                document.getElementById('market-countdown-1').className = 'metal-change text-red-500';
+                document.getElementById('market-countdown-2').className = 'metal-change text-red-500';
             }
         }
+
 
         // Update countdown every second
         updateMarketCountdown();
