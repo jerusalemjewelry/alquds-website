@@ -106,8 +106,9 @@ async function initApp() {
             fetch('data/products.json?t=' + new Date().getTime())
         ]);
 
-        pricingConfig = await pricingRes.json();
-        const rawProducts = await productsRes.json();
+      pricingConfig = await pricingRes.json();
+const rawData = await productsRes.json();
+const rawProducts = rawData.products_list || [];
 
         // 2. Calculate Prices
         products = rawProducts.map(p => {
@@ -171,3 +172,4 @@ function renderCatalog() {
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
+
