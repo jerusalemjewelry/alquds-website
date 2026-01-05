@@ -24,7 +24,6 @@ collections:
 
   - name: "products"
     label: "Products"
-    folder: "-" # This is a hack for list editing in JSON file
     files:
       - name: "all_products"
         label: "Product Catalog"
@@ -46,3 +45,4 @@ collections:
               - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
               - {label: "Description", name: "description", widget: "text"}
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
+
