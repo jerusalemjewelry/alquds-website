@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Prices</title>
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: monospace;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>System Debugger</h1>
+    <div id="output">Running diagnostics...</div>
+
+    <script>
+        async function runDebug() {
+            const out = document.getElementById('output');
+            let log = "";
+
+            try {
+                // 1. Fetch Pricing
+                log += "Fetching pricing.json... ";
+                const prRes = await fetch('pricing.json?t=' + Date.now());
+                if (!prRes.ok) throw new Error("Failed to load pricing.json");
+                const pricing = await prRes.json();
+                log += "OK\n";
+                log += JSON.stringify(pricing, null, 2) + "\n\n";
+
+                // 2. Fetch Products
+                log += "Fetching data/products.json... ";
+                const pdRes = await fetch('data/products.json?t=' + Date.now());
+                if (!pdRes.ok) throw new Error("Failed to load products.json");
+                const products = await pdRes.json();
+                log += "OK\n";
+                log += "Found " + products.length + " products.\n\n";
+
+                // 3. Calc
+                const item = products.find(p => p.id === 1);
+                log += "Calculating Item ID 1 (Imperial Bangle):\n";
+                log += "Spot Price: " + pricing.spotPrice24kOunce + "\n";
+                log += "Grams/Oz: " + pricing.gramsPerOunce + "\n";
+
+                if (!pricing.gramsPerOunce) {
+                    log += "ERROR: gramsPerOunce is MISSING!\n";
+                }
+
+                const purityFactor = item.karat / 24;
+                const rawPricePerGram = (pricing.spotPrice24kOunce / pricing.gramsPerOunce) * purityFactor;
+                const priceWithMargin = rawPricePerGram * (1 + (item.marginPercent / 100));
+                const priceWithLabor = priceWithMargin + item.laborPerGram;
+                const finalPrice = priceWithLabor * parseFloat(item.weight);
+
+                log += "Calculated Price: $" + Math.ceil(finalPrice).toLocaleString() + "\n";
+
+                out.innerText = log;
+            } catch (e) {
+                out.innerText = log + "\nERROR: " + e.message;
+            }
+        }
+        runDebug();
+    </script>
+</body>
+
+</html>

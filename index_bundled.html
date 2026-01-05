@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alquds Jewelry - Luxury Gold & Custom Designs</title>
+    <meta name="description" content="Premium Middle Eastern gold jewelry, 21k, 18k, custom nameplates and diamonds.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- INLINE CSS for Durability -->
+    <style>
+        /* Base Design System - Luxury Theme */
+        :root {
+            --color-gold-light: #F2D56F;
+            --color-gold: #D4AF37;
+            --color-gold-dark: #AA8C2C;
+            --color-black: #050505;
+            --color-dark-gray: #121212;
+            --color-gray: #2A2A2A;
+            --color-text-light: #F5F5F5;
+            --color-text-muted: #A0A0A0;
+            --color-white: #FFFFFF;
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+
+            --transition-speed: 0.3s;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Reset & Base */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: url('assets/jerusalem-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            color: var(--color-text-light);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(5, 5, 5, 0.75);
+            z-index: -1;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: var(--font-heading);
+            color: var(--color-gold);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color var(--transition-speed);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Typography Utilities */
+        .text-gold {
+            color: var(--color-gold);
+        }
+
+        .text-white {
+            color: var(--color-white);
+        }
+
+        .text-muted {
+            color: var(--color-text-muted);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-uppercase {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-5 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mt-3 {
+            margin-top: 0.75rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mt-5 {
+            margin-top: 1.5rem;
+        }
+
+        .block {
+            display: block;
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hidden-mobile {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        /* Components */
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid var(--color-gold);
+            color: var(--color-gold);
+            background: transparent;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: var(--color-gold);
+            color: var(--color-black);
+            box-shadow: var(--shadow-gold);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--color-gold);
+            color: var(--color-black);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-white);
+            border-color: var(--color-white);
+        }
+
+        /* Header */
+        .header-main {
+            background-color: rgba(5, 5, 5, 0.95);
+            border-bottom: 1px solid var(--color-gray);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--color-gold);
+            transition: width var(--transition-speed);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .hover-gold:hover {
+            color: var(--color-gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to top, var(--color-black), transparent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--color-white);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--color-text-light);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--color-dark-gray);
+            border: 1px solid var(--color-gray);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--color-text-light);
+        }
+
+        .product-meta {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            color: var(--color-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-dark-gray);
+            border-top: 1px solid var(--color-gray);
+            padding: 60px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-col h3,
+        .footer-col h4 {
+            color: var(--color-gold);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--color-gold);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--color-gray);
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styling */
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+
+    <style>
+        /* Live Metal Prices Ticker - Scrolling Marquee Animation */
+        .metal-ticker {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border-bottom: 1px solid var(--color-gold);
+            padding: 12px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metal-ticker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .metal-prices-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+
+        .metal-prices {
+            display: flex;
+            gap: 80px;
+            white-space: nowrap;
+            animation: scrollMarquee 25s linear infinite;
+        }
+
+        @keyframes scrollMarquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .metal-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .metal-label {
+            color: var(--color-gold);
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .metal-price {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .metal-change {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .metal-change.up {
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .metal-change.down {
+            color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        /* Scroll Reveal Animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Enhanced Hero */
+        .hero-enhanced {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-enhanced::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 1;
+        }
+
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--color-gold);
+            opacity: 0.3;
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            25% {
+                transform: translateY(-30px) translateX(20px);
+            }
+
+            50% {
+                transform: translateY(-60px) translateX(-20px);
+            }
+
+            75% {
+                transform: translateY(-30px) translateX(10px);
+            }
+        }
+
+        /* WhatsApp Float Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            cursor: pointer;
+            transition: transform 0.3s;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7);
+            }
+        }
+
+        .whatsapp-float i {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background: var(--color-dark-gray);
+            border: 1px solid var(--color-gray);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-gold);
+            border-color: var(--color-gold);
+        }
+
+        .testimonial-stars {
+            color: var(--color-gold);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: var(--color-text-muted);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            color: var(--color-text-light);
+            font-weight: 600;
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trust-badge i {
+            font-size: 2.5rem;
+            color: var(--color-gold);
+        }
+
+        .trust-badge-text {
+            color: var(--color-text-light);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Live Metal Prices Ticker -->
+    <div class="metal-ticker">
+        <div class="metal-prices-wrapper">
+            <div class="metal-prices">
+                <!-- First set -->
+                <div class="metal-item">
+                    <span class="metal-label">GOLD 24K:</span>
+                    <span class="metal-price">$2,630.50/oz</span>
+                    <span class="metal-change up">+0.8%</span>
+                </div>
+                <div class="metal-item">
+                    <span class="metal-label">SILVER:</span>
+                    <span class="metal-price">$30.25/oz</span>
+                    <span class="metal-change up">+1.2%</span>
+                </div>
+                <div class="metal-item">
+                    <span class="metal-label">PLATINUM:</span>
+                    <span class="metal-price">$975.00/oz</span>
+                    <span class="metal-change down">-0.3%</span>
+                </div>
+                <!-- Duplicate set for seamless scroll -->
+                <div class="metal-item">
+                    <span class="metal-label">GOLD 24K:</span>
+                    <span class="metal-price">$2,630.50/oz</span>
+                    <span class="metal-change up">+0.8%</span>
+                </div>
+                <div class="metal-item">
+                    <span class="metal-label">SILVER:</span>
+                    <span class="metal-price">$30.25/oz</span>
+                    <span class="metal-change up">+1.2%</span>
+                </div>
+                <div class="metal-item">
+                    <span class="metal-label">PLATINUM:</span>
+                    <span class="metal-price">$975.00/oz</span>
+                    <span class="metal-change down">-0.3%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 1px;">
+                    ALQUDS <span class="text-white">JEWELRY</span>
+                </a>
+            </div>
+
+            <nav class="hidden-mobile">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="catalog.html?cat=yellow-gold" class="nav-link">Yellow Gold</a>
+                <a href="catalog.html?cat=white-gold" class="nav-link">White Gold</a>
+                <a href="catalog.html?cat=silver" class="nav-link">Silver</a>
+                <a href="catalog.html?cat=diamonds" class="nav-link">Diamonds</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-actions flex gap-4">
+                <a href="#" class="text-white"><i class="fa-solid fa-search"></i></a>
+                <a href="cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count"
+                        style="position: absolute; top: -8px; right: -8px; background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <!-- NOTE: Original background was 'assets/hero_banner.png' - change back if needed -->
+    <section class="hero" style="background-image: url('assets/jerusalem-bg.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Timeless Elegance in 21k Gold</h1>
+            <p class="hero-subtitle">Discover our exclusive collection of Middle Eastern heritage jewelry and custom
+                designs.</p>
+            <div class="flex justify-center gap-4">
+                <a href="catalog.html" class="btn btn-primary">Shop Collection</a>
+                <a href="catalog.html?category=custom" class="btn">Custom Designs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Highlight -->
+    <section class="container" style="padding: 80px 20px;">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Shop By Category</h2>
+            <div style="width: 60px; height: 3px; background: var(--color-gold); margin: 0 auto 30px;"></div>
+        </div>
+
+        <div class="grid grid-cols-4">
+            <!-- Category Item 1 -->
+            <a href="catalog.html?cat=bangles" class="product-card" style="height: 250px;">
+                <img src="assets/cat_bangles.png" alt="Bangles" class="product-image" style="height: 100%;">
+                <div
+                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                    <h3 class="text-white text-center">Bangle Sets</h3>
+                </div>
+            </a>
+            <!-- Category Item 2 -->
+            <a href="catalog.html?cat=chains" class="product-card" style="height: 250px;">
+                <img src="assets/cat_chains.png" alt="Chains" class="product-image" style="height: 100%;">
+                <div
+                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                    <h3 class="text-white text-center">Chains</h3>
+                </div>
+            </a>
+            <!-- Category Item 3 -->
+            <a href="catalog.html?cat=rings" class="product-card" style="height: 250px;">
+                <img src="assets/cat_rings.png" alt="Rings" class="product-image" style="height: 100%;">
+                <div
+                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                    <h3 class="text-white text-center">Rings</h3>
+                </div>
+            </a>
+            <!-- Category Item 4 -->
+            <a href="catalog.html?cat=custom" class="product-card" style="height: 250px;">
+                <img src="assets/cat_custom.png" alt="Custom" class="product-image" style="height: 100%;">
+                <div
+                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, black, transparent); padding: 20px;">
+                    <h3 class="text-white text-center">Custom Nameplates</h3>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Featured Products (Dynamic) -->
+    <section class="container scroll-reveal" style="padding-bottom: 80px;">
+        <div class="text-center mb-5">
+            <h2>New Arrivals</h2>
+            <p class="text-muted">Handpicked luxury for the finest occasions.</p>
+        </div>
+
+        <div id="featured-products-grid" class="grid grid-cols-4">
+            <!-- JS will populate this -->
+            <p class="text-center text-white">Loading luxurious items...</p>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="container scroll-reveal" style="padding: 60px 20px;">
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div class="trust-badge-text">
+                    <strong>100% Authentic</strong><br>
+                    Certified Quality
+                </div>
+            </div>
+            <div class="trust-badge">
+                <i class="fa-solid fa-truck-fast"></i>
+                <div class="trust-badge-text">
+                    <strong>Insured Shipping</strong><br>
+                    Fast & Secure
+                </div>
+            </div>
+            <div class="trust-badge">
+                <i class="fa-solid fa-lock"></i>
+                <div class="trust-badge-text">
+                    <strong>Secure Payment</strong><br>
+                    SSL Encrypted
+                </div>
+            </div>
+            <div class="trust-badge">
+                <i class="fa-solid fa-rotate-left"></i>
+                <div class="trust-badge-text">
+                    <strong>7-Day Returns</strong><br>
+                    Must be unworn & undamaged
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Testimonials -->
+    <section class="container scroll-reveal" style="padding: 60px 20px;">
+        <div class="text-center mb-5">
+            <h2>What Our Customers Say</h2>
+            <p class="text-muted">Join thousands of satisfied customers worldwide</p>
+        </div>
+
+        <div class="grid grid-cols-3" style="gap: 30px;">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "The craftsmanship is absolutely stunning. My custom nameplate necklace exceeded all expectations.
+                    Truly a family heirloom!"
+                </p>
+                <div class="testimonial-author">— Sarah M.</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "Best 21k gold prices I've found anywhere. The bangles are beautiful and the weight is perfect. Will
+                    definitely order again."
+                </p>
+                <div class="testimonial-author">— Ahmed K.</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "Fast shipping and amazing customer service! The diamond ring is gorgeous. My fiancée was over the
+                    moon!"
+                </p>
+                <div class="testimonial-author">— Michael R.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/15551234567" target="_blank" class="whatsapp-float" title="Chat with us on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container grid grid-cols-4">
+            <div class="footer-col" style="grid-column: span 1.5;">
+                <h3>ALQUDS <span class="text-white">JEWELRY</span></h3>
+                <p style="color: #aaa; font-size: 0.9rem; max-width: 300px;">
+                    Crafting memories in 21k Gold. Over 20 years of excellence in custom jewelry design and retail.
+                </p>
+                <div class="flex gap-4 mt-3">
+                    <a href="#" class="text-gold"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="text-gold"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="text-gold"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Collections</h4>
+                <ul>
+                    <li><a href="#" class="text-muted">21k Gold</a></li>
+                    <li><a href="#" class="text-muted">18k Gold</a></li>
+                    <li><a href="#" class="text-muted">Diamond Jewelry</a></li>
+                    <li><a href="#" class="text-muted">Custom Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="contact.html" class="text-muted">Contact Us</a></li>
+                    <li><a href="#" class="text-muted">Shipping Policy</a></li>
+                    <li><a href="#" class="text-muted">Returns</a></li>
+                    <li><a href="#" class="text-muted">Size Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="text-muted text-sm mb-3">Subscribe for exclusive offers.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Your Email"
+                        style="padding: 10px; background: #222; border: 1px solid #333; color: white; width: 100%;">
+                    <button class="btn btn-primary" style="padding: 10px 15px;">GO</button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Alquds Jewelry. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Scroll Reveal Animations
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.scroll-reveal');
+
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 100;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('revealed');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+    </script>
+</body>
+
+</html>
