@@ -615,7 +615,7 @@
         async function loadMetalPrices() {
             try {
                 // Add timestamp to bust cache
-                const response = await fetch('pricing.json?t=' + new Date().getTime());
+                const response = await fetch('data/pricing.json?t=' + new Date().getTime());
                 const data = await response.json();
 
                 // Format prices
@@ -798,5 +798,6 @@
         window.addEventListener('load', revealOnScroll);
     </script>
 </body>
+
 
 </html>
