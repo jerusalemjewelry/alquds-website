@@ -625,9 +625,9 @@
 
                 // Calculate Change Percentages Dynamically
                 // Formula: ((Current - Opening) / Opening) * 100
-                const goldChange = ((data.spotPrice24kOunce - data.openingPriceGold) / data.openingPriceGold) * 100;
-                const silverChange = ((data.silverPriceOunce - data.openingPriceSilver) / data.openingPriceSilver) * 100;
-                const platinumChange = ((data.platinumPriceOunce - data.openingPricePlatinum) / data.openingPricePlatinum) * 100;
+                const goldChange = data.goldChangePercent;
+const silverChange = data.silverChangePercent;
+const platinumChange = data.platinumChangePercent;
 
                 // Update ALL sets of prices (using classes)
                 document.querySelectorAll('.price-gold').forEach(el => el.textContent = goldPrice);
@@ -801,3 +801,4 @@
 
 
 </html>
+
