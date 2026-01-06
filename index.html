@@ -1,14 +1,221 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alquds Jewelry - Luxury Gold & Custom Designs</title>
+    <meta name="description" content="Premium Middle Eastern gold jewelry, 21k, 18k, custom nameplates and diamonds.">
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    <!-- Basic Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container flex justify-between items-center">
+            <div class="text-sm">
+                <i class="fa-solid fa-phone text-gold mr-2"></i> (708) 598-7576
+            </div>
+            <div class="market-ticker text-sm">
+                <span id="market-status-label-1" class="metal-label">GOLD (24K):</span>
+                <span class="price-gold text-gold font-bold">Loading...</span>
+                <span class="change-gold metal-change">--</span>
+                <span class="mx-2">|</span>
+                <span class="metal-label">SILVER:</span>
+                <span class="price-silver text-white font-bold">Loading...</span>
+                <span class="change-silver metal-change">--</span>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container flex justify-between items-center py-4">
+            <!-- Logo -->
+            <a href="index.html" class="logo text-3xl font-serif text-gold tracking-widest">
+                ALQUDS <span class="text-white text-sm block tracking-widest mt-1">JEWELRY</span>
+            </a>
+            <!-- Navigation -->
+            <nav class="hidden md:flex gap-8 uppercase text-sm tracking-wide">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="catalog.html?cat=bangles" class="nav-link">Bangles</a>
+                <a href="catalog.html?cat=chains" class="nav-link">Chains</a>
+                <a href="catalog.html?cat=rings" class="nav-link">Rings</a>
+                <a href="catalog.html?cat=custom" class="nav-link">Custom Names</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+            <!-- Tools -->
+            <div class="header-tools flex gap-4 items-center">
+                <a href="#" class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a href="cart.html" class="cart-icon relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- Hero Section -->
+    <section class="hero-section flex items-center justify-center text-center relative">
+        <div class="hero-overlay absolute inset-0 bg-black opacity-50"></div>
+        <div class="hero-content relative z-10 p-4">
+            <h1 class="text-5xl md:text-7xl font-serif text-gold mb-4 opacity-0 slide-up" style="animation-delay: 0.2s;">TIMELESS ELEGANCE</h1>
+            <p class="text-xl md:text-2xl text-white mb-8 font-light tracking-wide opacity-0 slide-up" style="animation-delay: 0.4s;">Handcrafted 21k Gold & Custom Diamond Masterpieces</p>
+            <a href="catalog.html" class="btn btn-primary opacity-0 slide-up" style="animation-delay: 0.6s;">SHOP COLLECTION</a>
+        </div>
+    </section>
+    <!-- Categories Grid -->
+    <section class="section py-16 bg-dark">
+        <div class="container">
+            <h2 class="text-center text-3xl font-serif text-gold mb-12 uppercase tracking-widest">Our Collections</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <a href="catalog.html?cat=bangles" class="category-card group relative overflow-hidden block h-80">
+                    <img src="assets/cat_bangles.png" alt="Bangles" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 hover:bg-opacity-30 transition-all flex items-center justify-center">
+                        <h3 class="text-2xl text-white font-serif tracking-widest border-b-2 border-gold pb-2">BANGLES</h3>
+                    </div>
+                </a>
+                <!-- Category 2 -->
+                <a href="catalog.html?cat=chains" class="category-card group relative overflow-hidden block h-80">
+                    <img src="assets/cat_chains.png" alt="Chains" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 hover:bg-opacity-30 transition-all flex items-center justify-center">
+                        <h3 class="text-2xl text-white font-serif tracking-widest border-b-2 border-gold pb-2">CHAINS</h3>
+                    </div>
+                </a>
+                <!-- Category 3 -->
+                <a href="catalog.html?cat=custom" class="category-card group relative overflow-hidden block h-80">
+                    <img src="assets/cat_custom.png" alt="Custom" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 hover:bg-opacity-30 transition-all flex items-center justify-center">
+                        <h3 class="text-2xl text-white font-serif tracking-widest border-b-2 border-gold pb-2">CUSTOM</h3>
+                    </div>
+                </a>
+                <!-- Category 4 -->
+                <a href="catalog.html?cat=sets" class="category-card group relative overflow-hidden block h-80">
+                    <img src="assets/cat_sets.png" alt="Sets" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 hover:bg-opacity-30 transition-all flex items-center justify-center">
+                        <h3 class="text-2xl text-white font-serif tracking-widest border-b-2 border-gold pb-2">SETS</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Featured Products (Dynamic) -->
+    <section class="section py-16 bg-black text-white">
+        <div class="container">
+            <h2 class="text-center text-3xl font-serif text-gold mb-4 uppercase tracking-widest">New Arrivals</h2>
+            <div class="w-24 h-1 bg-gold mx-auto mb-12"></div>
+            
+            <div id="featured-products-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Products will be injected here by JS -->
+                <div class="text-center col-span-4 text-gray-500">Loading exquisite pieces...</div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="catalog.html" class="btn btn-outline">VIEW ALL PRODUCTS</a>
+            </div>
+        </div>
+    </section>
+    <!-- Trust Features -->
+    <section class="py-12 border-t border-gray-800 bg-dark">
+        <div class="container grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="feature p-4">
+                <i class="fa-solid fa-gem text-4xl text-gold mb-4"></i>
+                <h4 class="text-xl text-white font-serif mb-2">Authentic 21k Gold</h4>
+                <p class="text-gray-400 text-sm">Guaranteed purity and craftsmanship in every piece.</p>
+            </div>
+            <div class="feature p-4">
+                <i class="fa-solid fa-hammer text-4xl text-gold mb-4"></i>
+                <h4 class="text-xl text-white font-serif mb-2">Custom Design</h4>
+                <p class="text-gray-400 text-sm">Your name, your style. We create bespoke jewelry.</p>
+            </div>
+            <div class="feature p-4">
+                <i class="fa-solid fa-truck-fast text-4xl text-gold mb-4"></i>
+                <h4 class="text-xl text-white font-serif mb-2">Secure Shipping</h4>
+                <p class="text-gray-400 text-sm">Insured delivery across the USA.</p>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-black border-t-4 border-gold pt-12 pb-6">
+        <div class="container grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <!-- Brand -->
+            <div>
+                <a href="#" class="text-2xl font-serif text-gold">ALQUDS</a>
+                <p class="text-gray-400 mt-4 text-sm leading-relaxed">
+                    Bringing the heritage of Middle Eastern jewelry to your doorstep. Family owned and operated since 1990.
+                </p>
+            </div>
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-white uppercase tracking-widest mb-4">Shop</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="catalog.html?cat=new" class="hover:text-gold">New Arrivals</a></li>
+                    <li><a href="catalog.html?cat=bangles" class="hover:text-gold">Bangles</a></li>
+                    <li><a href="catalog.html?cat=rings" class="hover:text-gold">Rings</a></li>
+                    <li><a href="catalog.html?cat=coins" class="hover:text-gold">Coins & Bullion</a></li>
+                </ul>
+            </div>
+            <!-- Customer Service -->
+            <div>
+                <h4 class="text-white uppercase tracking-widest mb-4">Support</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="contact.html" class="hover:text-gold">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-gold">Shipping Policy</a></li>
+                    <li><a href="#" class="hover:text-gold">Returns</a></li>
+                    <li><a href="#" class="hover:text-gold">Size Guide</a></li>
+                </ul>
+            </div>
+            <!-- Newsletter -->
+            <div>
+                <h4 class="text-white uppercase tracking-widest mb-4">Stay Connected</h4>
+                <div class="flex">
+                    <input type="email" placeholder="Your Email" class="bg-gray-900 border border-gray-700 text-white px-4 py-2 w-full focus:outline-none focus:border-gold">
+                    <button class="bg-gold text-black px-4 font-bold hover:bg-yellow-600">JOIN</button>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center border-t border-gray-900 pt-6 text-xs text-gray-600">
+            &copy; 2026 Alquds Jewelry through Exo-Halley Platform. All Rights Reserved.
+        </div>
+    </footer>
+    <script>
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
+    </script>
+    <script src="js/app-v3.js"></script>
+    <script>
+        // Scroll Reveal Animation (Simple)
+        window.addEventListener('scroll', reveal);
+        function reveal() {
+            var reveals = document.querySelectorAll('.slide-up');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].style.opacity = 1;
+                    reveals[i].style.transform = 'translateY(0)';
+                }
+            }
+        }
+        // Trigger once on load
+        setTimeout(reveal, 500);
+    </script>
 </body>
 </html>
