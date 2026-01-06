@@ -102,7 +102,7 @@ async function initApp() {
         // 1. Fetch Data
         // Use Root pricing.json
         const [pricingRes, productsRes] = await Promise.all([
-            fetch('pricing.json?t=' + new Date().getTime()),
+            fetch('data/pricing.json?t=' + new Date().getTime()),
             fetch('data/products.json?t=' + new Date().getTime())
         ]);
 
@@ -172,4 +172,5 @@ function renderCatalog() {
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
+
 
