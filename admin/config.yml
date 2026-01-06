@@ -11,7 +11,7 @@ collections:
     files:
       - name: "pricing"
         label: "Daily Gold Prices"
-        file: "data/pricing.json"
+        file: "pricing.json"
         fields:
           - {label: "Spot Price (24k Ounce)", name: "spotPrice24kOunce", widget: "number", value_type: "float"}
           - {label: "Gold Change (%)", name: "goldChangePercent", widget: "number", value_type: "float"}
@@ -45,4 +45,5 @@ collections:
               - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
               - {label: "Description", name: "description", widget: "text"}
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
+
 
