@@ -615,7 +615,7 @@
         async function loadMetalPrices() {
             try {
                 // Add timestamp to bust cache
-                const response = await fetch('data/pricing.json?t=' + new Date().getTime());
+                const response = await fetch('pricing.json?t=' + new Date().getTime());
                 const data = await response.json();
 
                 // Format prices
@@ -625,9 +625,9 @@
 
                 // Calculate Change Percentages Dynamically
                 // Formula: ((Current - Opening) / Opening) * 100
-                const goldChange = data.goldChangePercent;
-const silverChange = data.silverChangePercent;
-const platinumChange = data.platinumChangePercent;
+                const goldChange = ((data.spotPrice24kOunce - data.openingPriceGold) / data.openingPriceGold) * 100;
+                const silverChange = ((data.silverPriceOunce - data.openingPriceSilver) / data.openingPriceSilver) * 100;
+                const platinumChange = ((data.platinumPriceOunce - data.openingPricePlatinum) / data.openingPricePlatinum) * 100;
 
                 // Update ALL sets of prices (using classes)
                 document.querySelectorAll('.price-gold').forEach(el => el.textContent = goldPrice);
@@ -799,6 +799,4 @@ const platinumChange = data.platinumChangePercent;
     </script>
 </body>
 
-
 </html>
-
