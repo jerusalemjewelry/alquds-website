@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
         rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -46,7 +46,7 @@
 
     <div class="container" style="padding: 60px 20px;">
         <h1 class="text-center mb-5">Secure Checkout</h1>
-        
+
         <div class="checkout-grid">
             <!-- Left Column: Forms -->
             <div class="checkout-forms">
@@ -66,7 +66,7 @@
                                 <input type="text" name="lastName" required>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
                             <input type="email" name="email" required>
@@ -130,7 +130,7 @@
             <div>
                 <div class="order-summary" style="position: sticky; top: 100px;">
                     <h3 class="text-center mb-4">Order Summary</h3>
-                    
+
                     <div id="checkout-items" class="mb-4" style="max-height: 300px; overflow-y: auto;">
                         <!-- Items populated by JS -->
                     </div>
@@ -146,16 +146,18 @@
                         </div>
                         <div class="flex justify-between mt-3 pt-3" style="border-top: 1px solid var(--color-gray);">
                             <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;">Total</span>
-                            <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;" id="checkout-total">$0.00</span>
+                            <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;"
+                                id="checkout-total">$0.00</span>
                         </div>
                     </div>
 
                     <button id="place-order-btn" class="btn btn-primary mt-5" style="width: 100%; font-weight: bold;">
                         PLACE ORDER
                     </button>
-                    
+
                     <div class="mt-4 text-center">
-                        <i class="fa-solid fa-lock text-muted"></i> <span class="text-muted text-sm ml-2">Secure SSL Encrypted Checkout</span>
+                        <i class="fa-solid fa-lock text-muted"></i> <span class="text-muted text-sm ml-2">Secure SSL
+                            Encrypted Checkout</span>
                     </div>
                 </div>
             </div>
@@ -171,4 +173,5 @@
 
     <script src="js/checkout.js"></script>
 </body>
+
 </html>
