@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Alquds Jewelry</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 1px; white-space: nowrap;">
+                    ALQUDS <span class="text-white">JEWELRY</span>
+                </a>
+            </div>
+
+            <nav class="hidden-mobile" style="white-space: nowrap;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="catalog.html" class="nav-link">Shop Collection</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-actions flex gap-4 items-center">
+                <a href="cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count"
+                        style="position: absolute; top: -8px; right: -8px; background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 60px 20px;">
+        <h1 class="text-center mb-5">Secure Checkout</h1>
+        
+        <div class="checkout-grid">
+            <!-- Left Column: Forms -->
+            <div class="checkout-forms">
+                <!-- Shipping Info -->
+                <div class="mb-5">
+                    <h3 class="mb-4" style="border-bottom: 1px solid var(--color-gray); padding-bottom: 10px;">
+                        <i class="fa-solid fa-truck-fast text-gold"></i> Shipping Details
+                    </h3>
+                    <form id="checkout-form">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" name="lastName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <input type="text" name="address" required>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">City</label>
+                                <input type="text" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Zip Code</label>
+                                <input type="text" name="zip" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <select name="country">
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Payment Info (Mockup) -->
+                <div>
+                    <h3 class="mb-4" style="border-bottom: 1px solid var(--color-gray); padding-bottom: 10px;">
+                        <i class="fa-regular fa-credit-card text-gold"></i> Payment
+                    </h3>
+                    <div class="form-group">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" placeholder="0000 0000 0000 0000">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="text" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CVV</label>
+                            <input type="text" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Order Summary -->
+            <div>
+                <div class="order-summary" style="position: sticky; top: 100px;">
+                    <h3 class="text-center mb-4">Order Summary</h3>
+                    
+                    <div id="checkout-items" class="mb-4" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Items populated by JS -->
+                    </div>
+
+                    <div style="border-top: 1px solid var(--color-gray); padding-top: 20px;">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-muted">Subtotal</span>
+                            <span class="text-white" id="checkout-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-muted">Shipping</span>
+                            <span class="text-white">Free</span>
+                        </div>
+                        <div class="flex justify-between mt-3 pt-3" style="border-top: 1px solid var(--color-gray);">
+                            <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;">Total</span>
+                            <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;" id="checkout-total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button id="place-order-btn" class="btn btn-primary mt-5" style="width: 100%; font-weight: bold;">
+                        PLACE ORDER
+                    </button>
+                    
+                    <div class="mt-4 text-center">
+                        <i class="fa-solid fa-lock text-muted"></i> <span class="text-muted text-sm ml-2">Secure SSL Encrypted Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="text-muted">&copy; 2025 Alquds Jewelry. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/checkout.js"></script>
+</body>
+</html>
