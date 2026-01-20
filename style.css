@@ -625,15 +625,35 @@ input::placeholder {
 
 /* Checkout Steps Layout */
 .checkout-step {
-    margin-bottom: 30px;
-    background: rgba(0, 0, 0, 0.4);
+    margin-bottom: 50px;
+    /* Increased separation */
+    background: rgba(0, 0, 0, 0.6);
+    /* Slightly Darker background for contrast */
     border: 1px solid var(--color-gray);
+    border-top: 3px solid var(--color-gold);
+    /* Top separation line "Like 1" concept */
     overflow: hidden;
+    position: relative;
+}
+
+/* Add a visual divider before step 2 and 3 if needed, but margin is cleaner. 
+   User asked for a line "between 1 and 2". 
+   Let's add a pseudo element for distinct line separation */
+.checkout-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    opacity: 0.5;
 }
 
 .checkout-step-header {
-    background: var(--color-gold);
-    color: var(--color-black);
+    background: var(--color-gold) !important;
+    /* Force Gold */
+    color: var(--color-black) !important;
     padding: 15px 20px;
     font-family: var(--font-heading);
     font-weight: 700;
