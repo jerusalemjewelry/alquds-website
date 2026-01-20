@@ -220,29 +220,34 @@ function renderCatalog(reset = true) {
         let catHTML = '';
 
         if (catParam === 'yellow-gold') {
-            // FORCE YELLOW GOLD GRID (As requested by User)
+            // FORCE YELLOW GOLD GRID (As requested by User) - Bypass scope check
             catHTML = YELLOW_GOLD_CATS.map(cat => {
                 // Try to find a real product image if available, else use specific placeholder
-                const sample = scopeProducts.find(p => p.category === cat.id);
+                const sample = products.find(p => p.category === cat.id); // Check GLOBAL products, not just filtered scope
                 const img = sample ? sample.image : cat.image; // fallback to defined image
                 return createCategoryCard(cat.id, img, catParam, cat.label);
             }).join('');
-        } else {
-            // Generic logic for other materials (White Gold, etc.)
-            const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
-            if (categoriesInScope.length === 0) {
-                grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
-                return;
-            }
-            catHTML = categoriesInScope.map(cat => {
-                const sample = scopeProducts.find(p => p.category === cat);
-                return createCategoryCard(cat, sample ? sample.image : 'assets/placeholder.png', catParam);
-            }).join('');
+
+            grid.innerHTML = catHTML;
+            removeLoadMore();
+            return; // Explicitly stop here
         }
+
+        // Generic logic for other materials (White Gold, etc.)
+        const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
+
+        if (categoriesInScope.length === 0) {
+            grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
+            return;
+        }
+
+        catHTML = categoriesInScope.map(cat => {
+            const sample = scopeProducts.find(p => p.category === cat);
+            return createCategoryCard(cat, sample ? sample.image : 'assets/placeholder.png', catParam);
+        }).join('');
 
         grid.innerHTML = catHTML;
         removeLoadMore();
-        // updateSidebar(categoriesInScope, catParam, null); 
         return;
     }
 
