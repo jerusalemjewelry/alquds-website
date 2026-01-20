@@ -42,6 +42,20 @@
       "image": "assets/screenshot-2025-12-29-134022.png",
       "description": "beautiful bangle",
       "category": "bangles"
+    },
+    {
+      "laborPerGram": 0,
+      "name": "Custom Names #1",
+      "featured": false,
+      "karat": 21,
+      "fixedPrice": "",
+      "isDynamic": false,
+      "marginPercent": 0,
+      "weight": "0",
+      "id": 8,
+      "image": "assets/الصفحه-رقم-4-كتلوج-الاسماءنسخ.jpg",
+      "description": "Call for inquiries on custom names. ",
+      "category": "custom"
     }
   ]
 }
