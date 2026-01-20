@@ -529,43 +529,34 @@ footer {
     font-size: 0.9rem;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="number"],
+/* Forced Input Styles */
+input,
 select,
 textarea {
     width: 100%;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.05);
-    /* Semi-transparent */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    /* Subtle border */
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    /* Stronger bottom border */
-    color: var(--color-white);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    border-radius: 4px;
-    /* Slight rounding */
+    padding: 15px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--color-white) !important;
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    border-radius: 4px !important;
     transition: all var(--transition-speed);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    outline: none;
-    background: rgba(0, 0, 0, 0.3);
-    /* Darker on focus for contrast */
-    border-color: var(--color-gold);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    outline: none !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-color: var(--color-gold) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
 input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.3) !important;
 }
-
-
 
 .checkout-grid {
     display: grid;
@@ -584,4 +575,54 @@ input::placeholder {
     padding: 30px;
     border: 1px solid var(--color-gold);
     border-radius: 8px;
+}
+
+.payment-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.payment-icon {
+    font-size: 2rem;
+    color: var(--color-text-muted);
+    transition: color 0.3s;
+}
+
+.payment-icon:hover {
+    color: var(--color-white);
+}
+
+.payment-icon.fa-cc-visa {
+    color: #1a1f71;
+    background: white;
+    border-radius: 2px;
+}
+
+.payment-icon.fa-cc-mastercard {
+    color: #eb001b;
+    background: white;
+    border-radius: 2px;
+}
+
+.payment-icon.fa-cc-paypal {
+    color: #003087;
+    background: white;
+    border-radius: 2px;
+}
+
+.payment-icon.fa-cc-amex {
+    color: #006fcf;
+    background: white;
+    border-radius: 2px;
+}
+
+/* Revert background for dark mode aesthetics if preferred, or keep colored */
+.payment-icon {
+    background: transparent !important;
+    color: var(--color-text-muted) !important;
+}
+
+.payment-icon:hover {
+    color: var(--color-gold) !important;
 }
