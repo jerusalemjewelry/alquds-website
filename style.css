@@ -701,3 +701,57 @@ input::placeholder {
     height: 18px !important;
     margin: 0 !important;
 }
+
+/* Category Card Styling (Popular Collections Style) */
+.category-card-container {
+    border: 4px solid var(--color-gold);
+    /* Thick gold border */
+    background: #f0f0f0;
+    /* Light background as seen in reference */
+    position: relative;
+    height: 350px;
+    display: flex;
+    /* Centering image */
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.category-card-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.category-card-image {
+    max-width: 90%;
+    max-height: 70%;
+    object-fit: contain;
+    /* Ensure the jewelry item is visible */
+    transition: transform 0.5s;
+}
+
+.category-card-container:hover .category-card-image {
+    transform: scale(1.1);
+}
+
+.category-card-label {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gold);
+    color: var(--color-black);
+    padding: 8px 20px;
+    font-family: var(--font-heading);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    width: auto;
+    min-width: 60%;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

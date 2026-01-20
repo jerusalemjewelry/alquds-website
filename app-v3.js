@@ -4,13 +4,29 @@ let products = [];
 let pricingConfig = {};
 
 // Config: Map URL 'cat' to Product Data Properties
+// Config: Map URL 'cat' to Product Data Properties
 const MATERIAL_MAP = {
     'yellow-gold': { filterField: 'color', filterValue: 'Yellow Gold', label: 'Yellow Gold' },
     'white-gold': { filterField: 'color', filterValue: 'White Gold', label: 'White Gold' },
     'silver': { filterField: 'color', filterValue: 'Silver', label: 'Silver Jewelry' },
-    'diamonds': { filterField: 'category', filterValue: 'diamonds', label: 'Diamond Jewelry' }, // Assuming diamonds is a category or handled specifically
+    'diamonds': { filterField: 'category', filterValue: 'diamonds', label: 'Diamond Jewelry' },
     'coins-bullions': { filterField: 'category', filterValue: 'coins-bullions', label: 'Coins & Bullions' }
 };
+
+// Defined Categories for Grid View (Images can be placeholders initially)
+const YELLOW_GOLD_CATS = [
+    { id: 'necklaces', label: 'Necklaces', image: 'assets/cat_necklaces.png' },
+    { id: 'bangles', label: 'Bangles', image: 'assets/cat_bangles.png' },
+    { id: 'chains', label: 'Chains', image: 'assets/cat_chains.png' },
+    { id: 'rings', label: 'Rings', image: 'assets/cat_rings.png' },
+    { id: 'earrings', label: 'Earrings', image: 'assets/cat_earrings.png' },
+    { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_bracelets.png' },
+    { id: 'pendants', label: 'Pendants', image: 'assets/cat_pendants.png' },
+    { id: 'coins', label: 'Coins', image: 'assets/cat_coins.png' },
+    { id: 'anklets', label: 'Anklets', image: 'assets/cat_anklets.png' },
+    { id: 'children', label: 'Children', image: 'assets/cat_children.png' },
+    { id: 'mens', label: 'Men\'s', image: 'assets/cat_mens.png' }
+];
 
 // Helper: Calculate Price dynamically
 function calculatePrice(item, config) {
@@ -80,22 +96,15 @@ function createProductCard(product) {
     `;
 }
 
-// Create Category Card HTML (For Subcategory Grid)
-function createCategoryCard(categoryName, image, parentCat) {
-    // Capitalize
-    const display = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+// Create Category Card HTML (New "Popular Collections" Style)
+function createCategoryCard(categoryName, image, parentCat, labelOverride) {
+    const display = labelOverride || (categoryName.charAt(0).toUpperCase() + categoryName.slice(1));
     const link = `catalog.html?cat=${parentCat}&sub=${categoryName}`;
 
     return `
-        <div class="product-card category-card">
-            <div style="position: relative; overflow: hidden; height: 300px;">
-                <a href="${link}" style="display: block; width: 100%; height: 100%;">
-                    <img src="${image}" alt="${display}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;">
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); padding: 15px; text-align: center;">
-                        <h3 style="color: var(--color-gold); font-size: 1.2rem; font-family: var(--font-heading); letter-spacing: 1px;">${display.toUpperCase()}</h3>
-                    </div>
-                </a>
-            </div>
+        <div class="category-card-container" onclick="window.location.href='${link}'">
+            <img src="${image}" alt="${display}" class="category-card-image" onerror="this.src='assets/placeholder.png'">
+            <div class="category-card-label">${display}</div>
         </div>
     `;
 }
@@ -125,7 +134,6 @@ async function initApp() {
 
     try {
         // 1. Fetch Data
-        // CHANGED: Fetch 'data/pricing.json' to sync with Admin Updates
         const [pricingRes, productsRes] = await Promise.all([
             fetch('data/pricing.json?t=' + new Date().getTime()),
             fetch('data/products.json?t=' + new Date().getTime())
@@ -172,7 +180,7 @@ async function initApp() {
 function renderCatalog(reset = true) {
     const grid = document.getElementById('product-grid');
     const title = document.getElementById('page-title');
-    const sidebar = document.querySelector('.category-list'); // Assuming sidebar class
+    // const sidebar = document.querySelector('.category-list');
 
     if (!grid) return;
 
@@ -191,7 +199,6 @@ function renderCatalog(reset = true) {
 
     const materialConfig = MATERIAL_MAP[catParam];
     if (materialConfig) {
-        // Filter by Map (e.g. Color = Yellow Gold)
         scopeProducts = products.filter(p => {
             if (materialConfig.filterField === 'color') return p.color === materialConfig.filterValue;
             if (materialConfig.filterField === 'category') return p.category === materialConfig.filterValue;
@@ -199,41 +206,44 @@ function renderCatalog(reset = true) {
         });
         pageLabel = materialConfig.label;
     } else if (catParam) {
-        // Fallback: catParam is a direct category?
         scopeProducts = products.filter(p => p.category === catParam);
         pageLabel = catParam.charAt(0).toUpperCase() + catParam.slice(1);
     }
 
-    // 2. Handle Subcategory Mode vs Product Mode
-    // If we are in a Material (e.g. Yellow Gold) AND NO Subcategory is selected -> Show Category Grid
-    // UNLESS it's a specific type like 'coins-bullions' or 'diamonds' which might just be a list.
-
-    // Check if we should show Categories Grid
+    // 2. Check if we should show Categories Grid (Root Level)
     const isMaterialRoot = (materialConfig && materialConfig.filterField === 'color' && !subParam);
 
     if (isMaterialRoot) {
         // SHOW CATEGORY GRID
-        if (title) title.innerText = pageLabel + ' Categories';
+        if (title) title.innerText = pageLabel + ' Collections';
 
-        // Find unique categories in this scope
-        const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
+        let catHTML = '';
 
-        if (categoriesInScope.length === 0) {
-            grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
-            return;
+        if (catParam === 'yellow-gold') {
+            // FORCE YELLOW GOLD GRID (As requested by User)
+            catHTML = YELLOW_GOLD_CATS.map(cat => {
+                // Try to find a real product image if available, else use specific placeholder
+                const sample = scopeProducts.find(p => p.category === cat.id);
+                const img = sample ? sample.image : cat.image; // fallback to defined image
+                return createCategoryCard(cat.id, img, catParam, cat.label);
+            }).join('');
+        } else {
+            // Generic logic for other materials (White Gold, etc.)
+            const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
+            if (categoriesInScope.length === 0) {
+                grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
+                return;
+            }
+            catHTML = categoriesInScope.map(cat => {
+                const sample = scopeProducts.find(p => p.category === cat);
+                return createCategoryCard(cat, sample ? sample.image : 'assets/placeholder.png', catParam);
+            }).join('');
         }
 
-        // Generate Cards for each Category
-        // We need an image for the category -> Pick the first product's image
-        const catHTML = categoriesInScope.map(cat => {
-            const sample = scopeProducts.find(p => p.category === cat);
-            return createCategoryCard(cat, sample ? sample.image : 'assets/placeholder.png', catParam);
-        }).join('');
-
-        grid.innerHTML = catHTML; // Display Categories
+        grid.innerHTML = catHTML;
         removeLoadMore();
-        updateSidebar(categoriesInScope, catParam, null); // Update Sidebar to show links
-        return; // STOP here, don't render products
+        // updateSidebar(categoriesInScope, catParam, null); 
+        return;
     }
 
     // 3. Render Products (Filtered by Subcategory if simple)
