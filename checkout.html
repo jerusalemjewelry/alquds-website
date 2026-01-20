@@ -94,7 +94,6 @@
                         <select name="country">
                             <option value="US">United States</option>
                             <option value="CA">Canada</option>
-                            <option value="UK">United Kingdom</option>
                         </select>
                     </div>
                 </div>
@@ -115,11 +114,28 @@
                                 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
                                 Payment Method</h3>
 
-                            <div class="payment-icons mb-4">
-                                <i class="fa-brands fa-cc-visa payment-icon"></i>
-                                <i class="fa-brands fa-cc-mastercard payment-icon"></i>
-                                <i class="fa-brands fa-cc-amex payment-icon"></i>
-                                <i class="fa-brands fa-cc-paypal payment-icon"></i>
+                            <div class="payment-icons mb-4 flex items-center gap-2 flex-wrap">
+                                <!-- Visa/Mastercard/Discover/Amex Combo -->
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa"
+                                    style="height: 25px; background: white; padding: 2px; border-radius: 2px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg"
+                                    alt="Mastercard"
+                                    style="height: 25px; background: white; padding: 2px; border-radius: 2px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg"
+                                    alt="Discover"
+                                    style="height: 25px; background: white; padding: 2px; border-radius: 2px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
+                                    alt="Amex"
+                                    style="height: 25px; background: white; padding: 2px; border-radius: 2px;">
+
+                                <!-- PayPal -->
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"
+                                    style="height: 25px; background: white; padding: 2px; border-radius: 2px; margin-left: 10px;">
+
+                                <!-- Apple Pay -->
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+                                    alt="Apple Pay"
+                                    style="height: 25px; background: white; padding: 2px 5px; border-radius: 2px;">
                             </div>
 
                             <div class="form-group">
