@@ -1,13 +1,13 @@
 {
-  "lastUpdated": "2026-01-10T14:42:00.000-06:00",
-  "silverChangePercent": 3.79,
-  "spotPrice24kOunce": 4508,
-  "platinumChangePercent": 0.31,
+  "lastUpdated": "2026-01-20T16:29:00.000-06:00",
+  "silverChangePercent": 0.27,
+  "spotPrice24kOunce": 4764.4,
+  "platinumChangePercent": 4.25,
   "gramsPerOunce": 31.104,
-  "platinumPriceOunce": 2270,
-  "silverPriceOunce": 79.84,
+  "platinumPriceOunce": 2486,
+  "silverPriceOunce": 94.47,
   "openingPriceGold": 4295,
-  "goldChangePercent": 0.71,
+  "goldChangePercent": 1.96,
   "openingPricePlatinum": 2000,
   "openingPriceSilver": 75
 }
