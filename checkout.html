@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
         rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css?v=3">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -27,13 +27,6 @@
                     ALQUDS <span class="text-white">JEWELRY</span>
                 </a>
             </div>
-
-            <nav class="hidden-mobile" style="white-space: nowrap;">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="catalog.html" class="nav-link">Shop Collection</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-            </nav>
-
             <div class="header-actions flex gap-4 items-center">
                 <a href="cart.html" class="text-white relative">
                     <i class="fa-solid fa-shopping-bag"></i>
@@ -44,130 +37,162 @@
         </div>
     </header>
 
-    <div class="container" style="padding: 60px 20px;">
+    <div class="container" style="padding: 40px 20px; max-width: 1000px;">
         <h1 class="text-center mb-5">Secure Checkout</h1>
 
-        <div class="checkout-grid">
-            <!-- Left Column: Forms -->
-            <div class="checkout-forms">
-                <!-- Shipping Info -->
-                <div class="mb-5">
-                    <h3 class="mb-4" style="border-bottom: 1px solid var(--color-gray); padding-bottom: 10px;">
-                        <i class="fa-solid fa-truck-fast text-gold"></i> Shipping Details
-                    </h3>
-                    <form id="checkout-form">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="form-group">
-                                <label class="form-label">First Name</label>
-                                <input type="text" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" name="lastName" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="email" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Phone Number</label>
-                            <input type="tel" name="phone" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <input type="text" name="address" required>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="form-group">
-                                <label class="form-label">City</label>
-                                <input type="text" name="city" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Zip Code</label>
-                                <input type="text" name="zip" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Country</label>
-                            <select name="country">
-                                <option value="US">United States</option>
-                                <option value="CA">Canada</option>
-                                <option value="UK">United Kingdom</option>
-                            </select>
-                        </div>
-                    </form>
+        <form id="checkout-form">
+            <!-- STEP 1: PERSONAL DATA -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">1</span> Personal & Shipping Info
                 </div>
-
-                <!-- Payment Info (Mockup) -->
-                <div>
-                    <h3 class="mb-4" style="border-bottom: 1px solid var(--color-gray); padding-bottom: 10px;">
-                        <i class="fa-regular fa-credit-card text-gold"></i> Payment
-                    </h3>
-                    <div class="payment-icons mb-4">
-                        <i class="fa-brands fa-cc-visa payment-icon"></i>
-                        <i class="fa-brands fa-cc-mastercard payment-icon"></i>
-                        <i class="fa-brands fa-cc-amex payment-icon"></i>
-                        <i class="fa-brands fa-cc-paypal payment-icon"></i>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Card Number</label>
-                        <input type="text" placeholder="0000 0000 0000 0000">
-                    </div>
+                <div class="checkout-step-content">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-group">
-                            <label class="form-label">Expiry Date</label>
-                            <input type="text" placeholder="MM/YY">
+                            <label class="form-label">First Name *</label>
+                            <input type="text" name="firstName" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">CVV</label>
-                            <input type="text" placeholder="123">
+                            <label class="form-label">Last Name *</label>
+                            <input type="text" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" name="phone" required placeholder="(123) 456-7890">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Shipping Address *</label>
+                        <input type="text" name="address" required>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">City *</label>
+                            <input type="text" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State/Province *</label>
+                            <input type="text" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Zip Code *</label>
+                            <input type="text" name="zip" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Country</label>
+                        <select name="country">
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: PAYMENT & SHIPPING -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">2</span> Payment & Shipping
+                </div>
+                <div class="checkout-step-content">
+                    <div class="grid grid-cols-2 gap-4" style="align-items: start;">
+
+                        <!-- Col 1: Payment -->
+                        <div>
+                            <h3 class="mb-3 text-white" style="font-size: 1rem;">Payment Method</h3>
+
+                            <div class="payment-icons mb-4">
+                                <i class="fa-brands fa-cc-visa payment-icon"></i>
+                                <i class="fa-brands fa-cc-mastercard payment-icon"></i>
+                                <i class="fa-brands fa-cc-amex payment-icon"></i>
+                                <i class="fa-brands fa-cc-paypal payment-icon"></i>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Card Number</label>
+                                <input type="text" placeholder="0000 0000 0000 0000">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-label">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">CVV</label>
+                                    <input type="text" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Col 2: Shipping -->
+                        <div>
+                            <h3 class="mb-3 text-white" style="font-size: 1rem;">Shipping Method</h3>
+
+                            <label class="shipping-method-box">
+                                <input type="radio" name="shipping" checked class="radio-gold">
+                                <div style="flex: 1;">
+                                    <div class="text-white" style="font-weight: bold;">Express Insured Shipping</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">2-3 Business Days</div>
+                                </div>
+                                <div class="text-gold" style="font-weight: bold;">$50.00</div>
+                            </label>
+
+                            <div class="mt-3 text-muted" style="font-size: 0.85rem;">
+                                <i class="fa-solid fa-shield-halved text-gold"></i> Fully Insured against loss or
+                                damage.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Column: Order Summary -->
-            <div>
-                <div class="order-summary" style="position: sticky; top: 100px;">
-                    <h3 class="text-center mb-4">Order Summary</h3>
-
-                    <div id="checkout-items" class="mb-4" style="max-height: 300px; overflow-y: auto;">
-                        <!-- Items populated by JS -->
+            <!-- STEP 3: OVERVIEW -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">3</span> Order Overview
+                </div>
+                <div class="checkout-step-content">
+                    <div id="checkout-items" class="mb-4"
+                        style="border-bottom: 1px solid var(--color-gray); padding-bottom: 20px;">
+                        <!-- JS populated -->
                     </div>
 
-                    <div style="border-top: 1px solid var(--color-gray); padding-top: 20px;">
-                        <div class="flex justify-between mb-2">
-                            <span class="text-muted">Subtotal</span>
+                    <!-- Totals -->
+                    <div class="flex flex-col items-center" style="align-items: flex-end;">
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
+                            <span class="text-muted">Subtotal:</span>
                             <span class="text-white" id="checkout-subtotal">$0.00</span>
                         </div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-muted">Shipping</span>
-                            <span class="text-white">Free</span>
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
+                            <span class="text-muted">Insured Shipping:</span>
+                            <span class="text-white">$50.00</span>
                         </div>
-                        <div class="flex justify-between mt-3 pt-3" style="border-top: 1px solid var(--color-gray);">
-                            <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;">Total</span>
-                            <span class="text-gold" style="font-size: 1.2rem; font-weight: bold;"
+                        <div class="flex justify-between"
+                            style="width: 300px; border-top: 1px solid var(--color-gray); padding-top: 10px; margin-top: 5px;">
+                            <span class="text-gold" style="font-size: 1.3rem; font-weight: bold;">Grand Total:</span>
+                            <span class="text-gold" style="font-size: 1.3rem; font-weight: bold;"
                                 id="checkout-total">$0.00</span>
                         </div>
-                    </div>
 
-                    <button id="place-order-btn" class="btn btn-primary mt-5" style="width: 100%; font-weight: bold;">
-                        PLACE ORDER
-                    </button>
-
-                    <div class="mt-4 text-center">
-                        <i class="fa-solid fa-lock text-muted"></i> <span class="text-muted text-sm ml-2">Secure SSL
-                            Encrypted Checkout</span>
+                        <button id="place-order-btn" class="btn btn-primary mt-5"
+                            style="width: 300px; font-weight: bold; font-size: 1.1rem;">
+                            CONFIRM ORDER
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <!-- Footer -->

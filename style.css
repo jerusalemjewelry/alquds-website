@@ -623,6 +623,61 @@ input::placeholder {
     color: var(--color-text-muted) !important;
 }
 
-.payment-icon:hover {
-    color: var(--color-gold) !important;
+/* Checkout Steps Layout */
+.checkout-step {
+    margin-bottom: 30px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--color-gray);
+    overflow: hidden;
+}
+
+.checkout-step-header {
+    background: var(--color-gold);
+    color: var(--color-black);
+    padding: 15px 20px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkout-step-number {
+    background: var(--color-black);
+    color: var(--color-gold);
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.checkout-step-content {
+    padding: 30px;
+}
+
+.shipping-method-box {
+    border: 1px solid var(--color-gold);
+    background: rgba(212, 175, 55, 0.1);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.shipping-method-box:hover {
+    background: rgba(212, 175, 55, 0.2);
+}
+
+.radio-gold {
+    accent-color: var(--color-gold);
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
 }
