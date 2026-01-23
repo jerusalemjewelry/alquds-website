@@ -2,8 +2,10 @@
 backend:
   name: git-gateway
   branch: main
+
 media_folder: "assets"
 public_folder: "assets"
+
 collections:
   - name: "config"
     label: "Configuration"
@@ -19,7 +21,8 @@ collections:
           - {label: "Platinum Price (Ounce)", name: "platinumPriceOunce", widget: "number", value_type: "float"}
           - {label: "Platinum Change (%)", name: "platinumChangePercent", widget: "number", value_type: "float"}
           - {label: "Last Updated", name: "lastUpdated", widget: "datetime"}
-          - {label: "Grams Per Ounce", name: "gramsPerOunce", widget: "number", default: 31.104, value_type: "float", hidden: true}
+          - {label: "Grams Per Ounce", name: "gramsPerOunce", widget: "number", default: 31.104, value_type: "float"}
+
   - name: "tax"
     label: "Tax Settings"
     files:
@@ -30,6 +33,7 @@ collections:
           - {label: "Tax Rate (%)", name: "taxPercent", widget: "number", value_type: "float", default: 10}
           - {label: "Tax State Code (e.g. IL)", name: "taxStateCode", widget: "string", default: "IL"}
           - {label: "Last Updated", name: "lastUpdated", widget: "datetime"}
+
   - name: "products"
     label: "Products"
     files:
@@ -44,6 +48,7 @@ collections:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "ID", name: "id", widget: "string"}
               - {label: "Item Number", name: "itemNo", widget: "string", required: false}
+              - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
               - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "custom", "white-gold", "mens", "watches", "coins-bullions"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
               - {label: "Weight (Grams)", name: "weight", widget: "string"}
