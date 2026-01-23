@@ -221,30 +221,43 @@
 
     <script>
         const CHECKOUT_SHIPPING_COST = 50.00;
+        let globalPricing = { taxPercent: 0, taxStateCode: 'IL' };
+        let productTaxMap = {}; // ID -> Boolean
 
         document.addEventListener('DOMContentLoaded', async () => {
             // 1. Get LocalStorage Cart directly
             let cart = [];
             try {
                 const raw = localStorage.getItem('alquds_cart');
-                console.log("Inline Script - Raw Data:", raw);
                 cart = raw ? JSON.parse(raw) : [];
             } catch (e) {
                 console.error("Cart parse error:", e);
                 cart = [];
             }
 
-            // 2. Fetch Tax Settings (Robust/Optional)
-            let taxRate = 0;
+            // 2. Fetch Data (Tax & Products)
             try {
-                const res = await fetch('data/pricing.json?t=' + new Date().getTime());
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.taxPercent) taxRate = parseFloat(data.taxPercent) || 0;
+                const [taxRes, prodRes] = await Promise.all([
+                    fetch('data/tax.json?t=' + new Date().getTime()),
+                    fetch('data/products.json?t=' + new Date().getTime())
+                ]);
+
+                if (taxRes.ok) {
+                    const tData = await taxRes.json();
+                    globalPricing.taxPercent = parseFloat(tData.taxPercent) || 0;
+                    globalPricing.taxStateCode = tData.taxStateCode || 'IL';
+                }
+
+                if (prodRes.ok) {
+                    const rawProds = await prodRes.json();
+                    const list = Array.isArray(rawProds) ? rawProds : (rawProds.products_list || []);
+                    list.forEach(p => {
+                        // Default to true if undefined
+                        productTaxMap[p.id] = (p.taxable !== false);
+                    });
                 }
             } catch (e) {
-                console.warn("Could not fetch pricing/tax data (likely offline/local file). Defaulting tax to 0.");
-                taxRate = 0;
+                console.warn("Data fetch error (offline?):", e);
             }
 
             // 3. Update Header
@@ -256,14 +269,27 @@
             if (cart.length === 0) {
                 renderEmptyState();
             } else {
-                renderCheckout(cart, taxRate);
+                // Initial Render (User hasn't typed state yet)
+                renderCheckout(cart);
+
+                // Add Listeners
+                const stateInput = document.querySelector('input[name="state"]');
+                const zipInput = document.querySelector('input[name="zip"]');
+                const inputs = [stateInput, zipInput]; // Can add others
+
+                inputs.forEach(input => {
+                    if (input) {
+                        input.addEventListener('input', () => {
+                            recalculateTotals(cart, stateInput ? stateInput.value : '');
+                        });
+                    }
+                });
             }
         });
 
         function renderEmptyState() {
             const form = document.getElementById('checkout-form');
             if (form) {
-                // Target the Main Container holding the form
                 const container = form.closest('.container');
                 if (container) {
                     container.innerHTML = `
@@ -278,28 +304,21 @@
             }
         }
 
-        function renderCheckout(cart, taxRate) {
+        function renderCheckout(cart) {
             const itemsContainer = document.getElementById('checkout-items');
-            const subtotalEl = document.getElementById('checkout-subtotal');
-            const totalEl = document.getElementById('checkout-total');
-
             if (!itemsContainer) return;
 
-            // Render Items
-            let subtotal = 0;
-
             itemsContainer.innerHTML = cart.map(item => {
-                // Robust Price Parsing
                 let rawPrice = item.price;
-                if (typeof rawPrice === 'string') {
-                    rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
-                }
+                if (typeof rawPrice === 'string') rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
                 let price = parseFloat(rawPrice);
                 if (isNaN(price)) price = 0;
 
                 const qty = parseInt(item.quantity) || 1;
                 const itemTotal = price * qty;
-                subtotal += itemTotal;
+
+                const isTaxable = (productTaxMap[item.id] !== false); // Default true
+                const taxTag = isTaxable ? '' : '<span class="text-xs text-green-400 ml-2">(Non-Taxable)</span>';
 
                 return `
                     <div class="flex items-center gap-4 mb-4" style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
@@ -308,7 +327,7 @@
                         </div>
                         <div style="flex: 1;">
                             <div class="text-white" style="font-family: var(--font-heading); font-size: 1rem; line-height: 1.2; margin-bottom: 5px;">
-                                ${item.name}
+                                ${item.name} ${taxTag}
                             </div>
                             <div class="text-muted" style="font-size: 0.8rem;">
                                 ${item.karat ? item.karat + ' Gold' : ''} | Qty: <span class="text-white">${qty}</span>
@@ -321,65 +340,105 @@
                 `;
             }).join('');
 
-            // Calculations
-            const taxAmount = subtotal * (taxRate / 100);
-            const grandTotal = subtotal + CHECKOUT_SHIPPING_COST + taxAmount;
+            // Initial Calculation
+            recalculateTotals(cart, '');
 
-            // Inject Tax Row (if needed, checking if it exists first or just inserting)
-            // We need to insert a tax row before the Grand Total row if it doesn't exist.
-            // But we can just find the Subtotal row's parent container and append/inject HTML.
-            // Simplified: We'll manipulate the DOM to ensure a Tax row appears.
+            setupPlaceOrder();
+        }
 
-            // Let's replace the whole Totals block content or find specific elements?
-            // Existing HTML: Subtotal Row, Shipping Row, Grand Total Row.
-            // We want: Subtotal, Shipping, Tax, Grand Total.
+        function recalculateTotals(cart, stateInput) {
+            const subtotalEl = document.getElementById('checkout-subtotal');
+            const totalEl = document.getElementById('checkout-total');
 
-            // Look for the container of subtotalEl
-            if (subtotalEl) {
-                const summaryContainer = subtotalEl.closest('.flex.flex-col'); // The container holding all totals
+            let subtotal = 0;
+            let taxableSubtotal = 0;
 
-                // We need to efficiently update it without destroying the "Place Order" button at the bottom.
-                // Or we can just rebuild the summary HTML since we have all values.
-                // The container has: Subtotal Row, Shipping Row, Total Row, Button.
+            cart.forEach(item => {
+                let rawPrice = item.price;
+                if (typeof rawPrice === 'string') rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
+                let price = parseFloat(rawPrice) || 0;
+                const qty = parseInt(item.quantity) || 1;
+                const lineTotal = price * qty;
 
-                // Let's try to find an existing Tax row or create one.
-                let taxRow = document.getElementById('checkout-tax-row');
-                if (!taxRow && summaryContainer) {
-                    // Create it
-                    const shippingRow = summaryContainer.children[1]; // Typically index 1 is shipping
-                    const newRow = document.createElement('div');
-                    newRow.id = 'checkout-tax-row';
-                    newRow.className = 'flex justify-between';
-                    newRow.style.width = '300px';
-                    newRow.style.marginBottom = '10px';
-                    newRow.innerHTML = `<span class="text-muted">Estimated Tax (${taxRate}%):</span><span class="text-white" id="checkout-tax-amount">$0.00</span>`;
+                subtotal += lineTotal;
 
-                    // Insert before the Grand Total row (which has border-top)
-                    // The Grand Total row is typically the 3rd div (index 2)
-                    // summaryContainer.insertBefore(newRow, summaryContainer.children[2]);
-
-                    // Actually, let's just find the Grand Total row by looking for the border-top style or class?
-                    // Grand Total row is the one before the button.
-                    const totalRow = totalEl.closest('div');
-                    summaryContainer.insertBefore(newRow, totalRow);
+                // Check Taxability
+                if (productTaxMap[item.id] !== false) {
+                    taxableSubtotal += lineTotal;
                 }
+            });
 
-                // Update Tax Text
-                const taxEl = document.getElementById('checkout-tax-amount');
-                if (taxEl) {
-                    taxEl.innerText = '$' + taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    // Update label if rate changed
-                    taxEl.previousElementSibling.innerText = `Estimated Tax (${taxRate}%):`;
-                }
+            // Determine Tax Rate
+            let taxRate = 0;
+            let taxLabel = 'Estimated Tax:';
+
+            // Check State Match
+            if (isStateMatch(stateInput, globalPricing.taxStateCode)) {
+                taxRate = globalPricing.taxPercent;
+                taxLabel = `Tax (${globalPricing.taxStateCode} ${taxRate}%):`;
             }
 
+            const taxAmount = taxableSubtotal * (taxRate / 100);
+            const grandTotal = subtotal + CHECKOUT_SHIPPING_COST + taxAmount;
+
+            // Update UI
             if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-            // Hook up "Place Order" Button
+            updateTaxRow(taxLabel, taxAmount);
+        }
+
+        function isStateMatch(input, targetCode) {
+            if (!input || !targetCode) return false;
+            const normInput = input.trim().toUpperCase();
+            const normTarget = targetCode.trim().toUpperCase();
+
+            // Direct code match (IL == IL)
+            if (normInput === normTarget) return true;
+
+            // Full name check (ILLINOIS == IL)
+            // Simple map for common requests, or just check generic
+            const stateMap = {
+                'IL': 'ILLINOIS',
+                'NY': 'NEW YORK',
+                'CA': 'CALIFORNIA',
+                'TX': 'TEXAS'
+                // Add more if needed
+            };
+
+            if (stateMap[normTarget] && normInput === stateMap[normTarget]) return true;
+
+            // Fallback: If user types "Illinois", and target is "IL"
+            // If we don't have a map, we assume false unless exact match.
+            return false;
+        }
+
+        function updateTaxRow(label, amount) {
+            let taxRow = document.getElementById('checkout-tax-row');
+            const subtotalEl = document.getElementById('checkout-subtotal');
+
+            if (!taxRow && subtotalEl) {
+                const container = subtotalEl.closest('.flex.flex-col');
+                const totalRow = document.getElementById('checkout-total').closest('div');
+                const newRow = document.createElement('div');
+                newRow.id = 'checkout-tax-row';
+                newRow.className = 'flex justify-between';
+                newRow.style.width = '300px';
+                newRow.style.marginBottom = '10px';
+                newRow.innerHTML = `<span class="text-muted" id="tax-label">Estimated Tax:</span><span class="text-white" id="checkout-tax-amount">$0.00</span>`;
+                container.insertBefore(newRow, totalRow);
+                taxRow = newRow;
+            }
+
+            if (taxRow) {
+                document.getElementById('tax-label').innerText = label;
+                document.getElementById('checkout-tax-amount').innerText = '$' + amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        }
+
+        function setupPlaceOrder() {
             const placeOrderBtn = document.getElementById('place-order-btn');
             if (placeOrderBtn) {
-                // Clone to ensure clean event listener
                 placeOrderBtn.replaceWith(placeOrderBtn.cloneNode(true));
                 const newBtn = document.getElementById('place-order-btn');
 
