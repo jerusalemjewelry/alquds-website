@@ -1,14 +1,26 @@
 const CHECKOUT_SHIPPING_COST = 50.00;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Get LocalStorage Cart directly (Trusting cart.html's data)
+    // DEBUG: Inject visual troubleshooter
+    const debugBox = document.createElement('div');
+    debugBox.style.cssText = "position:absolute; top:0; left:0; width:100%; height: auto; background: red; color: white; padding: 10px; z-index: 9999; font-weight: bold; font-family: monospace; white-space: pre-wrap;";
+    document.body.appendChild(debugBox);
+
+    function log(msg) {
+        debugBox.innerHTML += msg + "\n";
+        console.log(msg);
+    }
+    log("=== DEBUG CHECKOUT ===");
+
+    // 1. Get LocalStorage Cart Objects (IDs and Quantities)
     let cart = [];
     try {
         const raw = localStorage.getItem('alquds_cart');
-        console.log("Checkout Raw Data:", raw);
+        log("Raw LS Data: " + (raw ? raw.substring(0, 100) + '...' : 'NULL'));
         cart = raw ? JSON.parse(raw) : [];
+        log("Parsed Cart Length: " + cart.length);
     } catch (e) {
-        console.error("Cart parse error:", e);
+        log("Cart parse error: " + e);
         cart = [];
     }
 
@@ -19,9 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Render State
     if (cart.length === 0) {
+        log("Rendering Empty State...");
         renderEmptyState();
     } else {
-        renderCheckout(cart);
+        log("Rendering Checkout...");
+        renderCheckout(cart, log);
     }
 });
 
@@ -42,23 +56,30 @@ function renderEmptyState() {
     }
 }
 
-function renderCheckout(cart) {
+function renderCheckout(cart, log) {
     const itemsContainer = document.getElementById('checkout-items');
     const subtotalEl = document.getElementById('checkout-subtotal');
     const totalEl = document.getElementById('checkout-total');
 
-    if (!itemsContainer) return;
+    if (!itemsContainer) {
+        if (log) log("ERROR: #checkout-items not found!");
+        return;
+    }
 
     let subtotal = 0;
 
     itemsContainer.innerHTML = cart.map(item => {
         // Safe Price Parsing from (potentially formatted) string
         let rawPrice = item.price;
+        if (log) log(`Item: ${item.name}, Raw Price: ${rawPrice} (${typeof rawPrice})`);
+
         if (typeof rawPrice === 'string') {
             rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
         }
         let price = parseFloat(rawPrice);
         if (isNaN(price)) price = 0;
+
+        if (log) log(`Parsed Price: ${price}`);
 
         const qty = parseInt(item.quantity) || 1;
 
@@ -91,6 +112,8 @@ function renderCheckout(cart) {
     if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+    if (log) log(`Subtotal: ${subtotal}, GrandTotal: ${grandTotal}`);
+
     // Hook up "Place Order" Button
     const placeOrderBtn = document.getElementById('place-order-btn');
     if (placeOrderBtn) {
@@ -99,6 +122,11 @@ function renderCheckout(cart) {
 
         newBtn.addEventListener('click', (e) => {
             e.preventDefault();
+
+            // Remove Debug Box
+            const dbg = document.querySelector('div[style*="background: red"]');
+            if (dbg) dbg.remove();
+
             const form = document.getElementById('checkout-form');
             if (form && !form.checkValidity()) {
                 form.reportValidity();
@@ -115,5 +143,7 @@ function renderCheckout(cart) {
                 window.location.href = 'index.html';
             }, 2000);
         });
+    } else {
+        if (log) log("ERROR: #place-order-btn not found");
     }
 }
