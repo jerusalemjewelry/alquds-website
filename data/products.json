@@ -3,6 +3,7 @@
     {
       "color": "Yellow Gold",
       "laborPerGram": 8,
+      "taxable": true,
       "name": "Imperial 21k Gold Bangle Set",
       "featured": true,
       "karat": 21,
@@ -18,6 +19,7 @@
     {
       "color": "Yellow Gold",
       "laborPerGram": 6,
+      "taxable": true,
       "name": "Royal Heritage Necklace",
       "featured": true,
       "karat": 21,
@@ -32,6 +34,7 @@
     },
     {
       "laborPerGram": 6,
+      "taxable": true,
       "name": "Bangle",
       "featured": false,
       "karat": 21,
@@ -45,6 +48,7 @@
     },
     {
       "laborPerGram": 0,
+      "taxable": false,
       "name": "Custom Names #1",
       "featured": false,
       "karat": 21,
