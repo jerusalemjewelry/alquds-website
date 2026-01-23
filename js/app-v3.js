@@ -338,7 +338,7 @@ function renderProductDetail() {
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat} Karats</td></tr>
                     <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Weight:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.weight} ${product.weight === 'Varies' ? '' : 'Gms'}</td></tr>
-                    <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Item No.:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">${product.itemNo || 'N/A'}</td></tr>
+                    <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Item No.:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">${product.itemNo || product.id || 'N/A'}</td></tr>
                 </table>
             </div>
             <div class="flex items-center gap-4" style="margin-bottom: 25px;">
