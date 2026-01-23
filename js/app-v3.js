@@ -194,7 +194,11 @@ function renderCatalog(reset = true) {
         materialConfig = MATERIAL_MAP[catParam];
         if (materialConfig) {
             scopeProducts = products.filter(p => {
-                if (materialConfig.filterField === 'color') return p.color === materialConfig.filterValue;
+                if (materialConfig.filterField === 'color') {
+                    // Default to Yellow Gold if color is missing/undefined
+                    const prodColor = p.color || 'Yellow Gold';
+                    return prodColor === materialConfig.filterValue;
+                }
                 if (materialConfig.filterField === 'category') return p.category === materialConfig.filterValue;
                 return true;
             });
