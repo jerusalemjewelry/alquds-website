@@ -47,7 +47,7 @@
     },
     {
       "laborPerGram": 8,
-      "taxable": true,
+      "taxable": false,
       "name": "bangle",
       "featured": false,
       "karat": 21,
