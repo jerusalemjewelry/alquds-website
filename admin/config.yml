@@ -1,10 +1,8 @@
 backend:
   name: git-gateway
   branch: main
-
 media_folder: "assets"
 public_folder: "assets"
-
 collections:
   - name: "config"
     label: "Configuration"
@@ -21,7 +19,16 @@ collections:
           - {label: "Platinum Change (%)", name: "platinumChangePercent", widget: "number", value_type: "float"}
           - {label: "Last Updated", name: "lastUpdated", widget: "datetime"}
           - {label: "Grams Per Ounce", name: "gramsPerOunce", widget: "number", default: 31.104, value_type: "float", hidden: true}
-
+  - name: "tax"
+    label: "Tax Settings"
+    files:
+      - name: "settings"
+        label: "Tax Rules"
+        file: "data/tax.json"
+        fields:
+          - {label: "Tax Rate (%)", name: "taxPercent", widget: "number", value_type: "float", default: 10}
+          - {label: "Tax State Code (e.g. IL)", name: "taxStateCode", widget: "string", default: "IL"}
+          - {label: "Last Updated", name: "lastUpdated", widget: "datetime"}
   - name: "products"
     label: "Products"
     files:
@@ -45,3 +52,4 @@ collections:
               - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
               - {label: "Description", name: "description", widget: "text"}
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
+              - {label: "Taxable Item?", name: "taxable", widget: "boolean", default: true}
