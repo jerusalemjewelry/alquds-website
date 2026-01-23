@@ -1,30 +1,89 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Get Cart
-    let cart = [];
+const CHECKOUT_SHIPPING_COST = 50.00;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Get LocalStorage Cart Objects (IDs and Quantities)
+    let lsCart = [];
     try {
         const raw = localStorage.getItem('alquds_cart');
-        cart = raw ? JSON.parse(raw) : [];
+        lsCart = raw ? JSON.parse(raw) : [];
     } catch (e) {
         console.error("Cart parse error:", e);
-        cart = [];
+        lsCart = [];
     }
 
-    // 2. Update Header
-    const count = cart.reduce((acc, item) => acc + (parseInt(item.quantity) || 0), 0);
-    const badge = document.getElementById('cart-count');
-    if (badge) badge.innerText = count;
+    // 2. Fetch Fresh Data (Products & Pricing) to ensure accuracy
+    let freshCart = [];
+    try {
+        const [pricingRes, productsRes] = await Promise.all([
+            fetch('data/pricing.json?t=' + new Date().getTime()),
+            fetch('data/products.json?t=' + new Date().getTime())
+        ]);
 
-    // 3. Handle Empty State vs Active State
-    if (cart.length === 0) {
+        if (!pricingRes.ok || !productsRes.ok) throw new Error("Failed to fetch data");
+
+        const pricingConfig = await pricingRes.json();
+        const rawData = await productsRes.json();
+        const allProducts = Array.isArray(rawData) ? rawData : (rawData.products_list || []);
+
+        // 3. Re-Hydrate Cart with Real Prices
+        freshCart = lsCart.map(lsItem => {
+            const product = allProducts.find(p => p.id === lsItem.id);
+            if (!product) return null; // Product no longer exists
+
+            // Recalculate Price
+            const realPrice = calculatePrice(product, pricingConfig);
+
+            return {
+                ...product,
+                price: realPrice,
+                quantity: lsItem.quantity || 1
+            };
+        }).filter(item => item !== null);
+
+        // Optional: Update LocalStorage with corrected data? 
+        // Better not to mess with it silently, but for display we use freshCart.
+    } catch (err) {
+        console.error("Error refreshing cart data:", err);
+        // Fallback: use LS data if fetch fails, though likely price is missing
+        freshCart = lsCart;
+    }
+
+    // 4. Update Header Badge
+    updateHeaderCount(freshCart);
+
+    // 5. Render State
+    if (freshCart.length === 0) {
         renderEmptyState();
     } else {
-        renderCheckout(cart);
+        renderCheckout(freshCart);
     }
 });
 
+// Helper: Calculate Price dynamically (Same as App logic)
+function calculatePrice(item, config) {
+    if (item.weight === "Varies" || item.weight === "N/A" || !item.isDynamic) {
+        return item.fixedPrice || 0;
+    }
+
+    // Default to 31.1035 if missing from JSON
+    const gramsPerOunce = config.gramsPerOunce || 31.1035;
+
+    const purityFactor = item.karat / 24;
+    const rawPricePerGram = (config.spotPrice24kOunce / gramsPerOunce) * purityFactor;
+    const priceWithMargin = rawPricePerGram * (1 + (item.marginPercent / 100));
+    const priceWithLabor = priceWithMargin + item.laborPerGram;
+    const finalPrice = priceWithLabor * parseFloat(item.weight);
+
+    return Math.ceil(finalPrice);
+}
+
+function updateHeaderCount(cart) {
+    const count = cart.reduce((acc, item) => acc + (parseInt(item.quantity) || 0), 0);
+    const badge = document.getElementById('cart-count');
+    if (badge) badge.innerText = count;
+}
+
 function renderEmptyState() {
-    // FIX: Target the main content container, not the header container
-    // The main container holds the checkout form
     const form = document.getElementById('checkout-form');
     if (form) {
         const container = form.closest('.container');
@@ -42,17 +101,18 @@ function renderEmptyState() {
 }
 
 function renderCheckout(cart) {
-    // We are on the existing form, just populate the dynamic bits
     const itemsContainer = document.getElementById('checkout-items');
     const subtotalEl = document.getElementById('checkout-subtotal');
     const totalEl = document.getElementById('checkout-total');
 
-    // 1. Render Items
+    if (!itemsContainer) return;
+
+    // Render Items
     let subtotal = 0;
 
     itemsContainer.innerHTML = cart.map(item => {
-        // Robust Price Parsing
         let rawPrice = item.price;
+        // Strip non-numeric chars in case data is dirty
         if (typeof rawPrice === 'string') {
             rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
         }
@@ -62,10 +122,12 @@ function renderCheckout(cart) {
         const itemTotal = price * qty;
         subtotal += itemTotal;
 
+        const imgSrc = item.image || 'assets/placeholder.png';
+
         return `
             <div class="flex items-center gap-4 mb-4" style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
                 <div style="width: 70px; height: 70px; flex-shrink: 0; background: #000; border: 1px solid #333; overflow: hidden; border-radius: 4px;">
-                    <img src="${item.image || 'assets/placeholder.png'}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="${imgSrc}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div style="flex: 1;">
                     <div class="text-white" style="font-family: var(--font-heading); font-size: 1rem; line-height: 1.2; margin-bottom: 5px;">
@@ -82,18 +144,20 @@ function renderCheckout(cart) {
         `;
     }).join('');
 
-    // 2. Calculations
-    const shipping = 50.00;
-    const grandTotal = subtotal + shipping;
+    // Totals
+    const grandTotal = subtotal + CHECKOUT_SHIPPING_COST;
 
-    // 3. Update Text
     if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    // 4. Hook up "Place Order" Button
+    // Hook up "Place Order" Button
     const placeOrderBtn = document.getElementById('place-order-btn');
     if (placeOrderBtn) {
-        placeOrderBtn.addEventListener('click', (e) => {
+        // Remove existing listeners to avoid duplicates (though refreshing page handles this)
+        placeOrderBtn.replaceWith(placeOrderBtn.cloneNode(true));
+        const newBtn = document.getElementById('place-order-btn');
+
+        newBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const form = document.getElementById('checkout-form');
             if (form && !form.checkValidity()) {
@@ -101,9 +165,10 @@ function renderCheckout(cart) {
                 return;
             }
 
-            placeOrderBtn.innerText = 'PROCESSING...';
-            placeOrderBtn.disabled = true;
-            placeOrderBtn.style.opacity = '0.7';
+            // Simulate Order
+            newBtn.innerText = 'PROCESSING...';
+            newBtn.disabled = true;
+            newBtn.style.opacity = '0.7';
 
             setTimeout(() => {
                 alert('Order Placed Successfully! Thank you for shopping with Alquds Jewelry.');
