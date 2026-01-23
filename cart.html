@@ -51,28 +51,96 @@
 
     <script src="js/main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // Cart Management Functions
+        function renderCart() {
             const container = document.getElementById('cart-items');
             const totalEl = document.getElementById('total-price');
+            // Refresh cart from storage to ensure sync
+            cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
 
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-muted">Your bag is empty.</p>';
-            } else {
-                let total = 0;
-                container.innerHTML = cart.map(item => {
-                    total += item.price * item.quantity;
-                    return `
-                        <div class="flex items-center gap-4 mb-4" style="background: #1a1a1a; padding: 15px;">
-                            <img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover;">
-                            <div style="flex: 1;">
-                                <h4 class="text-white">${item.name}</h4>
-                                <div class="text-gold">$${item.price.toLocaleString()}</div>
-                            </div>
-                            <div class="text-muted">x${item.quantity}</div>
+                container.innerHTML = '<p class="text-muted text-center py-5">Your bag is currently empty.</p>';
+                totalEl.innerText = '$0.00';
+                updateCartCount();
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="flex items-center gap-4 mb-4" style="background: #1a1a1a; padding: 15px; border-radius: 4px; border: 1px solid #333;">
+                        <img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+                        
+                        <div style="flex: 1;">
+                            <h4 class="text-white" style="font-family: var(--font-heading); margin-bottom: 5px;">${item.name}</h4>
+                            <div class="text-muted" style="font-size: 0.9rem;">${item.karat} Gold</div>
+                            <div class="text-gold font-bold mt-1">$${item.price.toLocaleString()}</div>
                         </div>
-                    `;
-                }).join('');
-                totalEl.innerText = '$' + total.toLocaleString();
+
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center bg-black border border-gray-700 rounded">
+                            <button onclick="updateQty(${item.id}, -1)" class="px-3 py-1 text-white hover:text-gold transition-colors">-</button>
+                            <span class="px-2 text-white font-mono">${item.quantity}</span>
+                            <button onclick="updateQty(${item.id}, 1)" class="px-3 py-1 text-white hover:text-gold transition-colors">+</button>
+                        </div>
+
+                        <!-- Remove Button -->
+                        <button onclick="removeItem(${item.id})" class="text-muted hover:text-red-500 transition-colors ml-4" title="Remove Item">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            totalEl.innerText = '$' + total.toLocaleString();
+            updateCartCount();
+        }
+
+        // Global functions for inline onclick handlers
+        window.updateQty = function (id, change) {
+            const item = cart.find(p => p.id === id);
+            if (!item) return;
+
+            item.quantity += change;
+
+            if (item.quantity <= 0) {
+                if (confirm('Remove this item from your cart?')) {
+                    window.removeItem(id);
+                    return;
+                } else {
+                    item.quantity = 1; // Revert if canceled
+                }
+            }
+
+            localStorage.setItem('alquds_cart', JSON.stringify(cart));
+            renderCart();
+        };
+
+        window.removeItem = function (id) {
+            cart = cart.filter(p => p.id !== id);
+            localStorage.setItem('alquds_cart', JSON.stringify(cart));
+            renderCart();
+        };
+
+        window.clearCart = function () {
+            if (confirm('Are you sure you want to clear your entire cart?')) {
+                cart = [];
+                localStorage.removeItem('alquds_cart');
+                renderCart();
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+
+            // Add Clear Cart Button
+            const totalContainer = document.getElementById('cart-total');
+            if (totalContainer) {
+                const clearBtn = document.createElement('div');
+                clearBtn.innerHTML = '<button onclick="clearCart()" class="text-xs text-red-400 hover:text-red-300 underline mt-2">Clear Cart</button>';
+                totalContainer.parentNode.insertBefore(clearBtn, totalContainer.nextSibling);
             }
         });
     </script>
