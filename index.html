@@ -373,7 +373,16 @@
             </nav>
 
             <div class="header-actions flex gap-4 items-center">
-                <a href="#" class="text-white"><i class="fa-solid fa-search"></i></a>
+                <div class="flex items-center bg-white rounded overflow-hidden" style="padding: 2px 5px;">
+                    <input type="text" id="site-search" placeholder="Search..."
+                        onkeydown="if(event.key==='Enter') window.location.href='catalog.html?search='+this.value"
+                        style="border: none; outline: none; padding: 5px; font-size: 0.9rem; color: #333; width: 120px;">
+                    <button
+                        onclick="window.location.href='catalog.html?search='+document.getElementById('site-search').value"
+                        class="text-gold" style="background: none; border: none; cursor: pointer; padding: 0 5px;">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </div>
                 <a href="cart.html" class="text-white relative">
                     <i class="fa-solid fa-shopping-bag"></i>
                     <span id="cart-count"
