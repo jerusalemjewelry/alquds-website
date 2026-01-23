@@ -23,16 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function renderEmptyState() {
-    const container = document.querySelector('.container');
-    // Replace valid content with Empty Message
-    container.innerHTML = `
-        <div class="text-center" style="padding: 100px 20px;">
-            <i class="fa-solid fa-cart-shopping text-muted" style="font-size: 4rem; margin-bottom: 20px;"></i>
-            <h1 class="text-white mb-4">Your Bag is Empty</h1>
-            <p class="text-muted mb-8">It looks like you haven't added any jewelry to your collection yet.</p>
-            <a href="catalog.html" class="btn btn-primary" style="padding: 15px 40px; text-decoration: none;">START SHOPPING</a>
-        </div>
-    `;
+    // FIX: Target the main content container, not the header container
+    // The main container holds the checkout form
+    const form = document.getElementById('checkout-form');
+    if (form) {
+        const container = form.closest('.container');
+        if (container) {
+            container.innerHTML = `
+                <div class="text-center" style="padding: 100px 20px;">
+                    <i class="fa-solid fa-cart-shopping text-muted" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                    <h1 class="text-white mb-4">Your Bag is Empty</h1>
+                    <p class="text-muted mb-8">It looks like you haven't added any jewelry to your collection yet.</p>
+                    <a href="catalog.html" class="btn btn-primary" style="padding: 15px 40px; text-decoration: none;">START SHOPPING</a>
+                </div>
+            `;
+        }
+    }
 }
 
 function renderCheckout(cart) {
