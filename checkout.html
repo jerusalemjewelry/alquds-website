@@ -222,7 +222,7 @@
     <script>
         const CHECKOUT_SHIPPING_COST = 50.00;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             // 1. Get LocalStorage Cart directly
             let cart = [];
             try {
@@ -234,16 +234,29 @@
                 cart = [];
             }
 
-            // 2. Update Header
+            // 2. Fetch Tax Settings (Robust/Optional)
+            let taxRate = 0;
+            try {
+                const res = await fetch('data/pricing.json?t=' + new Date().getTime());
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.taxPercent) taxRate = parseFloat(data.taxPercent) || 0;
+                }
+            } catch (e) {
+                console.warn("Could not fetch pricing/tax data (likely offline/local file). Defaulting tax to 0.");
+                taxRate = 0;
+            }
+
+            // 3. Update Header
             const count = cart.reduce((acc, item) => acc + (parseInt(item.quantity) || 0), 0);
             const badge = document.getElementById('cart-count');
             if (badge) badge.innerText = count;
 
-            // 3. Render State
+            // 4. Render State
             if (cart.length === 0) {
                 renderEmptyState();
             } else {
-                renderCheckout(cart);
+                renderCheckout(cart, taxRate);
             }
         });
 
@@ -265,7 +278,7 @@
             }
         }
 
-        function renderCheckout(cart) {
+        function renderCheckout(cart, taxRate) {
             const itemsContainer = document.getElementById('checkout-items');
             const subtotalEl = document.getElementById('checkout-subtotal');
             const totalEl = document.getElementById('checkout-total');
@@ -308,8 +321,57 @@
                 `;
             }).join('');
 
-            // Totals
-            const grandTotal = subtotal + CHECKOUT_SHIPPING_COST;
+            // Calculations
+            const taxAmount = subtotal * (taxRate / 100);
+            const grandTotal = subtotal + CHECKOUT_SHIPPING_COST + taxAmount;
+
+            // Inject Tax Row (if needed, checking if it exists first or just inserting)
+            // We need to insert a tax row before the Grand Total row if it doesn't exist.
+            // But we can just find the Subtotal row's parent container and append/inject HTML.
+            // Simplified: We'll manipulate the DOM to ensure a Tax row appears.
+
+            // Let's replace the whole Totals block content or find specific elements?
+            // Existing HTML: Subtotal Row, Shipping Row, Grand Total Row.
+            // We want: Subtotal, Shipping, Tax, Grand Total.
+
+            // Look for the container of subtotalEl
+            if (subtotalEl) {
+                const summaryContainer = subtotalEl.closest('.flex.flex-col'); // The container holding all totals
+
+                // We need to efficiently update it without destroying the "Place Order" button at the bottom.
+                // Or we can just rebuild the summary HTML since we have all values.
+                // The container has: Subtotal Row, Shipping Row, Total Row, Button.
+
+                // Let's try to find an existing Tax row or create one.
+                let taxRow = document.getElementById('checkout-tax-row');
+                if (!taxRow && summaryContainer) {
+                    // Create it
+                    const shippingRow = summaryContainer.children[1]; // Typically index 1 is shipping
+                    const newRow = document.createElement('div');
+                    newRow.id = 'checkout-tax-row';
+                    newRow.className = 'flex justify-between';
+                    newRow.style.width = '300px';
+                    newRow.style.marginBottom = '10px';
+                    newRow.innerHTML = `<span class="text-muted">Estimated Tax (${taxRate}%):</span><span class="text-white" id="checkout-tax-amount">$0.00</span>`;
+
+                    // Insert before the Grand Total row (which has border-top)
+                    // The Grand Total row is typically the 3rd div (index 2)
+                    // summaryContainer.insertBefore(newRow, summaryContainer.children[2]);
+
+                    // Actually, let's just find the Grand Total row by looking for the border-top style or class?
+                    // Grand Total row is the one before the button.
+                    const totalRow = totalEl.closest('div');
+                    summaryContainer.insertBefore(newRow, totalRow);
+                }
+
+                // Update Tax Text
+                const taxEl = document.getElementById('checkout-tax-amount');
+                if (taxEl) {
+                    taxEl.innerText = '$' + taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    // Update label if rate changed
+                    taxEl.previousElementSibling.innerText = `Estimated Tax (${taxRate}%):`;
+                }
+            }
 
             if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
