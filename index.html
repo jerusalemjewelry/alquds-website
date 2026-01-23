@@ -373,14 +373,14 @@
             </nav>
 
             <div class="header-actions flex gap-4 items-center">
-                <div class="flex items-center bg-white rounded overflow-hidden" style="padding: 2px 5px;">
+                <div class="flex items-center bg-white rounded overflow-hidden" style="padding: 1px 5px;">
                     <input type="text" id="site-search" placeholder="Search..."
                         onkeydown="if(event.key==='Enter') window.location.href='catalog.html?search='+this.value"
-                        style="border: none; outline: none; padding: 5px; font-size: 0.9rem; color: #333; width: 120px;">
+                        style="border: none; outline: none; padding: 3px 5px; font-size: 0.8rem; color: #333; width: 110px;">
                     <button
                         onclick="window.location.href='catalog.html?search='+document.getElementById('site-search').value"
                         class="text-gold" style="background: none; border: none; cursor: pointer; padding: 0 5px;">
-                        <i class="fa-solid fa-search"></i>
+                        <i class="fa-solid fa-search" style="font-size: 0.8rem;"></i>
                     </button>
                 </div>
                 <a href="cart.html" class="text-white relative">
