@@ -54,18 +54,29 @@ function updateCartCount() {
 }
 
 // Add to Cart Function
+// Add to Cart Function
 function addToCart(id) {
-    const product = products.find(p => p.id === id);
+    const product = products.find(p => p.id == id);
     if (!product) return;
+
+    // Check for quantity input (Product Detail Page)
+    const qtyInput = document.getElementById(`quantity-${id}`);
+    const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
 
     const existingItem = cart.find(item => item.id === id);
     if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += quantity;
     } else {
-        cart.push({ ...product, quantity: 1 });
+        // Ensure we save the calculated price if dynamic
+        cart.push({
+            ...product,
+            price: product.price || 0, // Ensure price is saved
+            quantity: quantity
+        });
     }
 
     localStorage.setItem('alquds_cart', JSON.stringify(cart));
+    console.log("Cart Updated:", cart); // Debug
     updateCartCount();
     alert(`${product.name} added to cart!`);
 }
@@ -83,7 +94,7 @@ function createProductCard(product) {
                 <a href="product.html?id=${product.id}" style="display: block;">
                     <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                 </a>
-                <button onclick="addToCart(${product.id})" style="position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 5;">
+                <button onclick="addToCart('${product.id}')" style="position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 5;">
                     <i class="fa-solid fa-plus text-gold"></i>
                 </button>
             </div>
@@ -190,76 +201,93 @@ function renderCatalog(reset = true) {
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const catParam = urlParams.get('cat'); // e.g. 'yellow-gold'
-    const subParam = urlParams.get('sub'); // e.g. 'bangles' (only if selected)
+    const catParam = urlParams.get('cat');
+    const subParam = urlParams.get('sub');
+    const searchParam = urlParams.get('search'); // Check for search
 
-    // 1. Identify "Material" / Top Level Scope
+    // 1. Logic Switch (Search vs Category)
     let scopeProducts = products;
     let pageLabel = 'Catalog';
 
-    const materialConfig = MATERIAL_MAP[catParam];
-    if (materialConfig) {
+    if (searchParam) {
+        // --- SEARCH MODE ---
+        const term = searchParam.trim().toLowerCase();
         scopeProducts = products.filter(p => {
-            if (materialConfig.filterField === 'color') return p.color === materialConfig.filterValue;
-            if (materialConfig.filterField === 'category') return p.category === materialConfig.filterValue;
-            return true;
+            const mName = p.name ? p.name.toLowerCase().includes(term) : false;
+            const mId = p.id ? String(p.id).toLowerCase().includes(term) : false;
+            const mItem = p.itemNo ? String(p.itemNo).toLowerCase().includes(term) : false;
+            return mName || mId || mItem;
         });
-        pageLabel = materialConfig.label;
-    } else if (catParam) {
-        scopeProducts = products.filter(p => p.category === catParam);
-        pageLabel = catParam.charAt(0).toUpperCase() + catParam.slice(1);
-    }
+        pageLabel = `Search Results: "${searchParam}"`;
+        currentFilteredProducts = scopeProducts;
 
-    // 2. Check if we should show Categories Grid (Root Level)
-    const isMaterialRoot = (materialConfig && materialConfig.filterField === 'color' && !subParam);
+        if (title) title.innerText = pageLabel;
 
-    if (isMaterialRoot) {
-        // SHOW CATEGORY GRID
-        if (title) title.innerText = pageLabel + ' Collections';
+    } else {
+        // --- STANDARD CATEGORY MODE ---
+        const materialConfig = MATERIAL_MAP[catParam];
+        if (materialConfig) {
+            scopeProducts = products.filter(p => {
+                if (materialConfig.filterField === 'color') return p.color === materialConfig.filterValue;
+                if (materialConfig.filterField === 'category') return p.category === materialConfig.filterValue;
+                return true;
+            });
+            pageLabel = materialConfig.label;
+        } else if (catParam) {
+            scopeProducts = products.filter(p => p.category === catParam);
+            pageLabel = catParam.charAt(0).toUpperCase() + catParam.slice(1);
+        }
 
-        let catHTML = '';
+        // 2. Check if we should show Categories Grid (Root Level)
+        const isMaterialRoot = (materialConfig && materialConfig.filterField === 'color' && !subParam);
 
-        if (catParam === 'yellow-gold') {
-            // FORCE YELLOW GOLD GRID (As requested by User) - Bypass scope check
-            catHTML = YELLOW_GOLD_CATS.map(cat => {
-                // Try to find a real product image if available, else use specific placeholder
-                const sample = products.find(p => p.category === cat.id); // Check GLOBAL products, not just filtered scope
-                const img = sample ? sample.image : cat.image; // fallback to defined image
-                return createCategoryCard(cat.id, img, catParam, cat.label);
+        if (isMaterialRoot) {
+            // SHOW CATEGORY GRID
+            if (title) title.innerText = pageLabel + ' Collections';
+
+            let catHTML = '';
+
+            if (catParam === 'yellow-gold') {
+                // FORCE YELLOW GOLD GRID
+                catHTML = YELLOW_GOLD_CATS.map(cat => {
+                    const sample = products.find(p => p.category === cat.id);
+                    const img = sample ? sample.image : cat.image;
+                    return createCategoryCard(cat.id, img, catParam, cat.label);
+                }).join('');
+
+                grid.innerHTML = catHTML;
+                removeLoadMore();
+                return; // Explicitly stop here
+            }
+
+            // Generic logic
+            const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
+
+            if (categoriesInScope.length === 0) {
+                grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
+                return;
+            }
+
+            catHTML = categoriesInScope.map(cat => {
+                const sample = scopeProducts.find(p => p.category === cat);
+                return createCategoryCard(cat, sample ? sample.image : 'assets/placeholder.png', catParam);
             }).join('');
 
             grid.innerHTML = catHTML;
             removeLoadMore();
-            return; // Explicitly stop here
-        }
-
-        // Generic logic for other materials (White Gold, etc.)
-        const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
-
-        if (categoriesInScope.length === 0) {
-            grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
             return;
         }
 
-        catHTML = categoriesInScope.map(cat => {
-            const sample = scopeProducts.find(p => p.category === cat);
-            return createCategoryCard(cat, sample ? sample.image : 'assets/placeholder.png', catParam);
-        }).join('');
+        // 3. Render Products (Filtered by Subcategory if simple)
+        if (subParam) {
+            currentFilteredProducts = scopeProducts.filter(p => p.category === subParam);
+            pageLabel += ' - ' + subParam.charAt(0).toUpperCase() + subParam.slice(1);
+        } else {
+            currentFilteredProducts = scopeProducts;
+        }
 
-        grid.innerHTML = catHTML;
-        removeLoadMore();
-        return;
+        if (title) title.innerText = pageLabel;
     }
-
-    // 3. Render Products (Filtered by Subcategory if simple)
-    if (subParam) {
-        currentFilteredProducts = scopeProducts.filter(p => p.category === subParam);
-        pageLabel += ' - ' + subParam.charAt(0).toUpperCase() + subParam.slice(1);
-    } else {
-        currentFilteredProducts = scopeProducts;
-    }
-
-    if (title) title.innerText = pageLabel;
 
     // Update Sidebar to show active State
     // We need to know available categories to populate sidebar
@@ -347,10 +375,10 @@ function renderProductDetail() {
     if (!container) return;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const id = parseInt(urlParams.get('id'));
+    const id = urlParams.get('id');
 
     if (!id) { container.innerHTML = '<h2 class="text-white">Product not found.</h2>'; return; }
-    const product = products.find(p => p.id === id);
+    const product = products.find(p => p.id == id);
     if (!product) { container.innerHTML = '<h2 class="text-white">Product not found.</h2>'; return; }
 
     document.title = `${product.name} - Alquds Jewelry`;
@@ -377,7 +405,7 @@ function renderProductDetail() {
                 <label class="text-muted" style="font-size: 0.9rem;">Quantity:</label>
                 <input type="number" value="1" min="1" id="quantity-${product.id}" style="width: 80px; padding: 10px; background: #222; border: 1px solid #333; color: white; text-align: center;">
             </div>
-            <button onclick="addToCart(${product.id})" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-shopping-bag" style="margin-right: 8px;"></i> ADD TO CART</button>
+            <button onclick="addToCart('${product.id}')" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-shopping-bag" style="margin-right: 8px;"></i> ADD TO CART</button>
             <div style="margin-top: 40px;">
                 <p class="text-muted" style="line-height: 1.8;">${product.description || 'No description available.'}</p>
             </div>
