@@ -21,7 +21,7 @@ collections:
           - {label: "Platinum Price (Ounce)", name: "platinumPriceOunce", widget: "number", value_type: "float"}
           - {label: "Platinum Change (%)", name: "platinumChangePercent", widget: "number", value_type: "float"}
           - {label: "Last Updated", name: "lastUpdated", widget: "datetime"}
-          - {label: "Grams Per Ounce", name: "gramsPerOunce", widget: "number", default: 31.104, value_type: "float", hidden: true}
+          - {label: "Grams Per Ounce", name: "gramsPerOunce", widget: "number", default: 31.104, value_type: "float"}
 
   - name: "tax"
     label: "Tax Settings"
@@ -46,7 +46,9 @@ collections:
             widget: "list"
             fields:
               - {label: "Name", name: "name", widget: "string"}
-              - {label: "ID", name: "id", widget: "number"}
+              - {label: "ID", name: "id", widget: "string"}
+              - {label: "Item Number", name: "itemNo", widget: "string", required: false}
+              - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
               - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "custom", "white-gold", "mens", "watches", "coins-bullions"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
               - {label: "Weight (Grams)", name: "weight", widget: "string"}
@@ -57,4 +59,4 @@ collections:
               - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
               - {label: "Description", name: "description", widget: "text"}
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
-              - {label: "Taxable Item?", name: "taxable", widget: "boolean", required: false}
+              - {label: "Taxable", name: "taxable", widget: "boolean", required: false}

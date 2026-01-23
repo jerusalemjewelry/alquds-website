@@ -632,11 +632,10 @@
                 const silverPrice = `$${data.silverPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
                 const platinumPrice = `$${data.platinumPriceOunce?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 'N/A'}/oz`;
 
-                // Calculate Change Percentages Dynamically
-                // Formula: ((Current - Opening) / Opening) * 100
-                const goldChange = ((data.spotPrice24kOunce - data.openingPriceGold) / data.openingPriceGold) * 100;
-                const silverChange = ((data.silverPriceOunce - data.openingPriceSilver) / data.openingPriceSilver) * 100;
-                const platinumChange = ((data.platinumPriceOunce - data.openingPricePlatinum) / data.openingPricePlatinum) * 100;
+                // Calculate Change Percentages (Prioritize Admin Entry, Fallback to Calculation)
+                const goldChange = data.goldChangePercent !== undefined ? data.goldChangePercent : ((data.spotPrice24kOunce - data.openingPriceGold) / data.openingPriceGold) * 100;
+                const silverChange = data.silverChangePercent !== undefined ? data.silverChangePercent : ((data.silverPriceOunce - data.openingPriceSilver) / data.openingPriceSilver) * 100;
+                const platinumChange = data.platinumChangePercent !== undefined ? data.platinumChangePercent : ((data.platinumPriceOunce - data.openingPricePlatinum) / data.openingPricePlatinum) * 100;
 
                 // Update ALL sets of prices (using classes)
                 document.querySelectorAll('.price-gold').forEach(el => el.textContent = goldPrice);
