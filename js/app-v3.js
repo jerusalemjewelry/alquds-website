@@ -4,7 +4,6 @@ let products = [];
 let pricingConfig = {};
 
 // Config: Map URL 'cat' to Product Data Properties
-// Config: Map URL 'cat' to Product Data Properties
 const MATERIAL_MAP = {
     'yellow-gold': { filterField: 'color', filterValue: 'Yellow Gold', label: 'Yellow Gold' },
     'white-gold': { filterField: 'color', filterValue: 'White Gold', label: 'White Gold' },
@@ -13,7 +12,7 @@ const MATERIAL_MAP = {
     'coins-bullions': { filterField: 'category', filterValue: 'coins-bullions', label: 'Coins & Bullions' }
 };
 
-// Defined Categories for Grid View (Images can be placeholders initially)
+// Defined Categories for Grid View
 const YELLOW_GOLD_CATS = [
     { id: 'necklaces', label: 'Necklaces', image: 'assets/cat_necklaces.png' },
     { id: 'bangles', label: 'Bangles', image: 'assets/cat_bangles.png' },
@@ -146,7 +145,6 @@ function renderMiniCart() {
 }
 
 // Add to Cart Function
-// Add to Cart Function
 function addToCart(id) {
     const product = products.find(p => p.id == id);
     if (!product) return;
@@ -246,7 +244,7 @@ function createProductCard(product) {
     `;
 }
 
-// Create Category Card HTML (New "Popular Collections" Style)
+// Create Category Card HTML
 function createCategoryCard(categoryName, image, parentCat, labelOverride) {
     const display = labelOverride || (categoryName.charAt(0).toUpperCase() + categoryName.slice(1));
     const link = `catalog.html?cat=${parentCat}&sub=${categoryName}`;
@@ -258,7 +256,6 @@ function createCategoryCard(categoryName, image, parentCat, labelOverride) {
         </div>
     `;
 }
-
 
 function setActiveNavLink() {
     const currentPath = window.location.pathname;
@@ -330,7 +327,6 @@ async function initApp() {
 function renderCatalog(reset = true) {
     const grid = document.getElementById('product-grid');
     const title = document.getElementById('page-title');
-    // const sidebar = document.querySelector('.category-list');
 
     if (!grid) return;
 
@@ -342,17 +338,13 @@ function renderCatalog(reset = true) {
     const urlParams = new URLSearchParams(window.location.search);
     const catParam = urlParams.get('cat');
     const subParam = urlParams.get('sub');
-    const searchParam = urlParams.get('search'); // Check for search
+    const searchParam = urlParams.get('search');
 
-    // 1. Logic Switch (Search vs Category)
     let scopeProducts = products;
     let pageLabel = 'Catalog';
     let materialConfig = null;
 
-    console.log('RenderCatalog:', { catParam, subParam, searchParam });
-
     if (searchParam) {
-        // --- SEARCH MODE ---
         const term = searchParam.trim().toLowerCase();
         scopeProducts = products.filter(p => {
             const mName = p.name ? p.name.toLowerCase().includes(term) : false;
@@ -362,16 +354,12 @@ function renderCatalog(reset = true) {
         });
         pageLabel = `Search Results: "${searchParam}"`;
         currentFilteredProducts = scopeProducts;
-
         if (title) title.innerText = pageLabel;
-
     } else {
-        // --- STANDARD CATEGORY MODE ---
         materialConfig = MATERIAL_MAP[catParam];
         if (materialConfig) {
             scopeProducts = products.filter(p => {
                 if (materialConfig.filterField === 'color') {
-                    // Default to Yellow Gold if color is missing/undefined
                     const prodColor = p.color || 'Yellow Gold';
                     return prodColor === materialConfig.filterValue;
                 }
@@ -384,31 +372,24 @@ function renderCatalog(reset = true) {
             pageLabel = catParam.charAt(0).toUpperCase() + catParam.slice(1);
         }
 
-        // 2. Check if we should show Categories Grid (Root Level)
         const isMaterialRoot = (materialConfig && materialConfig.filterField === 'color' && !subParam);
 
         if (isMaterialRoot) {
-            // SHOW CATEGORY GRID
             if (title) title.innerText = pageLabel + ' Collections';
-
             let catHTML = '';
 
             if (catParam === 'yellow-gold') {
-                // FORCE YELLOW GOLD GRID
                 catHTML = YELLOW_GOLD_CATS.map(cat => {
                     const sample = products.find(p => p.category === cat.id);
                     const img = sample ? sample.image : cat.image;
                     return createCategoryCard(cat.id, img, catParam, cat.label);
                 }).join('');
-
                 grid.innerHTML = catHTML;
                 removeLoadMore();
-                return; // Explicitly stop here
+                return;
             }
 
-            // Generic logic
             const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
-
             if (categoriesInScope.length === 0) {
                 grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
                 return;
@@ -424,7 +405,6 @@ function renderCatalog(reset = true) {
             return;
         }
 
-        // 3. Render Products (Filtered by Subcategory if simple)
         if (subParam) {
             currentFilteredProducts = scopeProducts.filter(p => p.category === subParam);
             pageLabel += ' - ' + subParam.charAt(0).toUpperCase() + subParam.slice(1);
@@ -435,21 +415,13 @@ function renderCatalog(reset = true) {
         if (title) title.innerText = pageLabel;
     }
 
-    // Update Sidebar to show active State
-    // We need to know available categories to populate sidebar
-    // If subParam is set, we still want to show all categories for the parent Material
     if (materialConfig && materialConfig.filterField === 'color') {
         const categoriesInScope = [...new Set(products.filter(p => p.color === materialConfig.filterValue).map(p => p.category))];
         updateSidebar(categoriesInScope, catParam, subParam);
     }
 
-    // Standard Product Rendering (Pagination)
     const start = 0;
     const end = currentPage * ITEMS_PER_PAGE;
-
-    console.log('Filtered Products Count:', currentFilteredProducts.length);
-    console.log('Scope Products Count:', scopeProducts.length);
-
     const itemsToShow = currentFilteredProducts.slice(start, end);
 
     if (itemsToShow.length === 0) {
@@ -473,20 +445,10 @@ function renderCatalog(reset = true) {
     }
 }
 
-
 function updateSidebar(categories, parentCat, activeSub) {
-    // Locate the sidebar category list
-    // This assumes catalog.html has a sidebar list with specific class or ID.
-    // If not, we might need to target '.category-list'
-    const list = document.querySelector('.category-list'); // You might need to check your HTML for this
+    const list = document.querySelector('.category-list');
     if (!list) return;
 
-    // We only want to update the sidebar if we are in a "Material" mode
-    // Clear list? Or just append? 
-    // Best: Re-render the relevant section.
-
-    // Simplified Sidebar Logic:
-    // Just list the categories found.
     const html = categories.map(cat => {
         const isActive = (cat === activeSub) ? 'text-gold' : 'text-muted';
         const display = cat.charAt(0).toUpperCase() + cat.slice(1);
