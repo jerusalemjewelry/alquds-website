@@ -332,17 +332,15 @@
                 renderCheckout(cart);
 
                 // Add Listeners
-                const stateInput = document.querySelector('input[name="state"]');
-                const zipInput = document.querySelector('input[name="zip"]');
-                const inputs = [stateInput, zipInput]; // Can add others
+                const stateInput = document.querySelector('[name="state"]'); // Select or Input
 
-                inputs.forEach(input => {
-                    if (input) {
-                        input.addEventListener('input', () => {
-                            recalculateTotals(cart, stateInput ? stateInput.value : '');
+                if (stateInput) {
+                    ['change', 'input'].forEach(evt => {
+                        stateInput.addEventListener(evt, () => {
+                            recalculateTotals(cart, stateInput.value);
                         });
-                    }
-                });
+                    });
+                }
             }
         });
 
