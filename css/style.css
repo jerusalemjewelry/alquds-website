@@ -767,3 +767,117 @@ input::placeholder {
     #site-search::placeholder {
         color: #888 !important;
     }
+
+    /* Mini Cart Dropdown */
+    .cart-wrapper {
+        position: relative;
+        display: inline-block;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .mini-cart {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 320px;
+        background: rgba(10, 10, 10, 0.98);
+        border: 1px solid var(--color-gold);
+        border-radius: 4px;
+        padding: 15px;
+        display: none;
+        z-index: 9999;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+    }
+
+    .cart-wrapper:hover .mini-cart,
+    .mini-cart:hover {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .mini-cart-header {
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        font-family: var(--font-heading);
+        color: var(--color-gold);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mini-cart-items {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .mini-cart-item {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mini-cart-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .mini-cart-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #333;
+    }
+
+    .mini-cart-details {
+        flex: 1;
+    }
+
+    .mini-cart-title {
+        font-size: 0.9rem;
+        color: white;
+        margin-bottom: 4px;
+        line-height: 1.2;
+    }
+
+    .mini-cart-price {
+        font-size: 0.9rem;
+        color: var(--color-gold);
+        font-weight: bold;
+    }
+
+    .mini-cart-footer {
+        border-top: 1px solid var(--color-gold);
+        padding-top: 15px;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .mini-cart-total {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        color: white;
+    }
+
+    /* Scrollbar for mini cart */
+    .mini-cart-items::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .mini-cart-items::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 3px;
+    }
+
+    .mini-cart-items::-webkit-scrollbar-thumb:hover {
+        background: var(--color-gold);
+    }
