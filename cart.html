@@ -81,12 +81,18 @@
 
                         <!-- Quantity Controls -->
                         <div class="flex items-center gap-2">
-                            <button onclick="updateQty(${item.id}, -1)" class="quantity-btn" style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 30px; height: 30px; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s;">
-                                <i class="fa-solid fa-minus" style="font-size: 0.8rem;"></i>
+                            <button onclick="updateQty(${item.id}, -1)" class="quantity-btn" 
+                                onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
+                                onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
+                                style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 24px; height: 24px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
+                                <i class="fa-solid fa-minus" style="font-size: 0.7rem;"></i>
                             </button>
-                            <span class="text-white font-bold mx-2" style="font-size: 1.1rem; min-width: 20px; text-align: center;">${item.quantity}</span>
-                            <button onclick="updateQty(${item.id}, 1)" class="quantity-btn" style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 30px; height: 30px; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s;">
-                                <i class="fa-solid fa-plus" style="font-size: 0.8rem;"></i>
+                            <span class="text-white font-bold mx-2" style="font-size: 1rem; min-width: 20px; text-align: center;">${item.quantity}</span>
+                            <button onclick="updateQty(${item.id}, 1)" class="quantity-btn" 
+                                onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
+                                onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
+                                style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 24px; height: 24px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
+                                <i class="fa-solid fa-plus" style="font-size: 0.7rem;"></i>
                             </button>
                         </div>
 
