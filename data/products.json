@@ -1,34 +1,50 @@
 {
-    "products_list": [
-        {
-            "id": 1,
-            "name": "Imperial 21k Gold Bangle Set",
-            "isDynamic": true,
-            "category": "bangles",
-            "karat": 21,
-            "weight": 45.0,
-            "marginPercent": 15,
-            "laborPerGram": 8.0,
-            "itemNo": "BG-1001",
-            "color": "Yellow Gold",
-            "image": "assets/product_bangle_1.png",
-            "description": "Exquisite traditional bangle set featuring intricate Middle Eastern craftsmanship.",
-            "featured": true
-        },
-        {
-            "id": 2,
-            "name": "Royal Heritage Necklace",
-            "isDynamic": true,
-            "category": "chains",
-            "karat": 21,
-            "weight": 60.0,
-            "marginPercent": 18,
-            "laborPerGram": 6.0,
-            "itemNo": "NC-2001",
-            "color": "Yellow Gold",
-            "image": "assets/product_necklace_1.png",
-            "description": "Statement necklace with classic design. Heavy weight construction for lasting beauty.",
-            "featured": true
-        }
-    ]
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 8,
+      "taxable": true,
+      "name": "Imperial 21k Gold Bangle Set",
+      "featured": true,
+      "karat": 21,
+      "itemNo": "BG-1001",
+      "isDynamic": true,
+      "marginPercent": 15,
+      "weight": 45,
+      "id": 1,
+      "image": "assets/product_bangle_1.png",
+      "description": "Exquisite traditional bangle set featuring intricate Middle Eastern craftsmanship.",
+      "category": "bangles"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 6,
+      "taxable": true,
+      "name": "Royal Heritage Necklace",
+      "featured": true,
+      "karat": 21,
+      "itemNo": "NC-2001",
+      "isDynamic": true,
+      "marginPercent": 18,
+      "weight": 60,
+      "id": 2,
+      "image": "assets/product_necklace_1.png",
+      "description": "Statement necklace with classic design. Heavy weight construction for lasting beauty.",
+      "category": "chains"
+    },
+    {
+      "laborPerGram": 8,
+      "taxable": true,
+      "name": "Bangle",
+      "featured": false,
+      "karat": 21,
+      "isDynamic": true,
+      "marginPercent": 15,
+      "weight": "45",
+      "id": 2,
+      "image": "assets/screenshot-2025-12-29-134022.png",
+      "description": "Great bangle",
+      "category": "bangles"
+    }
+  ]
 }
