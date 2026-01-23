@@ -89,7 +89,13 @@ function loadCheckoutItems(cart) {
     let subtotal = 0;
 
     const itemsHTML = cart.map((item) => {
-        const price = parseFloat(item.price) || 0;
+        // Robust Price Parsing: handle string "$1,000" or number 1000
+        let rawPrice = item.price;
+        if (typeof rawPrice === 'string') {
+            rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
+        }
+        const price = parseFloat(rawPrice) || 0;
+
         const qty = parseInt(item.quantity) || 1;
         const itemTotal = price * qty;
 
@@ -111,11 +117,11 @@ function loadCheckoutItems(cart) {
                         ${item.karat ? item.karat + ' Gold' : ''} ${item.weight ? ' | ' + item.weight : ''}
                     </div>
                     <div class="text-gold" style="font-size: 0.9rem; margin-top: 5px;">
-                        $${price.toLocaleString()} x ${qty}
+                        $${price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })} x ${qty}
                     </div>
                 </div>
                 <div class="text-white font-bold" style="font-size: 1.1rem;">
-                    $${itemTotal.toLocaleString()}
+                    $${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </div>
             </div>
         `;
