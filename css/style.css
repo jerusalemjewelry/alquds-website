@@ -753,5 +753,17 @@ input::placeholder {
     width: auto;
     min-width: 60%;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
+
+    /* Specific Search Input Override */
+    #site-search {
+        padding: 2px 8px !important;
+        font-size: 0.8rem !important;
+        height: 30px !important;
+        border-bottom: none !important;
+        background: white !important;
+        color: #333 !important;
+    }
+
+    #site-search::placeholder {
+        color: #888 !important;
+    }
