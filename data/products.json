@@ -47,16 +47,16 @@
     },
     {
       "laborPerGram": 8,
-      "taxable": false,
+      "taxable": true,
       "name": "bangle",
       "featured": false,
       "karat": 21,
       "isDynamic": true,
       "marginPercent": 10,
-      "weight": "50",
+      "weight": "32",
       "id": "b1",
       "image": "assets/screenshot-2025-12-29-134022.png",
-      "description": "fun",
+      "description": "ffff",
       "category": "bangles"
     }
   ]
