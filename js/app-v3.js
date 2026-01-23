@@ -46,11 +46,103 @@ function calculatePrice(item, config) {
     return Math.ceil(finalPrice);
 }
 
-// Update Cart Count UI
+// Update Cart Count UI and Render Mini Cart
 function updateCartCount() {
+    // Ensure mini cart HTML exists (Injection)
+    injectMiniCart();
+
     const count = cart.reduce((acc, item) => acc + item.quantity, 0);
     const badge = document.getElementById('cart-count');
     if (badge) badge.innerText = count;
+
+    renderMiniCart();
+}
+
+// Inject Mini Cart HTML Structure if missing
+function injectMiniCart() {
+    if (document.getElementById('mini-cart')) return;
+
+    // Locate the Cart Link
+    const cartLink = document.querySelector('a[href="cart.html"]');
+    if (!cartLink) return;
+
+    // Only inject if not already wrapped properly (check parent)
+    if (!cartLink.parentElement.classList.contains('cart-wrapper')) {
+        // Create Wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'cart-wrapper';
+
+        // Move Link into Wrapper
+        cartLink.parentNode.insertBefore(wrapper, cartLink);
+        wrapper.appendChild(cartLink);
+
+        // Create Dropdown
+        const dropdown = document.createElement('div');
+        dropdown.id = 'mini-cart';
+        dropdown.className = 'mini-cart';
+        // HTML Structure inside
+        dropdown.innerHTML = `
+            <div class="mini-cart-header">
+                <span>SHOPPING BAG</span>
+                <span id="mini-cart-count">0 ITEMS</span>
+            </div>
+            <div id="mini-cart-items" class="mini-cart-items">
+                <!-- Items injected here -->
+            </div>
+            <div id="mini-cart-footer" class="mini-cart-footer">
+                <div class="mini-cart-total">
+                    <span>TOTAL:</span>
+                    <span id="mini-cart-total">$0.00</span>
+                </div>
+                <a href="cart.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center; padding: 10px;">VIEW CART & CHECKOUT</a>
+            </div>
+        `;
+        wrapper.appendChild(dropdown);
+    }
+}
+
+// Render Mini Cart Contents
+function renderMiniCart() {
+    const list = document.getElementById('mini-cart-items');
+    const totalEl = document.getElementById('mini-cart-total');
+    const countEl = document.getElementById('mini-cart-count');
+
+    if (!list) return;
+
+    if (cart.length === 0) {
+        list.innerHTML = '<p class="text-muted text-center py-4">Your bag is empty.</p>';
+        if (totalEl) totalEl.innerText = '$0.00';
+        if (countEl) countEl.innerText = '0 ITEMS';
+        document.getElementById('mini-cart-footer').style.display = 'none';
+        return;
+    }
+
+    document.getElementById('mini-cart-footer').style.display = 'block';
+
+    let total = 0;
+    let totalQty = 0;
+
+    const itemsHTML = cart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        totalQty += item.quantity;
+        return `
+            <div class="mini-cart-item">
+                <a href="product.html?id=${item.id}">
+                    <img src="${item.image}" class="mini-cart-img" alt="${item.name}">
+                </a>
+                <div class="mini-cart-details">
+                    <div class="mini-cart-title"><a href="product.html?id=${item.id}" class="hover-gold">${item.name}</a></div>
+                    <div class="text-muted" style="font-size: 0.8rem;">${item.quantity} x $${item.price.toLocaleString()}</div>
+                </div>
+                <!-- Remove via mini cart? maybe later. Just show summary for now -->
+            </div>
+        `;
+    }).join('');
+
+    list.innerHTML = itemsHTML;
+    if (totalEl) totalEl.innerText = '$' + total.toLocaleString();
+    if (countEl) countEl.innerText = totalQty + (totalQty === 1 ? ' ITEM' : ' ITEMS');
 }
 
 // Add to Cart Function
