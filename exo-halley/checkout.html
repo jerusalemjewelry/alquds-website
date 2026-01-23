@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Alquds Jewelry</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 1px; white-space: nowrap;">
+                    ALQUDS <span class="text-white">JEWELRY</span>
+                </a>
+            </div>
+            <div class="header-actions flex gap-4 items-center">
+                <a href="cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count"
+                        style="position: absolute; top: -8px; right: -8px; background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 40px 20px; max-width: 1000px;">
+        <h1 class="text-center mb-5">Secure Checkout</h1>
+
+        <form id="checkout-form">
+            <!-- STEP 1: PERSONAL DATA -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">1</span> Personal & Shipping Info
+                </div>
+                <div class="checkout-step-content">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">First Name *</label>
+                            <input type="text" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name *</label>
+                            <input type="text" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" name="phone" required placeholder="(123) 456-7890">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Shipping Address *</label>
+                        <input type="text" name="address" required>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">City *</label>
+                            <input type="text" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State/Province *</label>
+                            <input type="text" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Zip Code *</label>
+                            <input type="text" name="zip" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Country</label>
+                        <select name="country">
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: PAYMENT & SHIPPING -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">2</span> Payment & Shipping
+                </div>
+                <div class="checkout-step-content">
+                    <div class="grid grid-cols-2 gap-5" style="align-items: start;">
+
+                        <!-- Col 1: Payment -->
+                        <div
+                            style="background: rgba(255,255,255,0.03); padding: 25px; border: 1px solid var(--color-gray); border-radius: 4px;">
+                            <h3 class="mb-3 text-white"
+                                style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
+                                Payment Method</h3>
+
+                            <div class="payment-icons mb-4 flex items-center justify-between w-full flex-wrap">
+                                <!-- Original Colors, spread out, Apple Pay with white bg -->
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa"
+                                    style="height: 20px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                                    alt="Mastercard" style="height: 24px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg"
+                                    alt="Discover"
+                                    style="height: 12px; background: white; padding: 1px 4px; border-radius: 2px; box-sizing: content-box;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
+                                    alt="Amex" style="height: 22px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"
+                                    style="height: 20px;">
+
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+                                    alt="Apple Pay"
+                                    style="height: 28px; background: white; padding: 2px 5px; border-radius: 4px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Card Number</label>
+                                <input type="text" placeholder="0000 0000 0000 0000">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-label">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">CVV</label>
+                                    <input type="text" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Col 2: Shipping -->
+                        <div
+                            style="background: rgba(255,255,255,0.03); padding: 25px; border: 1px solid var(--color-gray); border-radius: 4px;">
+                            <h3 class="mb-3 text-white"
+                                style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
+                                Shipping Method</h3>
+
+                            <label class="shipping-method-box">
+                                <input type="radio" name="shipping" checked class="radio-gold">
+                                <div style="flex: 1;">
+                                    <div class="text-white" style="font-weight: bold;">Express Insured Shipping</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">2-3 Business Days</div>
+                                </div>
+                                <div class="text-gold" style="font-weight: bold;">$50.00</div>
+                            </label>
+
+                            <div class="mt-3 text-muted" style="font-size: 0.85rem;">
+                                <i class="fa-solid fa-shield-halved text-gold"></i> Fully Insured against loss or
+                                damage.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: OVERVIEW -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">3</span> Order Overview
+                </div>
+                <div class="checkout-step-content">
+                    <div id="checkout-items" class="mb-4"
+                        style="border-bottom: 1px solid var(--color-gray); padding-bottom: 20px;">
+                        <!-- JS populated -->
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="flex flex-col items-center" style="align-items: flex-end;">
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
+                            <span class="text-muted">Subtotal:</span>
+                            <span class="text-white" id="checkout-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
+                            <span class="text-muted">Insured Shipping:</span>
+                            <span class="text-white">$50.00</span>
+                        </div>
+                        <div class="flex justify-between"
+                            style="width: 300px; border-top: 1px solid var(--color-gray); padding-top: 10px; margin-top: 5px;">
+                            <span class="text-gold" style="font-size: 1.3rem; font-weight: bold;">Grand Total:</span>
+                            <span class="text-gold" style="font-size: 1.3rem; font-weight: bold;"
+                                id="checkout-total">$0.00</span>
+                        </div>
+
+                        <button id="place-order-btn" class="btn btn-primary mt-5"
+                            style="width: 300px; font-weight: bold; font-size: 1.1rem;">
+                            CONFIRM ORDER
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="text-muted">&copy; 2025 Alquds Jewelry. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const CHECKOUT_SHIPPING_COST = 50.00;
+        let globalPricing = { taxPercent: 0, taxStateCode: 'IL' };
+        let productTaxMap = {}; // ID -> Boolean
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Get LocalStorage Cart directly
+            let cart = [];
+            try {
+                const raw = localStorage.getItem('alquds_cart');
+                cart = raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                console.error("Cart parse error:", e);
+                cart = [];
+            }
+
+            // 2. Fetch Data (Tax & Products)
+            try {
+                const [taxRes, prodRes] = await Promise.all([
+                    fetch('data/tax.json?t=' + new Date().getTime()),
+                    fetch('data/products.json?t=' + new Date().getTime())
+                ]);
+
+                if (taxRes.ok) {
+                    const tData = await taxRes.json();
+                    globalPricing.taxPercent = parseFloat(tData.taxPercent) || 0;
+                    globalPricing.taxStateCode = tData.taxStateCode || 'IL';
+                }
+
+                if (prodRes.ok) {
+                    const rawProds = await prodRes.json();
+                    const list = Array.isArray(rawProds) ? rawProds : (rawProds.products_list || []);
+                    list.forEach(p => {
+                        // Default to true if undefined
+                        productTaxMap[p.id] = (p.taxable !== false);
+                    });
+                }
+            } catch (e) {
+                console.warn("Data fetch error (offline?):", e);
+            }
+
+            // 3. Update Header
+            const count = cart.reduce((acc, item) => acc + (parseInt(item.quantity) || 0), 0);
+            const badge = document.getElementById('cart-count');
+            if (badge) badge.innerText = count;
+
+            // 4. Render State
+            if (cart.length === 0) {
+                renderEmptyState();
+            } else {
+                // Initial Render (User hasn't typed state yet)
+                renderCheckout(cart);
+
+                // Add Listeners
+                const stateInput = document.querySelector('input[name="state"]');
+                const zipInput = document.querySelector('input[name="zip"]');
+                const inputs = [stateInput, zipInput]; // Can add others
+
+                inputs.forEach(input => {
+                    if (input) {
+                        input.addEventListener('input', () => {
+                            recalculateTotals(cart, stateInput ? stateInput.value : '');
+                        });
+                    }
+                });
+            }
+        });
+
+        function renderEmptyState() {
+            const form = document.getElementById('checkout-form');
+            if (form) {
+                const container = form.closest('.container');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="text-center" style="padding: 100px 20px;">
+                            <i class="fa-solid fa-cart-shopping text-muted" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                            <h1 class="text-white mb-4">Your Bag is Empty</h1>
+                            <p class="text-muted mb-8">It looks like you haven't added any jewelry to your collection yet.</p>
+                            <a href="catalog.html" class="btn btn-primary" style="padding: 15px 40px; text-decoration: none;">START SHOPPING</a>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function renderCheckout(cart) {
+            const itemsContainer = document.getElementById('checkout-items');
+            if (!itemsContainer) return;
+
+            itemsContainer.innerHTML = cart.map(item => {
+                let rawPrice = item.price;
+                if (typeof rawPrice === 'string') rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
+                let price = parseFloat(rawPrice);
+                if (isNaN(price)) price = 0;
+
+                const qty = parseInt(item.quantity) || 1;
+                const itemTotal = price * qty;
+
+                const isTaxable = (productTaxMap[item.id] !== false); // Default true
+                const taxTag = isTaxable ? '' : '<span class="text-xs text-green-400 ml-2">(Non-Taxable)</span>';
+
+                return `
+                    <div class="flex items-center gap-4 mb-4" style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="width: 70px; height: 70px; flex-shrink: 0; background: #000; border: 1px solid #333; overflow: hidden; border-radius: 4px;">
+                            <img src="${item.image || 'assets/placeholder.png'}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="text-white" style="font-family: var(--font-heading); font-size: 1rem; line-height: 1.2; margin-bottom: 5px;">
+                                ${item.name} ${taxTag}
+                            </div>
+                            <div class="text-muted" style="font-size: 0.8rem;">
+                                ${item.karat ? item.karat + ' Gold' : ''} | Qty: <span class="text-white">${qty}</span>
+                            </div>
+                        </div>
+                        <div class="text-gold font-bold" style="font-size: 1.1rem;">
+                            $${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Initial Calculation
+            recalculateTotals(cart, '');
+
+            setupPlaceOrder();
+        }
+
+        function recalculateTotals(cart, stateInput) {
+            const subtotalEl = document.getElementById('checkout-subtotal');
+            const totalEl = document.getElementById('checkout-total');
+
+            let subtotal = 0;
+            let taxableSubtotal = 0;
+
+            cart.forEach(item => {
+                let rawPrice = item.price;
+                if (typeof rawPrice === 'string') rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
+                let price = parseFloat(rawPrice) || 0;
+                const qty = parseInt(item.quantity) || 1;
+                const lineTotal = price * qty;
+
+                subtotal += lineTotal;
+
+                // Check Taxability
+                if (productTaxMap[item.id] !== false) {
+                    taxableSubtotal += lineTotal;
+                }
+            });
+
+            // Determine Tax Rate
+            let taxRate = 0;
+            let taxLabel = 'Estimated Tax:';
+
+            // Check State Match
+            if (isStateMatch(stateInput, globalPricing.taxStateCode)) {
+                taxRate = globalPricing.taxPercent;
+                taxLabel = `Tax (${globalPricing.taxStateCode} ${taxRate}%):`;
+            }
+
+            const taxAmount = taxableSubtotal * (taxRate / 100);
+            const grandTotal = subtotal + CHECKOUT_SHIPPING_COST + taxAmount;
+
+            // Update UI
+            if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            updateTaxRow(taxLabel, taxAmount);
+        }
+
+        function isStateMatch(input, targetCode) {
+            if (!input || !targetCode) return false;
+            const normInput = input.trim().toUpperCase();
+            const normTarget = targetCode.trim().toUpperCase();
+
+            // Direct code match (IL == IL)
+            if (normInput === normTarget) return true;
+
+            // Full name check (ILLINOIS == IL)
+            // Simple map for common requests, or just check generic
+            const stateMap = {
+                'IL': 'ILLINOIS',
+                'NY': 'NEW YORK',
+                'CA': 'CALIFORNIA',
+                'TX': 'TEXAS'
+                // Add more if needed
+            };
+
+            if (stateMap[normTarget] && normInput === stateMap[normTarget]) return true;
+
+            // Fallback: If user types "Illinois", and target is "IL"
+            // If we don't have a map, we assume false unless exact match.
+            return false;
+        }
+
+        function updateTaxRow(label, amount) {
+            let taxRow = document.getElementById('checkout-tax-row');
+            const subtotalEl = document.getElementById('checkout-subtotal');
+
+            if (!taxRow && subtotalEl) {
+                const container = subtotalEl.closest('.flex.flex-col');
+                const totalRow = document.getElementById('checkout-total').closest('div');
+                const newRow = document.createElement('div');
+                newRow.id = 'checkout-tax-row';
+                newRow.className = 'flex justify-between';
+                newRow.style.width = '300px';
+                newRow.style.marginBottom = '10px';
+                newRow.innerHTML = `<span class="text-muted" id="tax-label">Estimated Tax:</span><span class="text-white" id="checkout-tax-amount">$0.00</span>`;
+                container.insertBefore(newRow, totalRow);
+                taxRow = newRow;
+            }
+
+            if (taxRow) {
+                document.getElementById('tax-label').innerText = label;
+                document.getElementById('checkout-tax-amount').innerText = '$' + amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        }
+
+        function setupPlaceOrder() {
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            if (placeOrderBtn) {
+                placeOrderBtn.replaceWith(placeOrderBtn.cloneNode(true));
+                const newBtn = document.getElementById('place-order-btn');
+
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const form = document.getElementById('checkout-form');
+                    if (form && !form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+
+                    newBtn.innerText = 'PROCESSING...';
+                    newBtn.disabled = true;
+                    newBtn.style.opacity = '0.7';
+
+                    setTimeout(() => {
+                        alert('Order Placed Successfully! Thank you for shopping with Alquds Jewelry.');
+                        localStorage.removeItem('alquds_cart');
+                        window.location.href = 'index.html';
+                    }, 2000);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

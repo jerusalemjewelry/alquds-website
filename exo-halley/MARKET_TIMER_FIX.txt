@@ -1,0 +1,23 @@
+MARKET TIMER FIX NEEDED
+=======================
+
+Current Problem:
+- Timer shows market opens Sunday 6 PM (WRONG)
+- Should show market opens Monday 7:30 AM CT (CORRECT)
+
+COMEX Precious Metals Market Hours:
+- Opens: Monday 7:30 AM Central Time
+- Closes: Friday 12:15 PM Central Time  
+- Closed: Friday afternoon through Monday morning
+
+Since it's Friday evening now, the timer should show:
+"OPENS IN: 2d 14h 30m" (approximately - until Monday 7:30 AM)
+
+PRICING ISSUE:
+The prices are still showing old values because pricing.json didn't upload to the data folder correctly on GitHub.
+
+NEXT STEPS:
+1. I'll create a corrected index.html file for you
+2. Upload it to GitHub
+3. Also re-upload pricing.json to the data folder
+4. Redeploy on Cloudflare

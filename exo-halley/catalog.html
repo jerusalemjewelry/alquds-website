@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog - Alquds Jewelry</title>
+    <!-- Fonts & CSS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem;">ALQUDS <span
+                        class="text-white">JEWELRY</span></a>
+            </div>
+            <nav class="hidden-mobile">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="catalog.html?cat=yellow-gold" class="nav-link text-gold">Yellow Gold</a>
+                <a href="catalog.html?cat=white-gold" class="nav-link">White Gold</a>
+                <a href="catalog.html?cat=silver" class="nav-link">Silver</a>
+                <a href="catalog.html?cat=diamonds" class="nav-link">Diamonds</a>
+                <a href="catalog.html?cat=coins-bullions" class="nav-link">Coins & Bullions</a>
+            </nav>
+            <div class="header-actions flex gap-4 items-center">
+                <a href="cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count"
+                        style="background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%; position: absolute; top: -5px; right: -10px;">0</span>
+                </a>
+                <!-- Social Media Icons -->
+                <div class="social-icons flex gap-8"
+                    style="margin-left: 15px; padding-left: 15px; border-left: 1px solid var(--color-gray);">
+                    <a href="https://www.tiktok.com/@jerusalemjewelryil?is_from_webapp=1&sender_device=pc"
+                        target="_blank" class="social-link social-tiktok" title="TikTok">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.instagram.com/jerusalemjewelry?igsh=MzltbXhsdDh6Nmx4&utm_source=qr"
+                        target="_blank" class="social-link social-instagram" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/share/17H2dcBhUd/?mibextid=wwXIfr" target="_blank"
+                        class="social-link social-facebook" title="Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 40px 20px; display: flex; gap: 40px;">
+        <!-- Sidebar -->
+        <aside style="width: 250px; flex-shrink: 0;">
+            <h3 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Categories</h3>
+            <ul style="line-height: 2;">
+                <!-- Yellow Gold (Collapsible) -->
+                <li>
+                    <div class="flex justify-between items-center" style="cursor: pointer;"
+                        onclick="toggleSubmenu('yellow-gold-submenu', 'icon-yellow-gold')">
+                        <span class="text-white hover-gold text-uppercase" style="font-weight: bold;">Yellow Gold</span>
+                        <i id="icon-yellow-gold" class="fa-solid fa-plus text-gold"
+                            style="font-size: 0.8rem; transition: transform 0.3s;"></i>
+                    </div>
+                    <ul id="yellow-gold-submenu"
+                        style="display: none; padding-left: 15px; font-size: 0.9rem; border-left: 1px solid #333; margin: 5px 0 15px 5px;">
+                        <li><a href="catalog.html?cat=anklets" class="text-muted hover-gold">Anklets</a></li>
+                        <li><a href="catalog.html?cat=bangles" class="text-muted hover-gold">Bangles (18k/21k/22k)</a>
+                        </li>
+                        <li><a href="catalog.html?cat=bangle-sets" class="text-muted hover-gold">Bangle Sets</a></li>
+                        <li><a href="catalog.html?cat=belts" class="text-muted hover-gold">Belts</a></li>
+                        <li><a href="catalog.html?cat=bracelets" class="text-muted hover-gold">Bracelets
+                                (18k/21k/22k)</a></li>
+                        <li><a href="catalog.html?cat=children" class="text-muted hover-gold">Children Jewelry</a></li>
+                        <li><a href="catalog.html?cat=chains" class="text-muted hover-gold">Chains (18k/21k)</a></li>
+                        <li><a href="catalog.html?cat=coins" class="text-muted hover-gold">Coins & Frames</a></li>
+                        <li><a href="catalog.html?cat=custom" class="text-muted hover-gold">Custom Nameplates</a></li>
+                        <li><a href="catalog.html?cat=earrings" class="text-muted hover-gold">Earrings
+                                (Dangles/Studs)</a></li>
+                        <li><a href="catalog.html?cat=hand-bracelets" class="text-muted hover-gold">Hand Bracelets</a>
+                        </li>
+                        <li><a href="catalog.html?cat=necklaces" class="text-muted hover-gold">Necklaces & Sets</a></li>
+                        <li><a href="catalog.html?cat=pendants" class="text-muted hover-gold">Pendants</a></li>
+                        <li><a href="catalog.html?cat=rings" class="text-muted hover-gold">Rings (Bands/18k/21k)</a>
+                        </li>
+                        <li><a href="catalog.html?cat=mens" class="text-muted hover-gold">Men's Jewelry</a></li>
+                    </ul>
+                </li>
+
+                <!-- Coins & Bullions (Collapsible) -->
+                <li>
+                    <div class="flex justify-between items-center" style="cursor: pointer;"
+                        onclick="toggleSubmenu('coins-submenu', 'icon-coins')">
+                        <span class="text-white hover-gold text-uppercase" style="font-weight: bold;">Coins &
+                            Bullions</span>
+                        <i id="icon-coins" class="fa-solid fa-plus text-gold"
+                            style="font-size: 0.8rem; transition: transform 0.3s;"></i>
+                    </div>
+                    <ul id="coins-submenu"
+                        style="display: none; padding-left: 15px; font-size: 0.9rem; border-left: 1px solid #333; margin: 5px 0 15px 5px;">
+                        <li><a href="catalog.html?cat=coins-bullions&sub=22k-coin" class="text-muted hover-gold">22
+                                Karat Coin</a></li>
+                        <li><a href="catalog.html?cat=coins-bullions&sub=21k-coin" class="text-muted hover-gold">21
+                                Karat Coin</a></li>
+                        <li><a href="catalog.html?cat=coins-bullions&sub=24k-bullion" class="text-muted hover-gold">24
+                                Karat Bullion</a></li>
+                        <li><a href="catalog.html?cat=coins-bullions&sub=silver-bullion"
+                                class="text-muted hover-gold">Silver Bullion</a></li>
+                    </ul>
+                </li>
+
+                <!-- Other Main Categories -->
+                <li><a href="catalog.html?cat=white-gold" class="text-white hover-gold text-uppercase"
+                        style="font-weight: bold;">White Gold</a></li>
+                <li><a href="catalog.html?cat=silver" class="text-white hover-gold text-uppercase"
+                        style="font-weight: bold;">Silver Jewelry</a></li>
+                <li><a href="catalog.html?cat=diamond" class="text-white hover-gold text-uppercase"
+                        style="font-weight: bold;">Diamond Jewelry</a></li>
+
+            </ul>
+        </aside>
+
+        <!-- Main Grid -->
+        <main style="flex-grow: 1;">
+            <h2 id="page-title" class="mb-4">All Collections</h2>
+            <div id="product-grid" class="grid grid-cols-4"
+                style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+                <!-- Data populated by JS -->
+            </div>
+        </main>
+    </div>
+
+    <footer class="text-center py-4" style="border-top: 1px solid #333; margin-top: 40px;">
+        <p class="text-muted">&copy; 2025 Alquds Jewelry. All Rights Reserved. v1.1</p>
+    </footer>
+
+    <script src="js/app-v3.js"></script>
+    <script>
+        // Sidebar Toggle Function
+        function toggleSubmenu(submenuId, iconId) {
+            const submenu = document.getElementById(submenuId);
+            const icon = document.getElementById(iconId);
+
+            if (submenu.style.display === 'none') {
+                submenu.style.display = 'block';
+                icon.style.transform = 'rotate(135deg)';
+            } else {
+                submenu.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Optional: Keep UI highlight logic here if not moved to main.js
+            // But the main rendering is now in initApp().
+            // We can keep the submenu expansion logic here as it is purely UI.
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('cat');
+            const sub = urlParams.get('sub');
+
+            // Highlight active sub-category if present
+            if (sub) {
+                const activeLinks = document.querySelectorAll(`a[href*="sub=${sub}"]`);
+                activeLinks.forEach(link => {
+                    link.style.backgroundColor = 'white';
+                    link.style.color = 'black';
+                    link.style.padding = '2px 8px';
+                    link.style.borderRadius = '2px';
+                    link.style.fontWeight = 'bold';
+
+                    // Auto-open the parent menu
+                    const parentMenu = link.closest('ul');
+                    if (parentMenu) {
+                        parentMenu.style.display = 'block';
+                        const parentLi = parentMenu.parentElement;
+                        const icon = parentLi.querySelector('i.fa-plus');
+                        if (icon) icon.style.transform = 'rotate(135deg)';
+                    }
+                });
+            } else if (category && category !== 'coins-bullions') {
+                // Auto-open Yellow Gold if applicable
+                const yellowGoldSubCats = ['anklets', 'bangles', 'bangle-sets', 'belts', 'bracelets', 'children', 'chains', 'coins', 'custom', 'earrings', 'hand-bracelets', 'necklaces', 'pendants', 'rings', 'mens'];
+                if (yellowGoldSubCats.includes(category)) {
+                    const menu = document.getElementById('yellow-gold-submenu');
+                    const icon = document.getElementById('icon-yellow-gold');
+                    if (menu) menu.style.display = 'block';
+                    if (icon) icon.style.transform = 'rotate(135deg)';
+
+                    const link = document.querySelector(`a[href*="cat=${category}"]`);
+                    if (link) {
+                        link.classList.remove('text-muted');
+                        link.classList.add('text-white');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

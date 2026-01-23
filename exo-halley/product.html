@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Alquds Jewelry</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem;">ALQUDS <span
+                        class="text-white">JEWELRY</span></a>
+            </div>
+            <nav class="hidden-mobile">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="catalog.html?cat=yellow-gold" class="nav-link">Yellow Gold</a>
+                <a href="catalog.html?cat=white-gold" class="nav-link">White Gold</a>
+                <a href="catalog.html?cat=silver" class="nav-link">Silver</a>
+                <a href="catalog.html?cat=diamonds" class="nav-link">Diamonds</a>
+                <a href="catalog.html?cat=coins-bullions" class="nav-link">Coins & Bullions</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <a href="cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count"
+                        style="background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%; position: absolute; top: -8px; right: -8px;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="container" style="padding: 20px 20px 0;">
+        <div class="text-muted text-sm">
+            <a href="index.html" class="hover-gold">Home</a> /
+            <a href="catalog.html" class="hover-gold">Shop</a> /
+            <span id="breadcrumb-category" class="hover-gold"></span> /
+            <span id="breadcrumb-product"></span>
+        </div>
+    </div>
+
+    <div class="container" style="padding: 40px 20px;">
+        <div id="product-detail-container" class="flex gap-4" style="align-items: flex-start;">
+            <!-- Rendered by JS -->
+            <p class="text-white">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Core Logic -->
+    <script src="js/app-v3.js?v=4"></script>
+</body>
+
+</html>
