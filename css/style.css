@@ -516,3 +516,242 @@ footer {
     font-size: 2.5rem;
     margin-bottom: 1rem;
 }
+
+/* Forms */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+}
+
+/* Forced Input Styles */
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 15px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--color-white) !important;
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    border-radius: 4px !important;
+    transition: all var(--transition-speed);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-color: var(--color-gold) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.order-summary {
+    background: var(--color-dark-gray);
+    padding: 30px;
+    border: 1px solid var(--color-gold);
+    border-radius: 8px;
+}
+
+.payment-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.payment-icon {
+    font-size: 2rem;
+    color: var(--color-text-muted);
+    transition: color 0.3s;
+}
+
+.payment-icon:hover {
+    color: var(--color-white);
+}
+
+.payment-icon.fa-cc-visa {
+    color: #1a1f71;
+    background: white;
+    border-radius: 2px;
+}
+
+.payment-icon.fa-cc-mastercard {
+    color: #eb001b;
+    background: white;
+    border-radius: 2px;
+}
+
+.payment-icon.fa-cc-paypal {
+    color: #003087;
+    background: white;
+    border-radius: 2px;
+}
+
+.payment-icon.fa-cc-amex {
+    color: #006fcf;
+    background: white;
+    border-radius: 2px;
+}
+
+/* Revert background for dark mode aesthetics if preferred, or keep colored */
+.payment-icon {
+    background: transparent !important;
+    color: var(--color-text-muted) !important;
+}
+
+/* Checkout Steps Layout */
+.checkout-step {
+    margin-bottom: 50px;
+    /* Increased separation */
+    background: rgba(0, 0, 0, 0.6);
+    /* Slightly Darker background for contrast */
+    border: 1px solid var(--color-gray);
+    border-top: 3px solid var(--color-gold);
+    /* Top separation line "Like 1" concept */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Add a visual divider before step 2 and 3 if needed, but margin is cleaner. 
+   User asked for a line "between 1 and 2". 
+   Let's add a pseudo element for distinct line separation */
+.checkout-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    opacity: 0.5;
+}
+
+.checkout-step-header {
+    background: var(--color-gold) !important;
+    /* Force Gold */
+    color: var(--color-black) !important;
+    padding: 15px 20px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkout-step-number {
+    background: var(--color-black);
+    color: var(--color-gold);
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.checkout-step-content {
+    padding: 30px;
+}
+
+.shipping-method-box {
+    border: 1px solid var(--color-gold);
+    background: rgba(212, 175, 55, 0.1);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.shipping-method-box:hover {
+    background: rgba(212, 175, 55, 0.2);
+}
+
+.radio-gold {
+    accent-color: var(--color-gold);
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
+}
+
+/* Category Card Styling (Popular Collections Style) */
+.category-card-container {
+    border: 4px solid var(--color-gold);
+    /* Thick gold border */
+    background: #f0f0f0;
+    /* Light background as seen in reference */
+    position: relative;
+    height: 350px;
+    display: flex;
+    /* Centering image */
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.category-card-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.category-card-image {
+    max-width: 90%;
+    max-height: 70%;
+    object-fit: contain;
+    /* Ensure the jewelry item is visible */
+    transition: transform 0.5s;
+}
+
+.category-card-container:hover .category-card-image {
+    transform: scale(1.1);
+}
+
+.category-card-label {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gold);
+    color: var(--color-black);
+    padding: 8px 20px;
+    font-family: var(--font-heading);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    width: auto;
+    min-width: 60%;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
