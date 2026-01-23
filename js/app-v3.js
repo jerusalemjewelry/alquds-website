@@ -162,7 +162,7 @@ async function initApp() {
 function renderCatalog(reset = true) {
     const grid = document.getElementById('product-grid');
     const title = document.getElementById('page-title');
-    
+    // const sidebar = document.querySelector('.category-list');
     if (!grid) return;
     if (reset) {
         currentPage = 1;
@@ -175,7 +175,8 @@ function renderCatalog(reset = true) {
     // 1. Logic Switch (Search vs Category)
     let scopeProducts = products;
     let pageLabel = 'Catalog';
-    let materialConfig = null; // Defined here to fix ReferenceError
+    let materialConfig = null;
+    console.log('RenderCatalog:', { catParam, subParam, searchParam });
     if (searchParam) {
         // --- SEARCH MODE ---
         const term = searchParam.trim().toLowerCase();
@@ -187,9 +188,7 @@ function renderCatalog(reset = true) {
         });
         pageLabel = `Search Results: "${searchParam}"`;
         currentFilteredProducts = scopeProducts;
-        
         if (title) title.innerText = pageLabel;
-        
     } else {
         // --- STANDARD CATEGORY MODE ---
         materialConfig = MATERIAL_MAP[catParam];
@@ -214,7 +213,7 @@ function renderCatalog(reset = true) {
                 // FORCE YELLOW GOLD GRID
                 catHTML = YELLOW_GOLD_CATS.map(cat => {
                     const sample = products.find(p => p.category === cat.id);
-                    const img = sample ? sample.image : cat.image;
+                    const img = sample ? sample.image : (cat.image || 'assets/placeholder.png');
                     return createCategoryCard(cat.id, img, catParam, cat.label);
                 }).join('');
                 grid.innerHTML = catHTML;
@@ -245,14 +244,47 @@ function renderCatalog(reset = true) {
         if (title) title.innerText = pageLabel;
     }
     // Update Sidebar to show active State
+    // We need to know available categories to populate sidebar
+    // If subParam is set, we still want to show all categories for the parent Material
     if (materialConfig && materialConfig.filterField === 'color') {
         const categoriesInScope = [...new Set(products.filter(p => p.color === materialConfig.filterValue).map(p => p.category))];
         updateSidebar(categoriesInScope, catParam, subParam);
     }
+    // Standard Product Rendering (Pagination)
+    const start = 0;
+    const end = currentPage * ITEMS_PER_PAGE;
+    console.log('Filtered Products Count:', currentFilteredProducts.length);
+    console.log('Scope Products Count:', scopeProducts.length);
+    const itemsToShow = currentFilteredProducts.slice(start, end);
+    if (itemsToShow.length === 0) {
+        grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found.</p>';
+        removeLoadMore();
+        return;
+    }
+    if (reset) {
+        grid.innerHTML = itemsToShow.map(createProductCard).join('');
+    } else {
+        const newStart = (currentPage - 1) * ITEMS_PER_PAGE;
+        const newItems = currentFilteredProducts.slice(newStart, end);
+        grid.insertAdjacentHTML('beforeend', newItems.map(createProductCard).join(''));
+    }
+    if (end < currentFilteredProducts.length) {
+        if (!document.getElementById('load-more-btn')) createLoadMoreButton();
+    } else {
+        removeLoadMore();
+    }
 }
 function updateSidebar(categories, parentCat, activeSub) {
-    const list = document.querySelector('.category-list'); 
+    // Locate the sidebar category list
+    // This assumes catalog.html has a sidebar list with specific class or ID.
+    // If not, we might need to target '.category-list'
+    const list = document.querySelector('.category-list'); // You might need to check your HTML for this
     if (!list) return;
+    // We only want to update the sidebar if we are in a "Material" mode
+    // Clear list? Or just append? 
+    // Best: Re-render the relevant section.
+    // Simplified Sidebar Logic:
+    // Just list the categories found.
     const html = categories.map(cat => {
         const isActive = (cat === activeSub) ? 'text-gold' : 'text-muted';
         const display = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -321,4 +353,3 @@ function renderProductDetail() {
     `;
 }
 document.addEventListener('DOMContentLoaded', initApp);
-
