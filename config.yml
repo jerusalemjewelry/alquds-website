@@ -49,7 +49,7 @@ collections:
               - {label: "ID", name: "id", widget: "string"}
               - {label: "Item Number", name: "itemNo", widget: "string", required: false}
               - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
-              - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "custom", "white-gold", "mens", "watches", "coins-bullions"]}
+              - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "custom", "white-gold", "mens", "watches", "frames", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
               - {label: "Weight (Grams)", name: "weight", widget: "string"}
               - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
