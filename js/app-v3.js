@@ -387,6 +387,10 @@ function renderCatalog(reset = true) {
             let catHTML = '';
 
             if (catParam === 'yellow-gold') {
+                // Hide Filter Sidebar for Yellow Gold Main Page
+                const sidebar = document.querySelector('aside');
+                if (sidebar) sidebar.style.display = 'none';
+
                 catHTML = YELLOW_GOLD_CATS.map(cat => {
                     // Use the predefined category image to ensure consistency
                     return createCategoryCard(cat.id, cat.image, catParam, cat.label);
@@ -395,6 +399,10 @@ function renderCatalog(reset = true) {
                 removeLoadMore();
                 return;
             }
+
+            // Show Sidebar for other pages (if hidden previously)
+            const sidebar = document.querySelector('aside');
+            if (sidebar) sidebar.style.display = 'block';
 
             const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
             if (categoriesInScope.length === 0) {
