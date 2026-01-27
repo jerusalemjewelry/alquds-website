@@ -2,6 +2,10 @@
 let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
 let products = [];
 let pricingConfig = {};
+let minPriceFilter = 0;
+let maxPriceFilter = 15000;
+
+
 
 // Config: Map URL 'cat' to Product Data Properties
 const MATERIAL_MAP = {
@@ -423,6 +427,14 @@ function renderCatalog(reset = true) {
         updateSidebar(categoriesInScope, catParam, subParam);
     }
 
+    // Apply Price Filter
+    if (!isMaterialRoot) { // Don't filter category cards
+        currentFilteredProducts = currentFilteredProducts.filter(p => {
+            const price = p.price || 0;
+            return price >= minPriceFilter && price <= maxPriceFilter;
+        });
+    }
+
     const start = 0;
     const end = currentPage * ITEMS_PER_PAGE;
     const itemsToShow = currentFilteredProducts.slice(start, end);
@@ -529,4 +541,54 @@ function renderProductDetail() {
     `;
 }
 
-document.addEventListener('DOMContentLoaded', initApp);
+function setupPriceFilter() {
+    const rangeMin = document.getElementById('range-min');
+    const rangeMax = document.getElementById('range-max');
+    const displayMin = document.getElementById('price-min-val');
+    const displayMax = document.getElementById('price-max-val');
+    const activeTrack = document.getElementById('slider-track-active');
+    const filterBtn = document.getElementById('btn-filter-price');
+
+    if (!rangeMin || !rangeMax || !filterBtn) return;
+
+    const minGap = 500;
+    const sliderMaxValue = parseInt(rangeMax.max);
+
+    function updateSlider() {
+        let val1 = parseInt(rangeMin.value);
+        let val2 = parseInt(rangeMax.value);
+
+        if (val2 - val1 < minGap) {
+            if (this === rangeMin) {
+                rangeMin.value = val2 - minGap;
+            } else {
+                rangeMax.value = val1 + minGap;
+            }
+        } else {
+            displayMin.textContent = val1.toLocaleString();
+            displayMax.textContent = val2.toLocaleString();
+
+            const percent1 = (val1 / sliderMaxValue) * 100;
+            const percent2 = (val2 / sliderMaxValue) * 100;
+
+            activeTrack.style.left = percent1 + "%";
+            activeTrack.style.right = (100 - percent2) + "%";
+        }
+    }
+
+    rangeMin.addEventListener('input', updateSlider);
+    rangeMax.addEventListener('input', updateSlider);
+
+    filterBtn.addEventListener('click', () => {
+        minPriceFilter = parseInt(rangeMin.value);
+        maxPriceFilter = parseInt(rangeMax.value);
+        renderCatalog(); // Re-render with new filter
+    });
+
+    updateSlider(); // Init visuals
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+    setupPriceFilter();
+});
