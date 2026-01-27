@@ -351,6 +351,7 @@ function renderCatalog(reset = true) {
     let scopeProducts = products;
     let pageLabel = 'Catalog';
     let materialConfig = null;
+    let isMaterialRoot = false;
 
     if (searchParam) {
         const term = searchParam.trim().toLowerCase();
@@ -380,7 +381,7 @@ function renderCatalog(reset = true) {
             pageLabel = catParam.charAt(0).toUpperCase() + catParam.slice(1);
         }
 
-        const isMaterialRoot = (materialConfig && materialConfig.filterField === 'color' && !subParam);
+        isMaterialRoot = (materialConfig && materialConfig.filterField === 'color' && !subParam);
 
         if (isMaterialRoot) {
             if (title) title.innerText = pageLabel + ' Collections';
