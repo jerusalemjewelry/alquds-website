@@ -281,6 +281,24 @@
             font-size: 0.9rem;
             text-align: center;
         }
+
+        /* Interactive Text Animation */
+        .interactive-text {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-text-light);
+            line-height: 1.6;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .interactive-text:hover {
+            color: var(--color-gold);
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 
@@ -399,9 +417,12 @@
     <section class="hero" style="background-image: url('assets/jerusalem-bg.jpg');">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title">Timeless Elegance in 21k Gold</h1>
-            <p class="hero-subtitle">Discover our exclusive collection of Middle Eastern heritage jewelry and custom
-                designs.</p>
+            <h1 class="hero-title" style="margin-bottom: 20px;">Welcome to Alquds Jewelry</h1>
+            <p class="hero-subtitle interactive-text"
+                style="max-width: 900px; margin: 0 auto 30px auto; font-style: italic;">
+                "Proudly family-owned for over 20 years. We invite you to explore our finest collection of 21k Middle
+                Eastern heritage jewelry. Crafted with passion, from our family to yours."
+            </p>
             <div class="flex justify-center gap-4">
                 <a href="catalog.html" class="btn btn-primary">Shop Collection</a>
                 <a href="catalog.html?category=custom" class="btn">Custom Designs</a>
@@ -430,35 +451,7 @@
     </section>
 
     <!-- Categories Highlight -->
-    <!-- About Us / Welcome Section -->
-    <section class="container" style="padding: 80px 20px;">
-        <div class="text-center" style="max-width: 800px; margin: 0 auto;">
-            <h2 class="section-title text-gold"
-                style="font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 20px;">Welcome to Alquds
-                Jewelry</h2>
-            <div style="width: 80px; height: 3px; background: var(--color-gold); margin: 0 auto 30px;"></div>
-
-            <p class="text-white" style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 30px;">
-                For over 20 years, Alquds Jewelry has been a proud family-owned business dedicated to bringing you the
-                finest
-                Middle Eastern heritage jewelry. Our passion for 21k gold and custom craftsmanship is passed down
-                through generations,
-                ensuring that every piece you choose is not just jewelry, but a timeless treasure.
-            </p>
-
-            <p class="text-muted" style="font-size: 1.1rem; line-height: 1.8;">
-                From our family to yours, we invite you to explore our exclusive collections. Whether you are looking
-                for a
-                traditional wedding set, a custom nameplate, or a unique gift, we are here to provide you with unmatched
-                quality
-                and personal service.
-            </p>
-
-            <div style="margin-top: 40px;">
-                <i class="fa-solid fa-gem text-gold" style="font-size: 2rem; opacity: 0.8;"></i>
-            </div>
-        </div>
-    </section>
+    <!-- About Us / Welcome Section Removed (Moved to Hero) -->
 
     <!-- Featured Products (Dynamic) -->
     <section class="container scroll-reveal" style="padding-bottom: 80px;">
