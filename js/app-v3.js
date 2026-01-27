@@ -228,7 +228,6 @@ function showToast(message) {
 
 // Pagination State
 let currentPage = 1;
-const ITEMS_PER_PAGE = 24;
 let currentFilteredProducts = [];
 
 // Create Product Card HTML
@@ -331,12 +330,18 @@ async function initApp() {
     }
 }
 
-// Render Catalog Logic
+const ITEMS_PER_PAGE = 12;
+
+// ... (other code)
+
 function renderCatalog(reset = true) {
     const grid = document.getElementById('product-grid');
     const title = document.getElementById('page-title');
 
     if (!grid) return;
+
+    // Enforce 4 Columns Layout for all views as requested
+    grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
 
     if (reset) {
         currentPage = 1;
