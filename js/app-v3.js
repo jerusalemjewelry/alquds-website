@@ -25,7 +25,10 @@ const YELLOW_GOLD_CATS = [
     { id: 'anklets', label: 'Anklets', image: 'assets/cat_anklets.png' },
     { id: 'children', label: 'Children', image: 'assets/cat_children.png' },
     { id: 'kladas', label: 'Kladas', image: 'assets/cat_kladas.png' },
-    { id: 'mens', label: 'Men\'s', image: 'assets/cat_mens.png' }
+    { id: 'mens', label: 'Men\'s', image: 'assets/cat_mens.png' },
+    { id: 'belts', label: 'Belts', image: 'assets/cat_belts.png' },
+    { id: 'name-plates', label: 'Name Plates', image: 'assets/cat_name_plates.png' },
+    { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' }
 ];
 
 // Helper: Calculate Price dynamically
