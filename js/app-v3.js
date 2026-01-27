@@ -21,7 +21,7 @@ const YELLOW_GOLD_CATS = [
     { id: 'earrings', label: 'Earrings', image: 'assets/cat_earrings.png' },
     { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_bracelets.png' },
     { id: 'pendants', label: 'Pendants', image: 'assets/cat_pendants.png' },
-    { id: 'frames', label: 'Frames', image: 'assets/cat_coins.png' },
+    { id: 'coins', label: 'Frames', image: 'assets/cat_coins.png' },
     { id: 'anklets', label: 'Anklets', image: 'assets/cat_anklets.png' },
     { id: 'children', label: 'Children', image: 'assets/cat_children.png' },
     { id: 'kladas', label: 'Kladas', image: 'assets/cat_kladas.png' },
@@ -450,13 +450,14 @@ function updateSidebar(categories, parentCat, activeSub) {
     const list = document.querySelector('.category-list');
     if (!list) return;
 
-    const html = categories.map(cat => {
-        const isActive = (cat === activeSub) ? 'text-gold' : 'text-muted';
-        const display = cat.charAt(0).toUpperCase() + cat.slice(1);
+    // Use the predefined categories to ensure specific order and labels
+    // This restores the full list similar to the hardcoded version the user prefers
+    const html = YELLOW_GOLD_CATS.map(cat => {
+        const isActive = (cat.id === activeSub) ? 'text-gold' : 'text-muted';
         return `
             <li>
-                <a href="catalog.html?cat=${parentCat}&sub=${cat}" class="${isActive} hover:text-white transition-colors">
-                    ${display}
+                <a href="catalog.html?cat=${parentCat}&sub=${cat.id}" class="${isActive} hover:text-white transition-colors">
+                    ${cat.label}
                 </a>
             </li>
         `;
