@@ -3,7 +3,7 @@ let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
 let products = [];
 let pricingConfig = {};
 let minPriceFilter = 0;
-let maxPriceFilter = 15000;
+let maxPriceFilter = 100000;
 
 
 
