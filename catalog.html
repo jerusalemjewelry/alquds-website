@@ -12,7 +12,15 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Fallback CSS for Price Slider to ensure it looks correct even if style.css is cached/missing */
+        /* Fallback CSS for Price Slider */
+        /* Removed border and background for cleaner look */
+        .price-filter-container {
+            padding: 20px 0;
+            background: none;
+            border: none;
+            max-width: 300px;
+        }
+
         .price-slider-wrapper {
             position: relative;
             width: 100%;
@@ -20,8 +28,10 @@
             margin-top: 10px;
         }
 
+        /* Adjusted track width/margin to align with thumb centers */
         .slider-track {
-            width: 100%;
+            width: calc(100% - 18px);
+            margin: 0 9px;
             height: 4px;
             background: #444;
             position: absolute;
@@ -37,6 +47,8 @@
             top: 50%;
             transform: translateY(-50%);
             z-index: 1;
+            left: 9px;
+            right: 9px;
         }
 
         .range-input {
@@ -141,14 +153,15 @@
                 <div class="price-slider-wrapper">
                     <div class="slider-track"></div>
                     <div id="slider-track-active" class="slider-track-active" style="left: 0%; right: 0%;"></div>
-                    <input type="range" class="range-input" id="range-min" min="0" max="15000" value="0" step="100">
-                    <input type="range" class="range-input" id="range-max" min="0" max="15000" value="15000" step="100">
+                    <input type="range" class="range-input" id="range-min" min="0" max="100000" value="0" step="100">
+                    <input type="range" class="range-input" id="range-max" min="0" max="100000" value="100000"
+                        step="100">
                 </div>
 
                 <div class="price-values">
                     <div style="font-size: 0.85rem; color: #aaa;">
                         Price: <span style="color: white; font-weight: bold;">$<span id="price-min-val">0</span></span>
-                        — <span style="color: white; font-weight: bold;">$<span id="price-max-val">15,000</span></span>
+                        — <span style="color: white; font-weight: bold;">$<span id="price-max-val">100,000</span></span>
                     </div>
                     <button id="btn-filter-price" class="btn-filter">FILTER</button>
                 </div>
