@@ -66,47 +66,12 @@
         </div>
     </header>
 
-    <div class="container" style="padding: 40px 20px; display: flex; gap: 40px;">
-        <!-- Sidebar -->
-        <aside style="width: 250px; flex-shrink: 0;">
-            <h3 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Categories</h3>
-            <ul style="line-height: 2;">
-                <!-- Yellow Gold (Collapsible) -->
-                <li>
-                    <div class="flex justify-between items-center" style="cursor: pointer;"
-                        onclick="toggleSubmenu('yellow-gold-submenu', 'icon-yellow-gold')">
-                        <span class="text-white hover-gold text-uppercase" style="font-weight: bold;">Yellow Gold</span>
-                        <i id="icon-yellow-gold" class="fa-solid fa-plus text-gold"
-                            style="font-size: 0.8rem; transition: transform 0.3s; transform: rotate(135deg);"></i>
-                    </div>
-                    <!-- Open by default to show categories immediately -->
-                    <ul id="yellow-gold-submenu"
-                        style="display: block; padding-left: 15px; font-size: 0.9rem; border-left: 1px solid #333; margin: 5px 0 15px 5px;">
-                        <li><a href="catalog.html?cat=anklets" class="text-muted hover-gold">Anklets</a></li>
-                        <li><a href="catalog.html?cat=bangles" class="text-muted hover-gold">Bangles</a></li>
-                        <li><a href="catalog.html?cat=belts" class="text-muted hover-gold">Belts</a></li>
-                        <li><a href="catalog.html?cat=bracelets" class="text-muted hover-gold">Bracelets</a></li>
-                        <li><a href="catalog.html?cat=children" class="text-muted hover-gold">Children</a></li>
-                        <li><a href="catalog.html?cat=chains" class="text-muted hover-gold">Chains</a></li>
-                        <li><a href="catalog.html?cat=coins" class="text-muted hover-gold">Frames</a></li>
-                        <li><a href="catalog.html?cat=custom" class="text-muted hover-gold">Custom Nameplates</a></li>
-                        <li><a href="catalog.html?cat=earrings" class="text-muted hover-gold">Earrings</a></li>
-                        <li><a href="catalog.html?cat=kladas" class="text-muted hover-gold">Kladas</a></li>
-                        <li><a href="catalog.html?cat=necklaces" class="text-muted hover-gold">Necklace Sets</a></li>
-                        <li><a href="catalog.html?cat=pendants" class="text-muted hover-gold">Pendants</a></li>
-                        <li><a href="catalog.html?cat=rings" class="text-muted hover-gold">Rings</a></li>
-                        <li><a href="catalog.html?cat=mens" class="text-muted hover-gold">Men's Jewelry</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
-
+    <div class="container" style="padding: 40px 20px;">
         <!-- Main Grid -->
-        <main style="flex-grow: 1;">
-            <h2 id="page-title" class="mb-4">All Collections</h2>
-            <div id="product-grid" class="grid grid-cols-4"
-                style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
-                <!-- Data populated by JS -->
+        <main style="width: 100%;">
+            <h2 id="page-title" class="mb-4 text-center">All Collections</h2>
+            <div id="product-grid" class="grid grid-cols-5" style="gap: 20px;">
+                <!-- Data populated by JS, layout controlled by CSS class .grid-cols-5 -->
             </div>
         </main>
     </div>
@@ -117,65 +82,8 @@
 
     <script src="js/app-v3.js"></script>
     <script>
-        // Sidebar Toggle Function
-        function toggleSubmenu(submenuId, iconId) {
-            const submenu = document.getElementById(submenuId);
-            const icon = document.getElementById(iconId);
-
-            if (submenu.style.display === 'none') {
-                submenu.style.display = 'block';
-                icon.style.transform = 'rotate(135deg)';
-            } else {
-                submenu.style.display = 'none';
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Optional: Keep UI highlight logic here if not moved to main.js
-            // But the main rendering is now in initApp().
-            // We can keep the submenu expansion logic here as it is purely UI.
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('cat');
-            const sub = urlParams.get('sub');
-
-            // Highlight active sub-category if present
-            if (sub) {
-                const activeLinks = document.querySelectorAll(`a[href*="sub=${sub}"]`);
-                activeLinks.forEach(link => {
-                    link.style.backgroundColor = 'var(--color-gold)';
-                    link.style.color = 'black';
-                    link.style.padding = '2px 8px';
-                    link.style.borderRadius = '2px';
-                    link.style.fontWeight = 'bold';
-
-                    // Auto-open the parent menu
-                    const parentMenu = link.closest('ul');
-                    if (parentMenu) {
-                        parentMenu.style.display = 'block';
-                        const parentLi = parentMenu.parentElement;
-                        const icon = parentLi.querySelector('i.fa-plus');
-                        if (icon) icon.style.transform = 'rotate(135deg)';
-                    }
-                });
-            } else if (category && category !== 'coins-bullions') {
-                // Auto-open Yellow Gold if applicable
-                const yellowGoldSubCats = ['anklets', 'bangles', 'bangle-sets', 'belts', 'bracelets', 'children', 'chains', 'coins', 'custom', 'earrings', 'hand-bracelets', 'necklaces', 'pendants', 'rings', 'mens'];
-                if (yellowGoldSubCats.includes(category)) {
-                    const menu = document.getElementById('yellow-gold-submenu');
-                    const icon = document.getElementById('icon-yellow-gold');
-                    if (menu) menu.style.display = 'block';
-                    if (icon) icon.style.transform = 'rotate(135deg)';
-
-                    const link = document.querySelector(`a[href*="cat=${category}"]`);
-                    if (link) {
-                        link.classList.remove('text-muted');
-                        link.classList.add('text-white');
-                    }
-                }
-            }
-        });
+        // Main initialization is handled in app-v3.js
+        console.log('Catalog loaded.');
     </script>
 </body>
 
