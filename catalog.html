@@ -70,41 +70,45 @@
         <!-- Sidebar -->
         <aside style="width: 250px; flex-shrink: 0;">
             <h3 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Categories</h3>
-            <ul style="line-height: 2;">
-                <!-- Yellow Gold (Collapsible) -->
-                <li>
-                    <div class="flex justify-between items-center" style="cursor: pointer;"
-                        onclick="toggleSubmenu('yellow-gold-submenu', 'icon-yellow-gold')">
-                        <span class="text-white hover-gold text-uppercase" style="font-weight: bold;">Yellow Gold</span>
-                        <i id="icon-yellow-gold" class="fa-solid fa-plus text-gold"
-                            style="font-size: 0.8rem; transition: transform 0.3s;"></i>
-                    </div>
-                    <ul id="yellow-gold-submenu"
-                        style="display: none; padding-left: 15px; font-size: 0.9rem; border-left: 1px solid #333; margin: 5px 0 15px 5px;">
-                        <li><a href="catalog.html?cat=anklets" class="text-muted hover-gold">Anklets</a>
-                        </li>
-                        <li><a href="catalog.html?cat=bangles" class="text-muted hover-gold">Bangles (18k/21k/22k)</a>
-                        </li>
-                        <li><a href="catalog.html?cat=belts" class="text-muted hover-gold">Belts</a>
-                        </li>
-                        <li><a href="catalog.html?cat=bracelets" class="text-muted hover-gold">Bracelets
-                                (18k/21k/22k)</a></li>
-                        <li><a href="catalog.html?cat=children" class="text-muted hover-gold">Children Jewelry</a></li>
-                        <li><a href="catalog.html?cat=chains" class="text-muted hover-gold">Chains (18k/21k)</a></li>
-                        <li><a href="catalog.html?cat=frames" class="text-muted hover-gold">Frames</a></li>
-                        <li><a href="catalog.html?cat=custom" class="text-muted hover-gold">Custom Nameplates</a></li>
-                        <li><a href="catalog.html?cat=earrings" class="text-muted hover-gold">Earrings
-                                (Dangles/Studs)</a></li>
-                        <li><a href="catalog.html?cat=kladas" class="text-muted hover-gold">Kladas</a></li>
-                        <li><a href="catalog.html?cat=necklaces" class="text-muted hover-gold">Necklaces & Sets</a></li>
-                        <li><a href="catalog.html?cat=pendants" class="text-muted hover-gold">Pendants</a></li>
-                        <li><a href="catalog.html?cat=rings" class="text-muted hover-gold">Rings (Bands/18k/21k)</a>
-                        </li>
-                        <li><a href="catalog.html?cat=mens" class="text-muted hover-gold">Men's Jewelry</a></li>
-                    </ul>
-                </li>
 
-            </ul>
+            <!-- Material Categories -->
+            <div class="mb-4">
+                <h4 class="text-gold text-sm text-uppercase mb-3" style="letter-spacing: 1px;">Collections</h4>
+                <ul class="mb-4" style="line-height: 2;">
+                    <li><a href="catalog.html?cat=yellow-gold" class="text-white hover-gold">Yellow Gold</a></li>
+                    <li><a href="catalog.html?cat=white-gold" class="text-muted hover-gold">White Gold</a></li>
+                    <li><a href="catalog.html?cat=silver" class="text-muted hover-gold">Silver</a></li>
+                    <li><a href="catalog.html?cat=diamonds" class="text-muted hover-gold">Diamonds</a></li>
+                    <li><a href="catalog.html?cat=coins-bullions" class="text-muted hover-gold">Coins & Bullions</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Product Categories (Yellow Gold Context) -->
+            <div>
+                <h4 class="text-gold text-sm text-uppercase mb-3" style="letter-spacing: 1px;">Shop By Type</h4>
+                <ul class="category-list" style="line-height: 2;">
+                    <li><a href="catalog.html?cat=yellow-gold&sub=necklaces" class="text-muted hover-gold">Necklace
+                            Sets</a></li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=bangles" class="text-muted hover-gold">Bangles</a>
+                    </li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=chains" class="text-muted hover-gold">Chains</a></li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=rings" class="text-muted hover-gold">Rings</a></li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=earrings" class="text-muted hover-gold">Earrings</a>
+                    </li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=bracelets" class="text-muted hover-gold">Bracelets</a>
+                    </li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=pendants" class="text-muted hover-gold">Pendants</a>
+                    </li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=coins" class="text-muted hover-gold">Frames</a></li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=anklets" class="text-muted hover-gold">Anklets</a>
+                    </li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=children" class="text-muted hover-gold">Children</a>
+                    </li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=kladas" class="text-muted hover-gold">Kladas</a></li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=mens" class="text-muted hover-gold">Men's</a></li>
+                </ul>
+            </div>
         </aside>
 
         <!-- Main Grid -->
