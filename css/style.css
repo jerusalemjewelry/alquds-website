@@ -882,10 +882,9 @@ input::placeholder {
 
 /* Price Filter Widget */
 .price-filter-container {
-    padding: 20px;
-    background: #111;
-    border: 1px solid #333;
-    border-radius: 4px;
+    padding: 20px 0;
+    background: none;
+    border: none;
     max-width: 300px;
 }
 
@@ -897,13 +896,14 @@ input::placeholder {
 }
 
 .slider-track {
-    width: 100%;
+    width: calc(100% - 18px);
     height: 4px;
     background: #444;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     border-radius: 2px;
+    margin: 0 9px;
 }
 
 .slider-track-active {
@@ -913,6 +913,8 @@ input::placeholder {
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
+    left: 9px;
+    right: 9px;
 }
 
 .range-input {
