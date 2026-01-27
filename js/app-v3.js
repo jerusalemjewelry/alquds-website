@@ -381,9 +381,8 @@ function renderCatalog(reset = true) {
 
             if (catParam === 'yellow-gold') {
                 catHTML = YELLOW_GOLD_CATS.map(cat => {
-                    const sample = products.find(p => p.category === cat.id);
-                    const img = sample ? sample.image : cat.image;
-                    return createCategoryCard(cat.id, img, catParam, cat.label);
+                    // Use the predefined category image to ensure consistency
+                    return createCategoryCard(cat.id, cat.image, catParam, cat.label);
                 }).join('');
                 grid.innerHTML = catHTML;
                 removeLoadMore();
