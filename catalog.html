@@ -66,12 +66,40 @@
         </div>
     </header>
 
-    <div class="container" style="padding: 40px 20px;">
+    <div class="container" style="padding: 40px 20px; display: flex; gap: 30px;">
+        <!-- Left Filter Sidebar -->
+        <aside style="width: 250px; flex-shrink: 0;">
+            <div class="price-filter-container">
+                <h3
+                    style="color: white; font-size: 1rem; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                    Filter by price</h3>
+
+                <div class="price-slider-wrapper">
+                    <div class="slider-track"></div>
+                    <div id="slider-track-active" class="slider-track-active" style="left: 0%; right: 0%;"></div>
+                    <input type="range" class="range-input" id="range-min" min="0" max="15000" value="0" step="100">
+                    <input type="range" class="range-input" id="range-max" min="0" max="15000" value="15000" step="100">
+                </div>
+
+                <div class="price-values">
+                    <div style="font-size: 0.85rem; color: #aaa;">
+                        Price: <span style="color: white; font-weight: bold;">$<span id="price-min-val">0</span></span>
+                        — <span style="color: white; font-weight: bold;">$<span id="price-max-val">15,000</span></span>
+                    </div>
+                    <button id="btn-filter-price" class="btn-filter">FILTER</button>
+                </div>
+            </div>
+        </aside>
+
         <!-- Main Grid -->
-        <main style="width: 100%;">
-            <h2 id="page-title" class="mb-4 text-center">All Collections</h2>
+        <main style="flex-grow: 1;">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="page-title" class="text-center"
+                    style="margin: 0; flex-grow: 1; font-size: 1.8rem; letter-spacing: 1px;">All Collections</h2>
+            </div>
+
             <div id="product-grid" class="grid grid-cols-5"
-                style="gap: 20px; grid-template-columns: repeat(5, 1fr) !important;">
+                style="gap: 15px; grid-template-columns: repeat(5, 1fr) !important;">
                 <!-- Data populated by JS, layout controlled by CSS class .grid-cols-5 -->
             </div>
         </main>
