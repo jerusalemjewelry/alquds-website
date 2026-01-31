@@ -741,7 +741,12 @@ input::placeholder {
 }
 
 /* Payment Icons Container - Fix Stretching */
-/* Payment Icons Container - Fix Stretching */
+.payment-icons {
+    display: flex;
+    flex-wrap: wrap; /* CRITICAL: Allow icons to wrap on mobile */
+    gap: 10px;
+}
+
 .payment-icons img {
     height: 45px;
     /* Increased from 30px */
