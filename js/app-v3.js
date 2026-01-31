@@ -25,7 +25,7 @@ const YELLOW_GOLD_CATS = [
     { id: 'earrings', label: 'Earrings', image: 'assets/cat_earrings.png' },
     { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_bracelets.png' },
     { id: 'pendants', label: 'Pendants', image: 'assets/cat_pendants.png' },
-    { id: 'coins', label: 'Frames', image: 'assets/cat_coins.png' },
+    { id: 'coins', label: 'Frames', image: 'assets/cat_coins_v2.png' },
     { id: 'anklets', label: 'Anklets', image: 'assets/cat_anklets.png' },
     { id: 'children', label: 'Children', image: 'assets/cat_children.png' },
     { id: 'kladas', label: 'Kladas', image: 'assets/cat_kladas.png' },
