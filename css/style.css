@@ -770,6 +770,19 @@ input::placeholder {
     height: auto !important;
 }
 
+@media (max-width: 480px) {
+    .payment-btn {
+        width: 55px;
+        height: 40px;
+        padding: 3px;
+    }
+
+    /* Override the previous mobile rule that made them huge */
+    .payment-icons img {
+        height: auto;
+    }
+}
+
 .payment-btn:hover,
 .payment-btn.selected {
     border-color: var(--color-gold);
