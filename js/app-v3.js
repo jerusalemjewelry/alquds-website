@@ -29,7 +29,7 @@ const YELLOW_GOLD_CATS = [
     { id: 'anklets', label: 'Anklets', image: 'assets/cat_anklets.png' },
     { id: 'children', label: 'Children', image: 'assets/cat_children.png' },
     { id: 'kladas', label: 'Kladas', image: 'assets/cat_kladas.png' },
-    { id: 'mens', label: 'Men\'s', image: 'assets/cat_mens.png' },
+    { id: 'bands', label: 'Bands', image: 'assets/cat_mens.png' },
     { id: 'belts', label: 'Belts', image: 'assets/cat_belts.png' },
     { id: 'name-plates', label: 'Name Plates', image: 'assets/cat_name_plates.png' },
     { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' }
@@ -315,7 +315,7 @@ async function initApp() {
         // Fetch all category files dynamically
         const categoryFiles = [
             'bangles', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
-            'mens', 'watches', 'coins', 'kladas', 'necklaces', 'children',
+            'bands', 'coins', 'kladas', 'necklaces', 'children',
             'anklets', 'bracelets', 'pendants', 'belts', 'chokers', 'frames',
             'diamonds', 'coins-bullions', 'silver'
         ];
