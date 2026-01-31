@@ -74,6 +74,21 @@
       "image": "assets/gemini_generated_image_1hfasx1hfasx1hfa.png",
       "description": "Custom Name ",
       "category": "name-plates"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 0,
+      "taxable": true,
+      "name": "Custom 2",
+      "featured": false,
+      "karat": 21,
+      "isDynamic": true,
+      "marginPercent": 40,
+      "weight": "4 ",
+      "id": "cs2",
+      "image": "assets/gemini_generated_image_3n092i3n092i3n09-1-.png",
+      "description": "4-5 grams approximately ",
+      "category": "name-plates"
     }
   ]
 }
