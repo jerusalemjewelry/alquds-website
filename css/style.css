@@ -673,6 +673,19 @@ input::placeholder {
     }
 }
 
+@media (max-width: 480px) {
+
+    /* Gain space on small screens */
+    .checkout-step-content {
+        padding: 15px !important;
+    }
+
+    /* Override inline padding of the inner payment/shipping boxes */
+    .checkout-grid>div {
+        padding: 15px !important;
+    }
+}
+
 .order-summary {
     background: var(--color-dark-gray);
     padding: 30px;
