@@ -47,7 +47,6 @@ collections:
             fields:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "ID", name: "id", widget: "string"}
-              - {label: "Item Number", name: "itemNo", widget: "string", required: false}
               - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
               - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "name-plates", "white-gold", "mens", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
