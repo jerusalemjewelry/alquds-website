@@ -1,0 +1,19 @@
+{
+    "products_list": [
+        {
+            "id": 1,
+            "name": "Imperial 21k Gold Bangle Set",
+            "isDynamic": true,
+            "category": "bangles",
+            "karat": 21,
+            "weight": 45.0,
+            "marginPercent": 15,
+            "laborPerGram": 8.0,
+            "itemNo": "BG-1001",
+            "color": "Yellow Gold",
+            "image": "assets/product_bangle_1.png",
+            "description": "Exquisite traditional bangle set featuring intricate Middle Eastern craftsmanship.",
+            "featured": true
+        }
+    ]
+}

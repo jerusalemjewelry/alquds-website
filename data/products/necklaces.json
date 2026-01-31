@@ -1,0 +1,19 @@
+{
+    "products_list": [
+        {
+            "id": 3,
+            "name": "Elegant Gold Chain",
+            "isDynamic": true,
+            "category": "necklaces",
+            "karat": 21,
+            "weight": 15.0,
+            "marginPercent": 20,
+            "laborPerGram": 10.0,
+            "itemNo": "NK-3001",
+            "color": "Yellow Gold",
+            "image": "assets/product_necklace_1.png",
+            "description": "A beautiful delicate necklace for everyday wear.",
+            "featured": true
+        }
+    ]
+}
