@@ -288,14 +288,30 @@ async function initApp() {
 
     try {
         // 1. Fetch Data
-        const [pricingRes, productsRes] = await Promise.all([
-            fetch('data/pricing.json?t=' + new Date().getTime()),
-            fetch('data/products.json?t=' + new Date().getTime())
-        ]);
-
+        // 1. Fetch Data
+        const pricingRes = await fetch('data/pricing.json?t=' + new Date().getTime());
         pricingConfig = await pricingRes.json();
-        const rawData = await productsRes.json();
-        const rawProducts = Array.isArray(rawData) ? rawData : (rawData.products_list || []);
+
+        // Fetch all category files dynamically
+        const categoryFiles = [
+            'bangles', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
+            'mens', 'watches', 'coins', 'kladas', 'necklaces', 'children',
+            'anklets', 'bracelets', 'pendants', 'belts', 'chokers', 'frames',
+            'diamonds', 'coins-bullions', 'silver'
+        ];
+
+        const productPromises = categoryFiles.map(cat =>
+            fetch(`data/products/${cat}.json?t=${new Date().getTime()}`)
+                .then(res => {
+                    if (!res.ok) return { products_list: [] };
+                    return res.json();
+                })
+                .catch(e => ({ products_list: [] }))
+        );
+
+        const productsResults = await Promise.all(productPromises);
+        const rawProducts = productsResults.flatMap(data => data.products_list || []);
+
 
         // 2. Calculate Prices
         products = rawProducts.map(p => {
