@@ -377,7 +377,12 @@ function renderCatalog(reset = true) {
     if (!grid) return;
 
     // Enforce 4 Columns Layout for all views as requested
-    grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+    // Responsive Grid: 2 columns on mobile, 4 on desktop
+    if (window.innerWidth < 768) {
+        grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    } else {
+        grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+    }
 
     if (reset) {
         currentPage = 1;
