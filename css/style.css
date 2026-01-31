@@ -95,24 +95,30 @@ a {
 @media (max-width: 768px) {
     .header-main nav {
         display: flex !important;
-        /* Force show nav */
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 5px;
-        -webkit-overflow-scrolling: touch;
-        gap: 20px;
+        flex-wrap: wrap;
+        /* Wrap items to next line */
+        justify-content: center;
+        /* Center align them */
+        gap: 8px;
+        /* Space between chips */
+        padding-bottom: 15px;
+        overflow: visible;
+        /* No scrolling */
+        white-space: normal;
+        /* Allow normal flow */
     }
 
     .header-main nav a {
-        font-size: 0.9rem;
-        padding: 5px 10px;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.08);
+        /* Subtle chip background */
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        /* Faint gold border */
+        border-radius: 20px;
+        /* Rounded pill shape */
+        white-space: nowrap;
     }
-
-    /* Hide scrollbar for cleaner look */
-    .header-main nav::-webkit-scrollbar {
-        display: none;
-    }
-}
 }
 
 ul {
