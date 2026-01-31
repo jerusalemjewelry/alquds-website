@@ -74,7 +74,7 @@
             "marginPercent": 25,
             "laborPerGram": 12.0,
             "color": "Yellow Gold",
-            "image": "assets/Np5.jpg",
+            "image": "assets/Np5_model.png",
             "description": "Elegant custom gold name plate.",
             "featured": false,
             "taxable": true,
