@@ -742,13 +742,32 @@ input::placeholder {
 }
 
 /* Payment Buttons */
+/* Payment Buttons */
 .payment-btn {
     background: transparent;
     border: 1px solid transparent;
+    /* Invisible border by default prevents jump */
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s;
+    /* Flex to center image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    /* Fixed button height for alignment */
+    width: 80px;
+    /* Fixed button width for alignment */
+}
+
+/* Constrain image within button */
+.payment-btn img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto !important;
+    /* Override previous rules */
+    height: auto !important;
 }
 
 .payment-btn:hover,
