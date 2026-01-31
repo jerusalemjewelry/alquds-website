@@ -157,6 +157,12 @@ function addToCart(id) {
     const product = products.find(p => p.id == id);
     if (!product) return;
 
+    // Check if out of stock
+    if (product.outOfStock) {
+        showToast("Sorry, this item is out of stock.");
+        return;
+    }
+
     // Check for quantity input (Product Detail Page)
     const qtyInput = document.getElementById(`quantity-${id}`);
     const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
@@ -231,15 +237,29 @@ let currentPage = 1;
 let currentFilteredProducts = [];
 
 // Create Product Card HTML
+// Create Product Card HTML
 function createProductCard(product) {
+    const isOutOfStock = product.outOfStock === true;
+    const cardClass = isOutOfStock ? 'product-card out-of-stock' : 'product-card';
+    const overlayHTML = isOutOfStock ?
+        `<div class="out-of-stock-overlay"><span class="badge-out-of-stock">Out of Stock</span></div>` : '';
+
+    // Disable button if out of stock
+    const btnAction = isOutOfStock ? 'disabled' : `onclick="addToCart('${product.id}')"`;
+    const btnStyle = isOutOfStock ?
+        'position: absolute; bottom: 10px; right: 10px; background: #ccc; border: none; padding: 10px; border-radius: 50%; cursor: not-allowed; z-index: 5;' :
+        'position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 5;';
+    const iconClass = isOutOfStock ? 'fa-solid fa-ban text-muted' : 'fa-solid fa-plus text-gold';
+
     return `
-        <div class="product-card">
+        <div class="${cardClass}">
             <div style="position: relative; overflow: hidden;">
                 <a href="product.html?id=${product.id}" style="display: block;">
+                    ${overlayHTML}
                     <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                 </a>
-                <button onclick="addToCart('${product.id}')" style="position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 5;">
-                    <i class="fa-solid fa-plus text-gold"></i>
+                <button ${btnAction} style="${btnStyle}">
+                    <i class="${iconClass}"></i>
                 </button>
             </div>
             <div class="product-info">
@@ -560,9 +580,17 @@ function renderProductDetail() {
     if (breadCat) breadCat.innerText = product.category.charAt(0).toUpperCase() + product.category.slice(1);
     if (breadProd) breadProd.innerText = product.name;
 
+    const isOutOfStock = product.outOfStock === true;
+    const btnHTML = isOutOfStock
+        ? `<button disabled class="btn btn-primary btn-disabled" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-ban" style="margin-right: 8px;"></i> OUT OF STOCK</button>`
+        : `<button onclick="addToCart('${product.id}')" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-shopping-bag" style="margin-right: 8px;"></i> ADD TO CART</button>`;
+
     container.innerHTML = `
         <div style="flex: 1; max-width: 500px;">
-            <img src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px;">
+            <div style="position: relative;">
+                ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
+                <img src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px; ${isOutOfStock ? 'filter: grayscale(100%); opacity: 0.6;' : ''}">
+            </div>
         </div>
         <div style="flex: 1; padding-left: 40px;">
             <h1 style="font-size: 2rem; color: white; margin-bottom: 15px;">${product.name}</h1>
@@ -576,9 +604,9 @@ function renderProductDetail() {
             </div>
             <div class="flex items-center gap-4" style="margin-bottom: 25px;">
                 <label class="text-muted" style="font-size: 0.9rem;">Quantity:</label>
-                <input type="number" value="1" min="1" id="quantity-${product.id}" style="width: 80px; padding: 10px; background: #222; border: 1px solid #333; color: white; text-align: center;">
+                <input type="number" value="1" min="1" id="quantity-${product.id}" ${isOutOfStock ? 'disabled' : ''} style="width: 80px; padding: 10px; background: #222; border: 1px solid #333; color: white; text-align: center; ${isOutOfStock ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
             </div>
-            <button onclick="addToCart('${product.id}')" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-shopping-bag" style="margin-right: 8px;"></i> ADD TO CART</button>
+            ${btnHTML}
             <div style="margin-top: 40px;">
                 <p class="text-muted" style="line-height: 1.8;">${product.description || 'No description available.'}</p>
             </div>
