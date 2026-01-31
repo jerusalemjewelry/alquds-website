@@ -451,6 +451,13 @@ img {
     transition: transform 0.5s ease;
 }
 
+@media (max-width: 768px) {
+    .product-image {
+        height: 180px;
+        /* Smaller height for mobile */
+    }
+}
+
 .product-card:hover .product-image {
     transform: scale(1.05);
 }
