@@ -245,11 +245,11 @@ function createProductCard(product) {
         `<div class="out-of-stock-overlay"><span class="badge-out-of-stock">Out of Stock</span></div>` : '';
 
     // Disable button if out of stock
+    // Disable button if out of stock
     const btnAction = isOutOfStock ? 'disabled' : `onclick="addToCart('${product.id}')"`;
-    const btnStyle = isOutOfStock ?
-        'position: absolute; bottom: 10px; right: 10px; background: #ccc; border: none; padding: 10px; border-radius: 50%; cursor: not-allowed; z-index: 5;' :
-        'position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 5;';
-    const iconClass = isOutOfStock ? 'fa-solid fa-ban text-muted' : 'fa-solid fa-plus text-gold';
+    // Use Class for Styling
+    const btnClass = isOutOfStock ? 'add-to-cart-btn btn-disabled' : 'add-to-cart-btn';
+    const iconClass = isOutOfStock ? 'fa-solid fa-ban' : 'fa-solid fa-plus';
 
     return `
         <div class="${cardClass}">
@@ -258,7 +258,7 @@ function createProductCard(product) {
                     ${overlayHTML}
                     <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                 </a>
-                <button ${btnAction} style="${btnStyle}">
+                <button ${btnAction} class="${btnClass}">
                     <i class="${iconClass}"></i>
                 </button>
             </div>
