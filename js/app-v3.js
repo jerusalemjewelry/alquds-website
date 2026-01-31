@@ -591,15 +591,15 @@ function renderProductDetail() {
         : `<button onclick="addToCart('${product.id}')" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-shopping-bag" style="margin-right: 8px;"></i> ADD TO CART</button>`;
 
     container.innerHTML = `
-        <div style="flex: 1; max-width: 500px;">
+        <div class="pd-image-col">
             <div style="position: relative;">
                 ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
                 <img src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px; ${isOutOfStock ? 'filter: grayscale(100%); opacity: 0.6;' : ''}">
             </div>
         </div>
-        <div style="flex: 1; padding-left: 40px;">
-            <h1 style="font-size: 2rem; color: white; margin-bottom: 15px;">${product.name}</h1>
-            <div style="font-size: 2rem; color: var(--color-gold); margin-bottom: 30px; font-weight: bold;">$${product.price ? product.price.toLocaleString() : 'N/A'}</div>
+        <div class="pd-info-col">
+            <h1 class="pd-title">${product.name}</h1>
+            <div class="pd-price">$${product.price ? product.price.toLocaleString() : 'N/A'}</div>
             <div style="background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-bottom: 25px;">
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat} Karats</td></tr>
