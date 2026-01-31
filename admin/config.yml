@@ -59,6 +59,7 @@ collections:
               - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
               - {label: "Description", name: "description", widget: "text"}
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
+              - {label: "Taxable", name: "taxable", widget: "boolean", required: false}
 
       - name: "chains"
         label: "Chains"
@@ -154,5 +155,3 @@ collections:
         label: "Coins & Bullions"
         file: "data/products/coins-bullions.json"
         fields: *product_fields
-              - {label: "Featured?", name: "featured", widget: "boolean", default: false}
-              - {label: "Taxable", name: "taxable", widget: "boolean", required: false}
