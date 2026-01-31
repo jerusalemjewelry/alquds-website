@@ -519,9 +519,24 @@ function renderProductDetail() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
-    if (!id) { container.innerHTML = '<h2 class="text-white">Product not found.</h2>'; return; }
-    const product = products.find(p => p.id == id);
-    if (!product) { container.innerHTML = '<h2 class="text-white">Product not found.</h2>'; return; }
+    if (!id) { container.innerHTML = '<h2 class="text-white">Product not found (No ID provided).</h2>'; return; }
+
+    // Normalize ID for comparison
+    const searchId = id.trim();
+
+    // Find product - Robust comparison
+    let product = products.find(p => String(p.id).trim() === searchId);
+
+    // Fallback: Try finding by Item No if ID lookup fails
+    if (!product) {
+        product = products.find(p => String(p.itemNo).trim() === searchId);
+    }
+
+    if (!product) {
+        console.error(`Product not found. Searched for ID: "${searchId}" in ${products.length} products.`);
+        container.innerHTML = `<h2 class="text-white">Product not found. (ID: ${searchId})</h2><p class="text-muted">Please check if the product exists in the database.</p>`;
+        return;
+    }
 
     document.title = `${product.name} - Alquds Jewelry`;
     const breadCat = document.getElementById('breadcrumb-category');
