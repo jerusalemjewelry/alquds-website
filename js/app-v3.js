@@ -378,6 +378,8 @@ function renderCatalog(reset = true) {
 
     // Enforce 4 Columns Layout for all views as requested
     // Responsive Grid: 2 columns on mobile, 4 on desktop
+    // Responsive Grid: Force 2 columns on mobile for Product Grid (Catalog)
+    // This allows the catalog to keep the 2-column layout the user wants
     if (window.innerWidth < 768) {
         grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
     } else {
