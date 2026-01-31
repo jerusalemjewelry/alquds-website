@@ -243,7 +243,8 @@ img {
 
 @media (max-width: 768px) {
     .grid-cols-2 {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        /* Force stack on mobile */
     }
 
     .grid-cols-4 {
