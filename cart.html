@@ -9,6 +9,86 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Responsive Cart Layout */
+        .cart-item-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            margin-bottom: 1rem;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .cart-item-card {
+                flex-wrap: wrap;
+                /* Allow wrapping */
+                text-align: left;
+            }
+
+            .cart-item-image {
+                width: 100px;
+                /* Bigger image on mobile */
+                height: 100px;
+            }
+
+            .cart-item-details {
+                min-width: 100%;
+                /* Force details to new line if needed, or just take space */
+                margin-top: 10px;
+            }
+
+            /* Re-order for mobile: Image left, details right? Or stacked? 
+               Let's keep image left, details right, but move specific controls if needed.
+               Actually, squashed usually means width issue. 
+               Let's try a Grid layout for mobile */
+            .cart-item-card {
+                display: grid;
+                grid-template-columns: 100px 1fr;
+                grid-template-areas:
+                    "image details"
+                    "image controls";
+                gap: 15px;
+            }
+
+            .cart-item-image {
+                grid-area: image;
+            }
+
+            .cart-item-details {
+                grid-area: details;
+            }
+
+            /* For the controls, put them in a row below details or beside? */
+            .cart-item-controls-wrapper {
+                grid-area: controls;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -91,36 +171,38 @@
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
                 return `
-                    <div class="flex items-center gap-4 mb-4" style="background: #1a1a1a; padding: 15px; border-radius: 4px; border: 1px solid #333;">
-                        <img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+                    <div class="cart-item-card">
+                        <img src="${item.image}" class="cart-item-image">
                         
-                        <div style="flex: 1;">
-                            <h4 class="text-white" style="font-family: var(--font-heading); margin-bottom: 5px;">${item.name}</h4>
-                            <div class="text-muted" style="font-size: 0.9rem;">${item.karat} Gold</div>
-                            <div class="text-gold font-bold mt-1">$${item.price.toLocaleString()}</div>
+                        <div class="cart-item-details">
+                            <h4 class="text-white" style="font-family: var(--font-heading); margin-bottom: 5px; font-size: 1.1rem;">${item.name}</h4>
+                            <div class="text-muted" style="font-size: 0.95rem;">${item.karat} Gold</div>
+                            <div class="text-gold font-bold mt-1" style="font-size: 1.1rem;">$${item.price.toLocaleString()}</div>
                         </div>
 
-                        <!-- Quantity Controls -->
-                        <div class="flex items-center gap-2">
-                            <button onclick="updateQty(${item.id}, -1)" class="quantity-btn" 
-                                onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
-                                onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
-                                style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 24px; height: 24px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
-                                <i class="fa-solid fa-minus" style="font-size: 0.7rem;"></i>
-                            </button>
-                            <span class="text-white font-bold mx-2" style="font-size: 1rem; min-width: 20px; text-align: center;">${item.quantity}</span>
-                            <button onclick="updateQty(${item.id}, 1)" class="quantity-btn" 
-                                onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
-                                onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
-                                style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 24px; height: 24px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
-                                <i class="fa-solid fa-plus" style="font-size: 0.7rem;"></i>
+                        <div class="cart-item-controls-wrapper">
+                            <!-- Quantity Controls -->
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateQty(${item.id}, -1)" class="quantity-btn" 
+                                    onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
+                                    onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
+                                    style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 32px; height: 32px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
+                                    <i class="fa-solid fa-minus" style="font-size: 0.8rem;"></i>
+                                </button>
+                                <span class="text-white font-bold mx-2" style="font-size: 1.1rem; min-width: 25px; text-align: center;">${item.quantity}</span>
+                                <button onclick="updateQty(${item.id}, 1)" class="quantity-btn" 
+                                    onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
+                                    onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
+                                    style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 32px; height: 32px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
+                                    <i class="fa-solid fa-plus" style="font-size: 0.8rem;"></i>
+                                </button>
+                            </div>
+
+                            <!-- Remove Button -->
+                            <button onclick="removeItem(${item.id})" class="ml-4" title="Remove Item" style="color: var(--color-text-muted); background: transparent; border: none; font-size: 1.3rem; cursor: pointer; transition: color 0.3s;">
+                                <i class="fa-solid fa-trash hover:text-red-500"></i>
                             </button>
                         </div>
-
-                        <!-- Remove Button -->
-                        <button onclick="removeItem(${item.id})" class="ml-4" title="Remove Item" style="color: var(--color-text-muted); background: transparent; border: none; font-size: 1.2rem; cursor: pointer; transition: color 0.3s;">
-                            <i class="fa-solid fa-trash hover:text-red-500"></i>
-                        </button>
                     </div>
                 `;
             }).join('');
