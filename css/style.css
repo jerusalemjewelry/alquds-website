@@ -87,7 +87,32 @@ h6 {
 a {
     text-decoration: none;
     color: inherit;
+    color: inherit;
     transition: color var(--transition-speed);
+}
+
+/* Header & Nav */
+@media (max-width: 768px) {
+    .header-main nav {
+        display: flex !important;
+        /* Force show nav */
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+        gap: 20px;
+    }
+
+    .header-main nav a {
+        font-size: 0.9rem;
+        padding: 5px 10px;
+    }
+
+    /* Hide scrollbar for cleaner look */
+    .header-main nav::-webkit-scrollbar {
+        display: none;
+    }
+}
 }
 
 ul {
