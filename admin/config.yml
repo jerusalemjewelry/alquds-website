@@ -48,7 +48,7 @@ collections:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "ID", name: "id", widget: "string"}
               - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
-              - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "name-plates", "white-gold", "mens", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver"]}
+              - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "name-plates", "white-gold", "bands", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
               - {label: "Weight (Grams)", name: "weight", widget: "string"}
               - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
@@ -111,9 +111,9 @@ collections:
         file: "data/products/anklets.json"
         fields: *product_fields
 
-      - name: "mens"
-        label: "Mens"
-        file: "data/products/mens.json"
+      - name: "bands"
+        label: "Bands"
+        file: "data/products/bands.json"
         fields: *product_fields
 
       - name: "children"
@@ -131,10 +131,7 @@ collections:
         file: "data/products/kladas.json"
         fields: *product_fields
 
-      - name: "watches"
-        label: "Watches"
-        file: "data/products/watches.json"
-        fields: *product_fields
+
         
       - name: "white-gold"
         label: "White Gold Collection"
