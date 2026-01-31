@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Alquds Jewelry</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--color-gold);
+            color: var(--color-gold);
+            font-size: 40px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(212, 175, 55, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+        }
+
+        .order-details-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-gray);
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 1px; white-space: nowrap;">
+                    ALQUDS <span class="text-white">JEWELRY</span>
+                </a>
+            </div>
+            <!-- Empty actions for success page -->
+            <div class="header-actions"></div>
+        </div>
+    </header>
+
+    <div class="container"
+        style="padding: 60px 20px; text-align: center; min-height: 70vh; display: flex; flex-direction: column; justify-content: center;">
+
+        <div class="success-checkmark">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <h1 class="text-white mb-3" style="font-size: 2.5rem;">Order Confirmed!</h1>
+        <p class="text-muted mb-5" style="font-size: 1.1rem;">Thank you for shopping with us. Your order has been
+            received.</p>
+
+        <div class="order-details-box mb-5">
+            <h3 class="text-gold mb-4 text-center">Order #<span id="order-id">wait...</span></h3>
+
+            <div class="detail-row">
+                <span class="text-muted">Estimated Delivery</span>
+                <span class="text-white font-bold">3-5 Business Days</span>
+            </div>
+            <div class="detail-row">
+                <span class="text-muted">Shipping Method</span>
+                <span class="text-white">Express Insured Shipping</span>
+            </div>
+            <div class="detail-row">
+                <span class="text-muted">Payment Method</span>
+                <span class="text-white" id="payment-method-display">Credit Card</span>
+            </div>
+            <div class="detail-row"
+                style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--color-gold);">
+                <span class="text-white" style="font-size: 1.2rem;">Total Paid</span>
+                <span class="text-gold font-bold" style="font-size: 1.2rem;" id="total-paid">$0.00</span>
+            </div>
+        </div>
+
+        <div>
+            <a href="index.html" class="btn btn-primary">RETURN TO HOME</a>
+            <a href="catalog.html" class="btn" style="color: white; border-color: white; margin-left: 10px;">CONTINUE
+                SHOPPING</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="text-muted">&copy; 2025 Alquds Jewelry. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Populate random data for demo
+        document.getElementById('order-id').innerText = Math.floor(100000 + Math.random() * 900000);
+
+        // Get Total from URL param if available, or random
+        const urlParams = new URLSearchParams(window.location.search);
+        const total = urlParams.get('total');
+        if (total) {
+            document.getElementById('total-paid').innerText = '$' + parseFloat(total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+    </script>
+</body>
+
+</html>

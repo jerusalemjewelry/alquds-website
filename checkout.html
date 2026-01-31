@@ -541,9 +541,13 @@
                     newBtn.style.opacity = '0.7';
 
                     setTimeout(() => {
-                        alert('Order Placed Successfully! Thank you for shopping with Alquds Jewelry.');
+                        // Success Logic
+                        // Get current total to display on success page
+                        const totalEl = document.getElementById('checkout-total');
+                        const totalText = totalEl ? totalEl.innerText.replace('$', '').replace(/,/g, '') : '0.00';
+
                         localStorage.removeItem('alquds_cart');
-                        window.location.href = 'index.html';
+                        window.location.href = `order-confirmation.html?total=${totalText}`;
                     }, 2000);
                 });
             }
