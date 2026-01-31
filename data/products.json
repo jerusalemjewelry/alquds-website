@@ -46,6 +46,7 @@
       "category": "necklaces"
     },
     {
+      "color": "Yellow Gold",
       "laborPerGram": 8,
       "taxable": true,
       "name": "bangle",
@@ -58,6 +59,21 @@
       "image": "assets/screenshot-2025-12-29-134022.png",
       "description": "ffff",
       "category": "bangles"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 0,
+      "taxable": true,
+      "name": "Custom 1",
+      "featured": false,
+      "karat": 21,
+      "isDynamic": true,
+      "marginPercent": 0,
+      "weight": "0",
+      "id": "CS 1 ",
+      "image": "assets/gemini_generated_image_1hfasx1hfasx1hfa.png",
+      "description": "Custom Name ",
+      "category": "name-plates"
     }
   ]
 }
