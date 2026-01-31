@@ -250,14 +250,35 @@ img {
         display: none;
     }
 
-    /* Fix Header Overflow on Mobile */
-    .header-actions .social-icons {
-        display: none !important;
+    .header-main .container {
+        flex-wrap: wrap;
+        /* Allow wrapping */
+        position: relative;
+        /* Context for absolute positioning */
+    }
+
+    /* Keep cart visible and accessible on mobile */
+    .header-actions {
+        position: absolute;
+        top: 5px;
+        /* Adjust vertical alignment closer to logo center */
+        right: 20px;
+        z-index: 101;
+        /* Ensure above other elements */
     }
 
     /* Adjust Logo size */
     .logo a {
         font-size: 1.4rem !important;
+        display: block;
+        padding-top: 5px;
+        /* Give space for alignment */
+    }
+
+    /* Ensure search input doesn't overlap or break layout too much */
+    .header-actions input {
+        width: 80px !important;
+        /* Smaller search on mobile */
     }
 }
 
@@ -695,9 +716,40 @@ input::placeholder {
 }
 
 /* Revert background for dark mode aesthetics if preferred, or keep colored */
+/* Revert background for dark mode aesthetics if preferred, or keep colored */
 .payment-icon {
     background: transparent !important;
     color: var(--color-text-muted) !important;
+}
+
+/* Payment Icons Container - Fix Stretching */
+/* Payment Icons Container - Fix Stretching */
+.payment-icons img {
+    height: 30px;
+    /* Fixed height for consistency */
+    width: auto;
+    /* Allow width to adjust naturally */
+    object-fit: contain;
+    /* Ensure no stretching */
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* Payment Buttons */
+.payment-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.payment-btn:hover,
+.payment-btn.selected {
+    border-color: var(--color-gold);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
 }
 
 /* Checkout Steps Layout */
@@ -1098,6 +1150,39 @@ input::placeholder {
 .product-card.out-of-stock .product-image {
     opacity: 0.6;
     filter: grayscale(100%);
+}
+
+/* Product Card "Add to Cart" Button */
+.add-to-cart-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gold);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.add-to-cart-btn:hover {
+    transform: scale(1.1);
+    background: var(--color-gold);
+    color: black;
+}
+
+.add-to-cart-btn.btn-disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    transform: none !important;
 }
 
 /* Product Detail Responsive Styles */
