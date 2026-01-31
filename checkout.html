@@ -173,23 +173,31 @@
                                 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
                                 Payment Method</h3>
 
-                            <div class="payment-icons mb-4 flex items-center justify-between w-full flex-wrap gap-2">
-                                <!-- Adjusted Gap and reduced Apple Pay height -->
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa"
-                                    style="height: 20px;">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-                                    alt="Mastercard" style="height: 24px;">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg"
-                                    alt="Discover"
-                                    style="height: 12px; background: white; padding: 1px 4px; border-radius: 2px; box-sizing: content-box;">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
-                                    alt="Amex" style="height: 22px;">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"
-                                    style="height: 20px;">
-
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
-                                    alt="Apple Pay"
-                                    style="height: 22px; background: white; padding: 2px 5px; border-radius: 4px;">
+                            <div class="payment-icons mb-4 flex items-center justify-start w-full flex-wrap gap-3">
+                                <button type="button" onclick="selectPayment('visa')" class="payment-btn">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png"
+                                        alt="Visa">
+                                </button>
+                                <button type="button" onclick="selectPayment('mastercard')" class="payment-btn">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                                        alt="Mastercard">
+                                </button>
+                                <button type="button" onclick="selectPayment('discover')" class="payment-btn">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg"
+                                        alt="Discover" style="background: white;">
+                                </button>
+                                <button type="button" onclick="selectPayment('amex')" class="payment-btn">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
+                                        alt="Amex">
+                                </button>
+                                <button type="button" onclick="selectPayment('paypal')" class="payment-btn">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+                                        alt="PayPal">
+                                </button>
+                                <button type="button" onclick="selectPayment('applepay')" class="payment-btn">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+                                        alt="Apple Pay" style="background: white; border-radius: 4px;">
+                                </button>
                             </div>
 
                             <div class="form-group">
@@ -490,6 +498,26 @@
             if (taxRow) {
                 document.getElementById('tax-label').innerText = label;
                 document.getElementById('checkout-tax-amount').innerText = '$' + amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        }
+
+        function selectPayment(method) {
+            // 1. Visual Selection
+            const allBtns = document.querySelectorAll('.payment-btn');
+            allBtns.forEach(btn => btn.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+
+            // 2. Reactive Logic (Simulated Redirection)
+            if (method === 'paypal') {
+                // In a real app, this would redirect to PayPal URL
+                alert('Redirecting to secure PayPal Checkout...');
+                // window.location.href = 'https://paypal.com/...';
+            } else if (method === 'applepay') {
+                alert('Launching Apple Pay...');
+            } else if (method === 'visa' || method === 'mastercard' || method === 'amex' || method === 'discover') {
+                // Focus the card input for credit cards
+                const cardInput = document.querySelector('input[placeholder="0000 0000 0000 0000"]');
+                if (cardInput) cardInput.focus();
             }
         }
 
