@@ -104,6 +104,21 @@
       "image": "assets/silver_1kg_random.jpg",
       "description": "A serious investment for the dedicated stacker, this 1 Kilo (32.15 troy ounces) Silver Bar offers substantial value and weight. Sourced from various world-class mints, each bar is hallmarked with its weight and .999 fineness. Perfect for those looking to acquire larger quantities of silver at a competitive price point, balancing significant metal content with ease of storage.",
       "category": "coins-bullions"
+    },
+    {
+      "unit": "g",
+      "metal": "Gold",
+      "name": "21k English Mkhamas (Replica)",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 250,
+      "weight": 40,
+      "id": "Cb #8",
+      "image": "assets/english_sovereign_22k.jpg",
+      "description": "Capture the essence of British numismatic history with this magnificent 21-karat Mkhamas coin. A high-purity replica of the classic English Sovereign, this 40-gram coin features the legendary King George and the Dragon motif in exquisite detail. Weighing a substantial 40 grams, it is a bold statement piece that combines the prestige of the English Mkhamas style with the intrinsic value of 21k gold.\"",
+      "category": "coins-bullions"
     }
   ]
 }
