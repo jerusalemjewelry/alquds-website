@@ -46,16 +46,30 @@ function calculatePrice(item, config) {
 
     // Special Logic for Coins & Bullions
     if (item.category === 'coins-bullions') {
-        const spotPrice = config.spotPrice24kOunce;
-        const premium = item.premium || 0;
-        const karat = item.karat || 24; // Default to 24k if not set
-        const purityFactor = karat / 24;
+        let spotPrice = config.spotPrice24kOunce;
+        let purityFactor = 1;
 
-        // Calculate Base Metal Value (Adjusted for Purity)
+        if (item.metal === 'Silver') {
+            spotPrice = config.silverPriceOunce;
+            // Silver is usually .999 fine (investment grade), so factor is 1. 
+            // If it's Sterling (.925), we could handle that, but for bullion it's usually fine.
+            purityFactor = 1;
+        } else if (item.metal === 'Platinum') {
+            spotPrice = config.platinumPriceOunce;
+            purityFactor = 1;
+        } else {
+            // Default to Gold
+            const karat = item.karat || 24;
+            purityFactor = karat / 24;
+        }
+
+        const premium = item.premium || 0;
+
+        // Calculate Base Metal Value (Adjusted)
         let baseValue = 0;
         const weightVal = parseFloat(item.weight);
 
-        // Adjusted Spot Price per Ounce for this specific purity
+        // Adjusted Spot Price per Ounce
         const adjustedSpot = spotPrice * purityFactor;
 
         if (item.unit === 'oz') {
@@ -641,9 +655,25 @@ function renderProductDetail() {
             <div style="background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-bottom: 25px;">
                 <table style="width: 100%; border-collapse: collapse;">
                     ${product.category === 'coins-bullions' ?
-            `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat || 24}k</td></tr>
-                         <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Market Spot Price:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">$${pricingConfig.spotPrice24kOunce.toLocaleString()}/oz</td></tr>
-                         <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Premium:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">$${product.premium ? product.premium.toLocaleString() : '0'}</td></tr>`
+            (() => {
+                let spotLabel = 'Market Spot Price';
+                let spotVal = pricingConfig.spotPrice24kOunce;
+                let purityRow = `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat || 24}k</td></tr>`;
+
+                if (product.metal === 'Silver') {
+                    spotVal = pricingConfig.silverPriceOunce;
+                    purityRow = `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Metal:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">Silver (.999)</td></tr>`;
+                } else if (product.metal === 'Platinum') {
+                    spotVal = pricingConfig.platinumPriceOunce;
+                    purityRow = `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Metal:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">Platinum (.9995)</td></tr>`;
+                }
+
+                return `
+                    ${purityRow}
+                    <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">${spotLabel}:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">$${spotVal.toLocaleString()}/oz</td></tr>
+                    <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Premium:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">$${product.premium ? product.premium.toLocaleString() : '0'}</td></tr>
+                `;
+            })()
             :
             `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat} Karats</td></tr>
                          <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Weight:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.weight} ${product.weight === 'Varies' ? '' : 'Gms'}</td></tr>
