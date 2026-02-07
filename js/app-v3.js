@@ -407,7 +407,9 @@ function renderCatalog(reset = true) {
             const mName = p.name ? p.name.toLowerCase().includes(term) : false;
             const mId = p.id ? String(p.id).toLowerCase().includes(term) : false;
             const mItem = p.itemNo ? String(p.itemNo).toLowerCase().includes(term) : false;
-            return mName || mId || mItem;
+            const mCategory = p.category ? p.category.toLowerCase().includes(term) : false;
+            const mDesc = p.description ? p.description.toLowerCase().includes(term) : false;
+            return mName || mId || mItem || mCategory || mDesc;
         });
         pageLabel = `Search Results: "${searchParam}"`;
         currentFilteredProducts = scopeProducts;
