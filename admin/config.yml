@@ -164,6 +164,7 @@ collections:
               - {label: "Weight", name: "weight", widget: "number", value_type: "float"}
               - {label: "Unit", name: "unit", widget: "select", options: ["oz", "g"], default: "oz"}
               - {label: "Premium ($)", name: "premium", widget: "number", value_type: "float"}
+              - {label: "Dynamic Pricing", name: "isDynamic", widget: "boolean", default: true, hidden: true}
               - {label: "Image", name: "image", widget: "image"}
               - {label: "Description", name: "description", widget: "text"}
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
