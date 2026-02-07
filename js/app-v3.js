@@ -293,7 +293,7 @@ function createProductCard(product) {
     return `
         <div class="${cardClass}">
             <div style="position: relative; overflow: hidden;">
-                <a href="product.html?id=${product.id}" style="display: block;">
+                <a href="product.html?id=${encodeURIComponent(product.id)}" style="display: block;">
                     ${overlayHTML}
                     <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                 </a>
@@ -303,7 +303,7 @@ function createProductCard(product) {
             </div>
             <div class="product-info">
                 <div class="product-meta">${product.karat} Gold | ${product.weight}</div>
-                <h3 class="product-title"><a href="product.html?id=${product.id}">${product.name}</a></h3>
+                <h3 class="product-title"><a href="product.html?id=${encodeURIComponent(product.id)}">${product.name}</a></h3>
                 <div class="product-price">$${product.price ? product.price.toLocaleString() : 'N/A'}</div>
             </div>
         </div>
