@@ -48,16 +48,21 @@ function calculatePrice(item, config) {
     if (item.category === 'coins-bullions') {
         const spotPrice = config.spotPrice24kOunce;
         const premium = item.premium || 0;
+        const karat = item.karat || 24; // Default to 24k if not set
+        const purityFactor = karat / 24;
 
-        // Calculate Base Metal Value
+        // Calculate Base Metal Value (Adjusted for Purity)
         let baseValue = 0;
         const weightVal = parseFloat(item.weight);
 
+        // Adjusted Spot Price per Ounce for this specific purity
+        const adjustedSpot = spotPrice * purityFactor;
+
         if (item.unit === 'oz') {
-            baseValue = spotPrice * weightVal;
+            baseValue = adjustedSpot * weightVal;
         } else {
             // Grams
-            baseValue = (spotPrice / gramsPerOunce) * weightVal;
+            baseValue = (adjustedSpot / gramsPerOunce) * weightVal;
         }
 
         // Final Price = Base Metal Value + Flat Premium
@@ -636,7 +641,8 @@ function renderProductDetail() {
             <div style="background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-bottom: 25px;">
                 <table style="width: 100%; border-collapse: collapse;">
                     ${product.category === 'coins-bullions' ?
-            `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Market Spot Price:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">$${pricingConfig.spotPrice24kOunce.toLocaleString()}/oz</td></tr>
+            `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat || 24}k</td></tr>
+                         <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Market Spot Price:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">$${pricingConfig.spotPrice24kOunce.toLocaleString()}/oz</td></tr>
                          <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Premium:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">$${product.premium ? product.premium.toLocaleString() : '0'}</td></tr>`
             :
             `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat} Karats</td></tr>
