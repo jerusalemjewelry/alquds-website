@@ -151,4 +151,18 @@ collections:
       - name: "coins-bullions"
         label: "Coins & Bullions"
         file: "data/products/coins-bullions.json"
-        fields: *product_fields
+        fields:
+          - label: "Products List"
+            name: "products_list"
+            widget: "list"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "ID", name: "id", widget: "string"}
+              - {label: "Category", name: "category", widget: "select", options: ["coins-bullions"], default: "coins-bullions", hidden: true}
+              - {label: "Weight", name: "weight", widget: "number", value_type: "float"}
+              - {label: "Unit", name: "unit", widget: "select", options: ["oz", "g"], default: "oz"}
+              - {label: "Premium ($)", name: "premium", widget: "number", value_type: "float"}
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Featured?", name: "featured", widget: "boolean", default: false}
+              - {label: "Out of Stock?", name: "outOfStock", widget: "boolean", required: false, default: false}
