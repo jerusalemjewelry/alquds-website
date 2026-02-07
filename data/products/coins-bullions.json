@@ -15,7 +15,7 @@
         },
         {
             "id": "english-sovereign-22k",
-            "name": "22k English Gold Sovereign Coin",
+            "name": "22k English Gold Sovereign Lira",
             "category": "coins-bullions",
             "karat": 22,
             "weight": 8,
@@ -28,7 +28,7 @@
         },
         {
             "id": "english-mkhamas-21k",
-            "name": "21k English Mkhamas Coin (Replica)",
+            "name": "21k English Mkhamas Lira (Replica)",
             "category": "coins-bullions",
             "karat": 21,
             "weight": 7,
@@ -54,7 +54,7 @@
         },
         {
             "id": "mexican-centenario-50p",
-            "name": "Mexican 50 Pesos Gold Coin - The Centenario",
+            "name": "Mexican 50 Pesos Gold Lira - The Centenario",
             "category": "coins-bullions",
             "karat": 21.6,
             "weight": 41.7,
