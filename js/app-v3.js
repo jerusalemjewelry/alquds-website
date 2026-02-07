@@ -442,9 +442,32 @@ function renderCatalog(reset = true) {
 
     if (searchParam) {
         const term = searchParam.trim().toLowerCase();
+
+        // Keyword Mapping for Smarter Search
+        const keywordMap = {
+            'oz': 'ounce',
+            'ounce': 'oz',
+            'g': 'gram',
+            'gms': 'grams',
+            'gram': 'g',
+            'k': 'karat',
+            'karat': 'k',
+            'wht': 'white',
+            'yel': 'yellow',
+            'chn': 'chain',
+            'brac': 'bracelet'
+        };
+
         scopeProducts = products.filter(p => {
-            // Tokenize search term for smarter matching
-            const searchTerms = term.split(/\s+/).filter(t => t.length > 0);
+            // Tokenize search term
+            let searchTerms = term.split(/\s+/).filter(t => t.length > 0);
+
+            // Expand search terms with mapped keywords
+            let expandedTerms = [];
+            searchTerms.forEach(t => {
+                expandedTerms.push(t);
+                if (keywordMap[t]) expandedTerms.push(keywordMap[t]);
+            });
 
             // searchable string combining all relevant fields
             const productText = [
@@ -453,11 +476,19 @@ function renderCatalog(reset = true) {
                 String(p.itemNo),
                 p.category,
                 p.description,
-                p.color
+                p.color,
+                p.weight, // Added weight to searchable fields
+                p.unit    // Added unit to searchable fields
             ].join(' ').toLowerCase();
 
-            // Check if ALL search terms are present in the product text
-            return searchTerms.every(t => productText.includes(t));
+            // Check if ANY of the expanded terms for EACH original term is present
+            // e.g. if user types "1 oz", we check:
+            // "1" is in text AND ("oz" OR "ounce") is in text
+            return searchTerms.every(originalTerm => {
+                const variants = [originalTerm];
+                if (keywordMap[originalTerm]) variants.push(keywordMap[originalTerm]);
+                return variants.some(v => productText.includes(v));
+            });
         });
         pageLabel = `Search Results: "${searchParam}"`;
         currentFilteredProducts = scopeProducts;
