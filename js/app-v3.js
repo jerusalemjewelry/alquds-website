@@ -44,6 +44,26 @@ function calculatePrice(item, config) {
     // Default to 31.1035 if missing from JSON (Admin might not save it)
     const gramsPerOunce = config.gramsPerOunce || 31.1035;
 
+    // Special Logic for Coins & Bullions
+    if (item.category === 'coins-bullions') {
+        const spotPrice = config.spotPrice24kOunce;
+        const premium = item.premium || 0;
+
+        // Calculate Base Metal Value
+        let baseValue = 0;
+        const weightVal = parseFloat(item.weight);
+
+        if (item.unit === 'oz') {
+            baseValue = spotPrice * weightVal;
+        } else {
+            // Grams
+            baseValue = (spotPrice / gramsPerOunce) * weightVal;
+        }
+
+        // Final Price = Base Metal Value + Flat Premium
+        return Math.ceil(baseValue + premium);
+    }
+
     const purityFactor = item.karat / 24;
     const rawPricePerGram = (config.spotPrice24kOunce / gramsPerOunce) * purityFactor;
     const priceWithMargin = rawPricePerGram * (1 + (item.marginPercent / 100));
@@ -615,9 +635,14 @@ function renderProductDetail() {
             <div class="pd-price">$${product.price ? product.price.toLocaleString() : 'N/A'}</div>
             <div style="background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-bottom: 25px;">
                 <table style="width: 100%; border-collapse: collapse;">
-                    <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat} Karats</td></tr>
-                    <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Weight:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.weight} ${product.weight === 'Varies' ? '' : 'Gms'}</td></tr>
-                    <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Item No.:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">${product.itemNo || product.id || 'N/A'}</td></tr>
+                    ${product.category === 'coins-bullions' ?
+            `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Market Spot Price:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">$${pricingConfig.spotPrice24kOunce.toLocaleString()}/oz</td></tr>
+                         <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Premium:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">$${product.premium ? product.premium.toLocaleString() : '0'}</td></tr>`
+            :
+            `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat} Karats</td></tr>
+                         <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Weight:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.weight} ${product.weight === 'Varies' ? '' : 'Gms'}</td></tr>
+                         <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Item No.:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">${product.itemNo || product.id || 'N/A'}</td></tr>`
+        }
                 </table>
             </div>
             <div class="flex items-center gap-4" style="margin-bottom: 25px;">
