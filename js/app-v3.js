@@ -404,12 +404,21 @@ function renderCatalog(reset = true) {
     if (searchParam) {
         const term = searchParam.trim().toLowerCase();
         scopeProducts = products.filter(p => {
-            const mName = p.name ? p.name.toLowerCase().includes(term) : false;
-            const mId = p.id ? String(p.id).toLowerCase().includes(term) : false;
-            const mItem = p.itemNo ? String(p.itemNo).toLowerCase().includes(term) : false;
-            const mCategory = p.category ? p.category.toLowerCase().includes(term) : false;
-            const mDesc = p.description ? p.description.toLowerCase().includes(term) : false;
-            return mName || mId || mItem || mCategory || mDesc;
+            // Tokenize search term for smarter matching
+            const searchTerms = term.split(/\s+/).filter(t => t.length > 0);
+
+            // searchable string combining all relevant fields
+            const productText = [
+                p.name,
+                String(p.id),
+                String(p.itemNo),
+                p.category,
+                p.description,
+                p.color
+            ].join(' ').toLowerCase();
+
+            // Check if ALL search terms are present in the product text
+            return searchTerms.every(t => productText.includes(t));
         });
         pageLabel = `Search Results: "${searchParam}"`;
         currentFilteredProducts = scopeProducts;
