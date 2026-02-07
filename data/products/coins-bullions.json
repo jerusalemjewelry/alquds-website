@@ -12,7 +12,7 @@
             "isDynamic": true,
             "image": "assets/pamp_1oz_gold.jpg",
             "description": "Invest in timeless elegance with the world-renowned 1 oz PAMP Suisse Gold Bar, featuring the iconic Lady Fortuna design. Minted in Switzerland by PAMP (Produits Artistiques Métaux Précieux), this 24-karat (999.9 purity) gold bar represents the pinnacle of quality and craftsmanship. Each bar is individually sealed in assay packaging, guaranteeing its authenticity, weight (31.104g), and purity. A favorite among investors and collectors alike, PAMP Suisse bars are recognized globally for their superior artistry and value retention.",
-            "featured": true,
+            "featured": false,
             "outOfStock": false
         },
         {
@@ -72,6 +72,7 @@
             "isDynamic": true,
             "image": "assets/mexican_centenario_50p.jpg",
             "description": "First minted in 1921 to commemorate the centennial of Mexico's independence from Spain, the 50 Pesos 'Centenario' is one of the most beautiful and substantial gold bullion coins in the world. It features the breathtaking 'Winged Victory' (Angel of Independence) on the obverse and the Mexican Coat of Arms on the reverse. With a gold content of 1.2057 troy ounces (37.5 grams of pure gold) and a purity of 90% (21.6 karat), this large, historic coin is a prestigious addition to any portfolio.",
+            "featured": false,
             "outOfStock": false
         },
         {
