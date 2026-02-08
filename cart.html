@@ -172,25 +172,29 @@
                 total += itemTotal;
                 return `
                     <div class="cart-item-card">
-                        <img src="${item.image}" class="cart-item-image">
+                        <a href="product.html?id=${item.id}">
+                            <img src="${item.image}" class="cart-item-image hover-gold" style="cursor:pointer; border:1px solid #333;">
+                        </a>
                         
                         <div class="cart-item-details">
-                            <h4 class="text-white" style="font-family: var(--font-heading); margin-bottom: 5px; font-size: 1.1rem;">${item.name}</h4>
-                            <div class="text-muted" style="font-size: 0.95rem;">${item.karat} Gold</div>
+                            <h4 class="text-white" style="font-family: var(--font-heading); margin-bottom: 5px; font-size: 1.1rem;">
+                                <a href="product.html?id=${item.id}" class="text-white hover-gold" style="text-decoration:none;">${item.name}</a>
+                            </h4>
+                            <div class="text-muted" style="font-size: 0.95rem;">${item.karat ? item.karat + ' Gold' : ''}</div>
                             <div class="text-gold font-bold mt-1" style="font-size: 1.1rem;">$${item.price.toLocaleString()}</div>
                         </div>
 
                         <div class="cart-item-controls-wrapper">
                             <!-- Quantity Controls -->
                             <div class="flex items-center gap-2">
-                                <button onclick="updateQty(${item.id}, -1)" class="quantity-btn" 
+                                <button onclick="updateQty('${item.id}', -1)" class="quantity-btn" 
                                     onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
                                     onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
                                     style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 32px; height: 32px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
                                     <i class="fa-solid fa-minus" style="font-size: 0.8rem;"></i>
                                 </button>
                                 <span class="text-white font-bold mx-2" style="font-size: 1.1rem; min-width: 25px; text-align: center;">${item.quantity}</span>
-                                <button onclick="updateQty(${item.id}, 1)" class="quantity-btn" 
+                                <button onclick="updateQty('${item.id}', 1)" class="quantity-btn" 
                                     onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
                                     onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
                                     style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 32px; height: 32px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
@@ -198,9 +202,9 @@
                                 </button>
                             </div>
 
-                            <!-- Remove Button -->
-                            <button onclick="removeItem(${item.id})" class="ml-4" title="Remove Item" style="color: var(--color-text-muted); background: transparent; border: none; font-size: 1.3rem; cursor: pointer; transition: color 0.3s;">
-                                <i class="fa-solid fa-trash hover:text-red-500"></i>
+                            <!-- Remove Button (X icon) -->
+                            <button onclick="removeItem('${item.id}')" class="ml-4" title="Remove Item" style="color: var(--color-text-muted); background: transparent; border: 1px solid #333; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor: pointer; transition: all 0.3s;">
+                                <i class="fa-solid fa-xmark hover:text-white"></i>
                             </button>
                         </div>
                     </div>
