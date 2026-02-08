@@ -743,7 +743,8 @@ input::placeholder {
 /* Payment Icons Container - Fix Stretching */
 .payment-icons {
     display: flex;
-    flex-wrap: wrap; /* CRITICAL: Allow icons to wrap on mobile */
+    flex-wrap: wrap;
+    /* CRITICAL: Allow icons to wrap on mobile */
     gap: 10px;
 }
 
@@ -1209,8 +1210,7 @@ input::placeholder {
 }
 
 .product-card.out-of-stock .product-image {
-    opacity: 0.6;
-    filter: grayscale(100%);
+    /* Removed grayscale filter - keep image in full color */
 }
 
 /* Product Card "Add to Cart" Button */
