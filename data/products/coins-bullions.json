@@ -6,7 +6,7 @@
       "name": "24k 1 oz PAMP Suisse Gold Bar - Lady Fortuna",
       "featured": false,
       "karat": 24,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "premium": 200,
       "weight": 1,
