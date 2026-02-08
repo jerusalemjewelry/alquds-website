@@ -119,7 +119,32 @@ function renderCheckout(cart) {
 
         // Update UI
         if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        if (taxEl) taxEl.innerText = '$' + tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Dynamically Update/Create Tax Row
+        let taxRow = document.getElementById('checkout-tax-row');
+        if (!taxRow && totalEl) {
+            // Create Tax Row if missing
+            const container = totalEl.closest('.flex.flex-col');
+            const totalRow = totalEl.closest('div'); // Grand Total Row
+            const newRow = document.createElement('div');
+            newRow.id = 'checkout-tax-row';
+            newRow.className = 'flex justify-between';
+            newRow.style.width = '300px';
+            newRow.style.marginBottom = '10px';
+            newRow.innerHTML = `<span class="text-muted" id="tax-label">Estimated Tax:</span><span class="text-white" id="checkout-tax-amount">$0.00</span>`;
+            if (container && totalRow) {
+                container.insertBefore(newRow, totalRow);
+            }
+            taxRow = newRow;
+        }
+
+        if (taxRow) {
+            const taxLabel = document.getElementById('tax-label');
+            const taxAmountEl = document.getElementById('checkout-tax-amount');
+            if (taxLabel) taxLabel.innerText = (state === 'IL') ? `Tax (IL ${taxRate * 100}%):` : 'Estimated Tax:';
+            if (taxAmountEl) taxAmountEl.innerText = '$' + tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
         if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
