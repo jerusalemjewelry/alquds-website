@@ -1,41 +1,29 @@
 const CHECKOUT_SHIPPING_COST = 50.00;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // DEBUG: Inject visual troubleshooter
-    const debugBox = document.createElement('div');
-    debugBox.style.cssText = "position:absolute; top:0; left:0; width:100%; height: auto; background: red; color: white; padding: 10px; z-index: 9999; font-weight: bold; font-family: monospace; white-space: pre-wrap; display: none;";
-    document.body.appendChild(debugBox);
+    console.log("=== CHECKOUT LOADED ===");
 
-    function log(msg) {
-        // debugBox.innerHTML += msg + "\n";
-        console.log(msg);
-    }
-    log("=== DEBUG CHECKOUT ===");
-
-    // 1. Get LocalStorage Cart Objects (IDs and Quantities)
+    // 1. Get LocalStorage Cart Objects
     let cart = [];
     try {
         const raw = localStorage.getItem('alquds_cart');
-        log("Raw LS Data: " + (raw ? raw.substring(0, 100) + '...' : 'NULL'));
         cart = raw ? JSON.parse(raw) : [];
-        log("Parsed Cart Length: " + cart.length);
+        console.log("Cart Items:", cart);
     } catch (e) {
-        log("Cart parse error: " + e);
+        console.error("Cart parse error:", e);
         cart = [];
     }
 
-    // 2. Update Header
+    // 2. Update Header Count
     const count = cart.reduce((acc, item) => acc + (parseInt(item.quantity) || 0), 0);
     const badge = document.getElementById('cart-count');
     if (badge) badge.innerText = count;
 
     // 3. Render State
     if (cart.length === 0) {
-        log("Rendering Empty State...");
         renderEmptyState();
     } else {
-        log("Rendering Checkout...");
-        renderCheckout(cart, log);
+        renderCheckout(cart);
     }
 });
 
@@ -56,35 +44,29 @@ function renderEmptyState() {
     }
 }
 
-function renderCheckout(cart, log) {
+function renderCheckout(cart) {
     const itemsContainer = document.getElementById('checkout-items');
     const subtotalEl = document.getElementById('checkout-subtotal');
     const totalEl = document.getElementById('checkout-total');
+    const stateSelect = document.getElementById('state');
+    const taxEl = document.getElementById('checkout-tax');
 
-    if (!itemsContainer) {
-        if (log) log("ERROR: #checkout-items not found!");
-        return;
-    }
+    if (!itemsContainer) return;
 
+    // --- RENDER ITEMS ---
     let subtotal = 0;
 
+    // Separate Lists Logic you requested:
+    // We render ALL items here, but internally track which are exempt
     itemsContainer.innerHTML = cart.map(item => {
-        // Safe Price Parsing from (potentially formatted) string
-        let rawPrice = item.price;
-        if (log) log(`Item: ${item.name}, Raw Price: ${rawPrice} (${typeof rawPrice})`);
-
-        if (typeof rawPrice === 'string') {
-            rawPrice = rawPrice.replace(/[^0-9.-]+/g, "");
-        }
-        let price = parseFloat(rawPrice);
-        if (isNaN(price)) price = 0;
-
-        if (log) log(`Parsed Price: ${price}`);
-
+        let price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
         const qty = parseInt(item.quantity) || 1;
-
         const itemTotal = price * qty;
         subtotal += itemTotal;
+
+        // Check Exemption for UI Label
+        const isExempt = isItemExempt(item);
+        const exemptLabel = isExempt ? '<div style="color: #4ade80; font-size: 0.8rem; margin-top: 4px;">Tax Exempt (Bullion)</div>' : '';
 
         return `
             <div class="flex items-center gap-4 mb-4" style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
@@ -98,6 +80,7 @@ function renderCheckout(cart, log) {
                     <div class="text-muted" style="font-size: 0.8rem;">
                         ${item.karat ? item.karat + ' Gold' : ''} | Qty: <span class="text-white">${qty}</span>
                     </div>
+                    ${exemptLabel}
                 </div>
                 <div class="text-gold font-bold" style="font-size: 1.1rem;">
                     $${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -106,76 +89,69 @@ function renderCheckout(cart, log) {
         `;
     }).join('');
 
-    // State-based Tax Logic
-    const stateSelect = document.getElementById('state');
-    let taxRate = 0;
-
+    // --- TAX CALCULATION LOGIC ---
     function calculateTotals() {
         const state = stateSelect ? stateSelect.value : '';
-        // Tax applies ONLY if state is IL
-        taxRate = (state === 'IL') ? 0.10 : 0; // 10% for Illinois
+        const taxRate = (state === 'IL') ? 0.10 : 0;
 
-        // Calculate Taxable Subtotal
-        let taxableSubtotal = 0;
-        let exemptTotal = 0;
+        let taxableAmount = 0;
+        let exemptAmount = 0;
 
         cart.forEach(item => {
-            // AGGRESSIVE EXEMPTION LOGIC
-            const idStr = String(item.id || '').toUpperCase();
-            const catStr = String(item.category || '').toUpperCase();
-            const nameStr = String(item.name || '').toUpperCase();
+            let price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+            const qty = parseInt(item.quantity) || 1;
+            const total = price * qty;
 
-            // 1. Check ID Prefix (Cb...)
-            const isCbId = idStr.startsWith('CB');
-
-            // 2. Check Category (Coins-Bullions)
-            const isCbCat = catStr.includes('COIN') || catStr.includes('BULLIO');
-
-            // 3. Check Name Keywords
-            const isCbName = nameStr.includes('BAR') || nameStr.includes('OUNCE') ||
-                nameStr.includes('SOVEREIGN') || nameStr.includes('COIN') ||
-                nameStr.includes('1 OZ') || nameStr.includes('MKHAMAS');
-
-            // If ANY match -> EXEMPT
-            const isExempt = isCbId || isCbCat || isCbName;
-
-            let priceStr = String(item.price);
-            let price = parseFloat(priceStr.replace(/[^0-9.-]+/g, "")) || 0;
-            let qty = parseInt(item.quantity) || 1;
-            let totalItemPrice = price * qty;
-
-            if (log) log(`Item: ${item.name} | Exempt: ${isExempt} (ID:${isCbId}, Cat:${isCbCat}, Name:${isCbName})`);
-
-            if (isExempt) {
-                exemptTotal += totalItemPrice;
+            if (isItemExempt(item)) {
+                exemptAmount += total;
+                console.log(`EXEMPT ITEM: ${item.name} ($${total})`);
             } else {
-                taxableSubtotal += totalItemPrice;
+                taxableAmount += total;
+                console.log(`TAXABLE ITEM: ${item.name} ($${total})`);
             }
         });
 
-        const taxAmount = taxableSubtotal * taxRate;
-        const grandTotal = subtotal + taxAmount + CHECKOUT_SHIPPING_COST;
+        const tax = taxableAmount * taxRate;
+        const grandTotal = subtotal + tax + CHECKOUT_SHIPPING_COST;
 
+        console.log(`State: ${state}, Rate: ${taxRate}, Taxable: ${taxableAmount}, Tax: ${tax}`);
+
+        // Update UI
         if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-        // Update Tax Display
-        const taxEl = document.getElementById('checkout-tax');
-        if (taxEl) taxEl.innerText = '$' + taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
+        if (taxEl) taxEl.innerText = '$' + tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-        if (log) log(`State: ${state}, Tax Rate: ${taxRate}, Taxable Subtotal: ${taxableSubtotal}, Tax: ${taxAmount}, GrandTotal: ${grandTotal}`);
     }
 
-    // Initial Calculation
+    // Helper: Centralized Exemption Logic
+    function isItemExempt(item) {
+        // 1. Check ID Prefix 'Cb' (Case Insensitive)
+        const idStr = String(item.id || '').toUpperCase();
+        if (idStr.startsWith('CB')) return true;
+
+        // 2. Check Category 'coins-bullions'
+        const cat = (item.category || '').toLowerCase().trim();
+        if (cat === 'coins-bullions') return true;
+
+        // 3. Check specific keywords in Name
+        const name = (item.name || '').toUpperCase();
+        if (name.includes('BAR') || name.includes('BULLION') || name.includes('COIN') ||
+            name.includes('SOVEREIGN') || name.includes('OUNCE') || name.includes('1 OZ') ||
+            name.includes('MKHAMAS')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // Initial Recalc
     calculateTotals();
 
-    // Re-calculate on State Change
+    // Listen for State Change
     if (stateSelect) {
         stateSelect.addEventListener('change', calculateTotals);
     }
 
-    // Hook up "Place Order" Button
+    // --- PLACE ORDER BUTTON ---
     const placeOrderBtn = document.getElementById('place-order-btn');
     if (placeOrderBtn) {
         placeOrderBtn.replaceWith(placeOrderBtn.cloneNode(true));
@@ -183,11 +159,6 @@ function renderCheckout(cart, log) {
 
         newBtn.addEventListener('click', (e) => {
             e.preventDefault();
-
-            // Remove Debug Box
-            const dbg = document.querySelector('div[style*="background: red"]');
-            if (dbg) dbg.remove();
-
             const form = document.getElementById('checkout-form');
             if (form && !form.checkValidity()) {
                 form.reportValidity();
@@ -204,7 +175,5 @@ function renderCheckout(cart, log) {
                 window.location.href = 'index.html';
             }, 2000);
         });
-    } else {
-        if (log) log("ERROR: #place-order-btn not found");
     }
 }
