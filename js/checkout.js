@@ -3,11 +3,11 @@ const CHECKOUT_SHIPPING_COST = 50.00;
 document.addEventListener('DOMContentLoaded', () => {
     // DEBUG: Inject visual troubleshooter
     const debugBox = document.createElement('div');
-    debugBox.style.cssText = "position:absolute; top:0; left:0; width:100%; height: auto; background: red; color: white; padding: 10px; z-index: 9999; font-weight: bold; font-family: monospace; white-space: pre-wrap;";
+    debugBox.style.cssText = "position:absolute; top:0; left:0; width:100%; height: auto; background: red; color: white; padding: 10px; z-index: 9999; font-weight: bold; font-family: monospace; white-space: pre-wrap; display: none;";
     document.body.appendChild(debugBox);
 
     function log(msg) {
-        debugBox.innerHTML += msg + "\n";
+        // debugBox.innerHTML += msg + "\n";
         console.log(msg);
     }
     log("=== DEBUG CHECKOUT ===");
@@ -116,32 +116,45 @@ function renderCheckout(cart, log) {
         taxRate = (state === 'IL') ? 0.10 : 0; // 10% for Illinois
 
         // Calculate Taxable Subtotal
-        // Calculate Taxable Subtotal
         let taxableSubtotal = 0;
+        let exemptTotal = 0;
+
         cart.forEach(item => {
-            // STRICT EXEMPTION: Check ID Prefix 'Cb' (Case Insensitive)
-            const idStr = String(item.id || '');
-            const isCbItem = idStr.toUpperCase().startsWith('CB');
+            // AGGRESSIVE EXEMPTION LOGIC
+            const idStr = String(item.id || '').toUpperCase();
+            const catStr = String(item.category || '').toUpperCase();
+            const nameStr = String(item.name || '').toUpperCase();
 
-            // Backup Check: Category
-            const cat = (item.category || '').toLowerCase().trim();
-            const isCategoryMatch = cat === 'coins-bullions';
+            // 1. Check ID Prefix (Cb...)
+            const isCbId = idStr.startsWith('CB');
 
-            // If ID matches 'Cb...' OR category matches -> EXEMPT
-            const isExempt = isCbItem || isCategoryMatch;
+            // 2. Check Category (Coins-Bullions)
+            const isCbCat = catStr.includes('COIN') || catStr.includes('BULLIO');
 
-            if (log) log(`Item: ${item.name} | ID: ${idStr} | Exempt: ${isExempt}`);
+            // 3. Check Name Keywords
+            const isCbName = nameStr.includes('BAR') || nameStr.includes('OUNCE') ||
+                nameStr.includes('SOVEREIGN') || nameStr.includes('COIN') ||
+                nameStr.includes('1 OZ') || nameStr.includes('MKHAMAS');
 
-            if (!isExempt) {
-                let priceStr = String(item.price);
-                // Remove $, commas, etc.
-                let price = parseFloat(priceStr.replace(/[^0-9.-]+/g, "")) || 0;
-                taxableSubtotal += price * (parseInt(item.quantity) || 1);
+            // If ANY match -> EXEMPT
+            const isExempt = isCbId || isCbCat || isCbName;
+
+            let priceStr = String(item.price);
+            let price = parseFloat(priceStr.replace(/[^0-9.-]+/g, "")) || 0;
+            let qty = parseInt(item.quantity) || 1;
+            let totalItemPrice = price * qty;
+
+            if (log) log(`Item: ${item.name} | Exempt: ${isExempt} (ID:${isCbId}, Cat:${isCbCat}, Name:${isCbName})`);
+
+            if (isExempt) {
+                exemptTotal += totalItemPrice;
+            } else {
+                taxableSubtotal += totalItemPrice;
             }
         });
 
         const taxAmount = taxableSubtotal * taxRate;
-        const grandTotal = subtotal + taxAmount + CHECKOUT_SHIPPING_COST; // Assuming fixed shipping for now
+        const grandTotal = subtotal + taxAmount + CHECKOUT_SHIPPING_COST;
 
         if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
