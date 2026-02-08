@@ -48,7 +48,8 @@ function renderCheckout(cart) {
     const itemsContainer = document.getElementById('checkout-items');
     const subtotalEl = document.getElementById('checkout-subtotal');
     const totalEl = document.getElementById('checkout-total');
-    const stateSelect = document.getElementById('state');
+    // FIX: Select by NAME attribute since ID is missing in HTML
+    const stateSelect = document.querySelector('select[name="state"]');
     const taxEl = document.getElementById('checkout-tax');
 
     if (!itemsContainer) return;
