@@ -302,7 +302,10 @@ function createProductCard(product) {
                 </button>
             </div>
             <div class="product-info">
-                <div class="product-meta">${product.karat} Gold | ${product.weight}</div>
+                <div class="product-meta">
+                    ${product.metal === 'Silver' ? 'Silver' : (product.metal === 'Platinum' ? 'Platinum' : (product.karat ? product.karat + 'k Gold' : 'Gold'))} 
+                    | ${product.weight}
+                </div>
                 <h3 class="product-title"><a href="product.html?id=${encodeURIComponent(product.id)}">${product.name}</a></h3>
                 <div class="product-price">$${product.price ? product.price.toLocaleString() : 'N/A'}</div>
             </div>
