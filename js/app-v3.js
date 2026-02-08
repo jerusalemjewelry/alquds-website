@@ -680,7 +680,7 @@ function renderProductDetail() {
         <div class="pd-image-col">
             <div style="position: relative;">
                 ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
-                <img src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px; ${isOutOfStock ? 'filter: grayscale(100%); opacity: 0.6;' : ''}">
+                <img src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px;">
             </div>
         </div>
         <div class="pd-info-col">
