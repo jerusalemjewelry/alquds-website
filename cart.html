@@ -203,7 +203,10 @@
                             </div>
 
                             <!-- Remove Text Button -->
-                            <button onclick="confirmRemove('${item.id}')" class="text-xs hover:text-gold underline" 
+                            <button onclick="confirmRemove('${item.id}')" 
+                                onmouseover="this.style.color='var(--color-gold)';" 
+                                onmouseout="this.style.color='white';"
+                                class="text-xs underline" 
                                 style="color: white; background: transparent; border: none; cursor: pointer; margin-top: 8px; margin-left: 15px; letter-spacing: 1px; transition: color 0.3s; font-weight: normal; font-family: var(--font-body); font-size: 0.75rem;">
                                 REMOVE
                             </button>
