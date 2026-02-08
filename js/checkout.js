@@ -116,12 +116,26 @@ function renderCheckout(cart, log) {
         taxRate = (state === 'IL') ? 0.10 : 0; // 10% for Illinois
 
         // Calculate Taxable Subtotal
-        // Coins & Bullions are ALWAYS exempt
+        // Calculate Taxable Subtotal
         let taxableSubtotal = 0;
         cart.forEach(item => {
-            const isExempt = item.category === 'coins-bullions';
+            // STRICT EXEMPTION: Check ID Prefix 'Cb' (Case Insensitive)
+            const idStr = String(item.id || '');
+            const isCbItem = idStr.toUpperCase().startsWith('CB');
+
+            // Backup Check: Category
+            const cat = (item.category || '').toLowerCase().trim();
+            const isCategoryMatch = cat === 'coins-bullions';
+
+            // If ID matches 'Cb...' OR category matches -> EXEMPT
+            const isExempt = isCbItem || isCategoryMatch;
+
+            if (log) log(`Item: ${item.name} | ID: ${idStr} | Exempt: ${isExempt}`);
+
             if (!isExempt) {
-                let price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+                let priceStr = String(item.price);
+                // Remove $, commas, etc.
+                let price = parseFloat(priceStr.replace(/[^0-9.-]+/g, "")) || 0;
                 taxableSubtotal += price * (parseInt(item.quantity) || 1);
             }
         });
