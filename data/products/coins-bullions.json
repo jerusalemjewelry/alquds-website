@@ -18,7 +18,7 @@
     {
       "unit": "g",
       "metal": "Gold",
-      "name": "22k English Gold Sovereign Lira",
+      "name": "22k English Gold Sovereign Coin Lira",
       "featured": false,
       "karat": 22,
       "outOfStock": false,
@@ -33,7 +33,7 @@
     {
       "unit": "g",
       "metal": "Gold",
-      "name": "21k English Lira (Replica)",
+      "name": "21k English Gold Sovereign Coin Lira (Replica)",
       "featured": false,
       "karat": 21,
       "outOfStock": false,
@@ -48,7 +48,7 @@
     {
       "unit": "g",
       "metal": "Gold",
-      "name": "21k Turkish Gold Coin Lira",
+      "name": "21k Turkish Gold Sovereign Coin Lira (Rashadi)",
       "featured": false,
       "karat": 21,
       "outOfStock": false,
@@ -73,6 +73,21 @@
       "id": "Cb8",
       "image": "assets/english_sovereign_22k.jpg",
       "description": "Capture the essence of British numismatic history with this magnificent 21-karat Mkhamas coin. A high-purity replica of the classic English Sovereign, this 40-gram coin features the legendary King George and the Dragon motif in exquisite detail. Weighing a substantial 40 grams, it is a bold statement piece that combines the prestige of the English Mkhamas style with the intrinsic value of 21k gold.\"",
+      "category": "coins-bullions"
+    },
+    {
+      "unit": "g",
+      "metal": "Gold",
+      "name": "21k Turkish Mkhamas (Rashadi)",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 200,
+      "weight": 35,
+      "id": "Cb9",
+      "image": "assets/placeholder.png",
+      "description": "Immerse yourself in Ottoman heritage with this exquisite 35-gram Turkish Mkhamas, also known as the Rashadi. Crafted in rich 21-karat gold, this substantial coin features intricate calligraphy and traditional patterns reflecting the artistry of a bygone era. Weighing an impressive 35 grams, it is a treasured piece for both its cultural significance and its solid investment value, perfect for adornment or as a centerpiece in any gold collection",
       "category": "coins-bullions"
     },
     {
