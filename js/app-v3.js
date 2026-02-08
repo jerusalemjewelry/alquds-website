@@ -5,6 +5,12 @@ let pricingConfig = {};
 let minPriceFilter = 0;
 let maxPriceFilter = 100000;
 
+// Helper: Get Random Items from Array
+function getRandomItems(array, count) {
+    const shuffled = [...array].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, Math.min(count, array.length));
+}
+
 
 
 // Config: Map URL 'cat' to Product Data Properties
@@ -381,11 +387,13 @@ async function initApp() {
             return { ...p, price: calculatedPrice };
         });
 
-        // 3. Render Home Featured
+        // 3. Render Home Featured (4 Random Items)
         const featuredGrid = document.getElementById('featured-products-grid');
         if (featuredGrid) {
             const featured = products.filter(p => p.featured);
-            featuredGrid.innerHTML = featured.map(createProductCard).join('');
+            // Get 4 random featured items
+            const randomFeatured = getRandomItems(featured, 4);
+            featuredGrid.innerHTML = randomFeatured.map(createProductCard).join('');
         }
 
         // 4. Render Catalog
