@@ -106,13 +106,47 @@ function renderCheckout(cart, log) {
         `;
     }).join('');
 
-    // Totals
-    const grandTotal = subtotal + CHECKOUT_SHIPPING_COST;
+    // State-based Tax Logic
+    const stateSelect = document.getElementById('state');
+    let taxRate = 0;
 
-    if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function calculateTotals() {
+        const state = stateSelect ? stateSelect.value : '';
+        // Tax applies ONLY if state is IL
+        taxRate = (state === 'IL') ? 0.10 : 0; // 10% for Illinois
 
-    if (log) log(`Subtotal: ${subtotal}, GrandTotal: ${grandTotal}`);
+        // Calculate Taxable Subtotal
+        // Coins & Bullions are ALWAYS exempt
+        let taxableSubtotal = 0;
+        cart.forEach(item => {
+            const isExempt = item.category === 'coins-bullions';
+            if (!isExempt) {
+                let price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+                taxableSubtotal += price * (parseInt(item.quantity) || 1);
+            }
+        });
+
+        const taxAmount = taxableSubtotal * taxRate;
+        const grandTotal = subtotal + taxAmount + CHECKOUT_SHIPPING_COST; // Assuming fixed shipping for now
+
+        if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Update Tax Display
+        const taxEl = document.getElementById('checkout-tax');
+        if (taxEl) taxEl.innerText = '$' + taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        if (log) log(`State: ${state}, Tax Rate: ${taxRate}, Taxable Subtotal: ${taxableSubtotal}, Tax: ${taxAmount}, GrandTotal: ${grandTotal}`);
+    }
+
+    // Initial Calculation
+    calculateTotals();
+
+    // Re-calculate on State Change
+    if (stateSelect) {
+        stateSelect.addEventListener('change', calculateTotals);
+    }
 
     // Hook up "Place Order" Button
     const placeOrderBtn = document.getElementById('place-order-btn');
