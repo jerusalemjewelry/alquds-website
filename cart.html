@@ -184,7 +184,7 @@
                             <div class="text-gold font-bold mt-1" style="font-size: 1.1rem;">$${item.price.toLocaleString()}</div>
                         </div>
 
-                        <div class="cart-item-controls-wrapper">
+                        <div class="cart-item-controls-wrapper" style="flex-direction: column; align-items: center; gap: 5px;">
                             <!-- Quantity Controls -->
                             <div class="flex items-center gap-2">
                                 <button onclick="updateQty('${item.id}', -1)" class="quantity-btn" 
@@ -202,9 +202,10 @@
                                 </button>
                             </div>
 
-                            <!-- Remove Button (X icon) -->
-                            <button onclick="removeItem('${item.id}')" class="ml-4" title="Remove Item" style="color: var(--color-text-muted); background: transparent; border: 1px solid #333; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor: pointer; transition: all 0.3s;">
-                                <i class="fa-solid fa-xmark hover:text-white"></i>
+                            <!-- Remove Text Button -->
+                            <button onclick="confirmRemove('${item.id}')" class="text-xs hover:text-white underline" 
+                                style="color: #666; background: transparent; border: none; cursor: pointer; margin-top: 5px; letter-spacing: 1px; transition: color 0.3s;">
+                                REMOVE
                             </button>
                         </div>
                     </div>
@@ -219,6 +220,9 @@
         }
 
         // Global functions for inline onclick handlers
+        // Track item to remove
+        let itemToRemove = null;
+
         window.updateQty = function (id, change) {
             const item = cart.find(p => p.id === id);
             if (!item) return;
@@ -226,9 +230,8 @@
             item.quantity += change;
 
             if (item.quantity <= 0) {
-                // Use custom confirm logic here too if desired, or keep generic for now
-                // Simplification for this request: just remove
-                window.removeItem(id);
+                // If quantity goes to 0, ask for confirmation
+                window.confirmRemove(id);
                 return;
             }
 
@@ -236,24 +239,53 @@
             renderCart();
         };
 
-        window.removeItem = function (id) {
-            cart = cart.filter(p => p.id !== id);
-            localStorage.setItem('alquds_cart', JSON.stringify(cart));
-            renderCart();
+        window.confirmRemove = function (id) {
+            itemToRemove = id;
+            const modal = document.getElementById('custom-confirm');
+            const title = modal.querySelector('h3');
+            const text = modal.querySelector('p');
+            const confirmBtn = modal.querySelector('.btn-primary');
+
+            // Update Modal Content for Single Item
+            title.innerText = 'Remove Item?';
+            text.innerText = 'Are you sure you want to remove this item from your bag?';
+            confirmBtn.innerText = 'YES, REMOVE';
+            confirmBtn.onclick = () => closeConfirm(true); // Default action
+
+            modal.style.display = 'flex';
         };
 
         window.triggerClearCart = function () {
-            document.getElementById('custom-confirm').style.display = 'flex';
+            itemToRemove = 'ALL'; // Special flag for clear all
+            const modal = document.getElementById('custom-confirm');
+            const title = modal.querySelector('h3');
+            const text = modal.querySelector('p');
+            const confirmBtn = modal.querySelector('.btn-primary');
+
+            title.innerText = 'Clear Shopping Bag?';
+            text.innerText = 'This action will remove all items from your cart and cannot be undone.';
+            confirmBtn.innerText = 'YES, CLEAR IT';
+
+            modal.style.display = 'flex';
         };
 
         window.closeConfirm = function (confirmed) {
             document.getElementById('custom-confirm').style.display = 'none';
+
             if (confirmed) {
-                cart = [];
-                localStorage.removeItem('alquds_cart');
-                renderCart();
-                showToast("Cart cleared successfully");
+                if (itemToRemove === 'ALL') {
+                    cart = [];
+                    localStorage.removeItem('alquds_cart');
+                    renderCart();
+                    showToast("Cart cleared successfully");
+                } else if (itemToRemove) {
+                    cart = cart.filter(p => p.id !== itemToRemove);
+                    localStorage.setItem('alquds_cart', JSON.stringify(cart));
+                    renderCart();
+                    showToast("Item removed");
+                }
             }
+            itemToRemove = null;
         };
 
         // Reused Toast Logic
