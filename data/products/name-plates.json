@@ -5,7 +5,7 @@
       "laborPerGram": 12,
       "taxable": true,
       "name": "Custom Name Plate 1",
-      "featured": true,
+      "featured": false,
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
