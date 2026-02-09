@@ -31,7 +31,10 @@
       "id": "Np2",
       "image": "assets/name-plates-np26.png",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/gemini_generated_image_dt3c9rdt3c9rdt3c-1-.png"
+      ]
     },
     {
       "color": "Yellow Gold",
