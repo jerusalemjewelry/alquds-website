@@ -684,12 +684,33 @@ function renderProductDetail() {
         ? `<button disabled class="btn btn-primary btn-disabled" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-ban" style="margin-right: 8px;"></i> OUT OF STOCK</button>`
         : `<button onclick="addToCart('${product.id}')" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-shopping-bag" style="margin-right: 8px;"></i> ADD TO CART</button>`;
 
+    // Image Gallery Logic
+    const allImages = [product.image];
+    if (product.additionalImages && Array.isArray(product.additionalImages)) {
+        allImages.push(...product.additionalImages);
+    }
+
+    let thumbnailsHTML = '';
+    if (allImages.length > 1) {
+        thumbnailsHTML = `<div style="display: flex; gap: 10px; margin-top: 15px; overflow-x: auto; padding-bottom: 5px;">
+            ${allImages.map(img => `
+                <img src="${img}" 
+                     onclick="document.getElementById('main-product-img').src = '${img}'" 
+                     style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #444; cursor: pointer; border-radius: 4px; transition: border-color 0.2s;"
+                     onmouseover="this.style.borderColor='var(--color-gold)'"
+                     onmouseout="this.style.borderColor='#444'"
+                >
+            `).join('')}
+        </div>`;
+    }
+
     container.innerHTML = `
         <div class="pd-image-col">
             <div style="position: relative;">
                 ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
-                <img src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px;">
+                <img id="main-product-img" src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px;">
             </div>
+            ${thumbnailsHTML}
         </div>
         <div class="pd-info-col">
             <h1 class="pd-title">${product.name}</h1>
