@@ -77,9 +77,12 @@
       "marginPercent": 25,
       "weight": 10,
       "id": "Np5",
-      "image": "assets/Np5_model.png",
+      "image": "assets/Np5.jpg",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/Np5_model.png"
+      ]
     },
     {
       "color": "Yellow Gold",
