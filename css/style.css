@@ -1247,14 +1247,26 @@ input::placeholder {
 }
 
 /* Product Detail Responsive Styles */
+/* Centered Product Detail Layout */
+#product-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+}
+
 .pd-image-col {
-    flex: 1;
-    max-width: 500px;
+    width: 100%;
+    max-width: 900px;
+    /* Increased size */
+    margin: 0 auto;
 }
 
 .pd-info-col {
-    flex: 1;
-    padding-left: 40px;
+    width: 100%;
+    max-width: 800px;
+    padding-left: 0;
 }
 
 /* Standardized Product Detail Image */
