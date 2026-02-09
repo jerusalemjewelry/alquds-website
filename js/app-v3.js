@@ -690,12 +690,41 @@ function renderProductDetail() {
         allImages.push(...product.additionalImages);
     }
 
+    // Store state for navigation
+    window.currentProductImages = allImages;
+    window.currentImageIndex = 0;
+
+    // Navigation Function
+    window.changeImage = function (offset) {
+        window.currentImageIndex += offset;
+        if (window.currentImageIndex >= window.currentProductImages.length) window.currentImageIndex = 0;
+        if (window.currentImageIndex < 0) window.currentImageIndex = window.currentProductImages.length - 1;
+
+        const img = document.getElementById('main-product-img');
+        if (img) {
+            img.src = window.currentProductImages[window.currentImageIndex];
+        }
+    };
+
     let thumbnailsHTML = '';
+    let arrowsHTML = '';
+
     if (allImages.length > 1) {
+        // Arrows
+        arrowsHTML = `
+            <button onclick="changeImage(-1)" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); border: 1px solid var(--color-gold); color: var(--color-gold); font-size: 1.2rem; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='var(--color-gold)'; this.style.color='black'" onmouseout="this.style.background='rgba(0,0,0,0.6)'; this.style.color='var(--color-gold)'">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button onclick="changeImage(1)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); border: 1px solid var(--color-gold); color: var(--color-gold); font-size: 1.2rem; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='var(--color-gold)'; this.style.color='black'" onmouseout="this.style.background='rgba(0,0,0,0.6)'; this.style.color='var(--color-gold)'">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        `;
+
+        // Thumbnails
         thumbnailsHTML = `<div style="display: flex; gap: 10px; margin-top: 15px; overflow-x: auto; padding-bottom: 5px;">
-            ${allImages.map(img => `
+            ${allImages.map((img, index) => `
                 <img src="${img}" 
-                     onclick="document.getElementById('main-product-img').src = '${img}'" 
+                     onclick="window.currentImageIndex = ${index}; document.getElementById('main-product-img').src = '${img}'" 
                      style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #444; cursor: pointer; border-radius: 4px; transition: border-color 0.2s;"
                      onmouseover="this.style.borderColor='var(--color-gold)'"
                      onmouseout="this.style.borderColor='#444'"
@@ -708,6 +737,7 @@ function renderProductDetail() {
         <div class="pd-image-col">
             <div style="position: relative;">
                 ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
+                ${arrowsHTML}
                 <img id="main-product-img" src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px;">
             </div>
             ${thumbnailsHTML}
