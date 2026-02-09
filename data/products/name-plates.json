@@ -14,7 +14,10 @@
       "id": "Np1",
       "image": "assets/Np1.png",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/nijma.png"
+      ]
     },
     {
       "color": "Yellow Gold",
