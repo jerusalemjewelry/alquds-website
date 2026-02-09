@@ -733,7 +733,32 @@ function renderProductDetail() {
         </div>`;
     }
 
+    // Back to Category Link
+    let backUrl = 'catalog.html';
+    let catSlug = String(product.category || '').toLowerCase();
+
+    // Determine the most appropriate parent link
+    if (product.category === 'coins-bullions') {
+        backUrl = 'catalog.html?cat=coins-bullions';
+    } else if (catSlug === 'diamonds') {
+        backUrl = 'catalog.html?cat=diamonds';
+    } else if (product.metal === 'Silver') {
+        backUrl = `catalog.html?cat=silver&sub=${catSlug}`;
+    } else if (product.color === 'White Gold') {
+        backUrl = `catalog.html?cat=white-gold&sub=${catSlug}`;
+    } else {
+        // Default to Yellow Gold
+        backUrl = `catalog.html?cat=yellow-gold&sub=${catSlug}`;
+    }
+
+    const catName = catSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
     container.innerHTML = `
+        <div style="width: 100%; max-width: 900px; margin-bottom: 20px;">
+             <a href="${backUrl}" class="text-white hover-gold" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i> Back to ${catName}
+            </a>
+        </div>
         <div class="pd-image-col">
             <div style="position: relative;">
                 ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
