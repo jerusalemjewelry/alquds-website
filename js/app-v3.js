@@ -738,7 +738,7 @@ function renderProductDetail() {
             <div style="position: relative;">
                 ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
                 ${arrowsHTML}
-                <img id="main-product-img" src="${product.image}" alt="${product.name}" style="width: 100%; border: 1px solid #333; border-radius: 4px;">
+                <img id="main-product-img" src="${product.image}" alt="${product.name}" class="pd-main-image">
             </div>
             ${thumbnailsHTML}
         </div>
