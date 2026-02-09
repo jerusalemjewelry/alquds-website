@@ -738,7 +738,7 @@ function renderProductDetail() {
             <div style="position: relative;">
                 ${isOutOfStock ? `<div class="out-of-stock-overlay" style="border-radius: 4px;"><span class="badge-out-of-stock" style="font-size: 1.2rem; padding: 10px 20px;">Out of Stock</span></div>` : ''}
                 ${arrowsHTML}
-                <img id="main-product-img" src="${product.image}" alt="${product.name}" class="pd-main-image">
+                <img id="main-product-img" src="${product.image}" alt="${product.name}" class="pd-main-image" onclick="openLightbox(this.src)">
             </div>
             ${thumbnailsHTML}
         </div>
@@ -830,3 +830,47 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
     setupPriceFilter();
 });
+
+// Lightbox Logic
+function openLightbox(src) {
+    let overlay = document.getElementById('lightbox-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'lightbox-overlay';
+        overlay.className = 'lightbox-overlay';
+        overlay.innerHTML = `
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img src="" class="lightbox-image" id="lightbox-img">
+        `;
+        document.body.appendChild(overlay);
+
+        // Close on click outside
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeLightbox();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    }
+
+    const img = document.getElementById('lightbox-img');
+    img.src = src;
+
+    // Slight delay for animation
+    setTimeout(() => {
+        overlay.classList.add('active');
+    }, 10);
+}
+
+function closeLightbox() {
+    const overlay = document.getElementById('lightbox-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+// Expose globally
+window.openLightbox = openLightbox;
+window.closeLightbox = closeLightbox;
