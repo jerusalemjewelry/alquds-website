@@ -133,7 +133,10 @@
       "id": "Np8",
       "image": "assets/Np8.png",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/h.png"
+      ]
     },
     {
       "color": "Yellow Gold",
