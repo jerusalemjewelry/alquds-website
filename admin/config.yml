@@ -54,6 +54,7 @@ collections:
               - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
               - {label: "Labor Charge Per Gram ($)", name: "laborPerGram", widget: "number"}
               - {label: "Image", name: "image", widget: "image"}
+              - {label: "Additional Images", name: "additionalImages", widget: "list", field: {label: "Image", name: "image", widget: "image"}, required: false}
               - {label: "Dynamic Pricing?", name: "isDynamic", widget: "boolean", default: true}
               - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
               - {label: "Description", name: "description", widget: "text"}
@@ -166,6 +167,7 @@ collections:
               - {label: "Premium ($)", name: "premium", widget: "number", value_type: "float"}
               - {label: "Dynamic Pricing", name: "isDynamic", widget: "boolean", default: true, hidden: true}
               - {label: "Image", name: "image", widget: "image"}
+              - {label: "Additional Images", name: "additionalImages", widget: "list", field: {label: "Image", name: "image", widget: "image"}, required: false}
               - {label: "Description", name: "description", widget: "text"}
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
               - {label: "Out of Stock?", name: "outOfStock", widget: "boolean", default: false}
