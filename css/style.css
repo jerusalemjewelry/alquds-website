@@ -1257,6 +1257,25 @@ input::placeholder {
     padding-left: 40px;
 }
 
+/* Standardized Product Detail Image */
+.pd-main-image {
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+    /* Ensures whole image fits without cropping */
+    background: rgba(255, 255, 255, 0.02);
+    /* Slight background to frame transparent images */
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .pd-main-image {
+        height: 350px;
+        /* Smaller fixed height for mobile */
+    }
+}
+
 .pd-title {
     font-size: 2rem;
     color: white;
