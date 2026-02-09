@@ -530,7 +530,8 @@ img {
     width: 100%;
     height: 300px;
     object-fit: contain;
-    background: #ffffff;
+    background: #111;
+    /* Dark background for transparent PNGs */
     transition: transform 0.5s ease;
 }
 
