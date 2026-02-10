@@ -43,7 +43,7 @@
       "laborPerGram": 12,
       "taxable": true,
       "name": "Custom Name Plate 3",
-      "featured": false,
+      "featured": true,
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
@@ -193,6 +193,7 @@
     {
       "color": "Yellow Gold",
       "laborPerGram": 10,
+      "taxable": true,
       "name": "Custom Name Plate 11",
       "featured": false,
       "karat": 21,
