@@ -446,6 +446,15 @@ function renderCatalog(reset = true) {
     const subParam = urlParams.get('sub');
     const searchParam = urlParams.get('search');
 
+    // Name Plates Modal Logic
+    if (reset && catParam === 'name-plates') {
+        // Show once per session
+        if (!sessionStorage.getItem('seenNPModal')) {
+            setTimeout(showNamePlatesModal, 500); // Slight delay for effect
+            sessionStorage.setItem('seenNPModal', 'true');
+        }
+    }
+
     let scopeProducts = products;
     let pageLabel = 'Catalog';
     let materialConfig = null;
@@ -798,11 +807,60 @@ function renderProductDetail() {
             </div>
             ${btnHTML}
             <div style="margin-top: 40px;">
-                <p class="text-muted" style="line-height: 1.8;">${product.description || 'No description available.'}</p>
+                <h3 class="text-gold" style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Description</h3>
+                <p class="text-muted" style="line-height: 1.8;">
+                    ${product.description || 'No description available.'}
+                </p>
             </div>
         </div>
     `;
 }
+
+// Name Plates Modal Functions
+function showNamePlatesModal() {
+    // Check if modal already exists
+    if (document.getElementById('np-modal')) return;
+
+    const modalHTML = `
+        <div id="np-modal" class="np-modal-overlay">
+            <div class="np-modal-content">
+                <h2 class="np-modal-title">Custom Designs Available</h2>
+                
+                <p class="np-modal-text">
+                    These are not our only designs! We have many more custom styles to choose from. 
+                    Before placing your order, please contact us at 
+                    <a href="tel:7082339508" class="np-phone-link">708-233-9508</a> 
+                    for inquiries and to see full options.
+                </p>
+
+                <div class="np-modal-arabic">
+                    <p style="margin-bottom: 10px; font-weight: bold;">تصاميم مخصصة متاحة</p>
+                    <p>هذه ليست التصاميم الوحيدة المتوفرة لدينا! لدينا العديد من الأنماط المخصصة للاختيار من بينها. قبل الطلب، يرجى الاتصال بنا على <span dir="ltr" style="display:inline-block;"><a href="tel:7082339508" class="np-phone-link">708-233-9508</a></span> للاستفسار والاطلاع على كامل الخيارات.</p>
+                </div>
+
+                <button class="np-btn-ok" onclick="closeNamePlatesModal()">Okay / حسناً</button>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+        document.getElementById('np-modal').classList.add('active');
+    });
+}
+
+function closeNamePlatesModal() {
+    const modal = document.getElementById('np-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.remove();
+        }, 500);
+    }
+}
+
 
 function setupPriceFilter() {
     const rangeMin = document.getElementById('range-min');
@@ -864,9 +922,9 @@ function openLightbox(src) {
         overlay.id = 'lightbox-overlay';
         overlay.className = 'lightbox-overlay';
         overlay.innerHTML = `
-            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-            <img src="" class="lightbox-image" id="lightbox-img">
-        `;
+    < button class="lightbox-close" onclick = "closeLightbox()" >& times;</button >
+        <img src="" class="lightbox-image" id="lightbox-img">
+            `;
         document.body.appendChild(overlay);
 
         // Close on click outside
