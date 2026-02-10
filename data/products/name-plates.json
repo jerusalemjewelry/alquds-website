@@ -66,7 +66,10 @@
       "id": "Np4",
       "image": "assets/name-plates-np28.png",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/tree-neck.jpg"
+      ]
     },
     {
       "color": "Yellow Gold",
