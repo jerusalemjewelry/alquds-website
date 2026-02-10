@@ -447,7 +447,7 @@ function renderCatalog(reset = true) {
     const searchParam = urlParams.get('search');
 
     // Name Plates Modal Logic
-    if (reset && catParam === 'name-plates') {
+    if (reset && (catParam === 'name-plates' || subParam === 'name-plates')) {
         // Show once per session
         if (!sessionStorage.getItem('seenNPModal')) {
             setTimeout(showNamePlatesModal, 500); // Slight delay for effect
