@@ -189,6 +189,23 @@
       "additionalImages": [
         "assets/jazeera-neck.jpg"
       ]
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 10,
+      "name": "Custom Name Plate 11",
+      "featured": false,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 25,
+      "weight": "10.5",
+      "id": "Np11",
+      "image": "assets/divided-p1.jpg",
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/divided-p2.jpg"
+      ]
     }
   ]
 }
