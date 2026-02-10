@@ -15,7 +15,9 @@
       "image": "assets/Np1.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
-      "additionalImages": []
+      "additionalImages": [
+        "assets/ayra-neck.jpg"
+      ]
     },
     {
       "color": "Yellow Gold",
