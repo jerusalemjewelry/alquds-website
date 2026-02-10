@@ -284,6 +284,25 @@
       "additionalImages": [
         "assets/m6.jpg"
       ]
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 12,
+      "taxable": true,
+      "name": "Custom Name Plate 16",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 25,
+      "weight": "13",
+      "id": "Np16",
+      "image": "assets/m7.jpg",
+      "description": "Elegant custom gold name plate.",
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/m8.jpg"
+      ]
     }
   ]
 }
