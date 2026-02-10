@@ -107,7 +107,10 @@
       "id": "Np6",
       "image": "assets/Np6.png",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/zainab-neck.jpg"
+      ]
     },
     {
       "color": "Yellow Gold",
