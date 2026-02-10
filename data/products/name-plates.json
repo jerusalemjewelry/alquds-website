@@ -126,7 +126,10 @@
       "id": "Np7",
       "image": "assets/Np7.png",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/slayman-neck.jpg"
+      ]
     },
     {
       "color": "Yellow Gold",
