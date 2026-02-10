@@ -183,7 +183,10 @@
       "id": "Np10",
       "image": "assets/Np10.png",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/jazeera-neck.jpg"
+      ]
     }
   ]
 }
