@@ -50,7 +50,10 @@
       "id": "Np3",
       "image": "assets/Np3.jpg",
       "description": "Elegant custom gold name plate.",
-      "category": "name-plates"
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/double-heart.jpg"
+      ]
     },
     {
       "color": "Yellow Gold",
