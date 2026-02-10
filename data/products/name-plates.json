@@ -203,9 +203,29 @@
       "weight": "10.5",
       "id": "Np11",
       "image": "assets/divided-p1.jpg",
+      "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
         "assets/divided-p2.jpg"
+      ]
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 12,
+      "taxable": true,
+      "name": "Custom Name Plate 12",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 25,
+      "weight": "11",
+      "id": "Np12",
+      "image": "assets/pc1.jpg",
+      "description": "Elegant custom gold name plate.",
+      "category": "name-plates",
+      "additionalImages": [
+        "assets/pc2.jpg"
       ]
     }
   ]
