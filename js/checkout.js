@@ -225,9 +225,29 @@ function renderCheckout(cart) {
         if (resetBtn) resetBtn.style.display = 'none';
 
         window.paypal.Buttons({
-            onClick: function () {
+            onClick: function (data, actions) {
+                const form = document.getElementById('checkout-form');
+                const errorBox = document.getElementById('checkout-error-box');
+
+                // If the form is missing required info...
+                if (form && !form.checkValidity()) {
+                    // Show our Custom Red Error Box
+                    if (errorBox) errorBox.style.display = 'block';
+
+                    // Actually highlight the missing fields for them
+                    form.reportValidity();
+
+                    // Crucial: Reject the paypal action so it gracefully cancels the window 
+                    // instead of throwing that generic netlify/paypal error!
+                    return actions.reject();
+                }
+
+                // If everything is good, hide the error box if it was showing
+                if (errorBox) errorBox.style.display = 'none';
+
                 // Show the reset button when they click a payment option
                 if (resetBtn) resetBtn.style.display = 'block';
+                return actions.resolve();
             },
             onCancel: function (data) {
                 // Hide it if they cancel/close the popup window
