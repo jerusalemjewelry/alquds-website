@@ -252,6 +252,13 @@
 
                         <!-- PayPal Button Container -->
                         <div id="submit-paypal-container" style="width: 300px; margin-top: 20px;">
+                            <div id="checkout-error-box"
+                                style="display: none; background: rgba(255, 68, 68, 0.1); border: 1px solid #ff4444; color: #ff4444; padding: 12px; border-radius: 4px; font-size: 0.9rem; margin-bottom: 15px; text-align: center;">
+                                <i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>
+                                <strong>Oops!</strong> Looks like you forgot to fill out your Personal & Shipping info
+                                in Step 1. Please complete it before paying.
+                            </div>
+
                             <div id="paypal-button-container"></div>
 
                             <div id="reset-paypal-container"
