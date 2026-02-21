@@ -208,6 +208,16 @@ function renderCheckout(cart) {
     // --- PAYPAL INTEGRATION ---
     if (window.paypal) {
         window.paypal.Buttons({
+            onClick: function () {
+                // Show the reset button when they click a payment option
+                const resetBtn = document.getElementById('reset-paypal-container');
+                if (resetBtn) resetBtn.style.display = 'block';
+            },
+            onCancel: function (data) {
+                // Hide it if they cancel/close the popup window
+                const resetBtn = document.getElementById('reset-paypal-container');
+                if (resetBtn) resetBtn.style.display = 'none';
+            },
             createOrder: function (data, actions) {
                 // Ensure form validates before launching paypal
                 const form = document.getElementById('checkout-form');
