@@ -146,6 +146,8 @@ function renderCheckout(cart) {
         }
 
         if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        // Store the final calculated total for PayPal/Credit Card providers
+        window.currentGrandTotal = grandTotal.toFixed(2);
     }
 
     // Helper: Centralized Exemption Logic
@@ -196,10 +198,45 @@ function renderCheckout(cart) {
             newBtn.style.opacity = '0.7';
 
             setTimeout(() => {
-                alert('Order Placed Successfully! Thank you for shopping with Alquds Jewelry.');
+                alert('Order Placed Successfully via Credit Card! Thank you for shopping with Alquds Jewelry.');
                 localStorage.removeItem('alquds_cart');
                 window.location.href = 'index.html';
             }, 2000);
         });
+    }
+
+    // --- PAYPAL INTEGRATION ---
+    if (window.paypal) {
+        window.paypal.Buttons({
+            createOrder: function (data, actions) {
+                // Ensure form validates before launching paypal
+                const form = document.getElementById('checkout-form');
+                if (form && !form.checkValidity()) {
+                    form.reportValidity();
+                    return false; // Prevent PayPal window if form is invalid
+                }
+
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: window.currentGrandTotal || "0.00"
+                        }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name + '! Thank you for shopping with Alquds Jewelry.');
+
+                    // Clear the cart and redirect
+                    localStorage.removeItem('alquds_cart');
+                    window.location.href = 'index.html';
+                });
+            },
+            onError: function (err) {
+                console.error("PayPal Error:", err);
+                alert("There was an error processing your PayPal payment. Please try again.");
+            }
+        }).render('#paypal-button-container');
     }
 }
