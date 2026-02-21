@@ -252,10 +252,40 @@ function renderCheckout(cart) {
                     freshTotal = parseFloat(rawText || 0).toFixed(2);
                 }
 
+                // Extract user data from the form to auto-fill the PayPal/Credit Card window
+                const firstName = document.querySelector('input[name="firstName"]')?.value || '';
+                const lastName = document.querySelector('input[name="lastName"]')?.value || '';
+                const email = document.querySelector('input[name="email"]')?.value || '';
+                const phone = document.querySelector('input[name="phone"]')?.value || '';
+                const address = document.querySelector('input[name="address"]')?.value || '';
+                const city = document.querySelector('input[name="city"]')?.value || '';
+                const zip = document.querySelector('input[name="zip"]')?.value || '';
+                const stateDropdown = document.querySelector('select[name="state"]');
+                const stateVal = stateDropdown ? stateDropdown.value : '';
+
                 return actions.order.create({
+                    payer: {
+                        name: {
+                            given_name: firstName,
+                            surname: lastName
+                        },
+                        email_address: email || undefined
+                    },
                     purchase_units: [{
                         amount: {
                             value: freshTotal
+                        },
+                        shipping: {
+                            name: {
+                                full_name: (firstName + ' ' + lastName).trim()
+                            },
+                            address: {
+                                address_line_1: address,
+                                admin_area_2: city,
+                                admin_area_1: stateVal,
+                                postal_code: zip,
+                                country_code: 'US'
+                            }
                         }
                     }]
                 });
