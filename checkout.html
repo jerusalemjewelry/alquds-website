@@ -50,45 +50,45 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-group">
                             <label class="form-label">First Name *</label>
-                            <input type="text" name="firstName" required>
+                            <input type="text" name="firstName" required autocomplete="given-name">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Last Name *</label>
-                            <input type="text" name="lastName" required>
+                            <input type="text" name="lastName" required autocomplete="family-name">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-group">
                             <label class="form-label">Email Address *</label>
-                            <input type="email" name="email" required>
+                            <input type="email" name="email" required autocomplete="email">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Phone Number *</label>
-                            <input type="tel" name="phone" required placeholder="(123) 456-7890">
+                            <input type="tel" name="phone" required placeholder="(123) 456-7890" autocomplete="tel">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Shipping Address *</label>
-                        <input type="text" name="address" required>
+                        <input type="text" name="address" required autocomplete="street-address">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-group">
                             <label class="form-label">City *</label>
-                            <input type="text" name="city" required>
+                            <input type="text" name="city" required autocomplete="address-level2">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Zip Code *</label>
-                            <input type="text" name="zip" required>
+                            <input type="text" name="zip" required autocomplete="postal-code">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div class="form-group">
                             <label class="form-label">State/Region *</label>
-                            <select name="state" required
+                            <select name="state" required autocomplete="address-level1"
                                 style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--color-gray); color: white; border-radius: 4px;">
                                 <option value="" disabled selected>Select State</option>
                                 <option value="AL">Alabama</option>
