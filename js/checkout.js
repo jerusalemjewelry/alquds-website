@@ -148,6 +148,11 @@ function renderCheckout(cart) {
         if (totalEl) totalEl.innerText = '$' + grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         // Store the final calculated total for PayPal/Credit Card providers
         window.currentGrandTotal = grandTotal.toFixed(2);
+
+        // Discard any open PayPal wrappers and re-render to ensure inline frames don't cache old prices
+        if (typeof window.forcePayPalRefresh === 'function') {
+            window.forcePayPalRefresh();
+        }
     }
 
     // Helper: Centralized Exemption Logic
@@ -206,16 +211,26 @@ function renderCheckout(cart) {
     }
 
     // --- PAYPAL INTEGRATION ---
-    if (window.paypal) {
+    window.forcePayPalRefresh = function () {
+        if (!window.paypal) return;
+
+        const container = document.getElementById('paypal-button-container');
+        if (!container) return;
+
+        // Wipe out any existing opened buttons or iframes to prevent locked frames
+        container.innerHTML = '';
+
+        // Hide the reset button just in case we are resetting the view
+        const resetBtn = document.getElementById('reset-paypal-container');
+        if (resetBtn) resetBtn.style.display = 'none';
+
         window.paypal.Buttons({
             onClick: function () {
                 // Show the reset button when they click a payment option
-                const resetBtn = document.getElementById('reset-paypal-container');
                 if (resetBtn) resetBtn.style.display = 'block';
             },
             onCancel: function (data) {
                 // Hide it if they cancel/close the popup window
-                const resetBtn = document.getElementById('reset-paypal-container');
                 if (resetBtn) resetBtn.style.display = 'none';
             },
             createOrder: function (data, actions) {
@@ -259,5 +274,8 @@ function renderCheckout(cart) {
                 alert("There was an error processing your PayPal payment. Please try again.");
             }
         }).render('#paypal-button-container');
-    }
+    };
+
+    // Run the integration on initial load
+    window.forcePayPalRefresh();
 }
