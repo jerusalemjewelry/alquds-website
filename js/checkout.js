@@ -226,10 +226,21 @@ function renderCheckout(cart) {
                     return false; // Prevent PayPal window if form is invalid
                 }
 
+                // Dynamically fetch the absolute latest accurate total straight from the DOM 
+                // right at the second the PayPal window launches
+                const currentTotalEl = document.getElementById('checkout-total');
+                let freshTotal = "0.00";
+
+                if (currentTotalEl) {
+                    // Extract the raw number from text like "$8,987.40"
+                    const rawText = currentTotalEl.innerText.replace(/[^0-9.]/g, '');
+                    freshTotal = parseFloat(rawText || 0).toFixed(2);
+                }
+
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: window.currentGrandTotal || "0.00"
+                            value: freshTotal
                         }
                     }]
                 });
