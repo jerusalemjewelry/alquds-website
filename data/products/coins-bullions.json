@@ -93,6 +93,21 @@
     {
       "unit": "g",
       "metal": "Gold",
+      "name": "21k Palestine Gold Coin",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 40,
+      "weight": 7,
+      "id": "Cb10",
+      "image": "assets/palestine_21k_gold_coins_side_by_side_1771697516468.jpg",
+      "description": "Celebrate heritage and elegance with our stunning 21k Gold Palestine Coin. This exquisite piece is meticulously crafted with a rich, warm yellow gold hue that radiates timeless beauty.\n\nThe obverse features the intricate and beautifully textured outline of Palestine, framed by elegant olive branches at the base, and adorned with the Arabic inscription \"دولة فلسطين\" (State of Palestine) gracefully curved along the top.\n\nOn the reverse, a central, detailed olive branch design—a universal symbol of peace and resilience—takes center stage. It is elegantly topped with \"PALESTINE\" in bold English lettering, while the year \"1927\" and its Arabic equivalent rest perfectly at the bottom.\n\nPerfect for collectors, as a meaningful gift, or as a proud symbol of identity, this beautifully detailed and polished 21-karat gold coin is a true masterpiece.",
+      "category": "coins-bullions"
+    },
+    {
+      "unit": "g",
+      "metal": "Gold",
       "name": "Mexican 50 Pesos Gold Lira - The Centenario",
       "featured": false,
       "karat": 21.6,
@@ -133,21 +148,6 @@
       "id": "Cb7",
       "image": "assets/silver_1kg_random.jpg",
       "description": "A serious investment for the dedicated stacker, this 1 Kilo (32.15 troy ounces) Silver Bar offers substantial value and weight. Sourced from various world-class mints, each bar is hallmarked with its weight and .999 fineness. Perfect for those looking to acquire larger quantities of silver at a competitive price point, balancing significant metal content with ease of storage.",
-      "category": "coins-bullions"
-    },
-    {
-      "unit": "g",
-      "metal": "Gold",
-      "name": "21k Palestine Gold Coin",
-      "featured": true,
-      "karat": 21,
-      "outOfStock": false,
-      "isDynamic": true,
-      "premium": 40,
-      "weight": 7,
-      "id": "Cb10",
-      "image": "assets/palestine_21k_gold_coins_side_by_side_1771697516468.jpg",
-      "description": "Celebrate heritage and elegance with our stunning 21k Gold Palestine Coin. This exquisite piece is meticulously crafted with a rich, warm yellow gold hue that radiates timeless beauty.\n\nThe obverse features the intricate and beautifully textured outline of Palestine, framed by elegant olive branches at the base, and adorned with the Arabic inscription \"دولة فلسطين\" (State of Palestine) gracefully curved along the top.\n\nOn the reverse, a central, detailed olive branch design—a universal symbol of peace and resilience—takes center stage. It is elegantly topped with \"PALESTINE\" in bold English lettering, while the year \"1927\" and its Arabic equivalent rest perfectly at the bottom.\n\nPerfect for collectors, as a meaningful gift, or as a proud symbol of identity, this beautifully detailed and polished 21-karat gold coin is a true masterpiece.",
       "category": "coins-bullions"
     }
   ]
