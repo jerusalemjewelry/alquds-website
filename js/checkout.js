@@ -264,6 +264,9 @@ function renderCheckout(cart) {
                 const stateVal = stateDropdown ? stateDropdown.value : '';
 
                 return actions.order.create({
+                    application_context: {
+                        shipping_preference: 'NO_SHIPPING'
+                    },
                     payer: {
                         name: {
                             given_name: firstName,
@@ -274,18 +277,6 @@ function renderCheckout(cart) {
                     purchase_units: [{
                         amount: {
                             value: freshTotal
-                        },
-                        shipping: {
-                            name: {
-                                full_name: (firstName + ' ' + lastName).trim()
-                            },
-                            address: {
-                                address_line_1: address,
-                                admin_area_2: city,
-                                admin_area_1: stateVal,
-                                postal_code: zip,
-                                country_code: 'US'
-                            }
                         }
                     }]
                 });
