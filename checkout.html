@@ -174,44 +174,56 @@
                                 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
                                 Payment Method</h3>
 
-                            <div class="payment-icons mb-4 flex items-center justify-start w-full flex-wrap gap-3">
-                                <button type="button" onclick="selectPayment('visa')" class="payment-btn">
-                                    <img src="assets/visa.png" alt="Visa">
-                                </button>
-                                <button type="button" onclick="selectPayment('mastercard')" class="payment-btn">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-                                        alt="Mastercard">
-                                </button>
-                                <button type="button" onclick="selectPayment('discover')" class="payment-btn">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg"
-                                        alt="Discover" style="background: white;">
-                                </button>
-                                <button type="button" onclick="selectPayment('amex')" class="payment-btn">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
-                                        alt="Amex">
-                                </button>
-                                <button type="button" onclick="selectPayment('paypal')" class="payment-btn">
+                            <!-- Payment Method Toggles -->
+                            <div class="mb-4">
+                                <label class="shipping-method-box" style="margin-bottom: 10px;"
+                                    onclick="document.getElementById('radio-cc').click()">
+                                    <input type="radio" name="payment_method" id="radio-cc" value="credit_card" checked
+                                        class="radio-gold" onchange="togglePaymentMethod()">
+                                    <div style="flex: 1; display:flex; align-items:center; gap:10px;">
+                                        <span class="text-white" style="font-weight: bold;">Credit Card</span>
+                                    </div>
+                                    <div class="flex gap-2 payment-mini-icons" style="align-items: center;">
+                                        <img src="assets/visa.png" style="height:20px; object-fit: contain;">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                                            style="height:20px; object-fit: contain;">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg"
+                                            style="height:20px; background: white; object-fit: contain;">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
+                                            style="height:20px; border-radius: 2px; object-fit: contain;">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+                                            style="height:20px; background: white; border-radius: 2px; padding: 2px; object-fit: contain;">
+                                    </div>
+                                </label>
+
+                                <label class="shipping-method-box"
+                                    onclick="document.getElementById('radio-paypal').click()">
+                                    <input type="radio" name="payment_method" id="radio-paypal" value="paypal"
+                                        class="radio-gold" onchange="togglePaymentMethod()">
+                                    <div style="flex: 1; display:flex; align-items:center; gap:10px;">
+                                        <span class="text-white" style="font-weight: bold;">PayPal</span>
+                                    </div>
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
-                                        alt="PayPal">
-                                </button>
-                                <button type="button" onclick="selectPayment('applepay')" class="payment-btn">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
-                                        alt="Apple Pay" style="background: white; border-radius: 4px;">
-                                </button>
+                                        style="height:20px; object-fit: contain;">
+                                </label>
                             </div>
 
-                            <div class="form-group">
-                                <label class="form-label">Card Number</label>
-                                <input type="text" placeholder="0000 0000 0000 0000">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
+                            <!-- Credit Card Form (Hidden if PayPal picked) -->
+                            <div id="credit-card-form" class="mt-4 pt-4"
+                                style="border-top: 1px solid var(--color-gray);">
                                 <div class="form-group">
-                                    <label class="form-label">Expiry Date</label>
-                                    <input type="text" placeholder="MM/YY">
+                                    <label class="form-label">Card Number</label>
+                                    <input type="text" placeholder="0000 0000 0000 0000">
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">CVV</label>
-                                    <input type="text" placeholder="123">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Expiry Date</label>
+                                        <input type="text" placeholder="MM/YY">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">CVV</label>
+                                        <input type="text" placeholder="123">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -269,13 +281,30 @@
                                 id="checkout-total">$0.00</span>
                         </div>
 
-                        <button id="place-order-btn" class="btn btn-primary mt-5"
-                            style="width: 300px; font-weight: bold; font-size: 1.1rem; margin-bottom: 15px;">
-                            CONFIRM ORDER (CREDIT CARD)
-                        </button>
+                        <!-- Credit Card Submit Button -->
+                        <div id="submit-cc-container">
+                            <button id="place-order-btn" class="btn btn-primary mt-5"
+                                style="width: 300px; font-weight: bold; font-size: 1.1rem; margin-bottom: 15px;">
+                                CONFIRM ORDER
+                            </button>
+                        </div>
 
                         <!-- PayPal Button Container -->
-                        <div id="paypal-button-container" style="width: 300px;"></div>
+                        <div id="submit-paypal-container" style="display: none; width: 300px; margin-top: 20px;">
+                            <div id="paypal-button-container"></div>
+                        </div>
+
+                        <!-- Toggle Script -->
+                        <script>
+                            function togglePaymentMethod() {
+                                const isPayPal = document.getElementById('radio-paypal').checked;
+                                document.getElementById('credit-card-form').style.display = isPayPal ? 'none' : 'block';
+                                document.getElementById('submit-cc-container').style.display = isPayPal ? 'none' : 'block';
+                                document.getElementById('submit-paypal-container').style.display = isPayPal ? 'block' : 'none';
+                            }
+                            // Call on page load to set initial state
+                            window.addEventListener('load', togglePaymentMethod);
+                        </script>
                     </div>
                 </div>
             </div>
