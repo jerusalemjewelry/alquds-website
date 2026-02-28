@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Alquds Jewelry</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .about-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .text-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-text-light);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="index.html" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 1px; white-space: nowrap;">
+                    ALQUDS <span class="text-white">JEWELRY</span>
+                </a>
+            </div>
+
+            <nav class="hidden-mobile" style="white-space: nowrap;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="catalog.html?cat=yellow-gold" class="nav-link">Yellow Gold</a>
+                <a href="catalog.html?cat=white-gold" class="nav-link">White Gold</a>
+                <a href="catalog.html?cat=silver" class="nav-link">Silver</a>
+                <a href="catalog.html?cat=diamonds" class="nav-link">Diamonds</a>
+                <a href="catalog.html?cat=coins-bullions" class="nav-link">Coins & Bullions</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-actions flex gap-4 items-center">
+                <div class="flex items-center bg-white rounded overflow-hidden" style="padding: 1px 5px;">
+                    <input type="text" id="site-search" placeholder="Search..."
+                        onkeydown="if(event.key==='Enter') window.location.href='catalog.html?search='+this.value"
+                        style="border: none; outline: none; padding: 3px 5px; font-size: 0.8rem; color: #333; width: 110px;">
+                    <button
+                        onclick="window.location.href='catalog.html?search='+document.getElementById('site-search').value"
+                        class="text-gold" style="background: none; border: none; cursor: pointer; padding: 0 5px;">
+                        <i class="fa-solid fa-search" style="font-size: 0.8rem;"></i>
+                    </button>
+                </div>
+                <a href="cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count"
+                        style="position: absolute; top: -8px; right: -8px; background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container scroll-reveal" style="padding: 60px 20px 80px 20px;">
+        <h1 class="text-center mb-5" style="font-size: 2.5rem; letter-spacing: 1px;">Our Heritage</h1>
+
+        <div class="grid grid-cols-2" style="gap: 50px; align-items: center;">
+            <div>
+                <img src="assets/jerusalem-bg.jpg" alt="Alquds Jewelry Storefront" class="about-image">
+            </div>
+            <div class="text-content">
+                <h2 class="text-gold mb-4" style="font-size: 2rem;">A Legacy of Craftsmanship</h2>
+                <p>
+                    Welcome to <strong>Alquds Jewelry</strong>, proudly family-owned and operated for over 20 years. We
+                    specialize in bringing the finest traditions of Middle Eastern luxury directly to you. From our
+                    exquisite 21k Gold collections to our breathtaking diamond pieces, every item in our showroom is
+                    selected with passion and a deep respect for our heritage.
+                </p>
+                <p>
+                    Our journey began with a simple mission: to preserve the authentic craftsmanship of our ancestors
+                    while offering unparalleled quality to our local community in Bridgeview, Illinois. Today, we bring
+                    that same intimate, family-first approach to our online store, serving clients across the country
+                    who appreciate true elegance.
+                </p>
+                <p>
+                    Whether you are searching for a custom nameplate, an imported gold bangle, or investing in bullion,
+                    we treat every customer like family.
+                </p>
+                <div style="margin-top: 30px;">
+                    <a href="catalog.html" class="btn btn-primary"
+                        style="padding: 12px 30px; font-size: 1.1rem;">Explore Our Collections</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container grid grid-cols-4">
+            <div class="footer-col" style="grid-column: span 1.5;">
+                <h3>ALQUDS <span class="text-white">JEWELRY</span></h3>
+                <p style="color: #aaa; font-size: 0.9rem; max-width: 300px;">
+                    Crafting memories in 21k Gold. Over 20 years of excellence in custom jewelry design and retail.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Collections</h4>
+                <ul>
+                    <li><a href="catalog.html?cat=yellow-gold" class="text-muted">21k Gold</a></li>
+                    <li><a href="catalog.html?cat=white-gold" class="text-muted">18k Gold</a></li>
+                    <li><a href="catalog.html?cat=diamonds" class="text-muted">Diamond Jewelry</a></li>
+                    <li><a href="catalog.html?cat=yellow-gold&sub=name-plates" class="text-muted">Custom Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="about.html" class="text-muted">Our Heritage (About Us)</a></li>
+                    <li><a href="contact.html" class="text-muted">Contact Us</a></li>
+                    <li><a href="shipping.html" class="text-muted">Shipping Policy</a></li>
+                    <li><a href="faq.html" class="text-muted">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="text-muted text-sm mb-3">Subscribe for exclusive offers.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Your Email"
+                        style="padding: 10px; background: #222; border: 1px solid #333; color: white; width: 100%;">
+                    <button class="btn btn-primary" style="padding: 10px 15px;">GO</button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright text-center py-4"
+            style="border-top: 1px solid #333; margin-top: 40px; color: var(--color-text-muted);">
+            &copy; 2025 Alquds Jewelry. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script src="js/app-v3.js"></script>
+    <script>
+        // Scroll Reveal Animations
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.scroll-reveal');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 50;
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('revealed');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Add scroll-reveal logic inside stylesheet for this specific page if missing
+        if (!document.querySelector('.scroll-reveal-style')) {
+            const style = document.createElement('style');
+            style.className = 'scroll-reveal-style';
+            style.innerHTML = `
+                .scroll-reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+                .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+
+</html>
