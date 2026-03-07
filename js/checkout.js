@@ -134,7 +134,7 @@ function renderCheckout(cart) {
 
         // Base Rates per speed
         const baseRates = {
-            'standard': 22.50, // Approx Ground/Priority
+            'standard': 26.50, // Approx Ground/Priority
             'express': 32.50,  // Exact 2nd Day Rate
             'overnight': 55.00 // Approx Overnight
         };
