@@ -1,4 +1,4 @@
-const CHECKOUT_SHIPPING_COST = 50.00;
+// Dynamic shipping cost now calculated in calculateTotals()
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("=== CHECKOUT LOADED ===");
@@ -112,13 +112,66 @@ function renderCheckout(cart) {
             }
         });
 
+        // Dynamic Shipping Calculation based on Jewelers Mutual math
+        // JM uses a tiered insurance formula. Based on the data ($1k=$35, $5k=$45, $10k=$58):
+        // Incremental insurance cost is precisely $2.50 for every $1,000 in value, rounding up.
+        // The base cost for FedEx 2nd Day + Adult Signature is exactly $32.50.
+
+        const insuranceRatePerThousand = 2.50;
+        const totalThousands = Math.ceil(subtotal / 1000); // 1.1k rounds to 2k for insurance brackets
+        // If order is $0, insurance is $0. Otherwise minimum 1 thousand block.
+        const insuranceCost = subtotal > 0 ? (Math.max(1, totalThousands) * insuranceRatePerThousand) : 0;
+
+        // --- Weight Calculation ---
+        // Since we don't have exact weight values per item in the JSON, we estimate weight by quantity.
+        // The base rate covers the first item. We add a small $1.50 fee for every additional item in the cart.
+        let totalItemsInCart = 0;
+        cart.forEach(item => { totalItemsInCart += (parseInt(item.quantity) || 1); });
+        const additionalWeightSurcharge = subtotal > 0 && totalItemsInCart > 1 ? ((totalItemsInCart - 1) * 1.50) : 0;
+
+        // --- Handling Fee (Profit) ---
+        const handlingFee = 5.00;
+
+        // Base Rates per speed
+        const baseRates = {
+            'standard': 22.50, // Approx Ground/Priority
+            'express': 32.50,  // Exact 2nd Day Rate
+            'overnight': 55.00 // Approx Overnight
+        };
+
+        let shippingCost = 0;
+        if (subtotal > 0) {
+            // Calculate final base rates including weight factor and profit margin
+            const finalStandardBase = baseRates.standard + additionalWeightSurcharge + handlingFee;
+            const finalExpressBase = baseRates.express + additionalWeightSurcharge + handlingFee;
+            const finalOvernightBase = baseRates.overnight + additionalWeightSurcharge + handlingFee;
+
+            // Update UI logic for individual boxes
+            if (document.getElementById('cost-standard')) document.getElementById('cost-standard').innerText = '$' + (finalStandardBase + insuranceCost).toFixed(2);
+            if (document.getElementById('cost-express')) document.getElementById('cost-express').innerText = '$' + (finalExpressBase + insuranceCost).toFixed(2);
+            if (document.getElementById('cost-overnight')) document.getElementById('cost-overnight').innerText = '$' + (finalOvernightBase + insuranceCost).toFixed(2);
+
+            const selectedSpeed = document.querySelector('input[name="shipping"]:checked');
+            const speedValue = selectedSpeed ? selectedSpeed.value : 'express'; // Default to express
+
+            // Map the selected speed to the fully calculated final base rate
+            let selectedBaseRate = 0;
+            if (speedValue === 'standard') selectedBaseRate = finalStandardBase;
+            if (speedValue === 'express') selectedBaseRate = finalExpressBase;
+            if (speedValue === 'overnight') selectedBaseRate = finalOvernightBase;
+
+            shippingCost = selectedBaseRate + insuranceCost;
+        }
+
         const tax = taxableAmount * taxRate;
-        const grandTotal = subtotal + tax + CHECKOUT_SHIPPING_COST;
+        const grandTotal = subtotal + tax + shippingCost;
 
         console.log(`State: ${state}, Rate: ${taxRate}, Taxable: ${taxableAmount}, Tax: ${tax}`);
 
         // Update UI
         if (subtotalEl) subtotalEl.innerText = '$' + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const shippingCostEl = document.getElementById('checkout-shipping-cost');
+        if (shippingCostEl) shippingCostEl.innerText = '$' + shippingCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         // Dynamically Update/Create Tax Row
         let taxRow = document.getElementById('checkout-tax-row');
@@ -183,6 +236,11 @@ function renderCheckout(cart) {
     if (stateSelect) {
         stateSelect.addEventListener('change', calculateTotals);
     }
+
+    // Listen for Shipping Change
+    document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+        radio.addEventListener('change', calculateTotals);
+    });
 
     // --- PLACE ORDER BUTTON ---
     const placeOrderBtn = document.getElementById('place-order-btn');
