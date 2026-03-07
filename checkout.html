@@ -204,18 +204,42 @@
                                 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
                                 Shipping Method</h3>
 
-                            <label class="shipping-method-box">
-                                <input type="radio" name="shipping" checked class="radio-gold">
-                                <div style="flex: 1;">
-                                    <div class="text-white" style="font-weight: bold;">Express Insured Shipping</div>
-                                    <div class="text-muted" style="font-size: 0.85rem;">2-3 Business Days</div>
+                            <label class="shipping-method-box mb-3"
+                                style="display: flex; align-items: center; padding: 15px; border-radius: 4px; border: 1px solid var(--color-gray); cursor: pointer; transition: all 0.3s; margin-bottom: 10px; background: rgba(0,0,0,0.5);">
+                                <input type="radio" name="shipping" value="standard" class="radio-gold"
+                                    style="accent-color: var(--color-gold);">
+                                <div style="flex: 1; margin-left: 15px;">
+                                    <div class="text-white" style="font-weight: bold;">Standard Insured</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">3-5 Business Days</div>
                                 </div>
-                                <div class="text-gold" style="font-weight: bold;">$50.00</div>
+                                <div class="text-gold" style="font-weight: bold;" id="cost-standard">Calc...</div>
+                            </label>
+
+                            <label class="shipping-method-box mb-3"
+                                style="display: flex; align-items: center; padding: 15px; border-radius: 4px; border: 1px solid var(--color-gray); cursor: pointer; transition: all 0.3s; margin-bottom: 10px; background: rgba(0,0,0,0.5);">
+                                <input type="radio" name="shipping" value="express" checked class="radio-gold"
+                                    style="accent-color: var(--color-gold);">
+                                <div style="flex: 1; margin-left: 15px;">
+                                    <div class="text-white" style="font-weight: bold;">Express Insured</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">2 Business Days FedEx</div>
+                                </div>
+                                <div class="text-gold" style="font-weight: bold;" id="cost-express">Calc...</div>
+                            </label>
+
+                            <label class="shipping-method-box"
+                                style="display: flex; align-items: center; padding: 15px; border-radius: 4px; border: 1px solid var(--color-gray); cursor: pointer; transition: all 0.3s; background: rgba(0,0,0,0.5);">
+                                <input type="radio" name="shipping" value="overnight" class="radio-gold"
+                                    style="accent-color: var(--color-gold);">
+                                <div style="flex: 1; margin-left: 15px;">
+                                    <div class="text-white" style="font-weight: bold;">Overnight Insured</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">1 Business Day</div>
+                                </div>
+                                <div class="text-gold" style="font-weight: bold;" id="cost-overnight">Calc...</div>
                             </label>
 
                             <div class="mt-3 text-muted" style="font-size: 0.85rem;">
-                                <i class="fa-solid fa-shield-halved text-gold"></i> Fully Insured against loss or
-                                damage.
+                                <i class="fa-solid fa-shield-halved text-gold"></i> Shipping costs dynamically
+                                calculated based on the insured value of your items.
                             </div>
                         </div>
                     </div>
@@ -241,7 +265,7 @@
                         </div>
                         <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
                             <span class="text-muted">Insured Shipping:</span>
-                            <span class="text-white">$50.00</span>
+                            <span class="text-white" id="checkout-shipping-cost">$0.00</span>
                         </div>
                         <div class="flex justify-between"
                             style="width: 300px; border-top: 1px solid var(--color-gray); padding-top: 10px; margin-top: 5px;">
