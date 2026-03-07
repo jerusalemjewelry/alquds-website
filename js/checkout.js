@@ -203,9 +203,10 @@ function renderCheckout(cart) {
             newBtn.style.opacity = '0.7';
 
             setTimeout(() => {
-                alert('Order Placed Successfully via Credit Card! Thank you for shopping with Alquds Jewelry.');
+                const totalText = document.getElementById('checkout-total').innerText.replace(/[^0-9.]/g, '');
+                const orderId = Math.floor(100000 + Math.random() * 900000);
                 localStorage.removeItem('alquds_cart');
-                window.location.href = 'index.html';
+                window.location.href = `order-confirmation.html?id=${orderId}&total=${totalText}&method=Credit+Card`;
             }, 2000);
         });
     }
@@ -303,11 +304,13 @@ function renderCheckout(cart) {
             },
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name + '! Thank you for shopping with Alquds Jewelry.');
+                    // Extract total
+                    const totalPaid = details.purchase_units[0].amount.value;
+                    const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
 
-                    // Clear the cart and redirect
+                    // Clear the cart and redirect to order confirmation
                     localStorage.removeItem('alquds_cart');
-                    window.location.href = 'index.html';
+                    window.location.href = `order-confirmation.html?id=${orderId}&total=${totalPaid}&method=PayPal`;
                 });
             },
             onError: function (err) {
