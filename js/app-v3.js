@@ -54,6 +54,47 @@
                 display: flex !important;
             }
         }
+        .karat-filter-checkbox {
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            width: 16px !important;
+            height: 16px !important;
+            border: 2px solid #555 !important;
+            border-radius: 50% !important;
+            outline: none !important;
+            cursor: pointer !important;
+            transition: all 0.25s ease !important;
+            display: inline-block !important;
+            position: relative !important;
+            background: #111115 !important;
+            margin: 0 !important;
+            vertical-align: middle !important;
+        }
+        .karat-filter-checkbox:checked {
+            border-color: var(--color-gold, #DAA520) !important;
+            background: var(--color-gold, #DAA520) !important;
+        }
+        .karat-filter-checkbox:checked::after {
+            content: '' !important;
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+            background: #000000 !important;
+        }
+        .karat-filter-label {
+            transition: color 0.25s ease !important;
+        }
+        .karat-filter-label:hover {
+            color: #ffffff !important;
+        }
+        .karat-filter-label:hover .karat-filter-checkbox {
+            border-color: var(--color-gold, #DAA520) !important;
+        }
     `;
     document.head.appendChild(style);
 })();
@@ -516,16 +557,16 @@ function renderCatalog(reset = true) {
                 <div id="sidebar-karat-filter" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
                     <h3 style="color: white; font-size: 1rem; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #333; padding-bottom: 10px;">Filter by Karat</h3>
                     <div style="display: flex; flex-direction: column; gap: 12px; padding: 5px 0;">
-                        <label style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
-                            <input type="checkbox" value="22" class="karat-filter-checkbox" style="accent-color: var(--color-gold, #DAA520); cursor: pointer; width: 18px; height: 18px;">
+                        <label class="karat-filter-label" style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
+                            <input type="checkbox" value="22" class="karat-filter-checkbox">
                             22K Gold
                         </label>
-                        <label style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
-                            <input type="checkbox" value="21" class="karat-filter-checkbox" style="accent-color: var(--color-gold, #DAA520); cursor: pointer; width: 18px; height: 18px;">
+                        <label class="karat-filter-label" style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
+                            <input type="checkbox" value="21" class="karat-filter-checkbox">
                             21K Gold
                         </label>
-                        <label style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
-                            <input type="checkbox" value="18" class="karat-filter-checkbox" style="accent-color: var(--color-gold, #DAA520); cursor: pointer; width: 18px; height: 18px;">
+                        <label class="karat-filter-label" style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
+                            <input type="checkbox" value="18" class="karat-filter-checkbox">
                             18K Gold
                         </label>
                     </div>
