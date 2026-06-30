@@ -31,6 +31,22 @@
       "image": "assets/klada1-144.30.png",
       "description": "cooin necklace set",
       "category": "kladas"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 7,
+      "taxable": true,
+      "name": "21k Klada ( Coin Necklace )",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 10,
+      "weight": "137.45",
+      "id": "Kc2",
+      "image": "assets/kc2.png",
+      "description": "nice chain",
+      "category": "kladas"
     }
   ]
 }
