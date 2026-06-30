@@ -48,7 +48,7 @@ collections:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "ID", name: "id", widget: "string"}
               - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
-              - {label: "Category", name: "category", widget: "select", options: ["bangles", "chains", "earrings", "rings", "name-plates", "white-gold", "bands", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver"]}
+              - {label: "Category", name: "category", widget: "select", options: ["bangles", "bangle-sets", "chains", "earrings", "rings", "name-plates", "white-gold", "bands", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
               - {label: "Weight (Grams)", name: "weight", widget: "string"}
               - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
@@ -61,6 +61,11 @@ collections:
               - {label: "Featured?", name: "featured", widget: "boolean", default: false}
               - {label: "Taxable", name: "taxable", widget: "boolean", required: false}
               - {label: "Out of Stock?", name: "outOfStock", widget: "boolean", default: false}
+
+      - name: "bangle-sets"
+        label: "Bangle Sets"
+        file: "data/products/bangle-sets.json"
+        fields: *product_fields
 
       - name: "chains"
         label: "Chains"
