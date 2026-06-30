@@ -507,6 +507,40 @@ function renderCatalog(reset = true) {
     const subParam = urlParams.get('sub');
     const searchParam = urlParams.get('search');
 
+    // Inject Karat Filter in the sidebar if it doesn't exist
+    const sidebar = document.querySelector('aside');
+    if (sidebar && !document.getElementById('sidebar-karat-filter')) {
+        const priceContainer = sidebar.querySelector('.price-filter-container');
+        if (priceContainer) {
+            priceContainer.insertAdjacentHTML('afterend', `
+                <div id="sidebar-karat-filter" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+                    <h3 style="color: white; font-size: 1rem; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #333; padding-bottom: 10px;">Filter by Karat</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px; padding: 5px 0;">
+                        <label style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
+                            <input type="checkbox" value="22" class="karat-filter-checkbox" style="accent-color: var(--color-gold, #DAA520); cursor: pointer; width: 18px; height: 18px;">
+                            22K Gold
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
+                            <input type="checkbox" value="21" class="karat-filter-checkbox" style="accent-color: var(--color-gold, #DAA520); cursor: pointer; width: 18px; height: 18px;">
+                            21K Gold
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; color: #ccc; cursor: pointer; font-size: 0.95rem; font-family: var(--font-body);">
+                            <input type="checkbox" value="18" class="karat-filter-checkbox" style="accent-color: var(--color-gold, #DAA520); cursor: pointer; width: 18px; height: 18px;">
+                            18K Gold
+                        </label>
+                    </div>
+                </div>
+            `);
+            
+            // Add change listener to checkboxes to trigger re-render on toggle
+            document.querySelectorAll('.karat-filter-checkbox').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    renderCatalog(true); // Re-render the catalog grid
+                });
+            });
+        }
+    }
+
     // Name Plates Modal Logic
     if (reset && (catParam === 'name-plates' || subParam === 'name-plates')) {
         // Show once per session
@@ -746,6 +780,17 @@ function renderCatalog(reset = true) {
             const price = p.price || 0;
             return price >= minPriceFilter && price <= maxPriceFilter;
         });
+    }
+
+    // Apply Karat Filter
+    if (!isMaterialRoot) { // Don't filter category cards
+        const activeKarats = Array.from(document.querySelectorAll('.karat-filter-checkbox:checked')).map(cb => parseInt(cb.value));
+        if (activeKarats.length > 0) {
+            currentFilteredProducts = currentFilteredProducts.filter(p => {
+                const k = p.karat ? parseInt(p.karat) : null;
+                return k && activeKarats.includes(k);
+            });
+        }
     }
 
     const start = 0;
