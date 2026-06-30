@@ -641,7 +641,7 @@ function renderCatalog(reset = true) {
         if (title) title.innerText = pageLabel;
     }
 
-    // Inject Ring Sizer or Necklace Sizer link under catalog title (for mobile) and under price filter in the sidebar (for desktop)
+    // Inject Ring Sizer, Necklace Sizer or Wrist Sizer link under catalog title (for mobile) and under price filter in the sidebar (for desktop)
     const existingCatalogSizer = document.getElementById('catalog-sizer-link');
     if (existingCatalogSizer) existingCatalogSizer.remove();
     
@@ -657,6 +657,9 @@ function renderCatalog(reset = true) {
                                 
     const isCatalogNecklaceOrChain = (catParam === 'necklaces' || catParam === 'chains' || catParam === 'chokers' || catParam === 'pendants' || subParam === 'necklaces' || subParam === 'chains' || subParam === 'chokers' || subParam === 'pendants') ||
                                      (searchParam && (searchParam.toLowerCase().includes('necklace') || searchParam.toLowerCase().includes('chain') || searchParam.toLowerCase().includes('pendant') || searchParam.toLowerCase().includes('choker')));
+
+    const isCatalogWristwear = (catParam === 'bangles' || catParam === 'bangle-sets' || catParam === 'bracelets' || catParam === 'anklets' || subParam === 'bangles' || subParam === 'bangle-sets' || subParam === 'bracelets' || subParam === 'anklets') ||
+                               (searchParam && (searchParam.toLowerCase().includes('bangle') || searchParam.toLowerCase().includes('bracelet') || searchParam.toLowerCase().includes('anklet')));
 
     if (isCatalogRingOrBand) {
         // 1. Mobile placement (under page title, styled to hide on desktop)
@@ -702,6 +705,30 @@ function renderCatalog(reset = true) {
                 <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
                     <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated" style="font-size: 1rem !important;">
                         <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
+                    </a>
+                </div>
+            `);
+        }
+    } else if (isCatalogWristwear) {
+        // 1. Mobile placement (under page title, styled to hide on desktop)
+        if (title && title.parentNode) {
+            title.parentNode.style.flexDirection = 'column';
+            title.insertAdjacentHTML('afterend', `
+                <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
+                    <a href="wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                        <i class="fa-solid fa-ruler-horizontal"></i> Wrist Sizing Guide
+                    </a>
+                </div>
+            `);
+        }
+        
+        // 2. Desktop placement (under price filter in the sidebar)
+        const sidebar = document.querySelector('aside');
+        if (sidebar) {
+            sidebar.insertAdjacentHTML('beforeend', `
+                <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
+                    <a href="wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated" style="font-size: 1rem !important;">
+                        <i class="fa-solid fa-ruler-horizontal"></i> Wrist Sizing Guide
                     </a>
                 </div>
             `);
@@ -838,6 +865,17 @@ function renderProductDetail() {
                               String(product.name || '').toLowerCase().includes('pendant') ||
                               String(product.name || '').toLowerCase().includes('choker');
 
+    const isWristwear = product.category === 'bangles' || 
+                        product.category === 'bangle-sets' || 
+                        product.category === 'bracelets' || 
+                        product.category === 'anklets' ||
+                        String(product.category || '').toLowerCase().includes('bangle') ||
+                        String(product.category || '').toLowerCase().includes('bracelet') ||
+                        String(product.category || '').toLowerCase().includes('anklet') ||
+                        String(product.name || '').toLowerCase().includes('bangle') ||
+                        String(product.name || '').toLowerCase().includes('bracelet') ||
+                        String(product.name || '').toLowerCase().includes('anklet');
+
     let sizerLinkHTML = '';
     if (isRingOrBand) {
         sizerLinkHTML = `
@@ -852,6 +890,14 @@ function renderProductDetail() {
             <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
                 <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
                     <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
+                </a>
+            </div>
+        `;
+    } else if (isWristwear) {
+        sizerLinkHTML = `
+            <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
+                <a href="wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                    <i class="fa-solid fa-ruler-horizontal"></i> Wrist Sizing Guide
                 </a>
             </div>
         `;
