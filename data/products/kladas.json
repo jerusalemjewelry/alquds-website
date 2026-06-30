@@ -15,6 +15,22 @@
       "image": "assets/koursi-jaber-91.50.png",
       "description": "full set",
       "category": "kladas"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 6,
+      "taxable": true,
+      "name": "Klada ( Coin necklace ) ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 10,
+      "weight": "144.30",
+      "id": "Kc1",
+      "image": "assets/klada1-144.30.png",
+      "description": "cooin necklace set",
+      "category": "kladas"
     }
   ]
 }
