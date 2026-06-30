@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bangle & Bracelet Sizing Guide - Alquds Jewelry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Brand Header -->
+    <header class="brand-header">
+      <h1 class="brand-title">Alquds Jewelry</h1>
+      <p class="brand-subtitle">Wristwear Sizing Guide</p>
+    </header>
+
+    <!-- Tab Container -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="bracelet">Bracelet Guide</button>
+      <button class="tab-btn" data-tab="bangle">Bangle Guide</button>
+    </div>
+
+    <!-- CARD CONTENT -->
+    <div class="card">
+      
+      <!-- TAB 1: BRACELET SIZING -->
+      <div id="tab-bracelet" class="tab-content active">
+        <h2 class="card-title">Bracelet Sizing Guide</h2>
+        <p class="card-desc">Find your ideal bracelet length by measuring your wrist circumference.</p>
+
+        <div class="sizer-grid">
+          <!-- Left Column: Interactive Calculator -->
+          <div class="interactive-panel">
+            <h3 class="panel-subtitle">Interactive Size Estimator</h3>
+            
+            <div class="input-group">
+              <label for="wrist-slider" class="input-label">Drag to select your Wrist Circumference:</label>
+              <div class="slider-val-wrapper">
+                <span id="wrist-val-in" class="val-primary">6.5"</span>
+                <span id="wrist-val-cm" class="val-secondary">/ 16.5 cm</span>
+              </div>
+              <input type="range" id="wrist-slider" min="5.0" max="9.0" step="0.1" value="6.5" class="range-slider">
+            </div>
+
+            <div class="results-box">
+              <h4 class="results-title">Recommended Bracelet Lengths:</h4>
+              <div class="result-row">
+                <span>Snug Fit (sleek & tight):</span>
+                <strong id="fit-snug">6.75" <span class="metric">/ 17.1 cm</span></strong>
+              </div>
+              <div class="result-row highlighted">
+                <span>Comfort Fit (Standard):</span>
+                <strong id="fit-comfort">7.0" <span class="metric">/ 17.8 cm</span></strong>
+              </div>
+              <div class="result-row">
+                <span>Loose Fit (drapes low):</span>
+                <strong id="fit-loose">7.5" <span class="metric">/ 19.1 cm</span></strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Size Chart -->
+          <div class="chart-panel">
+            <h3 class="panel-subtitle">Bracelet Size Reference Table</h3>
+            <div class="table-wrapper">
+              <table class="size-table" id="bracelet-table">
+                <thead>
+                  <tr>
+                    <th>Wrist Circumference</th>
+                    <th>Comfort Fit Length</th>
+                    <th>Standard Size</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-range-min="5.0" data-range-max="5.4">
+                    <td>5.0" - 5.4" <span class="metric">/ 12.7 - 13.7 cm</span></td>
+                    <td><strong>6.0" <span class="metric">/ 15.2 cm</span></strong></td>
+                    <td>XX-Small</td>
+                  </tr>
+                  <tr data-range-min="5.5" data-range-max="5.9">
+                    <td>5.5" - 5.9" <span class="metric">/ 14.0 - 15.0 cm</span></td>
+                    <td><strong>6.5" <span class="metric">/ 16.5 cm</span></strong></td>
+                    <td>X-Small</td>
+                  </tr>
+                  <tr data-range-min="6.0" data-range-max="6.4">
+                    <td>6.0" - 6.4" <span class="metric">/ 15.2 - 16.3 cm</span></td>
+                    <td><strong>6.75" <span class="metric">/ 17.1 cm</span></strong></td>
+                    <td>Small</td>
+                  </tr>
+                  <tr class="highlighted-row" data-range-min="6.5" data-range-max="6.9">
+                    <td>6.5" - 6.9" <span class="metric">/ 16.5 - 17.5 cm</span></td>
+                    <td><strong>7.0" <span class="metric">/ 17.8 cm</span></strong></td>
+                    <td>Medium (Standard)</td>
+                  </tr>
+                  <tr data-range-min="7.0" data-range-max="7.4">
+                    <td>7.0" - 7.4" <span class="metric">/ 17.8 - 18.8 cm</span></td>
+                    <td><strong>7.5" <span class="metric">/ 19.1 cm</span></strong></td>
+                    <td>Large</td>
+                  </tr>
+                  <tr data-range-min="7.5" data-range-max="7.9">
+                    <td>7.5" - 7.9" <span class="metric">/ 19.1 - 20.1 cm</span></td>
+                    <td><strong>8.0" <span class="metric">/ 20.3 cm</span></strong></td>
+                    <td>X-Large</td>
+                  </tr>
+                  <tr data-range-min="8.0" data-range-max="9.0">
+                    <td>8.0" - 9.0" <span class="metric">/ 20.3 - 22.9 cm</span></td>
+                    <td><strong>8.5" <span class="metric">/ 21.6 cm</span></strong></td>
+                    <td>XX-Large</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="instructions-panel">
+          <h3 class="panel-subtitle">How to Measure Your Wrist</h3>
+          <ol class="instructions-list">
+            <li>Wrap a soft tape measure or strip of paper around your wrist bone snugly but not tight.</li>
+            <li>If using paper, mark where the ends meet and measure that length with a standard ruler.</li>
+            <li>Take that base measurement and add **0.5 inches (1.27 cm)** to find your standard **Comfort Fit** bracelet size.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- TAB 2: BANGLE SIZING -->
+      <div id="tab-bangle" class="tab-content">
+        <h2 class="card-title">Bangle Sizing Guide</h2>
+        <p class="card-desc">Bangles are rigid bracelets that must fit over your hand. They are sized by your <strong>hand circumference</strong>, not your wrist.</p>
+
+        <div class="sizer-grid">
+          <!-- Left Column: Knuckle Circumference Slider -->
+          <div class="interactive-panel">
+            <h3 class="panel-subtitle">Bangle Size Calculator</h3>
+            
+            <div class="input-group">
+              <label for="bangle-slider" class="input-label">Drag to select your Hand Knuckle Circumference:</label>
+              <div class="slider-val-wrapper">
+                <span id="bangle-val-in" class="val-primary">7.4"</span>
+                <span id="bangle-val-mm" class="val-secondary">/ 188 mm</span>
+              </div>
+              <input type="range" id="bangle-slider" min="6.0" max="9.5" step="0.1" value="7.4" class="range-slider">
+            </div>
+
+            <div class="results-box">
+              <h4 class="results-title">Your Estimated Bangle Size:</h4>
+              <div class="result-row highlighted">
+                <span>Recommended Size:</span>
+                <strong id="bangle-res-size">Size 2-6 <span class="metric">/ Medium</span></strong>
+              </div>
+              <div class="result-row">
+                <span>Inner Diameter needed:</span>
+                <strong id="bangle-res-diam">2.375" <span class="metric">/ 60 mm</span></strong>
+              </div>
+            </div>
+
+            <!-- Visual Diameter circle overlay -->
+            <div class="visual-circle-panel">
+              <p class="visual-circle-title">Visual Bangle Size Preview:</p>
+              <div class="circle-container">
+                <div id="bangle-preview-circle" class="preview-circle">
+                  <span id="circle-label">60 mm</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Bangle Chart -->
+          <div class="chart-panel">
+            <h3 class="panel-subtitle">Bangle Size Reference Table</h3>
+            <div class="table-wrapper">
+              <table class="size-table" id="bangle-table">
+                <thead>
+                  <tr>
+                    <th>Bangle Size</th>
+                    <th>Inner Diameter</th>
+                    <th>Hand Circumference Limit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-circ-min="0.0" data-circ-max="6.9">
+                    <td><strong>Size 2-2 <span class="metric">/ Small</span></strong></td>
+                    <td>2.12" <span class="metric">/ 54 mm</span></td>
+                    <td>Up to 6.8" <span class="metric">/ 172 mm</span></td>
+                  </tr>
+                  <tr data-circ-min="7.0" data-circ-max="7.3">
+                    <td><strong>Size 2-4 <span class="metric">/ S-M</span></strong></td>
+                    <td>2.25" <span class="metric">/ 57 mm</span></td>
+                    <td>Up to 7.2" <span class="metric">/ 182 mm</span></td>
+                  </tr>
+                  <tr class="highlighted-row" data-circ-min="7.4" data-circ-max="7.7">
+                    <td><strong>Size 2-6 <span class="metric">/ Medium</span></strong></td>
+                    <td>2.375" <span class="metric">/ 60 mm</span></td>
+                    <td>Up to 7.6" <span class="metric">/ 192 mm</span></td>
+                  </tr>
+                  <tr data-circ-min="7.8" data-circ-max="8.1">
+                    <td><strong>Size 2-8 <span class="metric">/ M-L</span></strong></td>
+                    <td>2.50" <span class="metric">/ 64 mm</span></td>
+                    <td>Up to 8.0" <span class="metric">/ 202 mm</span></td>
+                  </tr>
+                  <tr data-circ-min="8.2" data-circ-max="8.5">
+                    <td><strong>Size 2-10 <span class="metric">/ Large</span></strong></td>
+                    <td>2.625" <span class="metric">/ 67 mm</span></td>
+                    <td>Up to 8.4" <span class="metric">/ 212 mm</span></td>
+                  </tr>
+                  <tr data-circ-min="8.6" data-circ-max="9.5">
+                    <td><strong>Size 2-12 <span class="metric">/ X-Large</span></strong></td>
+                    <td>2.75" <span class="metric">/ 70 mm</span></td>
+                    <td>Up to 8.8" <span class="metric">/ 222 mm</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="instructions-panel">
+          <h3 class="panel-subtitle">How to Measure Your Hand for Bangles</h3>
+          <ol class="instructions-list">
+            <li>Bring your thumb and little finger together as if you were putting on a bangle.</li>
+            <li>Using a soft tape measure or paper strip, wrap it around the widest part of your hand (across your knuckles and the base of your thumb).</li>
+            <li>Mark where it overlaps, measure it, and compare it to the table to find the diameter size you need.</li>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="brand-footer">
+      <div class="brand-footer-logo">Alquds Jewelry</div>
+      <p style="font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.6;">&copy; 2026 Alquds Jewelry. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
