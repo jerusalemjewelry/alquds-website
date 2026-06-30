@@ -58,9 +58,9 @@
             -webkit-appearance: none !important;
             -moz-appearance: none !important;
             appearance: none !important;
-            width: 12px !important;
-            height: 12px !important;
-            border: 1.5px solid #555 !important;
+            width: 8px !important;
+            height: 8px !important;
+            border: 1px solid #555 !important;
             border-radius: 50% !important;
             outline: none !important;
             cursor: pointer !important;
@@ -69,6 +69,7 @@
             position: relative !important;
             background: #111115 !important;
             margin: 0 !important;
+            flex-shrink: 0 !important;
             vertical-align: middle !important;
         }
         .karat-filter-checkbox:checked {
@@ -81,8 +82,8 @@
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
-            width: 4px !important;
-            height: 4px !important;
+            width: 2px !important;
+            height: 2px !important;
             border-radius: 50% !important;
             background: #000000 !important;
         }
