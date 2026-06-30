@@ -580,6 +580,28 @@ function renderCatalog(reset = true) {
         if (title) title.innerText = pageLabel;
     }
 
+    // Inject Ring Sizer link under catalog title if viewing rings or bands
+    const existingCatalogSizer = document.getElementById('catalog-sizer-link');
+    if (existingCatalogSizer) existingCatalogSizer.remove();
+    
+    if (title && title.parentNode) {
+        title.parentNode.style.flexDirection = 'row'; // Restore default
+    }
+
+    const isCatalogRingOrBand = (catParam === 'rings' || catParam === 'bands' || subParam === 'rings' || subParam === 'bands') ||
+                                (searchParam && (searchParam.toLowerCase().includes('ring') || searchParam.toLowerCase().includes('band')));
+                                
+    if (isCatalogRingOrBand && title && title.parentNode) {
+        title.parentNode.style.flexDirection = 'column';
+        title.insertAdjacentHTML('afterend', `
+            <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
+                <a href="ring-sizer/index.html" target="_blank" class="hover-gold" style="color: var(--color-gold); font-size: 1.05rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(212,175,55,0.3); padding: 8px 16px; border-radius: 4px; background: rgba(212,175,55,0.05); transition: all 0.2s;">
+                    <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
+                </a>
+            </div>
+        `);
+    }
+
     if (materialConfig && materialConfig.filterField === 'color') {
         const categoriesInScope = [...new Set(products.filter(p => p.color === materialConfig.filterValue).map(p => p.category))];
         updateSidebar(categoriesInScope, catParam, subParam);
@@ -696,8 +718,8 @@ function renderProductDetail() {
                          String(product.name || '').toLowerCase().includes('band');
 
     const sizerLinkHTML = isRingOrBand ? `
-        <div style="margin-top: -15px; margin-bottom: 20px; text-align: right;">
-            <a href="ring-sizer/index.html" target="_blank" class="hover-gold" style="color: var(--color-gold); font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+        <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
+            <a href="ring-sizer/index.html" target="_blank" class="hover-gold" style="color: var(--color-gold); font-size: 1.05rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(212,175,55,0.3); padding: 8px 16px; border-radius: 4px; background: rgba(212,175,55,0.05); transition: all 0.2s;">
                 <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
             </a>
         </div>
