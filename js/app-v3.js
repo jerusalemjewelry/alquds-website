@@ -133,6 +133,63 @@
         .sidebar-category-link:hover::before, .sidebar-category-link.active::before {
             opacity: 1 !important;
         }
+        /* Horizontal Top Filter Bar Styling */
+        @media (min-width: 768px) {
+            .has-filters {
+                flex-direction: column !important;
+                gap: 0 !important;
+            }
+            aside.filters-horizontal {
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: row !important;
+                gap: 30px !important;
+                align-items: stretch !important;
+                flex-wrap: wrap !important;
+                margin-bottom: 45px !important;
+                border-bottom: 1px solid #222 !important;
+                padding-bottom: 30px !important;
+            }
+            #sidebar-categories-filter {
+                flex: 1 1 250px !important;
+                margin-bottom: 0 !important;
+            }
+            .price-filter-container {
+                flex: 1 1 280px !important;
+                margin-bottom: 0 !important;
+            }
+            #sidebar-karat-filter {
+                flex: 1 1 200px !important;
+                margin-top: 0 !important;
+                border-top: none !important;
+                padding-top: 0 !important;
+            }
+            #sidebar-sizer-link {
+                flex: 1 1 220px !important;
+                margin-top: 0 !important;
+                border-top: none !important;
+                padding-top: 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: rgba(255, 255, 255, 0.01) !important;
+                border: 1px dashed #333 !important;
+                border-radius: 8px !important;
+                padding: 15px !important;
+                text-align: center !important;
+                transition: all 0.3s ease !important;
+                height: auto !important;
+            }
+            #sidebar-sizer-link:hover {
+                border-color: var(--color-gold, #DAA520) !important;
+                background: rgba(212, 175, 55, 0.03) !important;
+            }
+            #sidebar-sizer-link a {
+                font-size: 0.95rem !important;
+                display: block !important;
+                width: 100% !important;
+            }
+        }
     `;
     document.head.appendChild(style);
 })();
@@ -586,8 +643,20 @@ function renderCatalog(reset = true) {
     const subParam = urlParams.get('sub');
     const searchParam = urlParams.get('search');
 
-    // Inject Collections Switcher in the sidebar if it doesn't exist (only when subcategory is active)
+    // Set Layout Classes for Horizontal Filter Bar
     const sidebar = document.querySelector('aside');
+    if (sidebar) {
+        const layoutContainer = sidebar.parentNode;
+        if (catParam === 'yellow-gold' && !subParam) {
+            sidebar.classList.remove('filters-horizontal');
+            if (layoutContainer) layoutContainer.classList.remove('has-filters');
+        } else {
+            sidebar.classList.add('filters-horizontal');
+            if (layoutContainer) layoutContainer.classList.add('has-filters');
+        }
+    }
+
+    // Inject Collections Switcher in the sidebar if it doesn't exist (only when subcategory is active)
     if (sidebar && subParam) {
         if (!document.getElementById('sidebar-categories-filter')) {
             sidebar.insertAdjacentHTML('afterbegin', `
