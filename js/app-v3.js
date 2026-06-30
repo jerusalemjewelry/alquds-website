@@ -1,3 +1,55 @@
+// Dynamic CSS Injection for Ring Sizer Hover Animations
+(function() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .ring-sizer-link-integrated {
+            color: var(--color-gold, #DAA520) !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            border: none !important;
+            background: none !important;
+            cursor: pointer !important;
+            position: relative !important;
+            padding: 4px 0 !important;
+        }
+        .ring-sizer-link-integrated i {
+            transition: transform 0.3s ease !important;
+            color: var(--color-gold, #DAA520) !important;
+        }
+        .ring-sizer-link-integrated:hover {
+            color: #ffffff !important;
+            transform: scale(1.04) !important;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.6) !important;
+        }
+        .ring-sizer-link-integrated:hover i {
+            transform: rotate(15deg) scale(1.1) !important;
+            color: #ffffff !important;
+        }
+        .ring-sizer-link-integrated::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -2px !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 1.5px !important;
+            background-color: #ffffff !important;
+            transform: scaleX(0) !important;
+            transform-origin: right !important;
+            transition: transform 0.3s ease !important;
+        }
+        .ring-sizer-link-integrated:hover::after {
+            transform: scaleX(1) !important;
+            transform-origin: left !important;
+        }
+    `;
+    document.head.appendChild(style);
+})();
+
 // Cart State
 let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
 let products = [];
@@ -595,7 +647,7 @@ function renderCatalog(reset = true) {
         title.parentNode.style.flexDirection = 'column';
         title.insertAdjacentHTML('afterend', `
             <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
-                <a href="ring-sizer/index.html" target="_blank" class="hover-gold" style="color: var(--color-gold); font-size: 1.05rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(212,175,55,0.3); padding: 8px 16px; border-radius: 4px; background: rgba(212,175,55,0.05); transition: all 0.2s;">
+                <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
                     <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
                 </a>
             </div>
@@ -719,7 +771,7 @@ function renderProductDetail() {
 
     const sizerLinkHTML = isRingOrBand ? `
         <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
-            <a href="ring-sizer/index.html" target="_blank" class="hover-gold" style="color: var(--color-gold); font-size: 1.05rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(212,175,55,0.3); padding: 8px 16px; border-radius: 4px; background: rgba(212,175,55,0.05); transition: all 0.2s;">
+            <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
                 <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
             </a>
         </div>
