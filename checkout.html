@@ -203,7 +203,6 @@
                             <h3 class="mb-3 text-white"
                                 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
                                 Shipping Method</h3>
-
                             <label class="shipping-method-box mb-3"
                                 style="display: flex; align-items: center; padding: 15px; border-radius: 4px; border: 1px solid var(--color-gray); cursor: pointer; transition: all 0.3s; margin-bottom: 10px; background: rgba(0,0,0,0.5);">
                                 <input type="radio" name="shipping" value="standard" class="radio-gold"
@@ -281,6 +280,13 @@
                                 <i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>
                                 <strong>Oops!</strong> Looks like you forgot to fill out your Personal & Shipping info
                                 in Step 1. Please complete it before paying.
+                            </div>
+
+                            <div style="margin-top: 15px; margin-bottom: 20px; text-align: left;">
+                                <label style="display: flex; align-items: start; gap: 10px; color: #bbb; cursor: pointer; font-size: 0.85rem; line-height: 1.4; user-select: none;">
+                                    <input type="checkbox" id="policy-agreement" required style="accent-color: var(--color-gold); cursor: pointer; width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0;">
+                                    <span>I agree to the <a href="shipping.html" target="_blank" style="color: var(--color-gold); text-decoration: underline;">Shipping, Exchange & Return policies</a> *</span>
+                                </label>
                             </div>
 
                             <div id="paypal-button-container"></div>
