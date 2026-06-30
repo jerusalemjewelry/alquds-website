@@ -688,6 +688,21 @@ function renderProductDetail() {
     if (breadCat) breadCat.innerText = product.category.charAt(0).toUpperCase() + product.category.slice(1);
     if (breadProd) breadProd.innerText = product.name;
 
+    const isRingOrBand = product.category === 'rings' || 
+                         product.category === 'bands' || 
+                         String(product.category || '').toLowerCase().includes('ring') ||
+                         String(product.category || '').toLowerCase().includes('band') ||
+                         String(product.name || '').toLowerCase().includes('ring') ||
+                         String(product.name || '').toLowerCase().includes('band');
+
+    const sizerLinkHTML = isRingOrBand ? `
+        <div style="margin-top: -15px; margin-bottom: 20px; text-align: right;">
+            <a href="ring-sizer/index.html" target="_blank" class="hover-gold" style="color: var(--color-gold); font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
+            </a>
+        </div>
+    ` : '';
+
     const isOutOfStock = product.outOfStock === true;
     const btnHTML = isOutOfStock
         ? `<button disabled class="btn btn-primary btn-disabled" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-ban" style="margin-right: 8px;"></i> OUT OF STOCK</button>`
@@ -801,6 +816,7 @@ function renderProductDetail() {
         }
                 </table>
             </div>
+            ${sizerLinkHTML}
             <div class="flex items-center gap-4" style="margin-bottom: 25px;">
                 <label class="text-muted" style="font-size: 0.9rem;">Quantity:</label>
                 <input type="number" value="1" min="1" id="quantity-${product.id}" ${isOutOfStock ? 'disabled' : ''} style="width: 80px; padding: 10px; background: #222; border: 1px solid #333; color: white; text-align: center; ${isOutOfStock ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
