@@ -3,7 +3,7 @@
     const style = document.createElement('style');
     style.textContent = `
         .ring-sizer-link-integrated {
-            color: var(--color-gold, #DAA520) !important;
+            color: #ffffff !important;
             font-size: 1.1rem !important;
             font-weight: 600 !important;
             text-decoration: none !important;
@@ -19,16 +19,16 @@
         }
         .ring-sizer-link-integrated i {
             transition: transform 0.3s ease !important;
-            color: var(--color-gold, #DAA520) !important;
+            color: #ffffff !important;
         }
         .ring-sizer-link-integrated:hover {
-            color: #ffffff !important;
+            color: var(--color-gold, #DAA520) !important;
             transform: scale(1.04) !important;
-            text-shadow: 0 0 8px rgba(212, 175, 55, 0.6) !important;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.4) !important;
         }
         .ring-sizer-link-integrated:hover i {
             transform: rotate(15deg) scale(1.1) !important;
-            color: #ffffff !important;
+            color: var(--color-gold, #DAA520) !important;
         }
         .ring-sizer-link-integrated::after {
             content: '' !important;
@@ -37,7 +37,7 @@
             left: 0 !important;
             width: 100% !important;
             height: 1.5px !important;
-            background-color: #ffffff !important;
+            background-color: var(--color-gold, #DAA520) !important;
             transform: scaleX(0) !important;
             transform-origin: right !important;
             transition: transform 0.3s ease !important;
