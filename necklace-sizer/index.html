@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Necklace Sizing Guide - Alquds Jewelry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Brand Header -->
+    <header class="brand-header">
+      <h1 class="brand-title">Alquds Jewelry</h1>
+      <p class="brand-subtitle">Necklace Length Guide</p>
+    </header>
+
+    <div class="card">
+      <h2 class="card-title">Interactive Necklace Sizer</h2>
+      <p class="card-desc">Hover over a size in the chart or on the silhouette to visualize how different necklace lengths rest on the body.</p>
+
+      <div class="sizer-grid">
+        <!-- Visual Silhouette Column -->
+        <div class="visual-panel">
+          <div class="silhouette-container">
+            <!-- Custom Vector Silhouette & Necklaces SVG -->
+            <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" class="silhouette-svg">
+              <!-- Body Outline Silhouette -->
+              <path d="M 68 20 
+                       C 68 45, 68 55, 68 65 
+                       C 68 75, 48 85, 30 95
+                       C 20 100, 18 115, 18 130
+                       L 18 220 
+                       L 182 220 
+                       L 182 130
+                       C 182 115, 180 100, 170 95
+                       C 152 85, 132 75, 132 65
+                       C 132 55, 132 45, 132 20
+                       Z" fill="#12141d" stroke="#2d3142" stroke-width="1.5" />
+              
+              <!-- Subtle Collarbones -->
+              <path d="M 68 85 Q 100 95 132 85" fill="none" stroke="#2d3142" stroke-width="1" stroke-linecap="round" opacity="0.5" />
+              <path d="M 75 102 Q 100 110 125 102" fill="none" stroke="#2d3142" stroke-width="1" stroke-linecap="round" opacity="0.3" />
+
+              <!-- Necklaces (Bezier curves) -->
+              <!-- 14" Choker -->
+              <path id="necklace-14" class="necklace-line" d="M 76 65 Q 100 82 124 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="14" />
+              <!-- 16" Collar -->
+              <path id="necklace-16" class="necklace-line" d="M 73 65 Q 100 96 127 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="16" />
+              <!-- 18" Collarbone -->
+              <path id="necklace-18" class="necklace-line" d="M 71 65 Q 100 110 129 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="18" />
+              <!-- 20" Upper Chest -->
+              <path id="necklace-20" class="necklace-line" d="M 69 65 Q 100 125 131 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="20" />
+              <!-- 22" Near Bust -->
+              <path id="necklace-22" class="necklace-line" d="M 68 65 Q 100 140 132 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="22" />
+              <!-- 24" Center Chest -->
+              <path id="necklace-24" class="necklace-line" d="M 68 65 Q 100 155 132 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="24" />
+              <!-- 30" Mid-Torso -->
+              <path id="necklace-30" class="necklace-line" d="M 68 65 Q 100 180 132 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="30" />
+              <!-- 33" Lower Torso -->
+              <path id="necklace-33" class="necklace-line" d="M 68 65 Q 100 198 132 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="33" />
+              <!-- 36" Above Waist -->
+              <path id="necklace-36" class="necklace-line" d="M 68 65 Q 100 216 132 65" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" data-size="36" />
+
+              <!-- Overlay Text labels inside SVG on active -->
+              <g id="svg-labels" opacity="0">
+                <rect id="label-bg" x="75" y="110" width="50" height="15" rx="3" fill="#0a0b0d" stroke="#d4af37" stroke-width="0.5" />
+                <text id="label-text" x="100" y="120" font-family="'Montserrat', sans-serif" font-size="8" font-weight="bold" fill="#d4af37" text-anchor="middle">18" / 45.7 cm</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Table Column -->
+        <div class="chart-panel">
+          <div class="table-wrapper">
+            <table class="size-table" id="necklace-table">
+              <thead>
+                <tr>
+                  <th>Length</th>
+                  <th>Where It Rests</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="table-row" data-size="14">
+                  <td><strong>14" <span class="metric">/ 35.6 cm</span></strong></td>
+                  <td>Choker style</td>
+                  <td>Rests tightly around the throat.</td>
+                </tr>
+                <tr class="table-row" data-size="16">
+                  <td><strong>16" <span class="metric">/ 40.6 cm</span></strong></td>
+                  <td>Collar style</td>
+                  <td>Rests flat against the base of the neck.</td>
+                </tr>
+                <tr class="table-row" data-size="18">
+                  <td><strong>18" <span class="metric">/ 45.7 cm</span></strong></td>
+                  <td>Below collarbone</td>
+                  <td>Standard length; rests elegantly below collarbone.</td>
+                </tr>
+                <tr class="table-row" data-size="20">
+                  <td><strong>20" <span class="metric">/ 50.8 cm</span></strong></td>
+                  <td>Upper chest</td>
+                  <td>Rests midway down the chest; great for pendants.</td>
+                </tr>
+                <tr class="table-row" data-size="22">
+                  <td><strong>22" <span class="metric">/ 55.9 cm</span></strong></td>
+                  <td>Near bust</td>
+                  <td>Rests at or just above the top of the bust.</td>
+                </tr>
+                <tr class="table-row" data-size="24">
+                  <td><strong>24" <span class="metric">/ 61.0 cm</span></strong></td>
+                  <td>Center chest</td>
+                  <td>Hangs below the bust; prominent statement length.</td>
+                </tr>
+                <tr class="table-row" data-size="30">
+                  <td><strong>30" <span class="metric">/ 76.2 cm</span></strong></td>
+                  <td>Mid-torso</td>
+                  <td>Long length; rests below the breastbone.</td>
+                </tr>
+                <tr class="table-row" data-size="33">
+                  <td><strong>33" <span class="metric">/ 83.8 cm</span></strong></td>
+                  <td>Lower torso</td>
+                  <td>Hangs low, resting near the waist or navel area.</td>
+                </tr>
+                <tr class="table-row" data-size="36">
+                  <td><strong>36" <span class="metric">/ 91.4 cm</span></strong></td>
+                  <td>Above waist</td>
+                  <td>Extra long; can be wrapped twice for a double loop look.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Sizing Info & Tips -->
+      <div style="margin-top: 30px; border-top: 1px solid var(--color-border); padding-top: 25px;">
+        <h3 style="font-family: var(--font-title); color: var(--color-primary-light); font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">How to Find Your Necklace Size</h3>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 20px; font-size: 0.9rem; line-height: 1.7; color: var(--color-text-muted);">
+          <div>
+            <p style="margin-bottom: 10px;"><strong style="color: var(--color-text);">Method 1: Measure an Existing Necklace</strong><br>
+            Take a necklace that hangs exactly the way you like it. Lay it straight on a flat surface and measure its length from the outer edge of the clasp to the end ring using a standard tape measure or ruler.</p>
+          </div>
+          <div>
+            <p><strong style="color: var(--color-text);">Method 2: Wrap a Soft Tape Measure</strong><br>
+            Wrap a flexible sewing tape measure around your neck, holding it at the desired position where you want the necklace or pendant to rest. Note the measurement in inches or centimeters.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="brand-footer">
+      <div class="brand-footer-logo">Alquds Jewelry</div>
+      <p style="font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.6;">&copy; 2026 Alquds Jewelry. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
