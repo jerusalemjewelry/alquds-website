@@ -580,7 +580,6 @@ body {
    PRINT STYLES: Active only on Print Preview
    ========================================== */
 @media print {
-  /* Hide all screen interface elements */
   body {
     background: #ffffff !important;
     color: #000000 !important;
@@ -594,7 +593,7 @@ body {
   .no-print,
   .tabs-nav,
   .btn-container,
-  .brand-header .brand-subtitle,
+  .brand-header,
   .brand-footer,
   .presets-container,
   .control-group,
@@ -603,7 +602,6 @@ body {
     display: none !important;
   }
 
-  /* Make the container full width for printing */
   .container {
     max-width: 100% !important;
     width: 100% !important;
@@ -614,102 +612,121 @@ body {
   /* Reveal and format print container */
   .print-only-container {
     display: block !important;
-    width: 190mm; /* Maximum width for single page A4/Letter print */
+    width: 195mm; /* Max width for neat portrait page print */
     margin: 0 auto;
-    padding: 5mm 10mm;
+    padding: 8mm 12mm;
     box-sizing: border-box;
     background: #ffffff !important;
     color: #000000 !important;
+    border: 1px solid #c49a13 !important; /* Gold border around the whole printed guide */
+    position: relative;
+  }
+
+  /* Inner luxury border */
+  .print-only-container::after {
+    content: '';
+    position: absolute;
+    top: 2mm;
+    left: 2mm;
+    right: 2mm;
+    bottom: 2mm;
+    border: 0.5pt solid #c49a13;
+    pointer-events: none;
+    box-sizing: border-box;
   }
 
   /* Stylings inside Printable Guide */
   .print-header {
     text-align: center;
-    border-bottom: 2px solid #000000;
-    padding-bottom: 8mm;
-    margin-bottom: 6mm;
+    border-bottom: 1.5pt double #c49a13;
+    padding-bottom: 6mm;
+    margin-bottom: 5mm;
   }
 
   .print-logo {
     font-family: 'Cinzel', serif;
-    font-size: 28pt;
+    font-size: 26pt;
     font-weight: bold;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #000000 !important;
-    margin-bottom: 2mm;
+    margin-bottom: 1.5mm;
   }
 
   .print-title {
     font-family: 'Cinzel', serif;
-    font-size: 16pt;
-    letter-spacing: 0.1em;
+    font-size: 13pt;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #444444 !important;
+    color: #555555 !important;
   }
 
   .print-note {
-    font-size: 9.5pt;
+    font-size: 8.5pt;
     line-height: 1.4;
-    color: #222222;
-    background: #f4f4f4;
-    border: 1px solid #cccccc;
+    color: #111111;
+    background: #fbf9f4 !important;
+    border: 1px solid #e5d5a7;
     border-radius: 4px;
-    padding: 4mm;
-    margin-bottom: 6mm;
+    padding: 3mm 5mm;
+    margin-bottom: 5mm;
   }
 
   .print-section {
-    margin-bottom: 6mm;
+    margin-bottom: 5mm;
     page-break-inside: avoid;
   }
 
   .print-section-title {
     font-family: 'Cinzel', serif;
-    font-size: 13pt;
+    font-size: 11pt;
     font-weight: bold;
-    border-bottom: 1px solid #333333;
+    color: #c49a13 !important;
+    border-bottom: 0.5pt solid #cccccc;
     padding-bottom: 1.5mm;
-    margin-bottom: 4mm;
+    margin-bottom: 3.5mm;
     text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   .print-instructions {
-    font-size: 9.5pt;
-    margin-bottom: 4mm;
+    font-size: 8.5pt;
+    margin-bottom: 3.5mm;
     line-height: 1.4;
+    color: #222222;
   }
 
   .print-instructions ol {
-    padding-left: 5mm;
+    padding-left: 4.5mm;
   }
 
   .print-instructions li {
-    margin-bottom: 1.5mm;
+    margin-bottom: 1mm;
   }
 
   /* Physical size check box */
   .print-check-box {
-    border: 2px solid #000000;
+    border: 1pt solid #c49a13;
     width: 2.0in; /* MUST be exactly 2 inches */
-    height: 0.8in;
+    height: 0.7in;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 8.5pt;
+    font-size: 8pt;
     font-weight: bold;
-    margin: 4mm auto;
-    background: #ffffff !important;
+    margin: 2mm auto 4mm auto;
+    background: #fbf9f4 !important;
+    border-radius: 2px;
   }
 
   /* Sizer Circles Grid */
   .print-circles-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    row-gap: 5mm;
+    row-gap: 4mm;
     column-gap: 3mm;
-    margin-top: 4mm;
+    margin-top: 3mm;
     justify-items: center;
     page-break-inside: avoid;
   }
@@ -719,28 +736,38 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    width: 28mm;
-    height: 32mm;
+    width: 26mm;
+    height: 29mm;
     text-align: center;
   }
 
-  /* The actual physical circles. Height/width set in inline style in HTML to be exact in mm */
   .print-physical-circle {
     border: 0.8pt solid #000000;
     border-radius: 50%;
-    margin-bottom: 2mm;
+    margin-bottom: 1.5mm;
     background: transparent !important;
     box-sizing: border-box;
+    position: relative;
+  }
+
+  /* Concentric inner guiding line to make it look premium and aid measurements */
+  .print-physical-circle::after {
+    content: '';
+    position: absolute;
+    top: 1px; left: 1px; right: 1px; bottom: 1px;
+    border: 0.2pt dashed #cccccc;
+    border-radius: 50%;
   }
 
   .print-circle-label {
-    font-size: 8pt;
+    font-size: 7.5pt;
     font-weight: bold;
+    font-family: 'Cinzel', serif;
     line-height: 1.2;
   }
 
   .print-circle-sublabel {
-    font-size: 7pt;
+    font-size: 6.5pt;
     color: #555555;
   }
 
@@ -749,20 +776,18 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 4mm;
-    margin-bottom: 6mm;
+    margin-top: 2mm;
+    margin-bottom: 2mm;
     page-break-inside: avoid;
   }
 
-  /* SVG printing rules to make sure line weights and fonts load */
   .print-sizer-svg-container svg {
     display: block;
     max-width: 100%;
   }
 
-  /* Custom Page breaks to keep layout on single page */
   @page {
     size: portrait;
-    margin: 10mm 15mm;
+    margin: 8mm 10mm;
   }
 }

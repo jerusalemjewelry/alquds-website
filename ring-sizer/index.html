@@ -137,27 +137,29 @@
         <p class="card-desc" style="text-align: center; font-size: 0.8rem; margin-bottom: 2rem;">Below is the vector layout that will print on a single page.</p>
 
         <!-- Simulated Paper Sheet for Screen Preview -->
-        <div style="background: white; color: black; border-radius: 8px; padding: 2rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); width: 100%; border: 1px solid #ddd;">
+        <div style="background: white; color: black; border-radius: 8px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 100%; border: 1px solid #c49a13; position: relative;">
+          <!-- Inner luxury border -->
+          <div style="position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border: 1px solid #c49a13; pointer-events: none; opacity: 0.5;"></div>
           <!-- Inline version of the Print-Only container so it shows up on screen preview -->
-          <div style="max-width: 100%; font-family: 'Montserrat', sans-serif;">
-            <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
+          <div style="max-width: 100%; font-family: 'Montserrat', sans-serif; position: relative; z-index: 1; padding: 10px;">
+            <div style="text-align: center; border-bottom: 3px double #c49a13; padding-bottom: 15px; margin-bottom: 20px;">
               <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; font-weight: bold; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 5px;">Alquds Jewelry</h2>
-              <p style="font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 0.25em; text-transform: uppercase; color: #555;">Guide to Ring Sizing</p>
+              <p style="font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 0.25em; text-transform: uppercase; color: #c49a13;">Guide to Ring Sizing</p>
             </div>
             
             <p style="font-size: 0.85rem; line-height: 1.5; color: #333; background: #f9f9f9; border: 1px solid #eee; border-radius: 4px; padding: 10px; margin-bottom: 20px;">
               <strong>NOTE ON ACCURACY:</strong> Sizes may vary depending on screen resolution. For physical measurements, you MUST print this page at <strong>100% scale</strong>. Use the printer check box below to verify scale accuracy.
             </p>
 
-            <div style="border: 2px solid #000; width: 2.0in; height: 0.8in; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 8pt; font-weight: bold; margin: 15px auto; background: #fff;">
+            <div style="border: 1px solid #c49a13; width: 2.0in; height: 0.7in; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 8pt; font-weight: bold; margin: 15px auto; background: #fbf9f4;">
               <span>PRINTER CHECK</span>
-              <span style="font-size: 7.5pt; font-weight: 500; margin-top: 2px;">Measure this box. It must be</span>
-              <span style="font-size: 8pt; color: #c49a13;">exactly 2 inches wide.</span>
+              <span style="font-size: 7.5pt; font-weight: 500; margin-top: 1px;">Measure this box with a ruler</span>
+              <span style="font-size: 8pt; color: #c49a13;">&larr; Must measure exactly 2.0" (50.8 mm) &rarr;</span>
             </div>
 
             <!-- Print Section 1: Ring Size Chart -->
             <div style="margin-top: 25px;">
-              <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase;">1. Physical Ring Size Chart</h4>
+              <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #c49a13; border-bottom: 1px solid #cccccc; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">1. Physical Ring Size Chart</h4>
               <p style="font-size: 0.8rem; color: #555; margin-bottom: 15px;">Place an existing, well-fitting ring over the circles below. Find the circle that matches the <strong>inside edge</strong> of your ring. The outer edge of the black circle should match the inner edge of your ring.</p>
               
               <!-- Simulating the circle grid -->
@@ -199,7 +201,7 @@
 
             <!-- Print Section 2: Ring Sizer Strap -->
             <div style="margin-top: 30px;">
-              <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase;">2. Printable Paper Ring Sizer</h4>
+              <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #c49a13; border-bottom: 1px solid #cccccc; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">2. Printable Paper Ring Sizer</h4>
               <p style="font-size: 0.8rem; color: #555; margin-bottom: 15px;">Cut out the strap below, cut a slit for "Slot B", wrap it around your finger, and thread "Tab A" through the slot until snug. Read your size at the slot edge.</p>
               
               <!-- SVG preview -->
