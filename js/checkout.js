@@ -256,6 +256,12 @@ function renderCheckout(cart) {
                 return;
             }
 
+            const policyAgreement = document.getElementById('policy-agreement');
+            if (policyAgreement && !policyAgreement.checked) {
+                policyAgreement.reportValidity();
+                return;
+            }
+
             newBtn.innerText = 'PROCESSING...';
             newBtn.disabled = true;
             newBtn.style.opacity = '0.7';
@@ -287,17 +293,30 @@ function renderCheckout(cart) {
             onClick: function (data, actions) {
                 const form = document.getElementById('checkout-form');
                 const errorBox = document.getElementById('checkout-error-box');
+                const policyAgreement = document.getElementById('policy-agreement');
 
                 // If the form is missing required info...
                 if (form && !form.checkValidity()) {
                     // Show our Custom Red Error Box
-                    if (errorBox) errorBox.style.display = 'block';
+                    if (errorBox) {
+                        errorBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i> <strong>Oops!</strong> Looks like you forgot to fill out your Personal & Shipping info. Please complete it before paying.`;
+                        errorBox.style.display = 'block';
+                    }
 
                     // Actually highlight the missing fields for them
                     form.reportValidity();
 
                     // Crucial: Reject the paypal action so it gracefully cancels the window 
-                    // instead of throwing that generic netlify/paypal error!
+                    return actions.reject();
+                }
+
+                // If the policy agreement is not checked...
+                if (policyAgreement && !policyAgreement.checked) {
+                    if (errorBox) {
+                        errorBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i> You must agree to the Shipping & Return policies before placing your order.`;
+                        errorBox.style.display = 'block';
+                    }
+                    policyAgreement.reportValidity();
                     return actions.reject();
                 }
 
@@ -318,6 +337,12 @@ function renderCheckout(cart) {
                 if (form && !form.checkValidity()) {
                     form.reportValidity();
                     return false; // Prevent PayPal window if form is invalid
+                }
+
+                const policyAgreement = document.getElementById('policy-agreement');
+                if (policyAgreement && !policyAgreement.checked) {
+                    policyAgreement.reportValidity();
+                    return false;
                 }
 
                 // Dynamically fetch the absolute latest accurate total straight from the DOM 
