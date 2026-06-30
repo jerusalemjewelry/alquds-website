@@ -46,6 +46,14 @@
             transform: scaleX(1) !important;
             transform-origin: left !important;
         }
+        #catalog-sizer-link {
+            display: none !important;
+        }
+        @media (max-width: 768px) {
+            #catalog-sizer-link {
+                display: flex !important;
+            }
+        }
     `;
     document.head.appendChild(style);
 })();
@@ -632,9 +640,12 @@ function renderCatalog(reset = true) {
         if (title) title.innerText = pageLabel;
     }
 
-    // Inject Ring Sizer link under catalog title if viewing rings or bands
+    // Inject Ring Sizer link under catalog title (for mobile) and under price filter in the sidebar (for desktop)
     const existingCatalogSizer = document.getElementById('catalog-sizer-link');
     if (existingCatalogSizer) existingCatalogSizer.remove();
+    
+    const existingSidebarSizer = document.getElementById('sidebar-sizer-link');
+    if (existingSidebarSizer) existingSidebarSizer.remove();
     
     if (title && title.parentNode) {
         title.parentNode.style.flexDirection = 'row'; // Restore default
@@ -643,15 +654,30 @@ function renderCatalog(reset = true) {
     const isCatalogRingOrBand = (catParam === 'rings' || catParam === 'bands' || subParam === 'rings' || subParam === 'bands') ||
                                 (searchParam && (searchParam.toLowerCase().includes('ring') || searchParam.toLowerCase().includes('band')));
                                 
-    if (isCatalogRingOrBand && title && title.parentNode) {
-        title.parentNode.style.flexDirection = 'column';
-        title.insertAdjacentHTML('afterend', `
-            <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
-                <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
-                    <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
-                </a>
-            </div>
-        `);
+    if (isCatalogRingOrBand) {
+        // 1. Mobile placement (under page title, styled to hide on desktop)
+        if (title && title.parentNode) {
+            title.parentNode.style.flexDirection = 'column';
+            title.insertAdjacentHTML('afterend', `
+                <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
+                    <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
+                        <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
+                    </a>
+                </div>
+            `);
+        }
+        
+        // 2. Desktop placement (under price filter in the sidebar)
+        const sidebar = document.querySelector('aside');
+        if (sidebar) {
+            sidebar.insertAdjacentHTML('beforeend', `
+                <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
+                    <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated" style="font-size: 1rem !important;">
+                        <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
+                    </a>
+                </div>
+            `);
+        }
     }
 
     if (materialConfig && materialConfig.filterField === 'color') {
