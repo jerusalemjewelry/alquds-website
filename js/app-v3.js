@@ -2,7 +2,7 @@
 (function() {
     const style = document.createElement('style');
     style.textContent = `
-        .ring-sizer-link-integrated {
+        .ring-sizer-link-integrated, .necklace-sizer-link-integrated {
             color: #ffffff !important;
             font-size: 1.1rem !important;
             font-weight: 600 !important;
@@ -17,20 +17,20 @@
             position: relative !important;
             padding: 4px 0 !important;
         }
-        .ring-sizer-link-integrated i {
+        .ring-sizer-link-integrated i, .necklace-sizer-link-integrated i {
             transition: transform 0.3s ease !important;
             color: #ffffff !important;
         }
-        .ring-sizer-link-integrated:hover {
+        .ring-sizer-link-integrated:hover, .necklace-sizer-link-integrated:hover {
             color: var(--color-gold, #DAA520) !important;
             transform: scale(1.04) !important;
             text-shadow: 0 0 8px rgba(212, 175, 55, 0.4) !important;
         }
-        .ring-sizer-link-integrated:hover i {
+        .ring-sizer-link-integrated:hover i, .necklace-sizer-link-integrated:hover i {
             transform: rotate(15deg) scale(1.1) !important;
             color: var(--color-gold, #DAA520) !important;
         }
-        .ring-sizer-link-integrated::after {
+        .ring-sizer-link-integrated::after, .necklace-sizer-link-integrated::after {
             content: '' !important;
             position: absolute !important;
             bottom: -2px !important;
@@ -42,7 +42,7 @@
             transform-origin: right !important;
             transition: transform 0.3s ease !important;
         }
-        .ring-sizer-link-integrated:hover::after {
+        .ring-sizer-link-integrated:hover::after, .necklace-sizer-link-integrated:hover::after {
             transform: scaleX(1) !important;
             transform-origin: left !important;
         }
@@ -640,7 +640,7 @@ function renderCatalog(reset = true) {
         if (title) title.innerText = pageLabel;
     }
 
-    // Inject Ring Sizer link under catalog title (for mobile) and under price filter in the sidebar (for desktop)
+    // Inject Ring Sizer or Necklace Sizer link under catalog title (for mobile) and under price filter in the sidebar (for desktop)
     const existingCatalogSizer = document.getElementById('catalog-sizer-link');
     if (existingCatalogSizer) existingCatalogSizer.remove();
     
@@ -654,6 +654,9 @@ function renderCatalog(reset = true) {
     const isCatalogRingOrBand = (catParam === 'rings' || catParam === 'bands' || subParam === 'rings' || subParam === 'bands') ||
                                 (searchParam && (searchParam.toLowerCase().includes('ring') || searchParam.toLowerCase().includes('band')));
                                 
+    const isCatalogNecklaceOrChain = (catParam === 'necklaces' || catParam === 'chains' || catParam === 'chokers' || catParam === 'pendants' || subParam === 'necklaces' || subParam === 'chains' || subParam === 'chokers' || subParam === 'pendants') ||
+                                     (searchParam && (searchParam.toLowerCase().includes('necklace') || searchParam.toLowerCase().includes('chain') || searchParam.toLowerCase().includes('pendant') || searchParam.toLowerCase().includes('choker')));
+
     if (isCatalogRingOrBand) {
         // 1. Mobile placement (under page title, styled to hide on desktop)
         if (title && title.parentNode) {
@@ -674,6 +677,30 @@ function renderCatalog(reset = true) {
                 <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
                     <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated" style="font-size: 1rem !important;">
                         <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
+                    </a>
+                </div>
+            `);
+        }
+    } else if (isCatalogNecklaceOrChain) {
+        // 1. Mobile placement (under page title, styled to hide on desktop)
+        if (title && title.parentNode) {
+            title.parentNode.style.flexDirection = 'column';
+            title.insertAdjacentHTML('afterend', `
+                <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
+                    <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                        <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
+                    </a>
+                </div>
+            `);
+        }
+        
+        // 2. Desktop placement (under price filter in the sidebar)
+        const sidebar = document.querySelector('aside');
+        if (sidebar) {
+            sidebar.insertAdjacentHTML('beforeend', `
+                <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
+                    <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated" style="font-size: 1rem !important;">
+                        <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
                     </a>
                 </div>
             `);
@@ -795,13 +822,39 @@ function renderProductDetail() {
                          String(product.name || '').toLowerCase().includes('ring') ||
                          String(product.name || '').toLowerCase().includes('band');
 
-    const sizerLinkHTML = isRingOrBand ? `
-        <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
-            <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
-                <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
-            </a>
-        </div>
-    ` : '';
+    const isNecklaceOrChain = product.category === 'necklaces' || 
+                              product.category === 'chains' || 
+                              product.category === 'chokers' || 
+                              product.category === 'pendants' ||
+                              product.category === 'kladas' ||
+                              product.category === 'name-plates' ||
+                              String(product.category || '').toLowerCase().includes('necklace') ||
+                              String(product.category || '').toLowerCase().includes('chain') ||
+                              String(product.category || '').toLowerCase().includes('pendant') ||
+                              String(product.category || '').toLowerCase().includes('choker') ||
+                              String(product.name || '').toLowerCase().includes('necklace') ||
+                              String(product.name || '').toLowerCase().includes('chain') ||
+                              String(product.name || '').toLowerCase().includes('pendant') ||
+                              String(product.name || '').toLowerCase().includes('choker');
+
+    let sizerLinkHTML = '';
+    if (isRingOrBand) {
+        sizerLinkHTML = `
+            <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
+                <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
+                    <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
+                </a>
+            </div>
+        `;
+    } else if (isNecklaceOrChain) {
+        sizerLinkHTML = `
+            <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
+                <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                    <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
+                </a>
+            </div>
+        `;
+    }
 
     const isOutOfStock = product.outOfStock === true;
     const btnHTML = isOutOfStock
