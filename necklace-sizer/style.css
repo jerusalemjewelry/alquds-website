@@ -125,7 +125,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #08090d;
+  background: #040507; /* Darker background for max contrast */
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 1.5rem;
@@ -144,10 +144,18 @@ body {
   overflow: visible;
 }
 
+/* Body Outline Silhouette Path */
+.mannequin-body {
+  fill: #1e2230 !important; /* Lighter slate blue for mannequin body */
+  stroke: rgba(212, 175, 55, 0.3) !important; /* Elegant gold outline border */
+  stroke-width: 1.8px !important;
+  transition: var(--transition);
+}
+
 /* Necklace Lines */
 .necklace-line {
-  stroke: rgba(255, 255, 255, 0.3) !important;
-  stroke-width: 1.5px !important;
+  stroke: rgba(255, 255, 255, 0.65) !important; /* Brighter inactive lines */
+  stroke-width: 2.2px !important; /* Thicker for instant visibility */
   cursor: pointer;
   transition: var(--transition);
 }
@@ -156,14 +164,15 @@ body {
 .necklace-line:hover,
 .necklace-line.active {
   stroke: var(--color-primary) !important;
-  stroke-width: 3.5px !important;
-  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.8)) !important;
+  stroke-width: 4px !important; /* Extra thick active line */
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.95)) !important; /* Glowing gold effect */
 }
 
 /* Fade out other lines when one is active */
 .silhouette-svg.has-active-necklace .necklace-line:not(.active):not(:hover) {
-  stroke: rgba(255, 255, 255, 0.08) !important;
-  stroke-width: 1px !important;
+  stroke: rgba(255, 255, 255, 0.12) !important;
+  stroke-width: 1.2px !important;
+  opacity: 0.4 !important;
 }
 
 /* Reference Table Sizing Chart */
