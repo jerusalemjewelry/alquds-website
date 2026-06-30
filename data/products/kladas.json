@@ -1,0 +1,20 @@
+{
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 23,
+      "taxable": true,
+      "name": "21k Kursi Jaber Full Set",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 9,
+      "weight": "91.50",
+      "id": "KJ1",
+      "image": "assets/koursi-jaber-91.50.png",
+      "description": "full set",
+      "category": "kladas"
+    }
+  ]
+}
