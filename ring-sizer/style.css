@@ -1,0 +1,768 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+  --color-bg: #0a0b0d;
+  --color-surface: #12141d;
+  --color-surface-hover: #1b1e2b;
+  --color-primary: #d4af37;
+  --color-primary-light: #f3e5ab;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-border: #2d3142;
+  --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+  --font-title: 'Cinzel', Georgia, serif;
+  --font-body: 'Montserrat', sans-serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  overflow-x: hidden;
+}
+
+/* Base Layout Container */
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Premium Brand Header */
+.brand-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  animation: fadeIn 1s ease-out;
+}
+
+.brand-title {
+  font-family: var(--font-title);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.brand-subtitle {
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+/* Tab Navigation */
+.tabs-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold-gradient);
+  transform: scaleX(0);
+  transition: var(--transition);
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+}
+
+.tab-btn.active {
+  color: var(--color-primary);
+}
+
+.tab-btn.active::after {
+  transform: scaleX(1);
+}
+
+/* Tab Content Visibility */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Cards & Layout Panels */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gold-gradient);
+}
+
+.card-title {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Interactive Sizer Grid */
+.sizer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .sizer-grid {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+/* Step Layout */
+.step {
+  margin-bottom: 2rem;
+}
+
+.step:last-child {
+  margin-bottom: 0;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gold-gradient);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.8rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.step-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Interactive Sliders & Calibration Box */
+.calibration-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.card-outline-container {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  background: #08090d;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* The card outline will be sized dynamically using JS */
+.card-outline {
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  position: relative;
+  background: rgba(212, 175, 55, 0.05);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  transition: width 0.1s ease, height 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--color-primary-light);
+  text-align: center;
+  letter-spacing: 0.05em;
+  padding: 10px;
+}
+
+.card-outline::before {
+  content: 'PLACE PHYSICAL CARD HERE';
+  font-weight: 600;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+/* Slider Controls */
+.control-group {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.control-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.range-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-border);
+  outline: none;
+  margin: 10px 0;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  transition: transform 0.1s;
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.range-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  transition: transform 0.1s;
+}
+
+.range-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Ring Overlay (Visual Sizer Panel) */
+.ring-viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #08090d;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 2rem;
+  min-height: 350px;
+  position: relative;
+}
+
+.circle-display-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+.ring-circle {
+  border: 4px solid var(--color-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.3), inset 0 0 15px rgba(212, 175, 55, 0.1);
+  position: relative;
+  transition: width 0.1s ease, height 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center crosshair for ring placement alignment */
+.ring-circle::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  opacity: 0.3;
+}
+
+.ring-details {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.size-output {
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.metric-outputs {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.metric-value {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Size Preset Buttons */
+.presets-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.preset-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.preset-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--color-primary);
+}
+
+.preset-btn.active {
+  background: var(--gold-gradient);
+  color: #000;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* Guide buttons */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gold-gradient);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  gap: 0.75rem;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Reference Table Sizing Chart */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.size-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.size-table th {
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-title);
+  color: var(--color-primary);
+  font-weight: 600;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.size-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.size-table tr:last-child td {
+  border-bottom: none;
+}
+
+.size-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Method Instructions */
+.method-list {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.method-list li {
+  margin-bottom: 0.75rem;
+}
+
+.method-list strong {
+  color: var(--color-primary-light);
+}
+
+/* Alert Boxes */
+.alert-box {
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.alert-box svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.alert-title {
+  font-family: var(--font-title);
+  color: var(--color-primary);
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.alert-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Footer Section */
+.brand-footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.brand-footer p {
+  margin-bottom: 0.5rem;
+}
+
+.brand-footer-logo {
+  font-family: var(--font-title);
+  color: var(--color-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   PRINT STYLES: Active only on Print Preview
+   ========================================== */
+@media print {
+  /* Hide all screen interface elements */
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print,
+  .tabs-nav,
+  .btn-container,
+  .brand-header .brand-subtitle,
+  .brand-footer,
+  .presets-container,
+  .control-group,
+  .calibration-box,
+  .ring-viewer {
+    display: none !important;
+  }
+
+  /* Make the container full width for printing */
+  .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Reveal and format print container */
+  .print-only-container {
+    display: block !important;
+    width: 190mm; /* Maximum width for single page A4/Letter print */
+    margin: 0 auto;
+    padding: 5mm 10mm;
+    box-sizing: border-box;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Stylings inside Printable Guide */
+  .print-header {
+    text-align: center;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 8mm;
+    margin-bottom: 6mm;
+  }
+
+  .print-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 28pt;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #000000 !important;
+    margin-bottom: 2mm;
+  }
+
+  .print-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #444444 !important;
+  }
+
+  .print-note {
+    font-size: 9.5pt;
+    line-height: 1.4;
+    color: #222222;
+    background: #f4f4f4;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 4mm;
+    margin-bottom: 6mm;
+  }
+
+  .print-section {
+    margin-bottom: 6mm;
+    page-break-inside: avoid;
+  }
+
+  .print-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13pt;
+    font-weight: bold;
+    border-bottom: 1px solid #333333;
+    padding-bottom: 1.5mm;
+    margin-bottom: 4mm;
+    text-transform: uppercase;
+  }
+
+  .print-instructions {
+    font-size: 9.5pt;
+    margin-bottom: 4mm;
+    line-height: 1.4;
+  }
+
+  .print-instructions ol {
+    padding-left: 5mm;
+  }
+
+  .print-instructions li {
+    margin-bottom: 1.5mm;
+  }
+
+  /* Physical size check box */
+  .print-check-box {
+    border: 2px solid #000000;
+    width: 2.0in; /* MUST be exactly 2 inches */
+    height: 0.8in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 8.5pt;
+    font-weight: bold;
+    margin: 4mm auto;
+    background: #ffffff !important;
+  }
+
+  /* Sizer Circles Grid */
+  .print-circles-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 5mm;
+    column-gap: 3mm;
+    margin-top: 4mm;
+    justify-items: center;
+    page-break-inside: avoid;
+  }
+
+  .print-circle-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 28mm;
+    height: 32mm;
+    text-align: center;
+  }
+
+  /* The actual physical circles. Height/width set in inline style in HTML to be exact in mm */
+  .print-physical-circle {
+    border: 0.8pt solid #000000;
+    border-radius: 50%;
+    margin-bottom: 2mm;
+    background: transparent !important;
+    box-sizing: border-box;
+  }
+
+  .print-circle-label {
+    font-size: 8pt;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .print-circle-sublabel {
+    font-size: 7pt;
+    color: #555555;
+  }
+
+  /* Vector Paper Sizer Section */
+  .print-sizer-svg-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 4mm;
+    margin-bottom: 6mm;
+    page-break-inside: avoid;
+  }
+
+  /* SVG printing rules to make sure line weights and fonts load */
+  .print-sizer-svg-container svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Custom Page breaks to keep layout on single page */
+  @page {
+    size: portrait;
+    margin: 10mm 15mm;
+  }
+}

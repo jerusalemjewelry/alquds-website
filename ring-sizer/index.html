@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ring Sizing Guide - Alquds Jewelry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Brand Header (Hidden on print) -->
+    <header class="brand-header no-print">
+      <h1 class="brand-title">Alquds Jewelry</h1>
+      <p class="brand-subtitle">Fine Gold & Diamonds</p>
+    </header>
+
+    <!-- Tab Buttons (Hidden on print) -->
+    <nav class="tabs-nav no-print">
+      <button class="tab-btn active" data-tab="interactive-sizer-tab">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 6px;">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10zm0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"/>
+        </svg>
+        Measure On Screen
+      </button>
+      <button class="tab-btn" data-tab="printable-sizer-tab">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 6px;">
+          <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+          <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 11v1a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1H4zm10-4v3a1 1 0 0 1-1 1h-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"/>
+        </svg>
+        Printable Sizer
+      </button>
+      <button class="tab-btn" data-tab="string-method-tab">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 6px;">
+          <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+          <path d="M5 4h6v1H5V4zm0 3h6v1H5V7zm0 3h6v1H5v-1z"/>
+        </svg>
+        Sizing Chart
+      </button>
+    </nav>
+
+    <!-- TAB 1: INTERACTIVE ON-SCREEN MEASUREMENT (Hidden on print) -->
+    <main id="interactive-sizer-tab" class="tab-content active no-print">
+      <div class="card">
+        <h2 class="card-title">Measure An Existing Ring</h2>
+        <p class="card-desc">Don't have a printer? Calibrate your screen with any standard card and measure your ring directly on screen.</p>
+
+        <div class="sizer-grid">
+          <!-- Step 1: Calibration -->
+          <div class="step-panel">
+            <div class="step">
+              <h3 class="step-title"><span class="step-badge">1</span>Calibrate Screen</h3>
+              <p class="card-desc" style="font-size: 0.85rem;">Place a credit card, ID, or driver's license on your screen and adjust the slider until the outline matches your card's size exactly.</p>
+              
+              <div class="calibration-box">
+                <div class="card-outline-container">
+                  <div id="card-outline" class="card-outline" style="width: 300px; height: 189px;"></div>
+                </div>
+                
+                <div class="control-group">
+                  <div class="control-label">
+                    <span>Card Size Slider</span>
+                    <span id="card-width-val">300px</span>
+                  </div>
+                  <input type="range" id="card-slider" class="range-slider" min="150" max="550" value="300">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Overlay Measurement -->
+          <div class="sizer-panel">
+            <div class="step">
+              <h3 class="step-title"><span class="step-badge">2</span>Place Ring on Screen</h3>
+              <p class="card-desc" style="font-size: 0.85rem;">Place your ring over the circle below. Adjust the slider until the gold outline aligns perfectly with the <strong>inside edge</strong> of your ring.</p>
+
+              <div class="ring-viewer">
+                <div class="circle-display-container">
+                  <div id="ring-circle" class="ring-circle"></div>
+                </div>
+
+                <div class="ring-details">
+                  <div id="size-output-val" class="size-output">7</div>
+                  <p style="font-size: 0.8rem; letter-spacing: 0.1em; color: var(--color-primary); text-transform: uppercase;">Estimated US Ring Size</p>
+                  
+                  <div class="metric-outputs">
+                    <div>Diameter: <span id="diameter-output-val" class="metric-value">17.3 mm</span></div>
+                    <div>Circumference: <span id="circumference-output-val" class="metric-value">54.4 mm</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-group" style="margin-top: 1.5rem;">
+                <div class="control-label">
+                  <span>Adjust Ring Circle Diameter</span>
+                </div>
+                <input type="range" id="ring-slider" class="range-slider" min="13.5" max="24.0" step="0.1" value="17.3">
+              </div>
+
+              <div style="text-align: center; margin-top: 1rem;">
+                <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Or click a common size to view its diameter:</p>
+                <div id="preset-buttons" class="presets-container"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 2: PRINTABLE GUIDE PREVIEW (Hidden on print, shows paper preview on screen) -->
+    <main id="printable-sizer-tab" class="tab-content no-print">
+      <div class="card">
+        <h2 class="card-title">Printable Ring Sizer & Guide</h2>
+        <p class="card-desc">For 100% physical accuracy, print our custom branded Alquds Jewelry Ring Sizing Guide. Cut out the paper strap or match an existing ring to the physical circle chart.</p>
+        
+        <div class="alert-box">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+          </svg>
+          <div>
+            <div class="alert-title">Critical Printing Settings</div>
+            <p class="alert-desc">When the print window opens, make sure to set <strong>Scale to 100%</strong> (or "Actual Size") in the printer dialog options. Do NOT choose "Fit to Page" or "Scale to Fit", as this will distort the sizes.</p>
+          </div>
+        </div>
+
+        <div class="btn-container">
+          <button id="print-btn" class="btn-gold">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 11v1a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1H4zm10-4v3a1 1 0 0 1-1 1h-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"/>
+            </svg>
+            Print Guide Page
+          </button>
+        </div>
+
+        <h3 class="step-title" style="margin-top: 2.5rem; justify-content: center; font-family: var(--font-title); color: var(--color-primary-light);">Guide Preview (What will print)</h3>
+        <p class="card-desc" style="text-align: center; font-size: 0.8rem; margin-bottom: 2rem;">Below is the vector layout that will print on a single page.</p>
+
+        <!-- Simulated Paper Sheet for Screen Preview -->
+        <div style="background: white; color: black; border-radius: 8px; padding: 2rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.1); width: 100%; border: 1px solid #ddd;">
+          <!-- Inline version of the Print-Only container so it shows up on screen preview -->
+          <div style="max-width: 100%; font-family: 'Montserrat', sans-serif;">
+            <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
+              <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; font-weight: bold; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 5px;">Alquds Jewelry</h2>
+              <p style="font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 0.25em; text-transform: uppercase; color: #555;">Guide to Ring Sizing</p>
+            </div>
+            
+            <p style="font-size: 0.85rem; line-height: 1.5; color: #333; background: #f9f9f9; border: 1px solid #eee; border-radius: 4px; padding: 10px; margin-bottom: 20px;">
+              <strong>NOTE ON ACCURACY:</strong> Sizes may vary depending on screen resolution. For physical measurements, you MUST print this page at <strong>100% scale</strong>. Use the printer check box below to verify scale accuracy.
+            </p>
+
+            <div style="border: 2px solid #000; width: 2.0in; height: 0.8in; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 8pt; font-weight: bold; margin: 15px auto; background: #fff;">
+              <span>PRINTER CHECK</span>
+              <span style="font-size: 7.5pt; font-weight: 500; margin-top: 2px;">Measure this box. It must be</span>
+              <span style="font-size: 8pt; color: #c49a13;">exactly 2 inches wide.</span>
+            </div>
+
+            <!-- Print Section 1: Ring Size Chart -->
+            <div style="margin-top: 25px;">
+              <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase;">1. Physical Ring Size Chart</h4>
+              <p style="font-size: 0.8rem; color: #555; margin-bottom: 15px;">Place an existing, well-fitting ring over the circles below. Find the circle that matches the <strong>inside edge</strong> of your ring. The outer edge of the black circle should match the inner edge of your ring.</p>
+              
+              <!-- Simulating the circle grid -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 15px; justify-items: center; align-items: end;">
+                <!-- We will put a representative sample in the preview to avoid overloading preview rendering, but full circles are defined in the actual printable container -->
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 85px; text-align: center;">
+                  <div style="border: 1px solid #000; border-radius: 50%; width: 14.1mm; height: 14.1mm; margin-bottom: 8px;"></div>
+                  <span style="font-size: 8pt; font-weight: bold;">Size 3</span>
+                  <span style="font-size: 7pt; color: #666;">14.1 mm</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 85px; text-align: center;">
+                  <div style="border: 1px solid #000; border-radius: 50%; width: 15.7mm; height: 15.7mm; margin-bottom: 8px;"></div>
+                  <span style="font-size: 8pt; font-weight: bold;">Size 5</span>
+                  <span style="font-size: 7pt; color: #666;">15.7 mm</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 85px; text-align: center;">
+                  <div style="border: 1px solid #000; border-radius: 50%; width: 17.3mm; height: 17.3mm; margin-bottom: 8px;"></div>
+                  <span style="font-size: 8pt; font-weight: bold;">Size 7</span>
+                  <span style="font-size: 7pt; color: #666;">17.3 mm</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 85px; text-align: center;">
+                  <div style="border: 1px solid #000; border-radius: 50%; width: 19.0mm; height: 19.0mm; margin-bottom: 8px;"></div>
+                  <span style="font-size: 8pt; font-weight: bold;">Size 9</span>
+                  <span style="font-size: 7pt; color: #666;">19.0 mm</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 85px; text-align: center;">
+                  <div style="border: 1px solid #000; border-radius: 50%; width: 20.6mm; height: 20.6mm; margin-bottom: 8px;"></div>
+                  <span style="font-size: 8pt; font-weight: bold;">Size 11</span>
+                  <span style="font-size: 7pt; color: #666;">20.6 mm</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 85px; text-align: center;">
+                  <div style="border: 1px solid #000; border-radius: 50%; width: 22.2mm; height: 22.2mm; margin-bottom: 8px;"></div>
+                  <span style="font-size: 8pt; font-weight: bold;">Size 13</span>
+                  <span style="font-size: 7pt; color: #666;">22.2 mm</span>
+                </div>
+              </div>
+              <p style="font-size: 0.75rem; text-align: center; color: #666; margin-top: 10px; font-style: italic;">(Additional half-sizes will appear on the final printed sheet.)</p>
+            </div>
+
+            <!-- Print Section 2: Ring Sizer Strap -->
+            <div style="margin-top: 30px;">
+              <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase;">2. Printable Paper Ring Sizer</h4>
+              <p style="font-size: 0.8rem; color: #555; margin-bottom: 15px;">Cut out the strap below, cut a slit for "Slot B", wrap it around your finger, and thread "Tab A" through the slot until snug. Read your size at the slot edge.</p>
+              
+              <!-- SVG preview -->
+              <div style="width: 100%; overflow-x: auto; background: #fff; padding: 10px 0; display: flex; justify-content: center;">
+                <!-- Visual copy of the SVG for preview on screen -->
+                <svg width="100%" max-width="650px" height="150px" viewBox="0 0 180 43" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Montserrat', sans-serif;">
+                  <!-- Outline -->
+                  <path d="M 5 5 L 45 5 L 45 15 L 175 15 L 180 20 L 175 25 L 45 25 L 45 35 L 5 35 Z" fill="none" stroke="#000000" stroke-width="0.5" />
+                  
+                  <!-- Slot B line -->
+                  <line x1="35" y1="10" x2="35" y2="30" stroke="#000000" stroke-width="0.8" stroke-dasharray="1 1" />
+                  <text x="31" y="21" font-size="2.2" font-weight="bold" fill="#000">SLOT B</text>
+                  <text x="23" y="25" font-size="1.8" fill="#555">CUT SLIT HERE</text>
+                  
+                  <!-- Brand -->
+                  <text x="20" y="14" font-family="'Cinzel', serif" font-size="3" font-weight="bold" text-anchor="middle">ALQUDS</text>
+                  <text x="20" y="17" font-family="'Cinzel', serif" font-size="1.8" letter-spacing="1" text-anchor="middle">JEWELRY</text>
+                  <text x="20" y="30" font-size="2" text-anchor="middle">RING SIZER</text>
+                  
+                  <!-- Tab A -->
+                  <path d="M 175 15 L 180 20 L 175 25 Z" fill="#000000" />
+                  <text x="176.5" y="20" fill="#ffffff" font-size="1.5" font-weight="bold" text-anchor="middle" transform="rotate(-90 176.5 20)">TAB A</text>
+
+                  <!-- Indicator Arrow -->
+                  <text x="35" y="4.2" font-size="1.8" font-weight="bold" text-anchor="middle">READ SIZE HERE</text>
+                  <path d="M 35 5 L 35 7.5 L 34.2 6.7 M 35 7.5 L 35.8 6.7" stroke="#000" stroke-width="0.3" fill="none" />
+
+                  <!-- Reference ticks -->
+                  <!-- Size 3 to 14 -->
+                  <!-- Size 3 X=79.2 -->
+                  <line x1="79.2" y1="15" x2="79.2" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="79.2" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 79.2 20)">3</text>
+                  <line x1="80.5" y1="17" x2="80.5" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="80.5" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 80.5 20)">3½</text>
+
+                  <!-- Size 4 X=81.8 -->
+                  <line x1="81.8" y1="15" x2="81.8" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="81.8" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 81.8 20)">4</text>
+                  <line x1="83.0" y1="17" x2="83.0" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="83.0" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 83.0 20)">4½</text>
+
+                  <!-- Size 5 X=84.3 -->
+                  <line x1="84.3" y1="15" x2="84.3" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="84.3" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 84.3 20)">5</text>
+                  <line x1="85.6" y1="17" x2="85.6" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="85.6" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 85.6 20)">5½</text>
+
+                  <!-- Size 6 X=86.9 -->
+                  <line x1="86.9" y1="15" x2="86.9" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="86.9" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 86.9 20)">6</text>
+                  <line x1="88.1" y1="17" x2="88.1" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="88.1" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 88.1 20)">6½</text>
+
+                  <!-- Size 7 X=89.4 -->
+                  <line x1="89.4" y1="15" x2="89.4" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="89.4" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 89.4 20)">7</text>
+                  <line x1="90.7" y1="17" x2="90.7" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="90.7" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 90.7 20)">7½</text>
+
+                  <!-- Size 8 X=92.0 -->
+                  <line x1="92.0" y1="15" x2="92.0" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="92.0" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 92.0 20)">8</text>
+                  <line x1="93.2" y1="17" x2="93.2" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="93.2" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 93.2 20)">8½</text>
+
+                  <!-- Size 9 X=94.5 -->
+                  <line x1="94.5" y1="15" x2="94.5" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="94.5" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 94.5 20)">9</text>
+                  <line x1="95.8" y1="17" x2="95.8" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="95.8" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 95.8 20)">9½</text>
+
+                  <!-- Size 10 X=97.1 -->
+                  <line x1="97.1" y1="15" x2="97.1" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="97.1" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 97.1 20)">10</text>
+                  <line x1="98.3" y1="17" x2="98.3" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="98.3" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 98.3 20)">10½</text>
+
+                  <!-- Size 11 X=99.6 -->
+                  <line x1="99.6" y1="15" x2="99.6" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="99.6" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 99.6 20)">11</text>
+                  <line x1="100.9" y1="17" x2="100.9" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="100.9" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 100.9 20)">11½</text>
+
+                  <!-- Size 12 X=102.2 -->
+                  <line x1="102.2" y1="15" x2="102.2" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="102.2" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 102.2 20)">12</text>
+                  <line x1="103.4" y1="17" x2="103.4" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="103.4" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 103.4 20)">12½</text>
+
+                  <!-- Size 13 X=104.7 -->
+                  <line x1="104.7" y1="15" x2="104.7" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="104.7" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 104.7 20)">13</text>
+                  <line x1="106.0" y1="17" x2="106.0" y2="23" stroke="#777" stroke-width="0.2" />
+                  <text x="106.0" y="20.5" font-size="1.4" fill="#666" text-anchor="middle" transform="rotate(-90 106.0 20)">13½</text>
+
+                  <!-- Size 14 X=107.3 -->
+                  <line x1="107.3" y1="15" x2="107.3" y2="25" stroke="#000" stroke-width="0.3" />
+                  <text x="107.3" y="20.5" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 107.3 20)">14</text>
+
+                  <!-- Ruler line at bottom -->
+                  <line x1="35" y1="39" x2="123.9" y2="39" stroke="#000" stroke-width="0.5" />
+                  <line x1="35" y1="37.5" x2="35" y2="40.5" stroke="#000" stroke-width="0.5" />
+                  <line x1="123.9" y1="37.5" x2="123.9" y2="40.5" stroke="#000" stroke-width="0.5" />
+                  <text x="79.45" y="38" font-size="1.8" text-anchor="middle">This line must measure exactly 3 ½ inches (88.9 mm)</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 3: STRING METHOD & CONVERSION CHART (Hidden on print) -->
+    <main id="string-method-tab" class="tab-content no-print">
+      <div class="card">
+        <h2 class="card-title">Sizing Guidelines & Reference</h2>
+        
+        <div class="sizer-grid">
+          <div>
+            <h3 class="step-title">The Paper Strip / String Method</h3>
+            <p class="card-desc">If you don't have a ring to measure, use this simple method at home:</p>
+            
+            <ol class="method-list">
+              <li>Cut a thin strip of paper or a piece of non-stretching string about 6 inches long.</li>
+              <li>Wrap it snugly around the base of the finger you want to measure. Make sure it can slide over your knuckle!</li>
+              <li>Use a pen to mark the exact point where the paper or string overlaps.</li>
+              <li>Lay it flat and measure the length from the end to your pen mark with a ruler in <strong>millimeters</strong>.</li>
+              <li>This measurement is your finger's <strong>circumference</strong>. Look it up in the chart to find your US size.</li>
+            </ol>
+            
+            <div class="alert-box" style="margin-top: 1.5rem;">
+              <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+              </svg>
+              <div>
+                <div class="alert-title">Pro Sizing Tips</div>
+                <p class="alert-desc">Measure your fingers at the end of the day when they are warm. Do not measure when cold, as fingers can be half a size smaller. If you are between sizes, we always recommend ordering the <strong>larger</strong> size.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="step-title">Size Conversion Chart</h3>
+            <p class="card-desc">Standard US Ring sizes and physical measurements:</p>
+            
+            <div class="table-wrapper">
+              <table class="size-table">
+                <thead>
+                  <tr>
+                    <th>US Size</th>
+                    <th>Diameter (mm)</th>
+                    <th>Circumference (mm)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>3</strong></td><td>14.1 mm</td><td>44.2 mm</td></tr>
+                  <tr><td><strong>3 ½</strong></td><td>14.5 mm</td><td>45.5 mm</td></tr>
+                  <tr><td><strong>4</strong></td><td>14.9 mm</td><td>46.8 mm</td></tr>
+                  <tr><td><strong>4 ½</strong></td><td>15.3 mm</td><td>48.0 mm</td></tr>
+                  <tr><td><strong>5</strong></td><td>15.7 mm</td><td>49.3 mm</td></tr>
+                  <tr><td><strong>5 ½</strong></td><td>16.1 mm</td><td>50.6 mm</td></tr>
+                  <tr><td><strong>6</strong></td><td>16.5 mm</td><td>51.9 mm</td></tr>
+                  <tr><td><strong>6 ½</strong></td><td>16.9 mm</td><td>53.1 mm</td></tr>
+                  <tr><td><strong>7</strong></td><td>17.3 mm</td><td>54.4 mm</td></tr>
+                  <tr><td><strong>7 ½</strong></td><td>17.7 mm</td><td>55.7 mm</td></tr>
+                  <tr><td><strong>8</strong></td><td>18.1 mm</td><td>57.0 mm</td></tr>
+                  <tr><td><strong>8 ½</strong></td><td>18.5 mm</td><td>58.2 mm</td></tr>
+                  <tr><td><strong>9</strong></td><td>19.0 mm</td><td>59.5 mm</td></tr>
+                  <tr><td><strong>9 ½</strong></td><td>19.4 mm</td><td>60.8 mm</td></tr>
+                  <tr><td><strong>10</strong></td><td>19.8 mm</td><td>62.1 mm</td></tr>
+                  <tr><td><strong>10 ½</strong></td><td>20.2 mm</td><td>63.3 mm</td></tr>
+                  <tr><td><strong>11</strong></td><td>20.6 mm</td><td>64.6 mm</td></tr>
+                  <tr><td><strong>11 ½</strong></td><td>21.0 mm</td><td>65.9 mm</td></tr>
+                  <tr><td><strong>12</strong></td><td>21.4 mm</td><td>67.2 mm</td></tr>
+                  <tr><td><strong>12 ½</strong></td><td>21.8 mm</td><td>68.4 mm</td></tr>
+                  <tr><td><strong>13</strong></td><td>22.2 mm</td><td>69.7 mm</td></tr>
+                  <tr><td><strong>13 ½</strong></td><td>22.6 mm</td><td>71.0 mm</td></tr>
+                  <tr><td><strong>14</strong></td><td>23.0 mm</td><td>72.3 mm</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer (Hidden on print) -->
+    <footer class="brand-footer no-print">
+      <p>Need additional assistance?</p>
+      <div class="brand-footer-logo">Alquds Jewelry</div>
+      <p style="font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.6;">&copy; 2026 Alquds Jewelry. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <!-- ==========================================
+       ACTUAL PRINT-ONLY CONTAINER
+       This is hidden on screen and rendered ONLY when printed.
+       ========================================== -->
+  <div class="print-only-container">
+    <div class="print-header">
+      <div class="print-logo">Alquds Jewelry</div>
+      <div class="print-title">Guide to Ring Sizing</div>
+    </div>
+    
+    <div class="print-note">
+      <strong>IMPORTANT DIRECTIONS:</strong> Before using, verify that this guide printed at the correct size. Measure the Printer Check Box below with a ruler. It must measure exactly 2 inches (or 50.8 mm) wide. If the measurement is incorrect, check your printer settings and verify that <strong>"Scale: 100%"</strong> or <strong>"Actual Size"</strong> is selected, and "Fit to Page" is disabled.
+    </div>
+
+    <div class="print-check-box">
+      <div>
+        <div>PRINTER CHECK</div>
+        <div style="font-weight: normal; font-size: 7.5pt; margin-top: 1mm;">Measure with a physical ruler</div>
+        <div style="font-size: 8.5pt; font-weight: bold; margin-top: 1mm;">&larr; Must measure 2.0 inches (50.8 mm) &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Printable Part 1: Sizing Circles Chart -->
+    <div class="print-section">
+      <h3 class="print-section-title">1. Physical Ring Size Chart</h3>
+      <p class="print-instructions">
+        Measure an existing, well-fitting ring by placing it over the circles below. Find the circle that matches the <strong>inside edge</strong> of your ring. The black line should align perfectly with the inside edge of your ring (not the outside edge).
+      </p>
+
+      <div class="print-circles-grid">
+        <!-- Exact mm diameter styling for print-physical-circle circles -->
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 14.1mm; height: 14.1mm;"></div>
+          <div class="print-circle-label">Size 3</div>
+          <div class="print-circle-sublabel">14.1 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 14.5mm; height: 14.5mm;"></div>
+          <div class="print-circle-label">Size 3 ½</div>
+          <div class="print-circle-sublabel">14.5 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 14.9mm; height: 14.9mm;"></div>
+          <div class="print-circle-label">Size 4</div>
+          <div class="print-circle-sublabel">14.9 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 15.3mm; height: 15.3mm;"></div>
+          <div class="print-circle-label">Size 4 ½</div>
+          <div class="print-circle-sublabel">15.3 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 15.7mm; height: 15.7mm;"></div>
+          <div class="print-circle-label">Size 5</div>
+          <div class="print-circle-sublabel">15.7 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 16.1mm; height: 16.1mm;"></div>
+          <div class="print-circle-label">Size 5 ½</div>
+          <div class="print-circle-sublabel">16.1 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 16.5mm; height: 16.5mm;"></div>
+          <div class="print-circle-label">Size 6</div>
+          <div class="print-circle-sublabel">16.5 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 16.9mm; height: 16.9mm;"></div>
+          <div class="print-circle-label">Size 6 ½</div>
+          <div class="print-circle-sublabel">16.9 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 17.3mm; height: 17.3mm;"></div>
+          <div class="print-circle-label">Size 7</div>
+          <div class="print-circle-sublabel">17.3 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 17.7mm; height: 17.7mm;"></div>
+          <div class="print-circle-label">Size 7 ½</div>
+          <div class="print-circle-sublabel">17.7 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 18.1mm; height: 18.1mm;"></div>
+          <div class="print-circle-label">Size 8</div>
+          <div class="print-circle-sublabel">18.1 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 18.5mm; height: 18.5mm;"></div>
+          <div class="print-circle-label">Size 8 ½</div>
+          <div class="print-circle-sublabel">18.5 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 19.0mm; height: 19.0mm;"></div>
+          <div class="print-circle-label">Size 9</div>
+          <div class="print-circle-sublabel">19.0 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 19.4mm; height: 19.4mm;"></div>
+          <div class="print-circle-label">Size 9 ½</div>
+          <div class="print-circle-sublabel">19.4 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 19.8mm; height: 19.8mm;"></div>
+          <div class="print-circle-label">Size 10</div>
+          <div class="print-circle-sublabel">19.8 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 20.2mm; height: 20.2mm;"></div>
+          <div class="print-circle-label">Size 10 ½</div>
+          <div class="print-circle-sublabel">20.2 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 20.6mm; height: 20.6mm;"></div>
+          <div class="print-circle-label">Size 11</div>
+          <div class="print-circle-sublabel">20.6 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 21.0mm; height: 21.0mm;"></div>
+          <div class="print-circle-label">Size 11 ½</div>
+          <div class="print-circle-sublabel">21.0 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 21.4mm; height: 21.4mm;"></div>
+          <div class="print-circle-label">Size 12</div>
+          <div class="print-circle-sublabel">21.4 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 21.8mm; height: 21.8mm;"></div>
+          <div class="print-circle-label">Size 12 ½</div>
+          <div class="print-circle-sublabel">21.8 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 22.2mm; height: 22.2mm;"></div>
+          <div class="print-circle-label">Size 13</div>
+          <div class="print-circle-sublabel">22.2 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 22.6mm; height: 22.6mm;"></div>
+          <div class="print-circle-label">Size 13 ½</div>
+          <div class="print-circle-sublabel">22.6 mm</div>
+        </div>
+        <div class="print-circle-wrapper">
+          <div class="print-physical-circle" style="width: 23.0mm; height: 23.0mm;"></div>
+          <div class="print-circle-label">Size 14</div>
+          <div class="print-circle-sublabel">23.0 mm</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Printable Part 2: Sizer Strap cut out -->
+    <div class="print-section">
+      <h3 class="print-section-title">2. Cut-Out Finger Ring Sizer</h3>
+      <div class="print-instructions">
+        <ol>
+          <li>Carefully cut out the ring sizer strap below.</li>
+          <li>Make a small vertical cut along the dotted line for <strong>Slot B</strong>.</li>
+          <li>With the numbers facing outward, wrap the strap around the base of the finger to be measured.</li>
+          <li>Pull the pointed end <strong>Tab A</strong> through <strong>Slot B</strong> until the paper wraps snugly around your finger.</li>
+          <li>The line aligned with <strong>Slot B</strong> is your correct US ring size. (Read size at the top of the finger).</li>
+        </ol>
+      </div>
+
+      <div class="print-sizer-svg-container">
+        <!-- Precise 180mm x 40mm vector SVG. Coordinates map: 1 unit = 1mm -->
+        <svg width="180mm" height="43mm" viewBox="0 0 180 43" xmlns="http://www.w3.org/2000/svg">
+          <!-- Main outline -->
+          <path d="M 5 5 L 45 5 L 45 15 L 175 15 L 180 20 L 175 25 L 45 25 L 45 35 L 5 35 Z" fill="none" stroke="#000000" stroke-width="0.5" />
+          
+          <!-- Slot B cut slit indicator line -->
+          <line x1="35" y1="10" x2="35" y2="30" stroke="#000000" stroke-width="0.8" stroke-dasharray="1 1" />
+          <text x="31.5" y="21" font-family="'Montserrat', sans-serif" font-size="2.2" font-weight="bold" fill="#000">SLOT B</text>
+          <text x="23" y="25" font-family="'Montserrat', sans-serif" font-size="1.8" fill="#555">CUT SLIT HERE</text>
+          
+          <!-- Logo text inside head -->
+          <text x="20" y="14" font-family="'Cinzel', serif" font-size="3" font-weight="bold" text-anchor="middle">ALQUDS</text>
+          <text x="20" y="17" font-family="'Cinzel', serif" font-size="1.8" letter-spacing="1" text-anchor="middle">JEWELRY</text>
+          <text x="20" y="30" font-family="'Montserrat', sans-serif" font-size="2" text-anchor="middle">RING SIZER</text>
+          
+          <!-- Tab A indicator at tip -->
+          <path d="M 175 15 L 180 20 L 175 25 Z" fill="#000000" />
+          <text x="176.5" y="20" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="1.5" font-weight="bold" text-anchor="middle" transform="rotate(-90 176.5 20)">TAB A</text>
+
+          <!-- Upward line indicator and instruction text -->
+          <text x="35" y="4.2" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle">READ SIZE HERE</text>
+          <path d="M 35 5 L 35 7.5 L 34.2 6.7 M 35 7.5 L 35.8 6.7" stroke="#000" stroke-width="0.3" fill="none" />
+
+          <!-- Sizes ticks and numbers -->
+          <!-- Coordinates: X = 35 + Circumference in mm -->
+          <!-- Size 3 X=79.2 -->
+          <line x1="79.2" y1="15" x2="79.2" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="79.2" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 79.2 20)">3</text>
+          
+          <!-- Size 3.5 X=80.5 -->
+          <line x1="80.5" y1="17" x2="80.5" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="80.5" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 80.5 20)">3½</text>
+
+          <!-- Size 4 X=81.8 -->
+          <line x1="81.8" y1="15" x2="81.8" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="81.8" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 81.8 20)">4</text>
+          
+          <!-- Size 4.5 X=83.0 -->
+          <line x1="83.0" y1="17" x2="83.0" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="83.0" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 83.0 20)">4½</text>
+
+          <!-- Size 5 X=84.3 -->
+          <line x1="84.3" y1="15" x2="84.3" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="84.3" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 84.3 20)">5</text>
+          
+          <!-- Size 5.5 X=85.6 -->
+          <line x1="85.6" y1="17" x2="85.6" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="85.6" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 85.6 20)">5½</text>
+
+          <!-- Size 6 X=86.9 -->
+          <line x1="86.9" y1="15" x2="86.9" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="86.9" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 86.9 20)">6</text>
+          
+          <!-- Size 6.5 X=88.1 -->
+          <line x1="88.1" y1="17" x2="88.1" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="88.1" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 88.1 20)">6½</text>
+
+          <!-- Size 7 X=89.4 -->
+          <line x1="89.4" y1="15" x2="89.4" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="89.4" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 89.4 20)">7</text>
+          
+          <!-- Size 7.5 X=90.7 -->
+          <line x1="90.7" y1="17" x2="90.7" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="90.7" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 90.7 20)">7½</text>
+
+          <!-- Size 8 X=92.0 -->
+          <line x1="92.0" y1="15" x2="92.0" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="92.0" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 92.0 20)">8</text>
+          
+          <!-- Size 8.5 X=93.2 -->
+          <line x1="93.2" y1="17" x2="93.2" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="93.2" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 93.2 20)">8½</text>
+
+          <!-- Size 9 X=94.5 -->
+          <line x1="94.5" y1="15" x2="94.5" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="94.5" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 94.5 20)">9</text>
+          
+          <!-- Size 9.5 X=95.8 -->
+          <line x1="95.8" y1="17" x2="95.8" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="95.8" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 95.8 20)">9½</text>
+
+          <!-- Size 10 X=97.1 -->
+          <line x1="97.1" y1="15" x2="97.1" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="97.1" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 97.1 20)">10</text>
+          
+          <!-- Size 10.5 X=98.3 -->
+          <line x1="98.3" y1="17" x2="98.3" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="98.3" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 98.3 20)">10½</text>
+
+          <!-- Size 11 X=99.6 -->
+          <line x1="99.6" y1="15" x2="99.6" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="99.6" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 99.6 20)">11</text>
+          
+          <!-- Size 11.5 X=100.9 -->
+          <line x1="100.9" y1="17" x2="100.9" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="100.9" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 100.9 20)">11½</text>
+
+          <!-- Size 12 X=102.2 -->
+          <line x1="102.2" y1="15" x2="102.2" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="102.2" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 102.2 20)">12</text>
+          
+          <!-- Size 12.5 X=103.4 -->
+          <line x1="103.4" y1="17" x2="103.4" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="103.4" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 103.4 20)">12½</text>
+
+          <!-- Size 13 X=104.7 -->
+          <line x1="104.7" y1="15" x2="104.7" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="104.7" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 104.7 20)">13</text>
+          
+          <!-- Size 13.5 X=106.0 -->
+          <line x1="106.0" y1="17" x2="106.0" y2="23" stroke="#777777" stroke-width="0.2" />
+          <text x="106.0" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.4" fill="#666666" text-anchor="middle" transform="rotate(-90 106.0 20)">13½</text>
+
+          <!-- Size 14 X=107.3 -->
+          <line x1="107.3" y1="15" x2="107.3" y2="25" stroke="#000000" stroke-width="0.3" />
+          <text x="107.3" y="20.5" font-family="'Montserrat', sans-serif" font-size="1.8" font-weight="bold" text-anchor="middle" transform="rotate(-90 107.3 20)">14</text>
+
+          <!-- Verification ruler line under sizer in SVG -->
+          <line x1="35" y1="39" x2="123.9" y2="39" stroke="#000000" stroke-width="0.5" />
+          <line x1="35" y1="37.5" x2="35" y2="40.5" stroke="#000000" stroke-width="0.5" />
+          <line x1="123.9" y1="37.5" x2="123.9" y2="40.5" stroke="#000000" stroke-width="0.5" />
+          <text x="79.45" y="38" font-family="'Montserrat', sans-serif" font-size="1.8" text-anchor="middle">This line must measure exactly 3 ½ inches (88.9 mm)</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
