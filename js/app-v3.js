@@ -96,6 +96,43 @@
         .karat-filter-label:hover .karat-filter-checkbox {
             border-color: var(--color-gold, #DAA520) !important;
         }
+        .sidebar-category-link {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            color: #94a3b8 !important;
+            text-decoration: none !important;
+            font-size: 0.95rem !important;
+            font-family: var(--font-body) !important;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            padding: 6px 10px !important;
+            border-radius: 4px !important;
+            border-left: 2px solid transparent !important;
+            background: transparent !important;
+        }
+        .sidebar-category-link:hover {
+            color: #ffffff !important;
+            padding-left: 15px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-left-color: var(--color-gold, #DAA520) !important;
+        }
+        .sidebar-category-link.active {
+            color: var(--color-gold, #DAA520) !important;
+            font-weight: 600 !important;
+            background: rgba(212, 175, 55, 0.05) !important;
+            border-left-color: var(--color-gold, #DAA520) !important;
+            padding-left: 15px !important;
+        }
+        .sidebar-category-link::before {
+            content: '•' !important;
+            color: var(--color-gold, #DAA520) !important;
+            opacity: 0 !important;
+            transition: opacity 0.3s ease !important;
+            margin-right: -4px !important;
+        }
+        .sidebar-category-link:hover::before, .sidebar-category-link.active::before {
+            opacity: 1 !important;
+        }
     `;
     document.head.appendChild(style);
 })();
@@ -549,8 +586,38 @@ function renderCatalog(reset = true) {
     const subParam = urlParams.get('sub');
     const searchParam = urlParams.get('search');
 
-    // Inject Karat Filter in the sidebar if it doesn't exist
+    // Inject Collections Switcher in the sidebar if it doesn't exist (only when subcategory is active)
     const sidebar = document.querySelector('aside');
+    if (sidebar && subParam) {
+        if (!document.getElementById('sidebar-categories-filter')) {
+            sidebar.insertAdjacentHTML('afterbegin', `
+                <div id="sidebar-categories-filter" style="margin-bottom: 30px;">
+                    <h3 style="color: white; font-size: 1rem; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #333; padding-bottom: 10px;">Collections</h3>
+                    <ul class="sidebar-category-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                    </ul>
+                </div>
+            `);
+        }
+        
+        const categoryListContainer = document.querySelector('.sidebar-category-list');
+        if (categoryListContainer) {
+            const parent = catParam || 'yellow-gold';
+            const html = YELLOW_GOLD_CATS.map(cat => {
+                const isActive = (cat.id === subParam) ? 'active' : '';
+                return `
+                    <li>
+                        <a href="catalog.html?cat=${parent}&sub=${cat.id}" class="sidebar-category-link ${isActive}">
+                            ${cat.label}
+                        </a>
+                    </li>
+                `;
+            }).join('');
+            categoryListContainer.innerHTML = html;
+        }
+    } else if (sidebar && !subParam) {
+        const existingCats = document.getElementById('sidebar-categories-filter');
+        if (existingCats) existingCats.remove();
+    }
     if (sidebar && !document.getElementById('sidebar-karat-filter')) {
         const priceContainer = sidebar.querySelector('.price-filter-container');
         if (priceContainer) {
