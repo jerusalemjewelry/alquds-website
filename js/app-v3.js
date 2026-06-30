@@ -86,6 +86,7 @@ const MATERIAL_MAP = {
 const YELLOW_GOLD_CATS = [
     { id: 'necklaces', label: 'Necklace Sets', image: 'assets/cat_necklaces.png' },
     { id: 'bangles', label: 'Bangles', image: 'assets/cat_bangles.png' },
+    { id: 'bangle-sets', label: 'Bangle Sets', image: 'assets/cat_bangle_sets.png' },
     { id: 'chains', label: 'Chains', image: 'assets/cat_chains.png' },
     { id: 'rings', label: 'Rings', image: 'assets/cat_rings.png' },
     { id: 'earrings', label: 'Earrings', image: 'assets/cat_earrings.png' },
@@ -422,7 +423,7 @@ async function initApp() {
 
         // Fetch all category files dynamically
         const categoryFiles = [
-            'bangles', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
+            'bangles', 'bangle-sets', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
             'bands', 'coins', 'kladas', 'necklaces', 'children',
             'anklets', 'bracelets', 'pendants', 'belts', 'chokers', 'frames',
             'diamonds', 'coins-bullions', 'silver'
