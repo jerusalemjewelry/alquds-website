@@ -58,9 +58,9 @@
             -webkit-appearance: none !important;
             -moz-appearance: none !important;
             appearance: none !important;
-            width: 16px !important;
-            height: 16px !important;
-            border: 2px solid #555 !important;
+            width: 12px !important;
+            height: 12px !important;
+            border: 1.5px solid #555 !important;
             border-radius: 50% !important;
             outline: none !important;
             cursor: pointer !important;
@@ -81,8 +81,8 @@
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
-            width: 6px !important;
-            height: 6px !important;
+            width: 4px !important;
+            height: 4px !important;
             border-radius: 50% !important;
             background: #000000 !important;
         }
