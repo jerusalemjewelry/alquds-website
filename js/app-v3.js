@@ -133,63 +133,6 @@
         .sidebar-category-link:hover::before, .sidebar-category-link.active::before {
             opacity: 1 !important;
         }
-        /* Horizontal Top Filter Bar Styling */
-        @media (min-width: 768px) {
-            .has-filters {
-                flex-direction: column !important;
-                gap: 0 !important;
-            }
-            aside.filters-horizontal {
-                width: 100% !important;
-                display: flex !important;
-                flex-direction: row !important;
-                gap: 30px !important;
-                align-items: stretch !important;
-                flex-wrap: wrap !important;
-                margin-bottom: 45px !important;
-                border-bottom: 1px solid #222 !important;
-                padding-bottom: 30px !important;
-            }
-            #sidebar-categories-filter {
-                flex: 1 1 250px !important;
-                margin-bottom: 0 !important;
-            }
-            .price-filter-container {
-                flex: 1 1 280px !important;
-                margin-bottom: 0 !important;
-            }
-            #sidebar-karat-filter {
-                flex: 1 1 200px !important;
-                margin-top: 0 !important;
-                border-top: none !important;
-                padding-top: 0 !important;
-            }
-            #sidebar-sizer-link {
-                flex: 1 1 220px !important;
-                margin-top: 0 !important;
-                border-top: none !important;
-                padding-top: 0 !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                background: rgba(255, 255, 255, 0.01) !important;
-                border: 1px dashed #333 !important;
-                border-radius: 8px !important;
-                padding: 15px !important;
-                text-align: center !important;
-                transition: all 0.3s ease !important;
-                height: auto !important;
-            }
-            #sidebar-sizer-link:hover {
-                border-color: var(--color-gold, #DAA520) !important;
-                background: rgba(212, 175, 55, 0.03) !important;
-            }
-            #sidebar-sizer-link a {
-                font-size: 0.95rem !important;
-                display: block !important;
-                width: 100% !important;
-            }
-        }
     `;
     document.head.appendChild(style);
 })();
@@ -643,50 +586,7 @@ function renderCatalog(reset = true) {
     const subParam = urlParams.get('sub');
     const searchParam = urlParams.get('search');
 
-    // Set Layout Classes for Horizontal Filter Bar
     const sidebar = document.querySelector('aside');
-    if (sidebar) {
-        const layoutContainer = sidebar.parentNode;
-        if (catParam === 'yellow-gold' && !subParam) {
-            sidebar.classList.remove('filters-horizontal');
-            if (layoutContainer) layoutContainer.classList.remove('has-filters');
-        } else {
-            sidebar.classList.add('filters-horizontal');
-            if (layoutContainer) layoutContainer.classList.add('has-filters');
-        }
-    }
-
-    // Inject Collections Switcher in the sidebar if it doesn't exist (only when subcategory is active)
-    if (sidebar && subParam) {
-        if (!document.getElementById('sidebar-categories-filter')) {
-            sidebar.insertAdjacentHTML('afterbegin', `
-                <div id="sidebar-categories-filter" style="margin-bottom: 30px;">
-                    <h3 style="color: white; font-size: 1rem; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #333; padding-bottom: 10px;">Collections</h3>
-                    <ul class="sidebar-category-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-                    </ul>
-                </div>
-            `);
-        }
-        
-        const categoryListContainer = document.querySelector('.sidebar-category-list');
-        if (categoryListContainer) {
-            const parent = catParam || 'yellow-gold';
-            const html = YELLOW_GOLD_CATS.map(cat => {
-                const isActive = (cat.id === subParam) ? 'active' : '';
-                return `
-                    <li>
-                        <a href="catalog.html?cat=${parent}&sub=${cat.id}" class="sidebar-category-link ${isActive}">
-                            ${cat.label}
-                        </a>
-                    </li>
-                `;
-            }).join('');
-            categoryListContainer.innerHTML = html;
-        }
-    } else if (sidebar && !subParam) {
-        const existingCats = document.getElementById('sidebar-categories-filter');
-        if (existingCats) existingCats.remove();
-    }
     if (sidebar && !document.getElementById('sidebar-karat-filter')) {
         const priceContainer = sidebar.querySelector('.price-filter-container');
         if (priceContainer) {
@@ -859,6 +759,9 @@ function renderCatalog(reset = true) {
     
     const existingSidebarSizer = document.getElementById('sidebar-sizer-link');
     if (existingSidebarSizer) existingSidebarSizer.remove();
+
+    const existingCats = document.getElementById('sidebar-categories-filter');
+    if (existingCats) existingCats.remove();
     
     if (title && title.parentNode) {
         title.parentNode.style.flexDirection = 'row'; // Restore default
@@ -944,6 +847,33 @@ function renderCatalog(reset = true) {
                     </a>
                 </div>
             `);
+        }
+    }
+
+    // Inject Collections Switcher in the sidebar last (so it sits at the bottom)
+    if (sidebar && subParam) {
+        sidebar.insertAdjacentHTML('beforeend', `
+            <div id="sidebar-categories-filter" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
+                <h3 style="color: white; font-size: 1rem; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #333; padding-bottom: 10px;">Collections</h3>
+                <ul class="sidebar-category-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                </ul>
+            </div>
+        `);
+        
+        const categoryListContainer = document.querySelector('.sidebar-category-list');
+        if (categoryListContainer) {
+            const parent = catParam || 'yellow-gold';
+            const html = YELLOW_GOLD_CATS.map(cat => {
+                const isActive = (cat.id === subParam) ? 'active' : '';
+                return `
+                    <li>
+                        <a href="catalog.html?cat=${parent}&sub=${cat.id}" class="sidebar-category-link ${isActive}">
+                            ${cat.label}
+                        </a>
+                    </li>
+                `;
+            }).join('');
+            categoryListContainer.innerHTML = html;
         }
     }
 
