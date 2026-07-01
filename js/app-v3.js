@@ -171,7 +171,7 @@ const YELLOW_GOLD_CATS = [
     { id: 'earrings', label: 'Earrings', image: 'assets/cat_earrings.png' },
     { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_bracelets.png' },
     { id: 'pendants', label: 'Pendants', image: 'assets/cat_pendants.png' },
-    { id: 'coins', label: 'Frames', image: 'assets/cat_coins_v2.png' },
+    { id: 'frames', label: 'Frames', image: 'assets/cat_coins_v2.png' },
     { id: 'anklets', label: 'Anklets', image: 'assets/cat_anklets.png' },
     { id: 'children', label: 'Children', image: 'assets/cat_children.png' },
     { id: 'kladas', label: 'Kladas', image: 'assets/cat_kladas.png' },
@@ -193,11 +193,11 @@ const WHITE_GOLD_CATS = [
 ];
 
 const SILVER_CATS = [
+    { id: 'rings', label: 'Rings', image: 'assets/cat_sv_rings.png' },
+    { id: 'bands', label: 'Bands', image: 'assets/cat_sv_bands.png' },
     { id: 'pendants', label: 'Pendants', image: 'assets/cat_sv_pendants.png' },
     { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_sv_bracelets.png' },
     { id: 'chains', label: 'Chains', image: 'assets/cat_sv_chains.png' },
-    { id: 'rings', label: 'Rings', image: 'assets/cat_sv_rings.png' },
-    { id: 'bands', label: 'Bands', image: 'assets/cat_sv_bands.png' },
     { id: 'women', label: 'Women', image: 'assets/cat_sv_women.png' }
 ];
 
