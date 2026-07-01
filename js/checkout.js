@@ -218,11 +218,18 @@ function renderCheckout(cart) {
         const cat = (item.category || '').toLowerCase().trim();
         if (cat === 'coins-bullions') return true;
 
-        // 3. Check specific keywords in Name
+        // 3. Check specific keywords in Name (excluding jewelry items containing these words, e.g. "Coin Necklace")
         const name = (item.name || '').toUpperCase();
-        if (name.includes('BAR') || name.includes('BULLION') || name.includes('COIN') ||
-            name.includes('SOVEREIGN') || name.includes('OUNCE') || name.includes('1 OZ') ||
-            name.includes('MKHAMAS')) {
+        const hasExemptKeyword = name.includes('BAR') || name.includes('BULLION') || name.includes('COIN') ||
+                                 name.includes('SOVEREIGN') || name.includes('OUNCE') || name.includes('1 OZ') ||
+                                 name.includes('MKHAMAS');
+                                 
+        const isJewelry = name.includes('NECKLACE') || name.includes('CHAIN') || name.includes('RING') ||
+                          name.includes('BRACELET') || name.includes('EARRING') || name.includes('PENDANT') ||
+                          name.includes('ANKLET') || name.includes('SET') || name.includes('HOLDER') ||
+                          name.includes('FRAME') || name.includes('KLADA');
+
+        if (hasExemptKeyword && !isJewelry) {
             return true;
         }
 
