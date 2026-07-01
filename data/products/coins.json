@@ -1,0 +1,20 @@
+{
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "21k Gold Ounce Frame (bezel)",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 10,
+      "weight": "13.97",
+      "id": "Fr1",
+      "image": "assets/frame-13.98g.png",
+      "description": "Showcase your investment with pride. This classic gold bar frame is meticulously crafted in high-luster 21K yellow gold, offering the perfect balance of brilliant yellow color and structural durability. Specially engineered to fit most standard 1 oz gold minted bars, this frame transforms your bullion into a striking pendant.",
+      "category": "frames"
+    }
+  ]
+}
