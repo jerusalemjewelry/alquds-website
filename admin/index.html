@@ -11,6 +11,178 @@
     <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <script>
+        // Automatic ID Generator for Alquds Jewelry Admin Panel
+        (function() {
+            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE ===");
+
+            // Category Prefix Mapping matching Alquds store categories
+            const PREFIX_MAP = {
+                'kladas': 'Kc',
+                'bangles': 'B',
+                'bangle-sets': 'BS',
+                'chains': 'Ch',
+                'necklaces': 'N',
+                'rings': 'R',
+                'earrings': 'E',
+                'bracelets': 'Br',
+                'pendants': 'P',
+                'anklets': 'A',
+                'belts': 'Bt',
+                'chokers': 'Ck',
+                'frames': 'Fr',
+                'name-plates': 'Np',
+                'children': 'Kd',
+                'white-gold': 'Wg',
+                'silver': 'S',
+                'diamonds': 'D',
+                'coins-bullions': 'Cb',
+                'bands': 'Bd',
+                'coins': 'C'
+            };
+
+            function findFieldGroup(element) {
+                return element.closest('[class*="ListControl"] > div, [class*="ObjectControl"] > div, form, body');
+            }
+
+            function getFieldByLabel(container, labelText) {
+                const labels = Array.from(container.querySelectorAll('label, span, div'))
+                    .filter(el => el.textContent.trim().toUpperCase() === labelText.toUpperCase());
+                
+                for (const label of labels) {
+                    const parent = label.parentElement;
+                    const input = parent.querySelector('input, select, textarea');
+                    if (input) return input;
+                    
+                    const grandparent = parent.parentElement;
+                    if (grandparent) {
+                        const input2 = grandparent.querySelector('input, select, textarea');
+                        if (input2) return input2;
+                    }
+                }
+                return null;
+            }
+
+            function findLabelForControl(control) {
+                const parent = control.parentElement;
+                if (!parent) return null;
+                
+                const labelEl = parent.querySelector('label, span, div[class*="Label"]');
+                if (labelEl && labelEl !== control) return labelEl.textContent.trim();
+                
+                const grandparent = parent.parentElement;
+                if (grandparent) {
+                    const labelEl2 = grandparent.querySelector('label, span, div[class*="Label"]');
+                    if (labelEl2 && labelEl2 !== parent) return labelEl2.textContent.trim();
+                }
+                
+                return null;
+            }
+
+            function autoGenerateId(category, idInput) {
+                if (!category) return;
+                const prefix = PREFIX_MAP[category] || '';
+                
+                // Fetch the existing products JSON to find the next sequential ID
+                fetch('../data/products/' + category + '.json')
+                    .then(r => {
+                        if (!r.ok) throw new Error("File not found");
+                        return r.json();
+                    })
+                    .then(data => {
+                        const products = data.products_list || [];
+                        let maxNum = 0;
+                        
+                        products.forEach(p => {
+                            const idStr = String(p.id).trim();
+                            if (idStr.toLowerCase().startsWith(prefix.toLowerCase())) {
+                                const numStr = idStr.substring(prefix.length);
+                                const num = parseInt(numStr, 10);
+                                if (!isNaN(num) && num > maxNum) {
+                                    maxNum = num;
+                                }
+                            } else {
+                                const num = parseInt(idStr, 10);
+                                if (!isNaN(num) && num > maxNum) {
+                                    maxNum = num;
+                                }
+                            }
+                        });
+                        
+                        applyNextId(prefix, maxNum, idInput);
+                    })
+                    .catch(err => {
+                        // File doesn't exist yet, start with 1
+                        applyNextId(prefix, 0, idInput);
+                    });
+            }
+
+            function applyNextId(prefix, maxNum, idInput) {
+                const nextNum = maxNum + 1;
+                const nextId = prefix + nextNum;
+                
+                const currentVal = idInput.value.trim();
+                const currentPrefix = currentVal.replace(/[0-9]/g, '');
+                
+                // Only fill if empty or if the prefix changes (e.g. they switched category)
+                if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
+                    idInput.value = nextId;
+                    
+                    // Dispatch events so React registers the input value changes
+                    idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    idInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+
+            // 1. Listen for user change events on dropdowns
+            document.addEventListener('change', (event) => {
+                const target = event.target;
+                if (target.tagName === 'SELECT' || target.tagName === 'INPUT') {
+                    const label = findLabelForControl(target);
+                    if (label && label.toUpperCase() === 'CATEGORY') {
+                        const itemContainer = findFieldGroup(target);
+                        if (itemContainer) {
+                            const idInput = getFieldByLabel(itemContainer, 'ID');
+                            if (idInput) {
+                                autoGenerateId(target.value, idInput);
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. Proactive observer to scan for empty ID fields when a new list item is added
+            function scanAndAutoFill() {
+                const labels = Array.from(document.querySelectorAll('label, span, div'))
+                    .filter(el => el.textContent.trim().toUpperCase() === 'ID');
+                    
+                labels.forEach(label => {
+                    const parent = label.parentElement;
+                    const grandparent = parent ? parent.parentElement : null;
+                    const idInput = parent?.querySelector('input') || grandparent?.querySelector('input');
+                    
+                    if (idInput && !idInput.value.trim()) {
+                        const itemContainer = findFieldGroup(idInput);
+                        if (itemContainer) {
+                            const categorySelect = getFieldByLabel(itemContainer, 'CATEGORY');
+                            if (categorySelect && categorySelect.value) {
+                                autoGenerateId(categorySelect.value, idInput);
+                            }
+                        }
+                    }
+                });
+            }
+
+            let scanTimeout;
+            const observer = new MutationObserver(() => {
+                clearTimeout(scanTimeout);
+                scanTimeout = setTimeout(scanAndAutoFill, 300);
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+
+        })();
+    </script>
 </body>
 
 </html>
