@@ -181,6 +181,17 @@ const YELLOW_GOLD_CATS = [
     { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' }
 ];
 
+const WHITE_GOLD_CATS = [
+    { id: 'necklaces', label: 'Necklace Sets', image: 'assets/cat_wg_necklaces.png' },
+    { id: 'bangles', label: 'Bangles', image: 'assets/cat_wg_bangles.png' },
+    { id: 'bangle-sets', label: 'Bangle Sets', image: 'assets/cat_wg_bangle_sets.png' },
+    { id: 'chains', label: 'Chains', image: 'assets/cat_wg_chains.png' },
+    { id: 'rings', label: 'Rings', image: 'assets/cat_wg_rings.png' },
+    { id: 'earrings', label: 'Earrings', image: 'assets/cat_wg_earrings.png' },
+    { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_wg_bracelets.png' },
+    { id: 'pendants', label: 'Pendants', image: 'assets/cat_wg_pendants.png' }
+];
+
 // Helper: Calculate Price dynamically
 function calculatePrice(item, config) {
     if (item.weight === "Varies" || item.weight === "N/A" || !item.isDynamic) {
@@ -709,12 +720,14 @@ function renderCatalog(reset = true) {
             if (title) title.innerText = pageLabel + ' Collections';
             let catHTML = '';
 
-            if (catParam === 'yellow-gold') {
-                // Hide Filter Sidebar for Yellow Gold Main Page
+            if (catParam === 'yellow-gold' || catParam === 'white-gold') {
+                // Hide Filter Sidebar for Material Root Pages
                 const sidebar = document.querySelector('aside');
                 if (sidebar) sidebar.style.display = 'none';
 
-                catHTML = YELLOW_GOLD_CATS.map(cat => {
+                const catsList = (catParam === 'yellow-gold') ? YELLOW_GOLD_CATS : WHITE_GOLD_CATS;
+
+                catHTML = catsList.map(cat => {
                     // Use the predefined category image to ensure consistency
                     return createCategoryCard(cat.id, cat.image, catParam, cat.label);
                 }).join('');
@@ -863,7 +876,8 @@ function renderCatalog(reset = true) {
         const categoryListContainer = document.querySelector('.sidebar-category-list');
         if (categoryListContainer) {
             const parent = catParam || 'yellow-gold';
-            const html = YELLOW_GOLD_CATS.map(cat => {
+            const catsList = (parent === 'white-gold') ? WHITE_GOLD_CATS : YELLOW_GOLD_CATS;
+            const html = catsList.map(cat => {
                 const isActive = (cat.id === subParam) ? 'active' : '';
                 return `
                     <li>
@@ -932,7 +946,8 @@ function updateSidebar(categories, parentCat, activeSub) {
 
     // Use the predefined categories to ensure specific order and labels
     // This restores the full list similar to the hardcoded version the user prefers
-    const html = YELLOW_GOLD_CATS.map(cat => {
+    const catsList = (parentCat === 'white-gold') ? WHITE_GOLD_CATS : YELLOW_GOLD_CATS;
+    const html = catsList.map(cat => {
         const isActive = (cat.id === activeSub) ? 'text-gold' : 'text-muted';
         return `
             <li>
