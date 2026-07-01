@@ -43,7 +43,19 @@
             };
 
             function findFieldGroup(element) {
-                return element.closest('[class*="ListControl"] > div, [class*="ObjectControl"] > div, form, body');
+                let cur = element.parentElement;
+                if (cur) cur = cur.parentElement; // Go up out of control container
+                while (cur && cur.tagName !== 'FORM' && cur.tagName !== 'BODY') {
+                    const hasIdField = Array.from(cur.querySelectorAll('label, span, div'))
+                        .some(el => el.textContent.trim().toUpperCase() === 'ID');
+                    const hasCategoryField = Array.from(cur.querySelectorAll('label, span, div'))
+                        .some(el => el.textContent.trim().toUpperCase() === 'CATEGORY');
+                    if (hasIdField && hasCategoryField) {
+                        return cur;
+                    }
+                    cur = cur.parentElement;
+                }
+                return document.body;
             }
 
             function getFieldByLabel(container, labelText) {

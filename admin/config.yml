@@ -58,8 +58,8 @@ collections:
               - {label: "Dynamic Pricing?", name: "isDynamic", widget: "boolean", default: true}
               - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
               - {label: "Description", name: "description", widget: "text"}
-              - {label: "Featured?", name: "featured", widget: "boolean", default: false}
-              - {label: "Taxable", name: "taxable", widget: "boolean", required: false}
+              - {label: "Featured?", name: "featured", widget: "boolean", default: true}
+              - {label: "Taxable", name: "taxable", widget: "boolean", default: true, required: false}
               - {label: "Out of Stock?", name: "outOfStock", widget: "boolean", default: false}
 
       - name: "bangle-sets"
