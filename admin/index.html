@@ -99,30 +99,103 @@
                 return null;
             }
 
-            function autoGenerateId(category, idInput) {
-                if (!category || document.activeElement === idInput) return;
-                const prefix = PREFIX_MAP[category] || '';
+            function getSelectedColor(container) {
+                // Find any element containing the text label "Color / Material"
+                const labels = Array.from(container.querySelectorAll('label, span, div'))
+                    .filter(el => el.textContent.trim().toUpperCase() === 'COLOR / MATERIAL');
                 
-                // Fetch the existing products JSON to find the next sequential ID
-                fetch('../data/products/' + category + '.json')
+                for (const label of labels) {
+                    const parent = label.parentElement;
+                    if (!parent) continue;
+                    
+                    const nativeSelect = parent.querySelector('select');
+                    if (nativeSelect && nativeSelect.value) {
+                        return nativeSelect.value;
+                    }
+                    
+                    const input = parent.querySelector('input');
+                    if (input && input.value) {
+                        return input.value;
+                    }
+                    
+                    const text = parent.textContent.toLowerCase();
+                    if (text.includes('white gold')) return 'White Gold';
+                    if (text.includes('silver')) return 'Silver';
+                    if (text.includes('yellow gold')) return 'Yellow Gold';
+                }
+                return 'Yellow Gold'; // Default fallback
+            }
+
+            function getMaterialPrefix(color) {
+                if (!color) return '';
+                const c = color.toLowerCase();
+                if (c.includes('white gold')) return 'Wg';
+                if (c.includes('silver')) return 'S';
+                return ''; // No prefix for Yellow Gold
+            }
+
+            function getCollectionFilename() {
+                const hash = window.location.hash || '';
+                if (hash.includes('white-gold')) return 'white-gold';
+                if (hash.includes('silver')) return 'silver';
+                
+                const match = hash.match(/entries\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return match[1];
+                }
+                return '';
+            }
+
+            function autoGenerateId(category, idInput, color) {
+                if (!category || document.activeElement === idInput) return;
+                const materialPrefix = getMaterialPrefix(color);
+                const categoryPrefix = PREFIX_MAP[category] || '';
+                const prefix = materialPrefix + categoryPrefix;
+                
+                // 1. Scan the current page inputs first to find the max ID for this prefix (covers unsaved edits)
+                let maxNum = 0;
+                let foundOnPage = false;
+                
+                const allIdInputs = Array.from(document.querySelectorAll('label, span, div'))
+                    .filter(el => el.textContent.trim().toUpperCase() === 'ID')
+                    .map(label => {
+                        const parent = label.parentElement;
+                        const grandparent = parent ? parent.parentElement : null;
+                        return parent?.querySelector('input') || grandparent?.querySelector('input');
+                    })
+                    .filter(input => input && input !== idInput);
+                    
+                allIdInputs.forEach(input => {
+                    const val = input.value.trim();
+                    if (val.toLowerCase().startsWith(prefix.toLowerCase())) {
+                        const numStr = val.substring(prefix.length);
+                        const num = parseInt(numStr, 10);
+                        if (!isNaN(num)) {
+                            if (num > maxNum) maxNum = num;
+                            foundOnPage = true;
+                        }
+                    }
+                });
+
+                if (foundOnPage) {
+                    applyNextId(prefix, maxNum, idInput);
+                    return;
+                }
+
+                // 2. Fallback: Fetch existing products from the corresponding database file
+                const filename = getCollectionFilename() || category;
+                fetch('../data/products/' + filename + '.json')
                     .then(r => {
                         if (!r.ok) throw new Error("File not found");
                         return r.json();
                     })
                     .then(data => {
                         const products = data.products_list || [];
-                        let maxNum = 0;
-                        
                         products.forEach(p => {
                             const idStr = String(p.id).trim();
                             if (idStr.toLowerCase().startsWith(prefix.toLowerCase())) {
                                 const numStr = idStr.substring(prefix.length);
                                 const num = parseInt(numStr, 10);
-                                if (!isNaN(num) && num > maxNum) {
-                                    maxNum = num;
-                                }
-                            } else {
-                                const num = parseInt(idStr, 10);
                                 if (!isNaN(num) && num > maxNum) {
                                     maxNum = num;
                                 }
@@ -145,7 +218,7 @@
                 const currentVal = idInput.value.trim();
                 const currentPrefix = currentVal.replace(/[0-9]/g, '');
                 
-                // Only fill if empty or if the prefix changes (e.g. they switched category)
+                // Only fill if empty or if the prefix changes (e.g. they switched category or metal color)
                 if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
                     idInput.value = nextId;
                     
@@ -169,14 +242,18 @@
                         const itemContainer = findFieldGroup(idInput);
                         if (itemContainer) {
                             const category = getSelectedCategory(itemContainer);
+                            const color = getSelectedColor(itemContainer);
                             if (category) {
-                                const prefix = PREFIX_MAP[category] || '';
+                                const materialPrefix = getMaterialPrefix(color);
+                                const categoryPrefix = PREFIX_MAP[category] || '';
+                                const prefix = materialPrefix + categoryPrefix;
+                                
                                 const currentVal = idInput.value.trim();
                                 const currentPrefix = currentVal.replace(/[0-9]/g, '');
                                 
-                                // Trigger updates if the ID is blank or does not match the category prefix
+                                // Trigger updates if the ID is blank or does not match the material + category prefix
                                 if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
-                                    autoGenerateId(category, idInput);
+                                    autoGenerateId(category, idInput, color);
                                 }
                             }
                         }
