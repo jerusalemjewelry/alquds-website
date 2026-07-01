@@ -58,42 +58,49 @@
                 return document.body;
             }
 
-            function getFieldByLabel(container, labelText) {
+            function getSelectedCategory(container) {
+                // Find any element containing the text label "Category"
                 const labels = Array.from(container.querySelectorAll('label, span, div'))
-                    .filter(el => el.textContent.trim().toUpperCase() === labelText.toUpperCase());
+                    .filter(el => el.textContent.trim().toUpperCase() === 'CATEGORY');
                 
                 for (const label of labels) {
                     const parent = label.parentElement;
-                    const input = parent.querySelector('input, select, textarea');
-                    if (input) return input;
+                    if (!parent) continue;
                     
-                    const grandparent = parent.parentElement;
-                    if (grandparent) {
-                        const input2 = grandparent.querySelector('input, select, textarea');
-                        if (input2) return input2;
+                    // 1. Check for standard select elements
+                    const nativeSelect = parent.querySelector('select');
+                    if (nativeSelect && nativeSelect.value) {
+                        return nativeSelect.value;
+                    }
+                    
+                    // 2. Check for native inputs (search inputs inside custom dropdowns)
+                    const input = parent.querySelector('input');
+                    if (input && input.value) {
+                        return input.value;
+                    }
+                    
+                    // 3. Scan the inner text contents for category keywords (supports custom React-select widgets)
+                    const text = parent.textContent.toLowerCase();
+                    const valText = text.replace('category', '').trim();
+                    
+                    const categoriesList = [
+                        'bangle-sets', 'bangles', 'chains', 'earrings', 'rings', 'name-plates', 
+                        'white-gold', 'bands', 'watches', 'coins-bullions', 'coins', 'kladas', 
+                        'necklaces', 'children', 'anklets', 'bracelets', 'pendants', 'belts', 
+                        'chokers', 'frames', 'diamonds', 'silver'
+                    ];
+                    
+                    for (const cat of categoriesList) {
+                        if (valText.includes(cat)) {
+                            return cat;
+                        }
                     }
                 }
                 return null;
             }
 
-            function findLabelForControl(control) {
-                const parent = control.parentElement;
-                if (!parent) return null;
-                
-                const labelEl = parent.querySelector('label, span, div[class*="Label"]');
-                if (labelEl && labelEl !== control) return labelEl.textContent.trim();
-                
-                const grandparent = parent.parentElement;
-                if (grandparent) {
-                    const labelEl2 = grandparent.querySelector('label, span, div[class*="Label"]');
-                    if (labelEl2 && labelEl2 !== parent) return labelEl2.textContent.trim();
-                }
-                
-                return null;
-            }
-
             function autoGenerateId(category, idInput) {
-                if (!category) return;
+                if (!category || document.activeElement === idInput) return;
                 const prefix = PREFIX_MAP[category] || '';
                 
                 // Fetch the existing products JSON to find the next sequential ID
@@ -131,6 +138,7 @@
             }
 
             function applyNextId(prefix, maxNum, idInput) {
+                if (document.activeElement === idInput) return;
                 const nextNum = maxNum + 1;
                 const nextId = prefix + nextNum;
                 
@@ -147,24 +155,7 @@
                 }
             }
 
-            // 1. Listen for user change events on dropdowns
-            document.addEventListener('change', (event) => {
-                const target = event.target;
-                if (target.tagName === 'SELECT' || target.tagName === 'INPUT') {
-                    const label = findLabelForControl(target);
-                    if (label && label.toUpperCase() === 'CATEGORY') {
-                        const itemContainer = findFieldGroup(target);
-                        if (itemContainer) {
-                            const idInput = getFieldByLabel(itemContainer, 'ID');
-                            if (idInput) {
-                                autoGenerateId(target.value, idInput);
-                            }
-                        }
-                    }
-                }
-            });
-
-            // 2. Proactive observer to scan for empty ID fields when a new list item is added
+            // 1. Proactive observer to scan for empty or mismatched ID fields when the DOM updates
             function scanAndAutoFill() {
                 const labels = Array.from(document.querySelectorAll('label, span, div'))
                     .filter(el => el.textContent.trim().toUpperCase() === 'ID');
@@ -174,12 +165,19 @@
                     const grandparent = parent ? parent.parentElement : null;
                     const idInput = parent?.querySelector('input') || grandparent?.querySelector('input');
                     
-                    if (idInput && !idInput.value.trim()) {
+                    if (idInput && document.activeElement !== idInput) {
                         const itemContainer = findFieldGroup(idInput);
                         if (itemContainer) {
-                            const categorySelect = getFieldByLabel(itemContainer, 'CATEGORY');
-                            if (categorySelect && categorySelect.value) {
-                                autoGenerateId(categorySelect.value, idInput);
+                            const category = getSelectedCategory(itemContainer);
+                            if (category) {
+                                const prefix = PREFIX_MAP[category] || '';
+                                const currentVal = idInput.value.trim();
+                                const currentPrefix = currentVal.replace(/[0-9]/g, '');
+                                
+                                // Trigger updates if the ID is blank or does not match the category prefix
+                                if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
+                                    autoGenerateId(category, idInput);
+                                }
                             }
                         }
                     }
