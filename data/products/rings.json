@@ -15,6 +15,23 @@
       "image": "assets/logo_alquds.png",
       "description": "nice ring",
       "category": "rings"
+    },
+    {
+      "color": "White Gold",
+      "laborPerGram": 12,
+      "taxable": true,
+      "name": "ring test",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "fixedPrice": 12,
+      "isDynamic": true,
+      "marginPercent": 12,
+      "weight": "12",
+      "id": "WgCh1",
+      "image": "assets/logo_alquds.png",
+      "description": "adada",
+      "category": "chains"
     }
   ]
 }
