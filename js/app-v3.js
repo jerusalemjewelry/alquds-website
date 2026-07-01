@@ -192,6 +192,15 @@ const WHITE_GOLD_CATS = [
     { id: 'pendants', label: 'Pendants', image: 'assets/cat_wg_pendants.png' }
 ];
 
+const SILVER_CATS = [
+    { id: 'pendants', label: 'Pendants', image: 'assets/cat_sv_pendants.png' },
+    { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_sv_bracelets.png' },
+    { id: 'chains', label: 'Chains', image: 'assets/cat_sv_chains.png' },
+    { id: 'rings', label: 'Rings', image: 'assets/cat_sv_rings.png' },
+    { id: 'bands', label: 'Bands', image: 'assets/cat_sv_bands.png' },
+    { id: 'women', label: 'Women', image: 'assets/cat_sv_women.png' }
+];
+
 // Helper: Calculate Price dynamically
 function calculatePrice(item, config) {
     if (item.weight === "Varies" || item.weight === "N/A" || !item.isDynamic) {
@@ -598,7 +607,11 @@ function renderCatalog(reset = true) {
     const searchParam = urlParams.get('search');
 
     const sidebar = document.querySelector('aside');
-    if (sidebar && !document.getElementById('sidebar-karat-filter')) {
+    if (sidebar && catParam === 'silver') {
+        const existingKarat = document.getElementById('sidebar-karat-filter');
+        if (existingKarat) existingKarat.remove();
+    }
+    if (sidebar && catParam !== 'silver' && !document.getElementById('sidebar-karat-filter')) {
         const priceContainer = sidebar.querySelector('.price-filter-container');
         if (priceContainer) {
             priceContainer.insertAdjacentHTML('afterend', `
@@ -720,12 +733,14 @@ function renderCatalog(reset = true) {
             if (title) title.innerText = pageLabel + ' Collections';
             let catHTML = '';
 
-            if (catParam === 'yellow-gold' || catParam === 'white-gold') {
+            if (catParam === 'yellow-gold' || catParam === 'white-gold' || catParam === 'silver') {
                 // Hide Filter Sidebar for Material Root Pages
                 const sidebar = document.querySelector('aside');
                 if (sidebar) sidebar.style.display = 'none';
 
-                const catsList = (catParam === 'yellow-gold') ? YELLOW_GOLD_CATS : WHITE_GOLD_CATS;
+                let catsList = YELLOW_GOLD_CATS;
+                if (catParam === 'white-gold') catsList = WHITE_GOLD_CATS;
+                if (catParam === 'silver') catsList = SILVER_CATS;
 
                 catHTML = catsList.map(cat => {
                     // Use the predefined category image to ensure consistency
@@ -876,7 +891,10 @@ function renderCatalog(reset = true) {
         const categoryListContainer = document.querySelector('.sidebar-category-list');
         if (categoryListContainer) {
             const parent = catParam || 'yellow-gold';
-            const catsList = (parent === 'white-gold') ? WHITE_GOLD_CATS : YELLOW_GOLD_CATS;
+            let catsList = YELLOW_GOLD_CATS;
+            if (parent === 'white-gold') catsList = WHITE_GOLD_CATS;
+            if (parent === 'silver') catsList = SILVER_CATS;
+
             const html = catsList.map(cat => {
                 const isActive = (cat.id === subParam) ? 'active' : '';
                 return `
@@ -946,7 +964,10 @@ function updateSidebar(categories, parentCat, activeSub) {
 
     // Use the predefined categories to ensure specific order and labels
     // This restores the full list similar to the hardcoded version the user prefers
-    const catsList = (parentCat === 'white-gold') ? WHITE_GOLD_CATS : YELLOW_GOLD_CATS;
+    let catsList = YELLOW_GOLD_CATS;
+    if (parentCat === 'white-gold') catsList = WHITE_GOLD_CATS;
+    if (parentCat === 'silver') catsList = SILVER_CATS;
+
     const html = catsList.map(cat => {
         const isActive = (cat.id === activeSub) ? 'text-gold' : 'text-muted';
         return `
