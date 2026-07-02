@@ -440,6 +440,92 @@ function showToast(message) {
 // Pagination State
 let currentPage = 1;
 let currentFilteredProducts = [];
+let activeFrameFilter = null; // 'coin' or 'ounce'
+
+// Style injection for animated oval filters on frames page
+(function() {
+    const styleId = 'frames-filter-styles';
+    if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.innerHTML = `
+            .frames-filter-container {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin: 20px 0 30px 0;
+                width: 100%;
+                grid-column: 1 / -1;
+            }
+            .frames-filter-btn {
+                background: rgba(0, 0, 0, 0.4);
+                border: 2px solid #8e703f;
+                color: #d4af37;
+                padding: 12px 30px;
+                font-size: 0.95rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .frames-filter-btn::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 150%;
+                height: 150%;
+                background: rgba(212, 175, 55, 0.1);
+                transform: translate(-50%, -50%) scale(0);
+                border-radius: 50%;
+                transition: transform 0.6s ease;
+            }
+            .frames-filter-btn:hover {
+                transform: translateY(-3px) scale(1.05);
+                border-color: #d4af37;
+                color: white;
+                box-shadow: 0 5px 15px rgba(212, 175, 55, 0.25);
+            }
+            .frames-filter-btn:hover::after {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            .frames-filter-btn.active {
+                background: #d4af37;
+                border-color: #d4af37;
+                color: black;
+                font-weight: bold;
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+                animation: pulse-active 2s infinite alternate;
+            }
+            @keyframes pulse-active {
+                0% {
+                    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+                }
+                100% {
+                    box-shadow: 0 0 25px rgba(212, 175, 55, 0.7);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+})();
+
+window.toggleFrameFilter = function(type) {
+    if (activeFrameFilter === type) {
+        activeFrameFilter = null;
+    } else {
+        activeFrameFilter = type;
+    }
+    renderCatalog(true);
+};
 
 // Create Product Card HTML
 // Create Product Card HTML
@@ -933,6 +1019,41 @@ function renderCatalog(reset = true) {
         }
     }
 
+    // Frames page custom filters
+    const isFramesPage = subParam === 'frames';
+    let filterContainer = document.getElementById('frames-filter-container');
+    if (isFramesPage) {
+        if (!filterContainer) {
+            filterContainer = document.createElement('div');
+            filterContainer.id = 'frames-filter-container';
+            filterContainer.className = 'frames-filter-container';
+            filterContainer.innerHTML = `
+                <button class="frames-filter-btn ${activeFrameFilter === 'coin' ? 'active' : ''}" onclick="toggleFrameFilter('coin')">Coin Frames</button>
+                <button class="frames-filter-btn ${activeFrameFilter === 'ounce' ? 'active' : ''}" onclick="toggleFrameFilter('ounce')">Ounce Frames</button>
+            `;
+            grid.parentNode.insertBefore(filterContainer, grid);
+        } else {
+            const btns = filterContainer.querySelectorAll('.frames-filter-btn');
+            if (btns.length === 2) {
+                btns[0].className = `frames-filter-btn ${activeFrameFilter === 'coin' ? 'active' : ''}`;
+                btns[1].className = `frames-filter-btn ${activeFrameFilter === 'ounce' ? 'active' : ''}`;
+            }
+        }
+        
+        // Filter products based on selected tab
+        if (activeFrameFilter === 'ounce') {
+            currentFilteredProducts = currentFilteredProducts.filter(p => 
+                String(p.name || '').toLowerCase().includes('ounce')
+            );
+        } else if (activeFrameFilter === 'coin') {
+            currentFilteredProducts = currentFilteredProducts.filter(p => 
+                !String(p.name || '').toLowerCase().includes('ounce')
+            );
+        }
+    } else {
+        if (filterContainer) filterContainer.remove();
+    }
+
     const start = 0;
     const end = currentPage * ITEMS_PER_PAGE;
     const itemsToShow = currentFilteredProducts.slice(start, end);
@@ -1214,7 +1335,18 @@ function renderProductDetail() {
             <div style="margin-top: 40px;">
                 <h3 class="text-gold" style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Description</h3>
                 <p class="text-muted" style="line-height: 1.8;">
-                    ${product.description || 'No description available.'}
+                    ${(() => {
+                        let desc = product.description || '';
+                        const isFrame = product.category === 'frames' || String(product.name || '').toLowerCase().includes('frame');
+                        if (isFrame) {
+                            if (!desc) {
+                                return `This premium gold bezel frame is specifically crafted to encase and secure a standard 1 oz PAMP Suisse minted gold bar, transforming your investment bullion into a stunning piece of fine jewelry.<br><br><strong>Compatible Bar Dimensions:</strong> 41.0 mm (Length) x 24.0 mm (Width) x 1.7 mm (Thickness).`;
+                            } else if (!desc.includes('41mm') && !desc.includes('41 mm') && !desc.includes('41.0')) {
+                                return desc + `<br><br><strong>Fits Standard 1 oz PAMP Suisse Bar:</strong> 41.0 mm (Length) x 24.0 mm (Width) x 1.7 mm (Thickness).`;
+                            }
+                        }
+                        return desc || 'No description available.';
+                    })()}
                 </p>
             </div>
         </div>
