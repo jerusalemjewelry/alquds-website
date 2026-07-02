@@ -191,6 +191,22 @@
       "image": "assets/frame-20.3.png",
       "description": "This premium 21K solid gold bezel frame is specifically crafted to encase and hold a standard 1 oz PAMP Suisse Oval Gold Bar (or equivalent 1 oz oval bullion bars), converting your physical investment gold into a stunning wearable piece of fine jewelry.\nCompatible Bar Dimensions:\n• Weight: 1 Troy Ounce (31.10 Grams)\n• Shape: Oval\n• Length: 41.0 mm\n• Width: 24.0 mm\n• Thickness: 1.71 mm\nNote: Gold bar not included. The frame comes with secure bezel prongs that can be gently folded over to lock your bar safely in place.",
       "category": "frames"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "21k Gold Oval Rope Ounce Frame (bezel) - 2 row",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "15.15",
+      "id": "Fr13",
+      "image": "assets/frame-15.15.png",
+      "description": "This premium 21K solid gold bezel frame is specifically crafted to encase and hold a standard 1 oz PAMP Suisse Oval Gold Bar (or equivalent 1 oz oval bullion bars), converting your physical investment gold into a stunning wearable piece of fine jewelry.\nCompatible Bar Dimensions:\n• Weight: 1 Troy Ounce (31.10 Grams)\n• Shape: Oval\n• Length: 41.0 mm\n• Width: 24.0 mm\n• Thickness: 1.71 mm\nNote: Gold bar not included. The frame comes with secure bezel prongs that can be gently folded over to lock your bar safely in place.",
+      "category": "frames"
     }
   ]
 }
