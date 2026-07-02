@@ -383,6 +383,22 @@
       "image": "assets/frame-2.18.png",
       "description": "This premium 21K solid gold coin bezel frame is masterfully designed to encase and secure standard 22 mm gold bullion coins. It is a perfect fit for both the historic Turkish Reşat (Rashadi) gold coin and the iconic British Sovereign (English Gold Sovereign).\nCompatible Coin Dimensions:\n• Fits Coin Diameters: 22.0 mm to 22.1 mm\n• Fits Coins Such As:\n  - Turkish Reşat Altın / Rashadi Coin (22.0 mm diameter, 7.21g)\n  - British Gold Sovereign / English Gold Coin (22.05 mm diameter, 7.98g)\nNote: Coins sold separately. The frame features secure bezel prongs that can be gently folded over to lock your historical bullion coin safely in place, transforming it into a stunning wearable heirloom.",
       "category": "frames"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 27,
+      "taxable": true,
+      "name": "21k HIMO Gold Mkhamas (5 coin) Coin Frame (bezel)",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "15.90",
+      "id": "Fr25",
+      "image": "assets/frame-15.90-2-.png",
+      "description": "This premium 21K solid gold coin bezel frame is masterfully hand-crafted to secure and showcase large-scale gold bullion coins. It is a perfect fit for the English Mkhamas (British 5 Sovereign / Five Pounds), the Turkish Mkhamas (5 Lira Reşat Altın / Beşli), and the legendary Mexican 50 Pesos (Centenario) gold coin.\nCompatible Coin Dimensions:\n• Fits Coin Diameters: 35.0 mm to 37.1 mm\n• Fits Coins Such As:\n  - Turkish Mkhamas Coin / 5 Lira Reşat (35.0 mm diameter, 36.08g)\n  - English Mkhamas Coin / British 5 Sovereign (36.02 mm diameter, 39.94g)\n  - Mexican 50 Pesos / Centenario Gold Coin (37.1 mm diameter, 41.67g)\nNote: Coins sold separately. This frame features reinforced 21K solid gold bezel prongs specifically designed to safely support the heavy weight of these large bullion coins, allowing you to wear them securely as a luxury statement pendant.",
+      "category": "frames"
     }
   ]
 }
