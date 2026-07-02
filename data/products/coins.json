@@ -73,7 +73,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "5.55",
       "id": "Fr5",
       "image": "assets/frame-5.55.png",
