@@ -367,6 +367,22 @@
       "image": "assets/frame-28.55.png",
       "description": "This premium 21K solid gold bezel frame is specifically crafted to encase and hold a standard 1 oz PAMP Suisse Oval Gold Bar (or equivalent 1 oz oval bullion bars), converting your physical investment gold into a stunning wearable piece of fine jewelry.\nCompatible Bar Dimensions:\n• Weight: 1 Troy Ounce (31.10 Grams)\n• Shape: Oval\n• Length: 41.0 mm\n• Width: 24.0 mm\n• Thickness: 1.71 mm\nNote: Gold bar not included. The frame comes with secure bezel prongs that can be gently folded over to lock your bar safely in place.",
       "category": "frames"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 7,
+      "taxable": true,
+      "name": "21k Gold Coin (Lira) Frame (bezel) - Etched",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 15,
+      "weight": "2.18",
+      "id": "Fr24",
+      "image": "assets/frame-2.18.png",
+      "description": "This premium 21K solid gold coin bezel frame is masterfully designed to encase and secure standard 22 mm gold bullion coins. It is a perfect fit for both the historic Turkish Reşat (Rashadi) gold coin and the iconic British Sovereign (English Gold Sovereign).\nCompatible Coin Dimensions:\n• Fits Coin Diameters: 22.0 mm to 22.1 mm\n• Fits Coins Such As:\n  - Turkish Reşat Altın / Rashadi Coin (22.0 mm diameter, 7.21g)\n  - British Gold Sovereign / English Gold Coin (22.05 mm diameter, 7.98g)\nNote: Coins sold separately. The frame features secure bezel prongs that can be gently folded over to lock your historical bullion coin safely in place, transforming it into a stunning wearable heirloom.",
+      "category": "frames"
     }
   ]
 }
