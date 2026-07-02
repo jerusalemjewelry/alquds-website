@@ -425,7 +425,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "7.40",
       "id": "Fr27",
       "image": "assets/frame-7.4.png",
