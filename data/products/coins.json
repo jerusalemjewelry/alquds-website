@@ -2,14 +2,14 @@
   "products_list": [
     {
       "color": "Yellow Gold",
-      "laborPerGram": 11,
+      "laborPerGram": 15,
       "taxable": true,
       "name": "21k Gold Coin (Lira) Frame (bezel) ",
       "featured": true,
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 15,
+      "marginPercent": 11,
       "weight": "7.70",
       "id": "Fr53",
       "image": "assets/frame-7.70.png",
