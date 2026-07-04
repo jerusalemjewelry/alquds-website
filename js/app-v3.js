@@ -181,7 +181,8 @@ const YELLOW_GOLD_CATS = [
     { id: 'name-plates', label: 'Name Plates', image: 'assets/cat_name_plates.png' },
     { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' },
     { id: 'hand-chains', label: 'Hand Chains / Kaffs', image: 'assets/cat_hand_chains.png' },
-    { id: 'pins', label: 'Pins', image: 'assets/cat_pins.png' }
+    { id: 'pins', label: 'Pins', image: 'assets/cat_pins.png' },
+    { id: 'christian-pendants', label: 'Christian Pendants', image: 'assets/cat_christian_pendants.png' }
 ];
 
 const WHITE_GOLD_CATS = [
@@ -997,7 +998,7 @@ async function initApp() {
             'bangles', 'bangle-sets', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
             'bands', 'coins', 'kladas', 'necklaces', 'children',
             'anklets', 'bracelets', 'pendants', 'belts', 'chokers', 'frames',
-            'diamonds', 'coins-bullions', 'silver', 'long-necklaces', 'hand-chains', 'pins'
+            'diamonds', 'coins-bullions', 'silver', 'long-necklaces', 'hand-chains', 'pins', 'christian-pendants'
         ];
 
         const productPromises = categoryFiles.map(cat =>
