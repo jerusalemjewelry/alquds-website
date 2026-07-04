@@ -996,7 +996,7 @@ async function initApp() {
         // Fetch all category files dynamically
         const categoryFiles = [
             'bangles', 'bangle-sets', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
-            'bands', 'kladas', 'necklaces', 'children',
+            'bands', 'coins', 'kladas', 'necklaces', 'children',
             'anklets', 'bracelets', 'pendants', 'belts', 'chokers', 'frames',
             'diamonds', 'coins-bullions', 'silver', 'long-necklaces', 'hand-chains', 'pins', 'christian-pendants'
         ];
