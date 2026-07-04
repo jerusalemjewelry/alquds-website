@@ -299,6 +299,83 @@
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
             letter-spacing: 1px;
         }
+
+        /* Hero Background Slideshow */
+        .hero {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #000;
+        }
+        .hero-bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .hero-bg-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(5, 5, 5, 0.85) 0%, rgba(5, 5, 5, 0.4) 100%);
+            z-index: 3;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 4;
+            max-width: 800px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        /* Hero Text Slideshow */
+        .hero-text-slider-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 30px;
+            min-height: 180px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .hero-text-slider-container {
+                min-height: 260px;
+            }
+        }
+        .hero-text-slide {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        visibility 0.8s;
+        }
+        .hero-text-slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -413,16 +490,44 @@
     </header>
 
     <!-- Hero Section -->
-    <!-- NOTE: Original background was 'assets/hero_banner.png' - change back if needed -->
-    <section class="hero" style="background-image: url('assets/jerusalem-bg.jpg');">
+    <section class="hero">
+        <!-- Background Slides (Using only your actual store assets) -->
+        <div class="hero-bg-slide active" style="background-image: url('assets/jerusalem-bg.jpg');"></div>
+        <div class="hero-bg-slide" style="background-image: url('assets/hero_banner.png');"></div>
+        <div class="hero-bg-slide" style="background-image: url('assets/jerusalem-bg.jpg');"></div>
+        
+        <!-- Global Dark Overlay -->
         <div class="hero-overlay"></div>
+        
+        <!-- Fixed Content Container -->
         <div class="hero-content">
-            <h1 class="hero-title" style="margin-bottom: 20px;">Welcome to Alquds Jewelry</h1>
-            <p class="hero-subtitle interactive-text"
-                style="max-width: 900px; margin: 0 auto 30px auto; font-style: italic;">
-                "Proudly family-owned for over 20 years. We invite you to explore our finest collection of 21k Middle
-                Eastern heritage jewelry. Crafted with passion, from our family to yours."
-            </p>
+            <div class="hero-text-slider-container">
+                <!-- Text Slide 1 (Active) -->
+                <div class="hero-text-slide active">
+                    <h1 class="hero-title" style="margin-bottom: 20px;">Welcome to Alquds Jewelry</h1>
+                    <p class="hero-subtitle interactive-text"
+                        style="max-width: 900px; margin: 0 auto 30px auto; font-style: italic;">
+                        "Proudly family-owned for over 20 years. We invite you to explore our finest collection of 21k Middle
+                        Eastern heritage jewelry. Crafted with passion, from our family to yours."
+                    </p>
+                </div>
+                <!-- Text Slide 2 -->
+                <div class="hero-text-slide">
+                    <h1 class="hero-title" style="margin-bottom: 20px;">Our New & Enhanced Website</h1>
+                    <p class="hero-subtitle interactive-text"
+                        style="max-width: 900px; margin: 0 auto 30px auto; font-style: italic;">
+                        "Experience faster browsing, sequential product numbering, and our brand new slide-out shopping bag checkout process."
+                    </p>
+                </div>
+                <!-- Text Slide 3 -->
+                <div class="hero-text-slide">
+                    <h1 class="hero-title" style="margin-bottom: 20px;">Visit Our Showroom</h1>
+                    <p class="hero-subtitle interactive-text"
+                        style="max-width: 900px; margin: 0 auto 30px auto; font-style: italic;">
+                        "Come see us in person at 9070 S Harlem Ave, Bridgeview, IL 60455 to explore our finest 21k gold jewelry collections."
+                    </p>
+                </div>
+            </div>
             <div class="flex justify-center gap-4">
                 <a href="catalog.html?cat=yellow-gold" class="btn btn-primary">Shop Collection</a>
                 <a href="catalog.html?cat=yellow-gold&sub=name-plates" class="btn">Custom Designs</a>
@@ -767,6 +872,25 @@
         // Update countdown every second
         updateMarketCountdown();
         setInterval(updateMarketCountdown, 1000);
+
+        // Hero Slideshow (Syncing Background and Text)
+        const bgSlides = document.querySelectorAll('.hero-bg-slide');
+        const textSlides = document.querySelectorAll('.hero-text-slide');
+        if (bgSlides.length > 0 && textSlides.length > 0) {
+            let currentSlide = 0;
+            setInterval(() => {
+                // Fade out current slide
+                bgSlides[currentSlide].classList.remove('active');
+                textSlides[currentSlide].classList.remove('active');
+                
+                // Increment index
+                currentSlide = (currentSlide + 1) % bgSlides.length;
+                
+                // Fade in next slide
+                bgSlides[currentSlide].classList.add('active');
+                textSlides[currentSlide].classList.add('active');
+            }, 6000); // 6 seconds per slide
+        }
 
         // Scroll Reveal Animations
         function revealOnScroll() {
