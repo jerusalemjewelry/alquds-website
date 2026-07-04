@@ -178,7 +178,8 @@ const YELLOW_GOLD_CATS = [
     { id: 'bands', label: 'Bands', image: 'assets/cat_mens.png' },
     { id: 'belts', label: 'Belts', image: 'assets/cat_belts.png' },
     { id: 'name-plates', label: 'Name Plates', image: 'assets/cat_name_plates.png' },
-    { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' }
+    { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' },
+    { id: 'long-necklaces', label: 'Long Necklaces', image: 'assets/cat_yg_long_necklaces.png' }
 ];
 
 const WHITE_GOLD_CATS = [
@@ -994,7 +995,7 @@ async function initApp() {
             'bangles', 'bangle-sets', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
             'bands', 'coins', 'kladas', 'necklaces', 'children',
             'anklets', 'bracelets', 'pendants', 'belts', 'chokers', 'frames',
-            'diamonds', 'coins-bullions', 'silver'
+            'diamonds', 'coins-bullions', 'silver', 'long-necklaces'
         ];
 
         const productPromises = categoryFiles.map(cat =>
