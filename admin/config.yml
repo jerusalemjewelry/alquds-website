@@ -132,7 +132,7 @@ collections:
 
       - name: "frames"
         label: "Frames"
-        file: "data/products/frames.json"
+        file: "data/products/coins.json"
         fields: *product_fields
 
       - name: "kladas"
