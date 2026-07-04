@@ -913,8 +913,6 @@ window.toggleFrameFilter = function(type) {
     renderCatalog(true);
 };
 
-// Create Product Card HTML
-// Create Product Card HTML
 function createProductCard(product) {
     const isOutOfStock = product.outOfStock === true;
     const cardClass = isOutOfStock ? 'product-card out-of-stock' : 'product-card';
@@ -922,19 +920,47 @@ function createProductCard(product) {
         `<div class="out-of-stock-overlay"><span class="badge-out-of-stock">Out of Stock</span></div>` : '';
 
     // Disable button if out of stock
-    // Disable button if out of stock
     const btnAction = isOutOfStock ? 'disabled' : `onclick="addToCart('${product.id}')"`;
     // Use Class for Styling
     const btnClass = isOutOfStock ? 'add-to-cart-btn btn-disabled' : 'add-to-cart-btn';
     const iconClass = isOutOfStock ? 'fa-solid fa-ban' : 'fa-solid fa-plus';
 
+    // Image list for slider
+    let images = [product.image];
+    if (product.additionalImages && Array.isArray(product.additionalImages)) {
+        product.additionalImages.forEach(img => {
+            if (img) {
+                const src = (typeof img === 'object') ? (img.image || '') : img;
+                if (src && !images.includes(src)) images.push(src);
+            }
+        });
+    }
+
+    let sliderControlsHTML = '';
+    let containerAttrs = '';
+    if (images.length > 1) {
+        containerAttrs = `data-images="${encodeURIComponent(JSON.stringify(images))}" data-current-index="0"`;
+        sliderControlsHTML = `
+            <button class="prod-slider-btn prod-slider-prev" onclick="window.flipProductImage(this, 'prev', event)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="prod-slider-btn prod-slider-next" onclick="window.flipProductImage(this, 'next', event)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="prod-slider-dots">
+                ${images.map((_, i) => `<span class="prod-slider-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
+            </div>
+        `;
+    }
+
     return `
         <div class="${cardClass}">
-            <div style="position: relative; overflow: hidden;">
+            <div class="product-card-image-container" ${containerAttrs} style="position: relative; overflow: hidden;">
                 <a href="product.html?id=${encodeURIComponent(product.id)}" style="display: block;">
                     ${overlayHTML}
                     <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                 </a>
+                ${sliderControlsHTML}
                 <button ${btnAction} class="${btnClass}">
                     <i class="${iconClass}"></i>
                 </button>
@@ -1881,3 +1907,131 @@ function closeLightbox() {
 // Expose globally
 window.openLightbox = openLightbox;
 window.closeLightbox = closeLightbox;
+
+// Card Image Slider flip handler
+window.flipProductImage = function(btn, dir, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    const container = btn.closest('.product-card-image-container');
+    if (!container) return;
+    const img = container.querySelector('.product-image');
+    if (!img) return;
+    
+    const imagesStr = container.getAttribute('data-images');
+    if (!imagesStr) return;
+    const images = JSON.parse(decodeURIComponent(imagesStr));
+    
+    let currentIndex = parseInt(container.getAttribute('data-current-index') || '0', 10);
+    
+    if (dir === 'next') {
+        currentIndex = (currentIndex + 1) % images.length;
+    } else {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+    }
+    
+    // Update image src
+    img.src = images[currentIndex];
+    // Update current index attribute
+    container.setAttribute('data-current-index', currentIndex);
+    
+    // Update active dot indicator
+    const dots = container.querySelectorAll('.prod-slider-dot');
+    dots.forEach((dot, idx) => {
+        if (idx === currentIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+};
+
+// Inject Styles for Card Image Slider
+(function() {
+    const styleId = 'product-card-slider-styles';
+    if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.innerHTML = `
+            .product-card-image-container:hover .prod-slider-btn {
+                opacity: 1;
+            }
+            .prod-slider-btn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.7);
+                border: 1px solid rgba(212, 175, 55, 0.4);
+                color: #d4af37;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 5;
+                opacity: 0;
+                transition: opacity 0.25s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+                font-size: 0.85rem;
+                padding: 0;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            }
+            .prod-slider-btn:hover {
+                background: #d4af37;
+                color: black;
+                border-color: #d4af37;
+                transform: translateY(-50%) scale(1.1);
+            }
+            .prod-slider-btn:active {
+                transform: translateY(-50%) scale(0.95);
+            }
+            .prod-slider-prev {
+                left: 10px;
+            }
+            .prod-slider-next {
+                right: 10px;
+            }
+            .prod-slider-dots {
+                position: absolute;
+                bottom: 12px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 5px;
+                z-index: 5;
+                pointer-events: none;
+                background: rgba(0,0,0,0.4);
+                padding: 3px 6px;
+                border-radius: 10px;
+            }
+            .prod-slider-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.4);
+                transition: background 0.25s ease, transform 0.25s ease;
+            }
+            .prod-slider-dot.active {
+                background: #d4af37;
+                transform: scale(1.2);
+            }
+            @media (max-width: 768px) {
+                .prod-slider-btn {
+                    opacity: 0.8;
+                    width: 26px;
+                    height: 26px;
+                    font-size: 0.75rem;
+                }
+                .prod-slider-prev {
+                    left: 6px;
+                }
+                .prod-slider-next {
+                    right: 6px;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+})();
