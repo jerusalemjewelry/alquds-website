@@ -51,7 +51,7 @@ collections:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "ID", name: "id", widget: "string"}
               - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
-              - {label: "Category", name: "category", widget: "select", options: ["bangles", "bangle-sets", "chains", "earrings", "rings", "name-plates", "white-gold", "bands", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver", "women", "long-necklaces", "hand-chains", "pins", "christian-pendants"]}
+              - {label: "Category", name: "category", widget: "select", options: ["necklaces", "long-necklaces", "bangles", "bangle-sets", "chains", "rings", "earrings", "bracelets", "pendants", "frames", "anklets", "children", "kladas", "bands", "belts", "name-plates", "chokers", "hand-chains", "pins", "christian-pendants", "white-gold", "silver", "diamonds", "coins-bullions"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
               - {label: "Weight (Grams)", name: "weight", widget: "string"}
               - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
@@ -76,7 +76,7 @@ collections:
         fields: *product_fields
 
       - name: "necklaces"
-        label: "Necklaces"
+        label: "Necklace Sets"
         file: "data/products/necklaces.json"
         fields: *product_fields
 
@@ -130,9 +130,9 @@ collections:
         file: "data/products/children.json"
         fields: *product_fields
 
-      - name: "coins"
-        label: "Coins (frames)"
-        file: "data/products/coins.json"
+      - name: "frames"
+        label: "Frames"
+        file: "data/products/frames.json"
         fields: *product_fields
 
       - name: "kladas"
