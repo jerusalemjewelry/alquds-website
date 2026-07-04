@@ -1,0 +1,181 @@
+# Last Updated: Jan 22 2026
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets"
+public_folder: "assets"
+
+collections:
+  - name: "config"
+    label: "Configuration"
+    files:
+      - name: "pricing"
+        label: "Daily Gold Prices"
+        file: "data/pricing.json"
+        fields:
+          - {label: "Spot Price (24k Ounce)", name: "spotPrice24kOunce", widget: "number", value_type: "float"}
+          - {label: "Gold Change (%)", name: "goldChangePercent", widget: "number", value_type: "float"}
+          - {label: "Silver Price (Ounce)", name: "silverPriceOunce", widget: "number", value_type: "float"}
+          - {label: "Silver Change (%)", name: "silverChangePercent", widget: "number", value_type: "float"}
+          - {label: "Platinum Price (Ounce)", name: "platinumPriceOunce", widget: "number", value_type: "float"}
+          - {label: "Platinum Change (%)", name: "platinumChangePercent", widget: "number", value_type: "float"}
+          - {label: "Last Updated", name: "lastUpdated", widget: "datetime"}
+          - {label: "Grams Per Ounce", name: "gramsPerOunce", widget: "number", default: 31.104, value_type: "float"}
+
+  - name: "tax"
+    label: "Tax Settings"
+    files:
+      - name: "settings"
+        label: "Tax Rules"
+        file: "data/tax.json"
+        fields:
+          - {label: "Tax Rate (%)", name: "taxPercent", widget: "number", value_type: "float", default: 10}
+          - {label: "Tax State Code (e.g. IL)", name: "taxStateCode", widget: "string", default: "IL"}
+          - {label: "Last Updated", name: "lastUpdated", widget: "datetime"}
+
+  - name: "products"
+    label: "Shop Categories"
+    files:
+      - name: "bangles"
+        label: "Bangles"
+        file: "data/products/bangles.json"
+        fields: &product_fields
+          - label: "Products List"
+            name: "products_list"
+            widget: "list"
+            add_to_top: true
+            collapsed: true
+            summary: "{{fields.name}} [{{fields.id}}]"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "ID", name: "id", widget: "string"}
+              - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
+              - {label: "Category", name: "category", widget: "select", options: ["bangles", "bangle-sets", "chains", "earrings", "rings", "name-plates", "white-gold", "bands", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver", "women"]}
+              - {label: "Karat", name: "karat", widget: "number", default: 21}
+              - {label: "Weight (Grams)", name: "weight", widget: "string"}
+              - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
+              - {label: "Labor Charge Per Gram ($)", name: "laborPerGram", widget: "number"}
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Additional Images", name: "additionalImages", widget: "list", field: {label: "Image", name: "image", widget: "image"}, required: false}
+              - {label: "Dynamic Pricing?", name: "isDynamic", widget: "boolean", default: true}
+              - {label: "Fixed Price (If not dynamic)", name: "fixedPrice", widget: "number", required: false}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Featured?", name: "featured", widget: "boolean", default: true}
+              - {label: "Taxable", name: "taxable", widget: "boolean", default: true, required: false}
+              - {label: "Out of Stock?", name: "outOfStock", widget: "boolean", default: false}
+
+      - name: "bangle-sets"
+        label: "Bangle Sets"
+        file: "data/products/bangle-sets.json"
+        fields: *product_fields
+
+      - name: "chains"
+        label: "Chains"
+        file: "data/products/chains.json"
+        fields: *product_fields
+
+      - name: "necklaces"
+        label: "Necklaces"
+        file: "data/products/necklaces.json"
+        fields: *product_fields
+
+      - name: "name-plates"
+        label: "Name Plates"
+        file: "data/products/name-plates.json"
+        fields: *product_fields
+
+      - name: "belts"
+        label: "Belts"
+        file: "data/products/belts.json"
+        fields: *product_fields
+
+      - name: "chokers"
+        label: "Chokers"
+        file: "data/products/chokers.json"
+        fields: *product_fields
+
+      - name: "bracelets"
+        label: "Bracelets"
+        file: "data/products/bracelets.json"
+        fields: *product_fields
+
+      - name: "rings"
+        label: "Rings"
+        file: "data/products/rings.json"
+        fields: *product_fields
+
+      - name: "earrings"
+        label: "Earrings"
+        file: "data/products/earrings.json"
+        fields: *product_fields
+
+      - name: "pendants"
+        label: "Pendants"
+        file: "data/products/pendants.json"
+        fields: *product_fields
+
+      - name: "anklets"
+        label: "Anklets"
+        file: "data/products/anklets.json"
+        fields: *product_fields
+
+      - name: "bands"
+        label: "Bands"
+        file: "data/products/bands.json"
+        fields: *product_fields
+
+      - name: "children"
+        label: "Children"
+        file: "data/products/children.json"
+        fields: *product_fields
+
+      - name: "coins"
+        label: "Coins (frames)"
+        file: "data/products/coins.json"
+        fields: *product_fields
+
+      - name: "kladas"
+        label: "Kladas"
+        file: "data/products/kladas.json"
+        fields: *product_fields
+
+
+        
+      - name: "white-gold"
+        label: "White Gold Collection"
+        file: "data/products/white-gold.json"
+        fields: *product_fields
+
+      - name: "silver"
+        label: "Silver Collection"
+        file: "data/products/silver.json"
+        fields: *product_fields
+
+      - name: "diamonds"
+        label: "Diamonds"
+        file: "data/products/diamonds.json"
+        fields: *product_fields
+
+      - name: "coins-bullions"
+        label: "Coins & Bullions"
+        file: "data/products/coins-bullions.json"
+        fields:
+          - label: "Products List"
+            name: "products_list"
+            widget: "list"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "ID", name: "id", widget: "string"}
+              - {label: "Category", name: "category", widget: "select", options: ["coins-bullions"], default: "coins-bullions", hidden: true}
+              - {label: "Metal Type", name: "metal", widget: "select", options: ["Gold", "Silver", "Platinum"], default: "Gold"}
+              - {label: "Karat", name: "karat", widget: "number", default: 24, value_type: "float"}
+              - {label: "Weight", name: "weight", widget: "number", value_type: "float"}
+              - {label: "Unit", name: "unit", widget: "select", options: ["oz", "g"], default: "oz"}
+              - {label: "Premium ($)", name: "premium", widget: "number", value_type: "float"}
+              - {label: "Dynamic Pricing", name: "isDynamic", widget: "boolean", default: true, hidden: true}
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Additional Images", name: "additionalImages", widget: "list", field: {label: "Image", name: "image", widget: "image"}, required: false}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Featured?", name: "featured", widget: "boolean", default: false}
+              - {label: "Out of Stock?", name: "outOfStock", widget: "boolean", default: false}

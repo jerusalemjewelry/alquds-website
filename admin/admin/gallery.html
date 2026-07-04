@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Gallery Viewer</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --thumb-border: #334155;
+            --thumb-active: #38bdf8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Main Stage */
+        .stage {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .stage img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        /* Info Overlay */
+        .info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        /* Navigation Hints */
+        .nav-hint {
+            position: absolute;
+            top: 50%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .nav-hint:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-left {
+            left: 20px;
+            transform: translateY(-50%);
+        }
+
+        .nav-right {
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        /* Thumbnail Strip */
+        .thumbnails {
+            height: 120px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            border-top: 1px solid #334155;
+        }
+
+        .thumbnails::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .thumbnails::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        .thumbnails::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .thumb {
+            height: 80px;
+            min-width: 80px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            overflow: hidden;
+            position: relative;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumb:hover {
+            opacity: 1;
+        }
+
+        .thumb.active {
+            border-color: var(--thumb-active);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #64748b;
+        }
+
+        #filename-display {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stage">
+        <div class="info">
+            <span id="index-display">1 / 40</span> • <span id="filename-display">filename.png</span>
+        </div>
+
+        <div class="nav-hint nav-left" onclick="prevImage()">❮</div>
+        <img id="main-image" src="" alt="Gallery Viewer">
+        <div class="nav-hint nav-right" onclick="nextImage()">❯</div>
+    </div>
+
+    <div class="thumbnails" id="thumbnail-strip">
+        <!-- Thumbnails injected here -->
+    </div>
+
+    <script>
+        // Generated Image List for Assets
+        const images = [
+            'Np1.png', 'Np10.png', 'Np2.png', 'Np3.jpg', 'Np4.jpg',
+            'Np5.jpg', 'Np5_model.png', 'Np6.png', 'Np7.png', 'Np8.png',
+            'Np9.jpg', 'cat_anklets.png', 'cat_bangles.png', 'cat_belts.png',
+            'cat_bracelets.png', 'cat_chains.png', 'cat_children.png',
+            'cat_chokers.png', 'cat_coins_v2.png', 'cat_custom.png',
+            'cat_earrings.png', 'cat_kladas.png', 'cat_mens.png',
+            'cat_name_plates.png', 'cat_necklaces.png', 'cat_pendants.png',
+            'cat_rings.png', 'english_sovereign_21k.jpg.jpg',
+            'english_sovereign_22k.jpg', 'english_sovereign_22k.jpg.png',
+            'hero_banner.png', 'jerusalem-bg.jpg', 'jerusalem_hero.png',
+            'logo_alquds.png', 'logo_jerusalem.png', 'mexican_centenario_50p.jpg',
+            'pamp_1oz_gold.jpg', 'placeholder.png', 'silver_1kg_random.jpg',
+            'turkish_coin_21k.jpg'
+        ];
+
+        const ASSET_PATH = '../assets/';
+        let currentIndex = 0;
+
+        const mainImage = document.getElementById('main-image');
+        const filenameDisplay = document.getElementById('filename-display');
+        const indexDisplay = document.getElementById('index-display');
+        const thumbnailStrip = document.getElementById('thumbnail-strip');
+
+        // Initialize Gallery
+        function init() {
+            // Render Thumbnails
+            images.forEach((img, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'thumb';
+                thumb.onclick = () => showImage(index);
+                thumb.id = `thumb-${index}`;
+
+                const thumbImg = document.createElement('img');
+                thumbImg.src = ASSET_PATH + img;
+                thumbImg.loading = 'lazy';
+
+                thumb.appendChild(thumbImg);
+                thumbnailStrip.appendChild(thumb);
+            });
+
+            showImage(0);
+        }
+
+        // Show specific image
+        function showImage(index) {
+            if (index < 0) index = images.length - 1;
+            if (index >= images.length) index = 0;
+
+            currentIndex = index;
+
+            // Update Main Image
+            mainImage.src = ASSET_PATH + images[currentIndex];
+
+            // Update Text
+            filenameDisplay.textContent = images[currentIndex];
+            indexDisplay.textContent = `${currentIndex + 1} / ${images.length}`;
+
+            // Update Active Thumbnail
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            const activeThumb = document.getElementById(`thumb-${currentIndex}`);
+            if (activeThumb) {
+                activeThumb.classList.add('active');
+                activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        function nextImage() { showImage(currentIndex + 1); }
+        function prevImage() { showImage(currentIndex - 1); }
+
+        // Event Listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        init();
+    </script>
+</body>
+
+</html>
