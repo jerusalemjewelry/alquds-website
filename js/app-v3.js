@@ -164,6 +164,7 @@ const MATERIAL_MAP = {
 // Defined Categories for Grid View
 const YELLOW_GOLD_CATS = [
     { id: 'necklaces', label: 'Necklace Sets', image: 'assets/cat_necklaces.png' },
+    { id: 'long-necklaces', label: 'Long Necklaces', image: 'assets/cat_yg_long_necklaces.png' },
     { id: 'bangles', label: 'Bangles', image: 'assets/cat_bangles.png' },
     { id: 'bangle-sets', label: 'Bangle Sets', image: 'assets/cat_bangle_sets.png' },
     { id: 'chains', label: 'Chains', image: 'assets/cat_chains.png' },
@@ -179,7 +180,8 @@ const YELLOW_GOLD_CATS = [
     { id: 'belts', label: 'Belts', image: 'assets/cat_belts.png' },
     { id: 'name-plates', label: 'Name Plates', image: 'assets/cat_name_plates.png' },
     { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' },
-    { id: 'long-necklaces', label: 'Long Necklaces', image: 'assets/cat_yg_long_necklaces.png' }
+    { id: 'hand-chains', label: 'Hand Chains / Kaffs', image: 'assets/cat_hand_chains.png' },
+    { id: 'pins', label: 'Pins', image: 'assets/cat_pins.png' }
 ];
 
 const WHITE_GOLD_CATS = [
@@ -995,7 +997,7 @@ async function initApp() {
             'bangles', 'bangle-sets', 'chains', 'earrings', 'rings', 'name-plates', 'white-gold',
             'bands', 'coins', 'kladas', 'necklaces', 'children',
             'anklets', 'bracelets', 'pendants', 'belts', 'chokers', 'frames',
-            'diamonds', 'coins-bullions', 'silver', 'long-necklaces'
+            'diamonds', 'coins-bullions', 'silver', 'long-necklaces', 'hand-chains', 'pins'
         ];
 
         const productPromises = categoryFiles.map(cat =>
