@@ -2,6 +2,22 @@
   "products_list": [
     {
       "color": "Yellow Gold",
+      "laborPerGram": 17,
+      "taxable": true,
+      "name": "21k Gold Heritage Long Necklace",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "73.25",
+      "id": "LN3",
+      "image": "assets/long-necklace-73.25.png",
+      "description": " Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
+      "category": "long-necklaces"
+    },
+    {
+      "color": "Yellow Gold",
       "laborPerGram": 23,
       "taxable": true,
       "name": "21k Gold Heritage Long Necklace",
