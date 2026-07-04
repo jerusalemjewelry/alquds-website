@@ -45,11 +45,13 @@ collections:
             name: "products_list"
             widget: "list"
             add_to_top: true
+            collapsed: true
+            summary: "{{fields.name}} [{{fields.id}}]"
             fields:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "ID", name: "id", widget: "string"}
               - {label: "Color / Material", name: "color", widget: "select", options: ["Yellow Gold", "White Gold", "Silver"], default: "Yellow Gold"}
-              - {label: "Category", name: "category", widget: "select", options: ["bangles", "bangle-sets", "chains", "earrings", "rings", "name-plates", "white-gold", "bands", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver", "women"]}
+              - {label: "Category", name: "category", widget: "select", options: ["bangles", "bangle-sets", "chains", "earrings", "rings", "name-plates", "white-gold", "bands", "watches", "coins", "kladas", "necklaces", "children", "anklets", "bracelets", "pendants", "belts", "chokers", "frames", "diamonds", "coins-bullions", "silver", "women", "long-necklaces"]}
               - {label: "Karat", name: "karat", widget: "number", default: 21}
               - {label: "Weight (Grams)", name: "weight", widget: "string"}
               - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
@@ -136,6 +138,11 @@ collections:
       - name: "kladas"
         label: "Kladas"
         file: "data/products/kladas.json"
+        fields: *product_fields
+
+      - name: "long-necklaces"
+        label: "Long Necklaces"
+        file: "data/products/long-necklaces.json"
         fields: *product_fields
 
 
