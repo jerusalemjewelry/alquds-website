@@ -1,19 +1,20 @@
 {
-    "products_list": [
-        {
-            "id": 3,
-            "name": "Elegant Gold Chain",
-            "isDynamic": true,
-            "category": "necklaces",
-            "karat": 21,
-            "weight": 15.0,
-            "marginPercent": 20,
-            "laborPerGram": 10.0,
-            "itemNo": "NK-3001",
-            "color": "Yellow Gold",
-            "image": "assets/product_necklace_1.png",
-            "description": "A beautiful delicate necklace for everyday wear.",
-            "featured": true
-        }
-    ]
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 26,
+      "taxable": true,
+      "name": "21k Gold Heritage Necklace Set",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "118.60",
+      "id": "NS1",
+      "image": "assets/necklace-set-118.60.png",
+      "description": "Adorn yourself in the ultimate expression of luxury with our complete 21k gold necklace sets. Made from solid, high-purity 21k yellow gold to ensure a radiant, deep golden color, each set features a beautifully detailed matching necklace and earrings. Designed with traditional Middle Eastern motifs and intricate filigree work, these sets are perfect for brides, weddings, and formal celebrations. A breathtaking statement of elegance and prestige, and a timeless addition to your family's heritage jewelry collection.\n\nMaterial: 21k Solid Yellow Gold\nSet Includes: Matching necklace and coordinate earrings\nCraftsmanship: Artisan-engraved with traditional filigree detailing\nOccasion: Perfect for brides, wedding dowries, and grand celebrations",
+      "category": "necklaces"
+    }
+  ]
 }
