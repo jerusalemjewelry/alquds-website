@@ -350,23 +350,25 @@
             position: relative;
             width: 100%;
             margin-bottom: 30px;
-            min-height: 180px; 
+            min-height: 250px; 
             display: flex;
             justify-content: center;
             align-items: center;
         }
         @media (max-width: 768px) {
             .hero-text-slider-container {
-                min-height: 260px;
+                min-height: 340px;
             }
         }
         .hero-text-slide {
             position: absolute;
-            top: 0;
+            top: 50%;
+            left: 50%;
             width: 100%;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(20px);
+            pointer-events: none;
+            transform: translate(-50%, -35%);
             transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         visibility 0.8s;
@@ -374,7 +376,8 @@
         .hero-text-slide.active {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            pointer-events: auto;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
@@ -495,6 +498,7 @@
         <div class="hero-bg-slide active" style="background-image: url('assets/jerusalem-bg.jpg');"></div>
         <div class="hero-bg-slide" style="background-image: url('assets/hero_banner.png');"></div>
         <div class="hero-bg-slide" style="background-image: url('assets/jerusalem-bg.jpg');"></div>
+        <div class="hero-bg-slide" style="background-image: url('assets/socials-bg.png');"></div>
         
         <!-- Global Dark Overlay -->
         <div class="hero-overlay"></div>
@@ -525,6 +529,14 @@
                     <p class="hero-subtitle interactive-text"
                         style="max-width: 900px; margin: 0 auto 30px auto; font-style: italic;">
                         "Come see us in person at 9070 S Harlem Ave, Bridgeview, IL 60455 to explore our finest 21k gold jewelry collections."
+                    </p>
+                </div>
+                <!-- Text Slide 4 -->
+                <div class="hero-text-slide">
+                    <h1 class="hero-title" style="margin-bottom: 20px;">Explore Our Socials</h1>
+                    <p class="hero-subtitle interactive-text"
+                        style="max-width: 900px; margin: 0 auto 30px auto; font-style: italic;">
+                        "Follow us on TikTok, Instagram, and Facebook to see our latest arrivals, custom designs, and behind-the-scenes store content in action!"
                     </p>
                 </div>
             </div>
