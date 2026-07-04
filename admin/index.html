@@ -19,27 +19,30 @@
 
             // Category Prefix Mapping matching Alquds store categories
             const PREFIX_MAP = {
-                'kladas': 'Kc',
+                'necklaces': 'NS',           // Necklace Sets
+                'long-necklaces': 'LN',      // Long Necklaces
+                'hand-chains': 'HC',         // Hand Chains / Kaffs
+                'pins': 'Pn',                // Pins
+                'christian-pendants': 'Cp',   // Christian Pendants
                 'bangles': 'B',
                 'bangle-sets': 'BS',
                 'chains': 'Ch',
-                'necklaces': 'N',
                 'rings': 'R',
                 'earrings': 'E',
                 'bracelets': 'Br',
                 'pendants': 'P',
+                'frames': 'Fr',
                 'anklets': 'A',
+                'children': 'Kd',
+                'kladas': 'Kc',
+                'bands': 'Bd',
                 'belts': 'Bt',
                 'chokers': 'Ck',
-                'frames': 'Fr',
                 'name-plates': 'Np',
-                'children': 'Kd',
                 'white-gold': 'Wg',
                 'silver': 'S',
                 'diamonds': 'D',
-                'coins-bullions': 'Cb',
-                'bands': 'Bd',
-                'coins': 'C'
+                'coins-bullions': 'Cb'
             };
 
             function findFieldGroup(element) {
@@ -91,10 +94,10 @@
                     const valText = text.replace('category', '').trim();
                     
                     const categoriesList = [
-                        'bangle-sets', 'bangles', 'chains', 'earrings', 'rings', 'name-plates', 
-                        'white-gold', 'bands', 'watches', 'coins-bullions', 'coins', 'kladas', 
-                        'necklaces', 'children', 'anklets', 'bracelets', 'pendants', 'belts', 
-                        'chokers', 'frames', 'diamonds', 'silver'
+                        'necklaces', 'long-necklaces', 'bangles', 'bangle-sets', 'chains', 'rings', 
+                        'earrings', 'bracelets', 'pendants', 'frames', 'anklets', 'children', 
+                        'kladas', 'bands', 'belts', 'name-plates', 'chokers', 'hand-chains', 
+                        'pins', 'christian-pendants', 'white-gold', 'silver', 'diamonds', 'coins-bullions'
                     ];
                     
                     for (const cat of categoriesList) {
