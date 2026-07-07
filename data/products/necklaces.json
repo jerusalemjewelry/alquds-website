@@ -9,6 +9,25 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "42.40",
+      "id": "NS33",
+      "image": "assets/necklace-set-42.40.png",
+      "description": "Adorn yourself in the ultimate expression of luxury with our curated 21k gold necklace sets. Made from solid, high-purity 21k yellow gold to ensure a radiant, deep golden color, each set showcases traditional Middle Eastern motifs and intricate filigree work. Perfect for brides, weddings, and formal celebrations, these coordinated sets represent a breathtaking statement of elegance and prestige.\n\nMaterial: 21k Solid Yellow Gold\nIncluded Items: Please refer to the product image for the exact matching items included in this set (typically includes the necklace along with coordinate earrings, bracelet, or ring as pictured).\nCraftsmanship: Artisan-engraved with traditional hand-detailed filigree.\nOccasion: Perfect for brides, wedding dowries, and grand celebrations.",
+      "category": "necklaces",
+      "additionalImages": [
+        "assets/model-42.40.png"
+      ]
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "21k Gold Heritage Necklace Set ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
       "marginPercent": 10,
       "weight": "84.75",
       "id": "NS32",
