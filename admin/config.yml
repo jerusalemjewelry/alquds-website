@@ -141,7 +141,7 @@ collections:
         fields: *product_fields
 
       - name: "long-necklaces"
-        label: "Long Necklaces"
+        label: "Necklaces"
         file: "data/products/long-necklaces.json"
         fields: *product_fields
 
