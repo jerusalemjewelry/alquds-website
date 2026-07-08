@@ -163,8 +163,8 @@ const MATERIAL_MAP = {
 
 // Defined Categories for Grid View
 const YELLOW_GOLD_CATS = [
-    { id: 'necklaces', label: 'Necklace/Necklace Sets', image: 'assets/cat_necklaces.png' },
-    { id: 'long-necklaces', label: 'Long Necklaces', image: 'assets/cat_yg_long_necklaces.png' },
+    { id: 'necklaces', label: 'Necklace Sets', image: 'assets/cat_necklaces.png' },
+    { id: 'long-necklaces', label: 'Necklaces', image: 'assets/cat_yg_long_necklaces.png' },
     { id: 'bangles', label: 'Bangles', image: 'assets/cat_bangles.png' },
     { id: 'bangle-sets', label: 'Bangle Sets', image: 'assets/cat_bangle_sets.png' },
     { id: 'chains', label: 'Chains', image: 'assets/cat_chains.png' },
@@ -186,7 +186,7 @@ const YELLOW_GOLD_CATS = [
 ];
 
 const WHITE_GOLD_CATS = [
-    { id: 'necklaces', label: 'Necklace/Necklace Sets', image: 'assets/cat_wg_necklaces.png' },
+    { id: 'necklaces', label: 'Necklace Sets', image: 'assets/cat_wg_necklaces.png' },
     { id: 'bangles', label: 'Bangles', image: 'assets/cat_wg_bangles.png' },
     { id: 'bangle-sets', label: 'Bangle Sets', image: 'assets/cat_wg_bangle_sets.png' },
     { id: 'chains', label: 'Chains', image: 'assets/cat_wg_chains.png' },
