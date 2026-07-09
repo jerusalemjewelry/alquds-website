@@ -93,8 +93,14 @@
                     const text = label.parentElement ? label.parentElement.textContent.toLowerCase() : '';
                     const valText = text.replace('category', '').trim();
                     
+                    if (valText.includes('necklace sets')) {
+                        return 'necklaces';
+                    }
+                    if (valText.includes('long-necklaces') || valText.includes('necklaces')) {
+                        return 'long-necklaces';
+                    }
+                    
                     const categoriesList = [
-                        'long-necklaces', 'necklaces', 
                         'bangle-sets', 'bangles', 
                         'hand-chains', 'chains', 
                         'christian-pendants', 'pendants',
