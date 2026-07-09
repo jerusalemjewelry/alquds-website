@@ -4,6 +4,22 @@
       "color": "Yellow Gold",
       "laborPerGram": 20,
       "taxable": true,
+      "name": "21k Gold Heritage Necklace - Lady Fortuna ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "31.20",
+      "id": "NS2",
+      "image": "assets/necklace-31.20.png",
+      "description": "Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
+      "category": "long-necklaces"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
       "name": "21k Gold Heritage Long Necklace",
       "featured": true,
       "karat": 21,
@@ -11,7 +27,7 @@
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "39.20",
-      "id": "LN8",
+      "id": "NS1",
       "image": "assets/long-necklace-39.20.png",
       "description": "Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
@@ -27,7 +43,7 @@
       "isDynamic": true,
       "marginPercent": 10,
       "weight": "318.15",
-      "id": "LN7",
+      "id": "NS1",
       "image": "assets/long-necklace-318.15.png",
       "description": " Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
@@ -43,7 +59,7 @@
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "65.90",
-      "id": "LN6",
+      "id": "NS1",
       "image": "assets/long-necklace-65.90.png",
       "description": " Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
@@ -59,7 +75,7 @@
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "76.20",
-      "id": "LN5",
+      "id": "NS1",
       "image": "assets/22k-long-necklace-76.20.png",
       "description": " Discover the timeless elegance of our 22k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 22k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 22k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
@@ -75,7 +91,7 @@
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "88.25",
-      "id": "LN4",
+      "id": "NS1",
       "image": "assets/22k-long-necklace-88.25.png",
       "description": " Discover the timeless elegance of our 22k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 22k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 22k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
@@ -91,7 +107,7 @@
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "73.25",
-      "id": "LN3",
+      "id": "NS1",
       "image": "assets/long-necklace-73.25.png",
       "description": " Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
@@ -107,7 +123,7 @@
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "35.15",
-      "id": "LN2",
+      "id": "NS1",
       "image": "assets/long-necklace-35.15.png",
       "description": " Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
@@ -123,7 +139,7 @@
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "37.45",
-      "id": "LN1",
+      "id": "NS1",
       "image": "assets/long-necklace-37.45.png",
       "description": " Discover the timeless elegance of our 21k yellow gold long necklaces, designed to make a majestic statement. Crafted from high-purity 21k gold for a rich, warm, and radiant luster, each necklace showcases exquisite artisan details and traditional craftsmanship. Featuring a graceful long drape, these statement pieces are perfect for layering, formal celebrations, or wearing standalone as a symbol of luxury and heritage. A magnificent addition to your bridal jewelry or a precious heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nLength: Long, elegant drape styling\nCraftsmanship: High-polish finish with traditional hand-detailed engraving\nOccasion: Ideal for weddings, formal cultural celebrations, or special gifts",
       "category": "long-necklaces"
