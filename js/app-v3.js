@@ -1282,7 +1282,11 @@ function renderCatalog(reset = true) {
 
         if (subParam) {
             currentFilteredProducts = scopeProducts.filter(p => p.category === subParam);
-            pageLabel += ' - ' + subParam.charAt(0).toUpperCase() + subParam.slice(1);
+            let catObj = YELLOW_GOLD_CATS.find(c => c.id === subParam) || 
+                         WHITE_GOLD_CATS.find(c => c.id === subParam) ||
+                         SILVER_CATS.find(c => c.id === subParam);
+            const subLabel = catObj ? catObj.label : (subParam.charAt(0).toUpperCase() + subParam.slice(1));
+            pageLabel += ' - ' + subLabel;
         } else {
             currentFilteredProducts = scopeProducts;
         }
@@ -1573,7 +1577,12 @@ function renderProductDetail() {
     document.title = `${product.name} - Alquds Jewelry`;
     const breadCat = document.getElementById('breadcrumb-category');
     const breadProd = document.getElementById('breadcrumb-product');
-    if (breadCat) breadCat.innerText = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+    if (breadCat) {
+        let catObj = YELLOW_GOLD_CATS.find(c => c.id === product.category) || 
+                     WHITE_GOLD_CATS.find(c => c.id === product.category) ||
+                     SILVER_CATS.find(c => c.id === product.category);
+        breadCat.innerText = catObj ? catObj.label : (product.category.charAt(0).toUpperCase() + product.category.slice(1));
+    }
     if (breadProd) breadProd.innerText = product.name;
 
     const isRingOrBand = product.category === 'rings' || 
