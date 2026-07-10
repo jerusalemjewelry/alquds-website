@@ -1717,7 +1717,10 @@ function renderProductDetail() {
         backUrl = `catalog.html?cat=yellow-gold&sub=${catSlug}`;
     }
 
-    const catName = catSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    let catObj = YELLOW_GOLD_CATS.find(c => c.id === catSlug) || 
+                 WHITE_GOLD_CATS.find(c => c.id === catSlug) ||
+                 SILVER_CATS.find(c => c.id === catSlug);
+    const catName = catObj ? catObj.label : catSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
     container.innerHTML = `
         <div style="width: 100%; max-width: 900px; margin-bottom: 20px;">
