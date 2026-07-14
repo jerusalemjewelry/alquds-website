@@ -876,11 +876,10 @@
       "marginPercent": 11,
       "weight": "38.40",
       "id": "B17",
+      "image": "assets/bangle-38.40.png",
       "description": "Discover the majestic beauty and exquisite craftsmanship of our 21k Yellow Gold Bangles. Made from high-purity 21k gold, these bangles exhibit the signature deep, warm, and radiant luster that defines classic gold jewelry. Each piece is meticulously crafted, featuring traditional hand-engraved patterns, intricate diamond-cut finishes, or elegant filigree work that captures light from every angle.\n\nDesigned for versatility and statement luxury, they are perfect for stacking to create a rich, layered look or wearing individually as a refined everyday accent. Whether chosen as a stunning addition to bridal jewelry or as a precious keepsake, these bangles are designed to be cherished for a lifetime and passed down as a timeless family heirloom.\n\nMaterial: 21k Solid Yellow Gold\nDesign/Style: Classic Middle Eastern heritage engraving\nFinish: High-polish with precision diamond-cut details\nOccasion: Perfect for weddings, formal cultural celebrations, or as a luxury statement gift",
       "category": "bangles",
-      "additionalImages": [
-        "assets/bangle-38.40.png"
-      ]
+      "additionalImages": []
     },
     {
       "color": "Yellow Gold",
