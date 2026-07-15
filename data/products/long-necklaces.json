@@ -551,7 +551,7 @@
       "name": "21k Gold Heritage Long Necklace",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "35.15",
