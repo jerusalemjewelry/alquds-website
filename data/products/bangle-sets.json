@@ -1,3 +1,84 @@
 {
-  "products_list": []
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "22k Gold Heritage Bangles Set of 2 (Medium-20cm) ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "42.10",
+      "id": "BS5",
+      "image": "assets/22k-bangles-42.10.png",
+      "description": "Experience the ultimate expression of luxury and tradition with our 22k Gold Bangle Sets. Crafted from ultra-pure 22k gold, these matching sets radiate a deep, incredibly rich golden glow that has been celebrated for generations. Each set features a uniform, harmonized design, showcasing intricate hand-engraving, brilliant diamond-cut accents, and classic filigree work that creates a stunning texture and sparkle on the wrist.\n\nThese curated sets are designed to provide a complete, majestic look for bridal wear, formal cultural celebrations, or special family heirlooms.\n\nPlease note: The exact number of bangles included in each specific set is displayed in the product photo.\n\nMaterial: 22k Solid Yellow Gold\nSet Quantity: The number of bangles included in the set is shown in the photo\nCraftsmanship: Intricate Middle Eastern hand-detailing and high-polish finish\nOccasion: Exquisite for weddings, dowry gifts, formal celebrations, or investment heritage pieces",
+      "category": "bangle-sets"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "21k Gold Heritage Bangles Set of 2",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "50.10",
+      "id": "BS4",
+      "image": "assets/bangles-50.10.png",
+      "description": "Experience the ultimate expression of luxury and tradition with our 21k Gold Bangle Sets. Crafted from ultra-pure 21k gold, these matching sets radiate a deep, incredibly rich golden glow that has been celebrated for generations. Each set features a uniform, harmonized design, showcasing intricate hand-engraving, brilliant diamond-cut accents, and classic filigree work that creates a stunning texture and sparkle on the wrist.\n\nThese curated sets are designed to provide a complete, majestic look for bridal wear, formal cultural celebrations, or special family heirlooms.\n\nPlease note: The exact number of bangles included in each specific set is displayed in the product photo.\n\nMaterial: 21k Solid Yellow Gold\nSet Quantity: The number of bangles included in the set is shown in the photo\nCraftsmanship: Intricate Middle Eastern hand-detailing and high-polish finish\nOccasion: Exquisite for weddings, dowry gifts, formal celebrations, or investment heritage pieces",
+      "category": "bangle-sets"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "22k Gold Heritage Bangle Set of 2 (Large-21cm)",
+      "featured": true,
+      "karat": 22,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "49.70",
+      "id": "BS3",
+      "image": "assets/22k-bangles-49.70.png",
+      "description": "Experience the ultimate expression of luxury and tradition with our 22k Gold Bangle Sets. Crafted from ultra-pure 22k gold, these matching sets radiate a deep, incredibly rich golden glow that has been celebrated for generations. Each set features a uniform, harmonized design, showcasing intricate hand-engraving, brilliant diamond-cut accents, and classic filigree work that creates a stunning texture and sparkle on the wrist.\n\nThese curated sets are designed to provide a complete, majestic look for bridal wear, formal cultural celebrations, or special family heirlooms.\n\nPlease note: The exact number of bangles included in each specific set is displayed in the product photo.\n\nMaterial: 22k Solid Yellow Gold\nSet Quantity: The number of bangles included in the set is shown in the photo\nCraftsmanship: Intricate Middle Eastern hand-detailing and high-polish finish\nOccasion: Exquisite for weddings, dowry gifts, formal celebrations, or investment heritage pieces",
+      "category": "bangle-sets"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "22k Gold Heritage Bangle Set (Medium-20cm)",
+      "featured": true,
+      "karat": 22,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "81.75",
+      "id": "BS2",
+      "image": "assets/22k-bangles-81.75.png",
+      "description": "Experience the ultimate expression of luxury and tradition with our 22k Gold Bangle Sets. Crafted from ultra-pure 22k gold, these matching sets radiate a deep, incredibly rich golden glow that has been celebrated for generations. Each set features a uniform, harmonized design, showcasing intricate hand-engraving, brilliant diamond-cut accents, and classic filigree work that creates a stunning texture and sparkle on the wrist.\n\nThese curated sets are designed to provide a complete, majestic look for bridal wear, formal cultural celebrations, or special family heirlooms.\n\nPlease note: The exact number of bangles included in each specific set is displayed in the product photo.\n\nMaterial: 22k Solid Yellow Gold\nSet Quantity: The number of bangles included in the set is shown in the photo\nCraftsmanship: Intricate Middle Eastern hand-detailing and high-polish finish\nOccasion: Exquisite for weddings, dowry gifts, formal celebrations, or investment heritage pieces",
+      "category": "bangle-sets"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 20,
+      "taxable": true,
+      "name": "22k Gold Heritage Bangle Set (Large-21cm)",
+      "featured": true,
+      "karat": 22,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "82.20",
+      "id": "BS1",
+      "image": "assets/22k-bangles-82.20.png",
+      "description": "Experience the ultimate expression of luxury and tradition with our 22k Gold Bangle Sets. Crafted from ultra-pure 22k gold, these matching sets radiate a deep, incredibly rich golden glow that has been celebrated for generations. Each set features a uniform, harmonized design, showcasing intricate hand-engraving, brilliant diamond-cut accents, and classic filigree work that creates a stunning texture and sparkle on the wrist.\n\nThese curated sets are designed to provide a complete, majestic look for bridal wear, formal cultural celebrations, or special family heirlooms.\n\nPlease note: The exact number of bangles included in each specific set is displayed in the product photo.\n\nMaterial: 22k Solid Yellow Gold\nSet Quantity: The number of bangles included in the set is shown in the photo\nCraftsmanship: Intricate Middle Eastern hand-detailing and high-polish finish\nOccasion: Exquisite for weddings, dowry gifts, formal celebrations, or investment heritage pieces",
+      "category": "bangle-sets"
+    }
+  ]
 }
