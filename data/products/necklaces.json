@@ -167,7 +167,7 @@
       "name": "21k Gold Heritage Necklace set ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "39.57",
