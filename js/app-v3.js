@@ -968,7 +968,7 @@ function createProductCard(product) {
             <div class="product-info">
                 <div class="product-meta">
                     ${product.metal === 'Silver' ? 'Silver' : (product.metal === 'Platinum' ? 'Platinum' : (product.karat ? product.karat + 'k Gold' : 'Gold'))} 
-                    | ${product.weight}
+                    | ${product.id}
                 </div>
                 <h3 class="product-title"><a href="product.html?id=${encodeURIComponent(product.id)}">${product.name}</a></h3>
                 <div class="product-price">$${product.price ? product.price.toLocaleString() : 'N/A'}</div>
