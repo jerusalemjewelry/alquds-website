@@ -1900,9 +1900,8 @@ function setupPriceFilter() {
     const displayMin = document.getElementById('price-min-val');
     const displayMax = document.getElementById('price-max-val');
     const activeTrack = document.getElementById('slider-track-active');
-    const filterBtn = document.getElementById('btn-filter-price');
 
-    if (!rangeMin || !rangeMax || !filterBtn) return;
+    if (!rangeMin || !rangeMax) return;
 
     const minGap = 500;
     const sliderMaxValue = parseInt(rangeMax.max);
@@ -1929,14 +1928,27 @@ function setupPriceFilter() {
         }
     }
 
-    rangeMin.addEventListener('input', updateSlider);
-    rangeMax.addEventListener('input', updateSlider);
-
-    filterBtn.addEventListener('click', () => {
+    function handleFilterRelease() {
         minPriceFilter = parseInt(rangeMin.value);
         maxPriceFilter = parseInt(rangeMax.value);
+        
+        // Add a premium golden pulse animation to the price text readout
+        const priceValues = document.querySelector('.price-values');
+        if (priceValues) {
+            priceValues.classList.remove('filtering');
+            // Trigger reflow to restart animation
+            void priceValues.offsetWidth;
+            priceValues.classList.add('filtering');
+        }
+        
         renderCatalog(); // Re-render with new filter
-    });
+    }
+
+    rangeMin.addEventListener('input', updateSlider);
+    rangeMax.addEventListener('input', updateSlider);
+    
+    rangeMin.addEventListener('change', handleFilterRelease);
+    rangeMax.addEventListener('change', handleFilterRelease);
 
     updateSlider(); // Init visuals
 }
