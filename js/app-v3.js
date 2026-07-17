@@ -827,6 +827,7 @@ function showToast(message) {
 let currentPage = 1;
 let currentFilteredProducts = [];
 let activeFrameFilter = null; // 'coin' or 'ounce'
+let activeBangleSizeFilter = null; // 'small', 'medium', 'large', or 'xlarge'
 
 // Style injection for animated oval filters on frames page
 (function() {
@@ -909,6 +910,15 @@ window.toggleFrameFilter = function(type) {
         activeFrameFilter = null;
     } else {
         activeFrameFilter = type;
+    }
+    renderCatalog(true);
+};
+
+window.toggleBangleSizeFilter = function(size) {
+    if (activeBangleSizeFilter === size) {
+        activeBangleSizeFilter = null;
+    } else {
+        activeBangleSizeFilter = size;
     }
     renderCatalog(true);
 };
@@ -1479,6 +1489,56 @@ function renderCatalog(reset = true) {
         }
     } else {
         if (filterContainer) filterContainer.remove();
+    }
+
+    // Bangle Sets page custom filters (by size in the title)
+    const isBangleSetsPage = subParam === 'bangle-sets';
+    let bangleFilterContainer = document.getElementById('bangle-size-filter-container');
+    if (isBangleSetsPage) {
+        if (!bangleFilterContainer) {
+            bangleFilterContainer = document.createElement('div');
+            bangleFilterContainer.id = 'bangle-size-filter-container';
+            bangleFilterContainer.className = 'frames-filter-container'; // Reuse the beautiful layout styling
+            bangleFilterContainer.innerHTML = `
+                <button class="frames-filter-btn ${activeBangleSizeFilter === 'small' ? 'active' : ''}" onclick="toggleBangleSizeFilter('small')">Small</button>
+                <button class="frames-filter-btn ${activeBangleSizeFilter === 'medium' ? 'active' : ''}" onclick="toggleBangleSizeFilter('medium')">Medium</button>
+                <button class="frames-filter-btn ${activeBangleSizeFilter === 'large' ? 'active' : ''}" onclick="toggleBangleSizeFilter('large')">Large</button>
+                <button class="frames-filter-btn ${activeBangleSizeFilter === 'xlarge' ? 'active' : ''}" onclick="toggleBangleSizeFilter('xlarge')">X-Large</button>
+            `;
+            grid.parentNode.insertBefore(bangleFilterContainer, grid);
+        } else {
+            const btns = bangleFilterContainer.querySelectorAll('.frames-filter-btn');
+            if (btns.length === 4) {
+                btns[0].className = `frames-filter-btn ${activeBangleSizeFilter === 'small' ? 'active' : ''}`;
+                btns[1].className = `frames-filter-btn ${activeBangleSizeFilter === 'medium' ? 'active' : ''}`;
+                btns[2].className = `frames-filter-btn ${activeBangleSizeFilter === 'large' ? 'active' : ''}`;
+                btns[3].className = `frames-filter-btn ${activeBangleSizeFilter === 'xlarge' ? 'active' : ''}`;
+            }
+        }
+        
+        // Filter products based on selected size (searching in the item title/name)
+        if (activeBangleSizeFilter) {
+            currentFilteredProducts = currentFilteredProducts.filter(p => {
+                const name = String(p.name || '').toLowerCase();
+                
+                if (activeBangleSizeFilter === 'xlarge') {
+                    return name.includes('xlarge') || name.includes('x-large') || name.includes('x large');
+                }
+                if (activeBangleSizeFilter === 'large') {
+                    const isXLarge = name.includes('xlarge') || name.includes('x-large') || name.includes('x large');
+                    return name.includes('large') && !isXLarge;
+                }
+                if (activeBangleSizeFilter === 'medium') {
+                    return name.includes('medium');
+                }
+                if (activeBangleSizeFilter === 'small') {
+                    return name.includes('small');
+                }
+                return true;
+            });
+        }
+    } else {
+        if (bangleFilterContainer) bangleFilterContainer.remove();
     }
 
     const start = 0;
