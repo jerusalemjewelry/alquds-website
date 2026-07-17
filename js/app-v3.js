@@ -1903,34 +1903,52 @@ function setupPriceFilter() {
 
     if (!rangeMin || !rangeMax) return;
 
-    const minGap = 500;
-    const sliderMaxValue = parseInt(rangeMax.max);
+    // Cubic scale mapping: val (0-100) -> price ($0 - $100,000)
+    // This gives massive precision at the lower range ($0-$15k) and curves upwards.
+    function sliderToPrice(val) {
+        return Math.round(Math.pow(val / 100, 3) * 100000);
+    }
+
+    // Round price values to make them user-friendly and aesthetically clean
+    function roundPrice(p) {
+        if (p === 0) return 0;
+        if (p < 2000) return Math.round(p / 10) * 10;
+        if (p < 10000) return Math.round(p / 50) * 50;
+        return Math.round(p / 100) * 100;
+    }
+
+    const minGap = 2; // minimum gap of 2% of the slider track width
 
     function updateSlider() {
-        let val1 = parseInt(rangeMin.value);
-        let val2 = parseInt(rangeMax.value);
+        let val1 = parseFloat(rangeMin.value);
+        let val2 = parseFloat(rangeMax.value);
 
         if (val2 - val1 < minGap) {
             if (this === rangeMin) {
                 rangeMin.value = val2 - minGap;
+                val1 = val2 - minGap;
             } else {
                 rangeMax.value = val1 + minGap;
+                val2 = val1 + minGap;
             }
-        } else {
-            displayMin.textContent = val1.toLocaleString();
-            displayMax.textContent = val2.toLocaleString();
-
-            const percent1 = (val1 / sliderMaxValue) * 100;
-            const percent2 = (val2 / sliderMaxValue) * 100;
-
-            activeTrack.style.left = percent1 + "%";
-            activeTrack.style.right = (100 - percent2) + "%";
         }
+
+        const price1 = roundPrice(sliderToPrice(val1));
+        const price2 = roundPrice(sliderToPrice(val2));
+
+        displayMin.textContent = price1.toLocaleString();
+        displayMax.textContent = price2.toLocaleString();
+
+        activeTrack.style.left = val1 + "%";
+        activeTrack.style.right = (100 - val2) + "%";
     }
 
     function handleFilterRelease() {
-        minPriceFilter = parseInt(rangeMin.value);
-        maxPriceFilter = parseInt(rangeMax.value);
+        const val1 = parseFloat(rangeMin.value);
+        const val2 = parseFloat(rangeMax.value);
+        
+        minPriceFilter = roundPrice(sliderToPrice(val1));
+        maxPriceFilter = roundPrice(sliderToPrice(val2));
         
         // Add a premium golden pulse animation to the price text readout
         const priceValues = document.querySelector('.price-values');
