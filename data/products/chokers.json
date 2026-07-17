@@ -2,6 +2,22 @@
   "products_list": [
     {
       "color": "Yellow Gold",
+      "laborPerGram": 23,
+      "taxable": true,
+      "name": "21k Gold Heritage Choker ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 11,
+      "weight": "20.85",
+      "id": "Ck9",
+      "image": "assets/choker-20.85.png",
+      "description": "Description: Elevate your style with the bold elegance of our 21k gold chokers. Designed to sit beautifully high on the neck, each choker is crafted from solid, high-purity 21k yellow gold for a rich, warm, and radiant luster. Each piece features a built-in extension chain, making the length fully adjustable for a custom, comfortable fit on any neck size. Perfect for layering with longer necklaces or wearing standalone as a striking statement of luxury and cultural heritage.\n\nMaterial: 21k Solid Yellow Gold\nLength: Fully adjustable (features integrated adjustment rings/extension chain for a custom fit).\nIncluded Items: Please refer to the product image for the exact matching items included in this set.\nCraftsmanship: High-polish finish with hand-finished filigree or mesh detailing.\nOccasion: Perfect for layering, formal celebrations, bridal wear, and evening styling.\n",
+      "category": "chokers"
+    },
+    {
+      "color": "Yellow Gold",
       "laborPerGram": 6,
       "taxable": true,
       "name": "21k Gold Heritage Choker ",
