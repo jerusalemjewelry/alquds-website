@@ -1541,7 +1541,7 @@ input::placeholder {
 
 /* Header & Footer Logo Image Styling */
 .logo-img {
-    height: 55px;
+    height: 70px;
     width: auto;
     display: block;
     object-fit: contain;
@@ -1558,6 +1558,6 @@ input::placeholder {
 
 @media (max-width: 768px) {
     .logo-img {
-        height: 40px; /* Scaling down for mobile headers */
+        height: 50px; /* Scaling down for mobile headers */
     }
 }
