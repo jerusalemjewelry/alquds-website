@@ -828,6 +828,7 @@ let currentPage = 1;
 let currentFilteredProducts = [];
 let activeFrameFilter = null; // 'coin' or 'ounce'
 let activeBangleSizeFilter = null; // 'small', 'medium', 'large', or 'xlarge'
+let currentSortOption = 'featured'; // 'featured', 'price-asc', 'price-desc', 'id-asc', 'name-asc'
 
 // Style injection for animated oval filters on frames page
 (function() {
@@ -920,6 +921,11 @@ window.toggleBangleSizeFilter = function(size) {
     } else {
         activeBangleSizeFilter = size;
     }
+    renderCatalog(true);
+};
+
+window.handleSortChange = function(sortValue) {
+    currentSortOption = sortValue;
     renderCatalog(true);
 };
 
@@ -1108,6 +1114,11 @@ function renderCatalog(reset = true) {
     if (reset) {
         currentPage = 1;
         grid.innerHTML = '';
+    }
+
+    const sortSelect = document.getElementById('catalog-sort-select');
+    if (sortSelect) {
+        sortSelect.value = currentSortOption;
     }
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -1539,6 +1550,25 @@ function renderCatalog(reset = true) {
         }
     } else {
         if (bangleFilterContainer) bangleFilterContainer.remove();
+    }
+
+    // Apply Sorting Options
+    if (currentSortOption && currentSortOption !== 'featured') {
+        currentFilteredProducts.sort((a, b) => {
+            if (currentSortOption === 'price-asc') {
+                return (a.price || 0) - (b.price || 0);
+            }
+            if (currentSortOption === 'price-desc') {
+                return (b.price || 0) - (a.price || 0);
+            }
+            if (currentSortOption === 'id-asc') {
+                return String(a.id || '').localeCompare(String(b.id || ''), undefined, { numeric: true, sensitivity: 'base' });
+            }
+            if (currentSortOption === 'name-asc') {
+                return String(a.name || '').localeCompare(String(b.name || ''));
+            }
+            return 0;
+        });
     }
 
     const start = 0;
