@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Fallback CSS for Price Slider */
-        /* Removed border and background for cleaner look */
         .price-filter-container {
             padding: 20px 0;
             background: none;
@@ -28,7 +27,6 @@
             margin-top: 10px;
         }
 
-        /* Adjusted track width/margin to align with thumb centers */
         .slider-track {
             width: calc(100% - 18px);
             margin: 0 9px;
@@ -134,7 +132,6 @@
                     <span id="cart-count"
                         style="background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%; position: absolute; top: -5px; right: -10px;">0</span>
                 </a>
-                <!-- Social Media Icons (Removed for mobile layout) -->
             </div>
         </div>
     </header>
@@ -167,9 +164,18 @@
 
         <!-- Main Grid -->
         <main style="flex-grow: 1;">
-            <div class="flex justify-between items-center mb-4">
-                <h2 id="page-title" class="text-center"
-                    style="margin: 0; flex-grow: 1; font-size: 1.8rem; letter-spacing: 1px;">All Collections</h2>
+            <div class="catalog-header-bar">
+                <h2 id="page-title" class="text-center">All Collections</h2>
+                <div class="sort-by-container">
+                    <label for="catalog-sort-select" class="sort-by-label"><i class="fa-solid fa-arrow-down-short-wide" style="color: var(--color-gold); margin-right: 4px;"></i> Sort By:</label>
+                    <select id="catalog-sort-select" class="sort-by-select" onchange="handleSortChange(this.value)">
+                        <option value="featured">Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="id-asc">Item #: Low to High</option>
+                        <option value="name-asc">Name: A to Z</option>
+                    </select>
+                </div>
             </div>
 
             <div id="product-grid" class="grid grid-cols-4" style="gap: 15px;">
