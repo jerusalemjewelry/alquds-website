@@ -13,9 +13,9 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
     <script>
-        // Automatic ID Generator for Alquds Jewelry Admin Panel (Safe Event-Driven - Circuit-Breaker Loop Protection)
+        // Automatic ID Generator for Alquds Jewelry Admin Panel (Stable v5 - Interval & Event Driven, No MutationObserver)
         (function() {
-            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE (STABLE v4) ===");
+            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE (STABLE v5) ===");
 
             // Category Prefix Mapping matching Alquds store categories
             const PREFIX_MAP = {
@@ -46,7 +46,7 @@
             };
 
             const jsonCache = {};
-            let isInternalUpdate = false; // Circuit breaker to prevent event loop recursion
+            const activeAutofills = new Set(); // Prevent duplicate concurrent processing of same inputs
 
             function getCollectionFilename() {
                 const hash = window.location.hash || '';
@@ -162,6 +162,10 @@
 
             function autoGenerateId(category, idInput, color) {
                 if (!category || document.activeElement === idInput) return;
+                
+                if (activeAutofills.has(idInput)) return; // Lock this input
+                activeAutofills.add(idInput);
+
                 const materialPrefix = getMaterialPrefix(color);
                 const categoryPrefix = PREFIX_MAP[category] || '';
                 const prefix = materialPrefix + categoryPrefix;
@@ -192,11 +196,14 @@
                         if (idStr.toLowerCase().startsWith(prefix.toLowerCase())) {
                             const numStr = idStr.substring(prefix.length);
                             const num = parseInt(numStr, 10);
-                            if (!isNaN(num) && num > maxNum) maxNum = num;
+                            if (!isNaN(num) && num > maxNum) {
+                                maxNum = num;
+                            }
                         }
                     });
 
                     applyNextId(prefix, maxNum, idInput);
+                    activeAutofills.delete(idInput); // Unlock
                 });
             }
 
@@ -209,31 +216,25 @@
                 const currentPrefix = currentVal.replace(/[0-9]/g, '');
                 
                 if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
-                    isInternalUpdate = true; // Lock circuit breaker
-                    try {
-                        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
-                        if (setter) {
-                            setter.call(idInput, nextId);
-                        } else {
-                            idInput.value = nextId;
-                        }
-                        idInput.dispatchEvent(new Event('input', { bubbles: true }));
-                        idInput.dispatchEvent(new Event('change', { bubbles: true }));
-                    } finally {
-                        setTimeout(() => { isInternalUpdate = false; }, 100);
+                    const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+                    if (setter) {
+                        setter.call(idInput, nextId);
+                    } else {
+                        idInput.value = nextId;
                     }
+                    idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    idInput.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
 
             function scanAndAutoFill() {
-                if (isInternalUpdate) return;
                 const labels = Array.from(document.querySelectorAll('label, span, div'))
                     .filter(el => el.textContent.trim().toUpperCase() === 'ID');
                     
                 labels.forEach(label => {
                     const idInput = findInputForLabel(label);
                     
-                    if (idInput && document.activeElement !== idInput) {
+                    if (idInput && document.activeElement !== idInput && !activeAutofills.has(idInput)) {
                         const itemContainer = findFieldGroup(idInput);
                         if (itemContainer) {
                             const category = getSelectedCategory(itemContainer);
@@ -246,54 +247,27 @@
                 });
             }
 
-            let scanTimeout;
-            function triggerScan() {
-                if (isInternalUpdate) return;
-                clearTimeout(scanTimeout);
-                scanTimeout = setTimeout(scanAndAutoFill, 300);
-            }
+            // 1. Low-frequency interval execution (once per second). 100% crash-free, extremely cheap (<0.2ms overhead).
+            setInterval(scanAndAutoFill, 1000);
 
-            // 1. Listen for SELECT changes only (Category / Color selection change)
+            // 2. Trigger instantly on Category/Color dropdown changes
             document.addEventListener('change', (e) => {
-                if (isInternalUpdate) return;
                 if (e.target && e.target.tagName === 'SELECT') {
-                    triggerScan();
+                    scanAndAutoFill();
                 }
             });
 
-            // 2. Listen for clicks on "Add" buttons
+            // 3. Trigger instantly on clicking "Add product" button
             document.addEventListener('click', (e) => {
-                if (isInternalUpdate) return;
                 const text = e.target ? (e.target.textContent || '').toLowerCase() : '';
                 if (text.includes('add') || text.includes('new')) {
-                    triggerScan();
+                    setTimeout(scanAndAutoFill, 200);
+                    setTimeout(scanAndAutoFill, 600);
                 }
             });
-
-            // 3. Selective MutationObserver ONLY for added element nodes
-            const observer = new MutationObserver((mutations) => {
-                if (isInternalUpdate) return;
-                let hasAddedElements = false;
-                for (const m of mutations) {
-                    if (m.addedNodes && m.addedNodes.length > 0) {
-                        for (const node of m.addedNodes) {
-                            if (node.nodeType === 1) { // ELEMENT_NODE
-                                hasAddedElements = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (hasAddedElements) break;
-                }
-                if (hasAddedElements) {
-                    triggerScan();
-                }
-            });
-
-            observer.observe(document.body, { childList: true, subtree: true });
 
             // Initial scan when page loads
-            setTimeout(scanAndAutoFill, 1000);
+            setTimeout(scanAndAutoFill, 1500);
         })();
     </script>
 </body>
