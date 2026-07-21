@@ -1,6 +1,6 @@
-const STATIC_CACHE_NAME = 'alquds-static-v1';
-const IMAGE_CACHE_NAME = 'alquds-images-v1';
-const DATA_CACHE_NAME = 'alquds-data-v1';
+const STATIC_CACHE_NAME = 'alquds-static-v2'; // Bumped version to reset cache
+const IMAGE_CACHE_NAME = 'alquds-images-v2';
+const DATA_CACHE_NAME = 'alquds-data-v2';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -23,6 +23,19 @@ const PRECACHE_ASSETS = [
   '/assets/placeholder.png',
   '/assets/visa.png'
 ];
+
+// Helper to strip the cache-busting 't' timestamp parameter
+function getCleanUrl(urlStr) {
+  try {
+    const url = new URL(urlStr);
+    if (url.searchParams.has('t')) {
+      url.searchParams.delete('t');
+    }
+    return url.toString();
+  } catch (e) {
+    return urlStr;
+  }
+}
 
 // Install Event - Precache Assets
 self.addEventListener('install', (event) => {
@@ -68,6 +81,9 @@ self.addEventListener('fetch', (event) => {
     return; // Fallback to network directly
   }
 
+  // Clean the cache-busting 't' parameter for matching and storing
+  const cleanUrl = getCleanUrl(event.request.url);
+
   // 1. Cache-First Strategy for Images
   if (
     event.request.destination === 'image' ||
@@ -75,14 +91,14 @@ self.addEventListener('fetch', (event) => {
   ) {
     event.respondWith(
       caches.open(IMAGE_CACHE_NAME).then((cache) => {
-        return cache.match(event.request).then((cachedResponse) => {
+        return cache.match(cleanUrl).then((cachedResponse) => {
           if (cachedResponse) {
             return cachedResponse; // Return cached image
           }
           // Fetch from network, cache a copy, and return
           return fetch(event.request).then((networkResponse) => {
             if (networkResponse.status === 200) {
-              cache.put(event.request, networkResponse.clone());
+              cache.put(cleanUrl, networkResponse.clone());
             }
             return networkResponse;
           }).catch(() => {
@@ -102,10 +118,10 @@ self.addEventListener('fetch', (event) => {
   ) {
     event.respondWith(
       caches.open(DATA_CACHE_NAME).then((cache) => {
-        return cache.match(event.request).then((cachedResponse) => {
+        return cache.match(cleanUrl).then((cachedResponse) => {
           const fetchPromise = fetch(event.request).then((networkResponse) => {
             if (networkResponse.status === 200) {
-              cache.put(event.request, networkResponse.clone());
+              cache.put(cleanUrl, networkResponse.clone());
             }
             return networkResponse;
           }).catch(() => {
@@ -122,10 +138,10 @@ self.addEventListener('fetch', (event) => {
   // 3. Stale-While-Revalidate Strategy for HTML, CSS, JS
   event.respondWith(
     caches.open(STATIC_CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((cachedResponse) => {
+      return cache.match(cleanUrl).then((cachedResponse) => {
         const fetchPromise = fetch(event.request).then((networkResponse) => {
           if (networkResponse.status === 200) {
-            cache.put(event.request, networkResponse.clone());
+            cache.put(cleanUrl, networkResponse.clone());
           }
           return networkResponse;
         });
