@@ -1,21 +1,26 @@
-// Cart State
-let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
-let products = []; // Will be loaded from JSON
-let pricingConfig = {};
-
-// Helper: Calculate Price dynamically
-function calculatePrice(item, config) {
-    if (item.weight === "Varies" || item.weight === "N/A" || !item.isDynamic) {
-        return item.fixedPrice || 0;
+// Register Default Trusted Types Policy for DOM Compatibility
+if (window.trustedTypes && window.trustedTypes.createPolicy) {
+    if (!window.trustedTypes.defaultPolicy) {
+        window.trustedTypes.createPolicy('default', {
+            createHTML: (string) => string,
+            createScript: (string) => string,
+            createScriptURL: (string) => string
+        });
     }
+}
 
-    const purityFactor = item.karat / 24;
-    const rawPricePerGram = (config.spotPrice24kOunce / config.gramsPerOunce) * purityFactor;
-    const priceWithMargin = rawPricePerGram * (1 + (item.marginPercent / 100));
-    const priceWithLabor = priceWithMargin + item.laborPerGram;
-    const finalPrice = priceWithLabor * parseFloat(item.weight);
+// This file is deprecated. Please use app-v3.js instead.
+if (item.weight === "Varies" || item.weight === "N/A" || !item.isDynamic) {
+    return item.fixedPrice || 0;
+}
 
-    return Math.ceil(finalPrice);
+const purityFactor = item.karat / 24;
+const rawPricePerGram = (config.spotPrice24kOunce / config.gramsPerOunce) * purityFactor;
+const priceWithMargin = rawPricePerGram * (1 + (item.marginPercent / 100));
+const priceWithLabor = priceWithMargin + item.laborPerGram;
+const finalPrice = priceWithLabor * parseFloat(item.weight);
+
+return Math.ceil(finalPrice);
 }
 
 // Update Cart Count UI

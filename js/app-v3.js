@@ -1,3 +1,14 @@
+// Register Default Trusted Types Policy for DOM Compatibility
+if (window.trustedTypes && window.trustedTypes.createPolicy) {
+    if (!window.trustedTypes.defaultPolicy) {
+        window.trustedTypes.createPolicy('default', {
+            createHTML: (string) => string,
+            createScript: (string) => string,
+            createScriptURL: (string) => string
+        });
+    }
+}
+
 // Dynamic CSS Injection for Ring Sizer Hover Animations
 (function() {
     const style = document.createElement('style');
