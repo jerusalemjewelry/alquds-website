@@ -1,6 +1,6 @@
-const STATIC_CACHE_NAME = 'alquds-static-v2'; // Bumped version to reset cache
-const IMAGE_CACHE_NAME = 'alquds-images-v2';
-const DATA_CACHE_NAME = 'alquds-data-v2';
+const STATIC_CACHE_NAME = 'alquds-static-v3'; // Bumped version to v3
+const IMAGE_CACHE_NAME = 'alquds-images-v3';
+const DATA_CACHE_NAME = 'alquds-data-v3';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -136,9 +136,11 @@ self.addEventListener('fetch', (event) => {
   }
 
   // 3. Stale-While-Revalidate Strategy for HTML, CSS, JS
+  // Crucial: Use ignoreSearch: true so that catalog.html?cat=... or product.html?id=...
+  // successfully match the cached catalog.html or product.html app shell without causing a cache miss.
   event.respondWith(
     caches.open(STATIC_CACHE_NAME).then((cache) => {
-      return cache.match(cleanUrl).then((cachedResponse) => {
+      return cache.match(cleanUrl, { ignoreSearch: true }).then((cachedResponse) => {
         const fetchPromise = fetch(event.request).then((networkResponse) => {
           if (networkResponse.status === 200) {
             cache.put(cleanUrl, networkResponse.clone());
