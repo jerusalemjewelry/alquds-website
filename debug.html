@@ -2,14 +2,47 @@
 <html lang="en">
 
 <head>
-    <script>
-        if (window.trustedTypes && window.trustedTypes.createPolicy && !window.trustedTypes.defaultPolicy) {
-            window.trustedTypes.createPolicy('default', {
-                createHTML: function(string) { return string; },
-                createScript: function(string) { return string; },
-                createScriptURL: function(string) { return string; }
-            });
-        }
+        <script>
+        (function() {
+            function registerPolicy(win) {
+                if (win.trustedTypes && win.trustedTypes.createPolicy && !win.trustedTypes.defaultPolicy) {
+                    try {
+                        win.trustedTypes.createPolicy('default', {
+                            createHTML: function(string) { return string; },
+                            createScript: function(string) { return string; },
+                            createScriptURL: function(string) { return string; }
+                        });
+                    } catch (e) {
+                        console.warn("Failed to register default Trusted Types policy:", e);
+                    }
+                }
+            }
+
+            registerPolicy(window);
+
+            // Intercept iframe elements to inject policy into same-origin/blank frames
+            var originalCreate = document.createElement;
+            document.createElement = function(tagName, options) {
+                var el = originalCreate.call(document, tagName, options);
+                if (tagName && tagName.toLowerCase() === 'iframe') {
+                    el.addEventListener('load', function() {
+                        try {
+                            if (el.contentWindow) {
+                                registerPolicy(el.contentWindow);
+                            }
+                        } catch (e) {}
+                    });
+                    setTimeout(function() {
+                        try {
+                            if (el.contentWindow) {
+                                registerPolicy(el.contentWindow);
+                            }
+                        } catch (e) {}
+                    }, 0);
+                }
+                return el;
+            };
+        })();
     </script>
     <meta charset="UTF-8">
     <title>Debug Prices</title>
