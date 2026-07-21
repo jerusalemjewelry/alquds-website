@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <script>
+        if (window.trustedTypes && window.trustedTypes.createPolicy && !window.trustedTypes.defaultPolicy) {
+            window.trustedTypes.createPolicy('default', {
+                createHTML: function(string) { return string; },
+                createScript: function(string) { return string; },
+                createScriptURL: function(string) { return string; }
+            });
+        }
+    </script>
     <meta charset="UTF-8">
     <title>Shopping Cart - Alquds Jewelry</title>
     <link
