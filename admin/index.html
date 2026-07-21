@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager - Alquds Jewelry</title>
+    <title>Content Manager</title>
 </head>
 
 <body>
@@ -13,9 +13,9 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
     <script>
-        // Automatic ID Generator for Alquds Jewelry Admin Panel (Stable v5 - Interval & Event Driven, No MutationObserver)
+        // Automatic ID Generator for Alquds Jewelry Admin Panel
         (function() {
-            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE (STABLE v5) ===");
+            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE ===");
 
             // Category Prefix Mapping matching Alquds store categories
             const PREFIX_MAP = {
@@ -45,23 +45,15 @@
                 'coins-bullions': 'Cb'
             };
 
-            const jsonCache = {};
-            const activeAutofills = new Set(); // Prevent duplicate concurrent processing of same inputs
-
-            function getCollectionFilename() {
-                const hash = window.location.hash || '';
-                if (hash.includes('white-gold')) return 'white-gold';
-                if (hash.includes('silver')) return 'silver';
-                const match = hash.match(/entries\/([a-zA-Z0-9_-]+)/);
-                return (match && match[1]) ? match[1] : '';
-            }
-
             function findFieldGroup(element) {
                 let cur = element.parentElement;
-                if (cur) cur = cur.parentElement;
+                if (cur) cur = cur.parentElement; // Go up out of control container
                 while (cur && cur.tagName !== 'FORM' && cur.tagName !== 'BODY') {
-                    const text = cur.textContent.toUpperCase();
-                    if (text.includes('ID') && text.includes('CATEGORY')) {
+                    const hasIdField = Array.from(cur.querySelectorAll('label, span, div'))
+                        .some(el => el.textContent.trim().toUpperCase() === 'ID');
+                    const hasCategoryField = Array.from(cur.querySelectorAll('label, span, div'))
+                        .some(el => el.textContent.trim().toUpperCase() === 'CATEGORY');
+                    if (hasIdField && hasCategoryField) {
                         return cur;
                     }
                     cur = cur.parentElement;
@@ -82,37 +74,53 @@
             }
 
             function getSelectedCategory(container) {
+                // Find any element containing the text label "Category"
                 const label = Array.from(container.querySelectorAll('label, span, div'))
                     .find(el => el.textContent.trim().toUpperCase() === 'CATEGORY');
                 
                 if (label) {
                     const control = findInputForLabel(label);
-                    if (control && control.value) {
-                        return control.value;
+                    if (control) {
+                        if (control.tagName === 'SELECT' && control.value) {
+                            return control.value;
+                        }
+                        if (control.tagName === 'INPUT' && control.value) {
+                            return control.value;
+                        }
                     }
                     
+                    // Fallback: Scan the inner text contents for category keywords
                     const text = label.parentElement ? label.parentElement.textContent.toLowerCase() : '';
                     const valText = text.replace('category', '').trim();
                     
-                    if (valText.includes('necklace sets')) return 'necklaces';
-                    if (valText.includes('long-necklaces') || valText.includes('necklaces')) return 'long-necklaces';
+                    if (valText.includes('necklace sets')) {
+                        return 'necklaces';
+                    }
+                    if (valText.includes('long-necklaces') || valText.includes('necklaces')) {
+                        return 'long-necklaces';
+                    }
                     
                     const categoriesList = [
-                        'bangle-sets', 'bangles', 'hand-chains', 'chains', 
-                        'christian-pendants', 'pendants', 'coins-bullions', 'white-gold', 
-                        'name-plates', 'earrings', 'rings', 'bracelets', 'frames', 
-                        'anklets', 'children', 'kladas', 'bands', 'belts', 'chokers', 
+                        'bangle-sets', 'bangles', 
+                        'hand-chains', 'chains', 
+                        'christian-pendants', 'pendants',
+                        'coins-bullions', 'white-gold', 'name-plates', 
+                        'earrings', 'rings', 'bracelets', 'frames', 'anklets', 
+                        'children', 'kladas', 'bands', 'belts', 'chokers', 
                         'pins', 'silver', 'diamonds'
                     ];
                     
                     for (const cat of categoriesList) {
-                        if (valText.includes(cat)) return cat;
+                        if (valText.includes(cat)) {
+                            return cat;
+                        }
                     }
                 }
                 return null;
             }
 
             function getSelectedColor(container) {
+                // Find any element containing the text label "Color / Material"
                 const label = Array.from(container.querySelectorAll('label, span, div'))
                     .find(el => el.textContent.trim().toUpperCase() === 'COLOR / MATERIAL');
                 
@@ -127,7 +135,7 @@
                     if (text.includes('silver')) return 'Silver';
                     if (text.includes('yellow gold')) return 'Yellow Gold';
                 }
-                return 'Yellow Gold';
+                return 'Yellow Gold'; // Default fallback
             }
 
             function getMaterialPrefix(color) {
@@ -135,76 +143,81 @@
                 const c = color.toLowerCase();
                 if (c.includes('white gold')) return 'Wg';
                 if (c.includes('silver')) return 'S';
-                return '';
+                return ''; // No prefix for Yellow Gold
             }
 
-            function fetchProductData(filename, callback) {
-                if (!filename) {
-                    callback([]);
-                    return;
+            function getCollectionFilename() {
+                const hash = window.location.hash || '';
+                if (hash.includes('white-gold')) return 'white-gold';
+                if (hash.includes('silver')) return 'silver';
+                
+                const match = hash.match(/entries\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return match[1];
                 }
-                if (jsonCache[filename]) {
-                    callback(jsonCache[filename]);
-                    return;
-                }
-                fetch('../data/products/' + filename + '.json')
-                    .then(r => r.ok ? r.json() : { products_list: [] })
-                    .then(data => {
-                        const list = data.products_list || [];
-                        jsonCache[filename] = list;
-                        callback(list);
-                    })
-                    .catch(() => {
-                        jsonCache[filename] = [];
-                        callback([]);
-                    });
+                return '';
             }
 
             function autoGenerateId(category, idInput, color) {
                 if (!category || document.activeElement === idInput) return;
-                
-                if (activeAutofills.has(idInput)) return; // Lock this input
-                activeAutofills.add(idInput);
-
                 const materialPrefix = getMaterialPrefix(color);
                 const categoryPrefix = PREFIX_MAP[category] || '';
                 const prefix = materialPrefix + categoryPrefix;
                 
+                // 1. Scan the current page inputs first to find the max ID for this prefix (covers unsaved edits)
                 let maxNum = 0;
+                let foundOnPage = false;
                 
-                // Scan loaded inputs on page
-                const idLabels = Array.from(document.querySelectorAll('label, span, div'))
-                    .filter(el => el.textContent.trim().toUpperCase() === 'ID');
+                const allIdInputs = Array.from(document.querySelectorAll('label, span, div'))
+                    .filter(el => el.textContent.trim().toUpperCase() === 'ID')
+                    .map(label => {
+                        return findInputForLabel(label);
+                    })
+                    .filter(input => input && input !== idInput);
                     
-                idLabels.forEach(label => {
-                    const input = findInputForLabel(label);
-                    if (input && input !== idInput && input.value) {
-                        const val = input.value.trim();
-                        if (val.toLowerCase().startsWith(prefix.toLowerCase())) {
-                            const numStr = val.substring(prefix.length);
-                            const num = parseInt(numStr, 10);
-                            if (!isNaN(num) && num > maxNum) maxNum = num;
+                allIdInputs.forEach(input => {
+                    const val = input.value.trim();
+                    if (val.toLowerCase().startsWith(prefix.toLowerCase())) {
+                        const numStr = val.substring(prefix.length);
+                        const num = parseInt(numStr, 10);
+                        if (!isNaN(num)) {
+                            if (num > maxNum) maxNum = num;
+                            foundOnPage = true;
                         }
                     }
                 });
 
-                // Fetch JSON data fallback
-                const filename = getCollectionFilename() || category;
-                fetchProductData(filename, (products) => {
-                    products.forEach(p => {
-                        const idStr = String(p.id || '').trim();
-                        if (idStr.toLowerCase().startsWith(prefix.toLowerCase())) {
-                            const numStr = idStr.substring(prefix.length);
-                            const num = parseInt(numStr, 10);
-                            if (!isNaN(num) && num > maxNum) {
-                                maxNum = num;
-                            }
-                        }
-                    });
-
+                if (foundOnPage) {
                     applyNextId(prefix, maxNum, idInput);
-                    activeAutofills.delete(idInput); // Unlock
-                });
+                    return;
+                }
+
+                // 2. Fallback: Fetch existing products from the corresponding database file
+                const filename = getCollectionFilename() || category;
+                fetch('../data/products/' + filename + '.json')
+                    .then(r => {
+                        if (!r.ok) throw new Error("File not found");
+                        return r.json();
+                    })
+                    .then(data => {
+                        const products = data.products_list || [];
+                        products.forEach(p => {
+                            const idStr = String(p.id).trim();
+                            if (idStr.toLowerCase().startsWith(prefix.toLowerCase())) {
+                                const numStr = idStr.substring(prefix.length);
+                                const num = parseInt(numStr, 10);
+                                if (!isNaN(num) && num > maxNum) {
+                                    maxNum = num;
+                                }
+                            }
+                        });
+                        
+                        applyNextId(prefix, maxNum, idInput);
+                    })
+                    .catch(err => {
+                        // File doesn't exist yet, start with 1
+                        applyNextId(prefix, 0, idInput);
+                    });
             }
 
             function applyNextId(prefix, maxNum, idInput) {
@@ -215,18 +228,23 @@
                 const currentVal = idInput.value.trim();
                 const currentPrefix = currentVal.replace(/[0-9]/g, '');
                 
+                // Only fill if empty or if the prefix changes (e.g. they switched category or metal color)
                 if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
+                    // Bypass React's DOM setter interception to force state update
                     const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
                     if (setter) {
                         setter.call(idInput, nextId);
                     } else {
                         idInput.value = nextId;
                     }
+                    
+                    // Dispatch events so React registers the input value changes
                     idInput.dispatchEvent(new Event('input', { bubbles: true }));
                     idInput.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
 
+            // 1. Proactive observer to scan for empty or mismatched ID fields when the DOM updates
             function scanAndAutoFill() {
                 const labels = Array.from(document.querySelectorAll('label, span, div'))
                     .filter(el => el.textContent.trim().toUpperCase() === 'ID');
@@ -234,40 +252,36 @@
                 labels.forEach(label => {
                     const idInput = findInputForLabel(label);
                     
-                    if (idInput && document.activeElement !== idInput && !activeAutofills.has(idInput)) {
+                    if (idInput && document.activeElement !== idInput) {
                         const itemContainer = findFieldGroup(idInput);
                         if (itemContainer) {
                             const category = getSelectedCategory(itemContainer);
                             const color = getSelectedColor(itemContainer);
                             if (category) {
-                                autoGenerateId(category, idInput, color);
+                                const materialPrefix = getMaterialPrefix(color);
+                                const categoryPrefix = PREFIX_MAP[category] || '';
+                                const prefix = materialPrefix + categoryPrefix;
+                                
+                                const currentVal = idInput.value.trim();
+                                const currentPrefix = currentVal.replace(/[0-9]/g, '');
+                                
+                                // Trigger updates if the ID is blank or does not match the material + category prefix
+                                if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
+                                    autoGenerateId(category, idInput, color);
+                                }
                             }
                         }
                     }
                 });
             }
 
-            // 1. Low-frequency interval execution (once per second). 100% crash-free, extremely cheap (<0.2ms overhead).
-            setInterval(scanAndAutoFill, 1000);
-
-            // 2. Trigger instantly on Category/Color dropdown changes
-            document.addEventListener('change', (e) => {
-                if (e.target && e.target.tagName === 'SELECT') {
-                    scanAndAutoFill();
-                }
+            let scanTimeout;
+            const observer = new MutationObserver(() => {
+                clearTimeout(scanTimeout);
+                scanTimeout = setTimeout(scanAndAutoFill, 300);
             });
+            observer.observe(document.body, { childList: true, subtree: true });
 
-            // 3. Trigger instantly on clicking "Add product" button
-            document.addEventListener('click', (e) => {
-                const text = e.target ? (e.target.textContent || '').toLowerCase() : '';
-                if (text.includes('add') || text.includes('new')) {
-                    setTimeout(scanAndAutoFill, 200);
-                    setTimeout(scanAndAutoFill, 600);
-                }
-            });
-
-            // Initial scan when page loads
-            setTimeout(scanAndAutoFill, 1500);
         })();
     </script>
 </body>
