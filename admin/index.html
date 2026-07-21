@@ -13,9 +13,9 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
     <script>
-        // Automatic ID Generator for Alquds Jewelry Admin Panel (Ultra High Performance Edition)
+        // Automatic ID Generator for Alquds Jewelry Admin Panel (Event-Driven Edition - Zero Typing Lag)
         (function() {
-            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE (OPTIMIZED) ===");
+            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE (EVENT-DRIVEN v3) ===");
 
             // Category Prefix Mapping matching Alquds store categories
             const PREFIX_MAP = {
@@ -45,36 +45,22 @@
                 'coins-bullions': 'Cb'
             };
 
-            const jsonCache = {}; // In-memory JSON database cache
+            const jsonCache = {};
 
             function getCollectionFilename() {
                 const hash = window.location.hash || '';
                 if (hash.includes('white-gold')) return 'white-gold';
                 if (hash.includes('silver')) return 'silver';
-                
                 const match = hash.match(/entries\/([a-zA-Z0-9_-]+)/);
-                if (match && match[1]) {
-                    return match[1];
-                }
-                return '';
+                return (match && match[1]) ? match[1] : '';
             }
 
-            function isIdField(input) {
-                let parent = input.parentElement;
-                for (let i = 0; i < 4 && parent; i++) {
-                    const label = parent.querySelector('label, span');
-                    if (label && label.textContent.trim().toUpperCase() === 'ID') {
-                        return true;
-                    }
-                    parent = parent.parentElement;
-                }
-                return false;
-            }
-
-            function findItemGroup(input) {
-                let cur = input.parentElement;
+            function findFieldGroup(element) {
+                let cur = element.parentElement;
+                if (cur) cur = cur.parentElement; // Go up out of control container
                 while (cur && cur.tagName !== 'FORM' && cur.tagName !== 'BODY') {
-                    if (cur.querySelector('input') && cur.textContent.includes('Category')) {
+                    const text = cur.textContent.toUpperCase();
+                    if (text.includes('ID') && text.includes('CATEGORY')) {
                         return cur;
                     }
                     cur = cur.parentElement;
@@ -82,52 +68,64 @@
                 return document.body;
             }
 
-            function getCategoryValue(container) {
-                const selects = container.querySelectorAll('select, input');
-                for (const el of selects) {
-                    let parent = el.parentElement;
-                    for (let i = 0; i < 4 && parent; i++) {
-                        const lbl = parent.querySelector('label, span');
-                        if (lbl && lbl.textContent.trim().toUpperCase() === 'CATEGORY') {
-                            if (el.value) return el.value;
-                        }
-                        parent = parent.parentElement;
+            function findInputForLabel(label) {
+                let cur = label.parentElement;
+                while (cur && cur.tagName !== 'FORM' && cur.tagName !== 'BODY') {
+                    const inputs = cur.querySelectorAll('input, select, textarea');
+                    if (inputs.length === 1) {
+                        return inputs[0];
                     }
-                }
-                
-                const text = container.textContent.toLowerCase();
-                if (text.includes('necklace sets')) return 'necklaces';
-                if (text.includes('long-necklaces') || text.includes('necklaces')) return 'long-necklaces';
-
-                const categoriesList = [
-                    'bangle-sets', 'bangles', 'hand-chains', 'chains', 
-                    'christian-pendants', 'pendants', 'coins-bullions', 'white-gold', 
-                    'name-plates', 'earrings', 'rings', 'bracelets', 'frames', 
-                    'anklets', 'children', 'kladas', 'bands', 'belts', 'chokers', 
-                    'pins', 'silver', 'diamonds'
-                ];
-                
-                for (const cat of categoriesList) {
-                    if (text.includes(cat)) return cat;
+                    cur = cur.parentElement;
                 }
                 return null;
             }
 
-            function getColorValue(container) {
-                const selects = container.querySelectorAll('select, input');
-                for (const el of selects) {
-                    let parent = el.parentElement;
-                    for (let i = 0; i < 4 && parent; i++) {
-                        const lbl = parent.querySelector('label, span');
-                        if (lbl && lbl.textContent.trim().toUpperCase() === 'COLOR / MATERIAL') {
-                            if (el.value) return el.value;
-                        }
-                        parent = parent.parentElement;
+            function getSelectedCategory(container) {
+                const label = Array.from(container.querySelectorAll('label, span, div'))
+                    .find(el => el.textContent.trim().toUpperCase() === 'CATEGORY');
+                
+                if (label) {
+                    const control = findInputForLabel(label);
+                    if (control && control.value) {
+                        return control.value;
+                    }
+                    
+                    const text = label.parentElement ? label.parentElement.textContent.toLowerCase() : '';
+                    const valText = text.replace('category', '').trim();
+                    
+                    if (valText.includes('necklace sets')) return 'necklaces';
+                    if (valText.includes('long-necklaces') || valText.includes('necklaces')) return 'long-necklaces';
+                    
+                    const categoriesList = [
+                        'bangle-sets', 'bangles', 'hand-chains', 'chains', 
+                        'christian-pendants', 'pendants', 'coins-bullions', 'white-gold', 
+                        'name-plates', 'earrings', 'rings', 'bracelets', 'frames', 
+                        'anklets', 'children', 'kladas', 'bands', 'belts', 'chokers', 
+                        'pins', 'silver', 'diamonds'
+                    ];
+                    
+                    for (const cat of categoriesList) {
+                        if (valText.includes(cat)) return cat;
                     }
                 }
-                const text = container.textContent.toLowerCase();
-                if (text.includes('white gold')) return 'White Gold';
-                if (text.includes('silver')) return 'Silver';
+                return null;
+            }
+
+            function getSelectedColor(container) {
+                const label = Array.from(container.querySelectorAll('label, span, div'))
+                    .find(el => el.textContent.trim().toUpperCase() === 'COLOR / MATERIAL');
+                
+                if (label) {
+                    const control = findInputForLabel(label);
+                    if (control && control.value) {
+                        return control.value;
+                    }
+                    
+                    const text = label.parentElement ? label.parentElement.textContent.toLowerCase() : '';
+                    if (text.includes('white gold')) return 'White Gold';
+                    if (text.includes('silver')) return 'Silver';
+                    if (text.includes('yellow gold')) return 'Yellow Gold';
+                }
                 return 'Yellow Gold';
             }
 
@@ -161,34 +159,31 @@
                     });
             }
 
-            function autoGenerateIdForInput(idInput) {
-                if (!idInput || document.activeElement === idInput) return;
-                
-                const container = findItemGroup(idInput);
-                const category = getCategoryValue(container);
-                const color = getColorValue(container);
-
-                if (!category) return;
-
+            function autoGenerateId(category, idInput, color) {
+                if (!category || document.activeElement === idInput) return;
                 const materialPrefix = getMaterialPrefix(color);
                 const categoryPrefix = PREFIX_MAP[category] || '';
                 const prefix = materialPrefix + categoryPrefix;
                 
                 let maxNum = 0;
-                const allInputs = document.querySelectorAll('input');
-                allInputs.forEach(inp => {
-                    if (inp !== idInput && inp.value) {
-                        const val = inp.value.trim();
+                
+                // Scan loaded inputs on page
+                const idLabels = Array.from(document.querySelectorAll('label, span, div'))
+                    .filter(el => el.textContent.trim().toUpperCase() === 'ID');
+                    
+                idLabels.forEach(label => {
+                    const input = findInputForLabel(label);
+                    if (input && input !== idInput && input.value) {
+                        const val = input.value.trim();
                         if (val.toLowerCase().startsWith(prefix.toLowerCase())) {
                             const numStr = val.substring(prefix.length);
                             const num = parseInt(numStr, 10);
-                            if (!isNaN(num) && num > maxNum) {
-                                maxNum = num;
-                            }
+                            if (!isNaN(num) && num > maxNum) maxNum = num;
                         }
                     }
                 });
 
+                // Fetch JSON data fallback
                 const filename = getCollectionFilename() || category;
                 fetchProductData(filename, (products) => {
                     products.forEach(p => {
@@ -196,60 +191,94 @@
                         if (idStr.toLowerCase().startsWith(prefix.toLowerCase())) {
                             const numStr = idStr.substring(prefix.length);
                             const num = parseInt(numStr, 10);
-                            if (!isNaN(num) && num > maxNum) {
-                                maxNum = num;
-                            }
+                            if (!isNaN(num) && num > maxNum) maxNum = num;
                         }
                     });
 
-                    const nextNum = maxNum + 1;
-                    const nextId = prefix + nextNum;
-                    
-                    const currentVal = idInput.value.trim();
-                    const currentPrefix = currentVal.replace(/[0-9]/g, '');
-
-                    if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
-                        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
-                        if (setter) {
-                            setter.call(idInput, nextId);
-                        } else {
-                            idInput.value = nextId;
-                        }
-                        idInput.dispatchEvent(new Event('input', { bubbles: true }));
-                        idInput.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
+                    applyNextId(prefix, maxNum, idInput);
                 });
+            }
+
+            function applyNextId(prefix, maxNum, idInput) {
+                if (document.activeElement === idInput) return;
+                const nextNum = maxNum + 1;
+                const nextId = prefix + nextNum;
+                
+                const currentVal = idInput.value.trim();
+                const currentPrefix = currentVal.replace(/[0-9]/g, '');
+                
+                if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
+                    const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+                    if (setter) {
+                        setter.call(idInput, nextId);
+                    } else {
+                        idInput.value = nextId;
+                    }
+                    idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    idInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             }
 
             function scanAndAutoFill() {
-                // Targeted fast scan over input elements only
-                const inputs = document.querySelectorAll('input');
-                inputs.forEach(input => {
-                    // FAST PATH: Instantly skip filled or active inputs
-                    if (document.activeElement === input) return;
+                const labels = Array.from(document.querySelectorAll('label, span, div'))
+                    .filter(el => el.textContent.trim().toUpperCase() === 'ID');
                     
-                    const val = input.value.trim();
-                    if (!val) {
-                        if (isIdField(input)) {
-                            autoGenerateIdForInput(input);
+                labels.forEach(label => {
+                    const idInput = findInputForLabel(label);
+                    
+                    if (idInput && document.activeElement !== idInput) {
+                        const itemContainer = findFieldGroup(idInput);
+                        if (itemContainer) {
+                            const category = getSelectedCategory(itemContainer);
+                            const color = getSelectedColor(itemContainer);
+                            if (category) {
+                                autoGenerateId(category, idInput, color);
+                            }
                         }
                     }
                 });
             }
 
+            // EVENT DRIVEN REFRESH: Only trigger auto-fill when new elements are added or dropdowns change
             let scanTimeout;
-            const observer = new MutationObserver(() => {
+            function triggerScan() {
                 clearTimeout(scanTimeout);
-                scanTimeout = setTimeout(() => {
-                    if (window.requestIdleCallback) {
-                        requestIdleCallback(scanAndAutoFill);
-                    } else {
-                        setTimeout(scanAndAutoFill, 0);
+                scanTimeout = setTimeout(scanAndAutoFill, 200);
+            }
+
+            // 1. Listen for dropdown changes (Category / Color change)
+            document.addEventListener('change', (e) => {
+                if (e.target && (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT')) {
+                    triggerScan();
+                }
+            });
+
+            // 2. Listen for clicks on "Add" buttons or list controls
+            document.addEventListener('click', (e) => {
+                const text = e.target ? (e.target.textContent || '').toLowerCase() : '';
+                if (text.includes('add') || text.includes('new')) {
+                    triggerScan();
+                }
+            });
+
+            // 3. Selective MutationObserver ONLY for child node additions (new list items added to DOM), ignoring characterData/typing!
+            const observer = new MutationObserver((mutations) => {
+                let hasAddedNodes = false;
+                for (const m of mutations) {
+                    if (m.addedNodes && m.addedNodes.length > 0) {
+                        hasAddedNodes = true;
+                        break;
                     }
-                }, 500);
+                }
+                if (hasAddedNodes) {
+                    triggerScan();
+                }
             });
 
             observer.observe(document.body, { childList: true, subtree: true });
+
+            // Initial scan when page loads
+            setTimeout(scanAndAutoFill, 1000);
         })();
     </script>
 </body>
