@@ -13,9 +13,9 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
     <script>
-        // Automatic ID Generator for Alquds Jewelry Admin Panel (Event-Driven Edition - Zero Typing Lag)
+        // Automatic ID Generator for Alquds Jewelry Admin Panel (Safe Event-Driven - Circuit-Breaker Loop Protection)
         (function() {
-            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE (EVENT-DRIVEN v3) ===");
+            console.log("=== ALQUDS ADMIN ID AUTO-GENERATOR ACTIVE (STABLE v4) ===");
 
             // Category Prefix Mapping matching Alquds store categories
             const PREFIX_MAP = {
@@ -46,6 +46,7 @@
             };
 
             const jsonCache = {};
+            let isInternalUpdate = false; // Circuit breaker to prevent event loop recursion
 
             function getCollectionFilename() {
                 const hash = window.location.hash || '';
@@ -57,7 +58,7 @@
 
             function findFieldGroup(element) {
                 let cur = element.parentElement;
-                if (cur) cur = cur.parentElement; // Go up out of control container
+                if (cur) cur = cur.parentElement;
                 while (cur && cur.tagName !== 'FORM' && cur.tagName !== 'BODY') {
                     const text = cur.textContent.toUpperCase();
                     if (text.includes('ID') && text.includes('CATEGORY')) {
@@ -208,18 +209,24 @@
                 const currentPrefix = currentVal.replace(/[0-9]/g, '');
                 
                 if (!currentVal || currentPrefix.toLowerCase() !== prefix.toLowerCase()) {
-                    const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
-                    if (setter) {
-                        setter.call(idInput, nextId);
-                    } else {
-                        idInput.value = nextId;
+                    isInternalUpdate = true; // Lock circuit breaker
+                    try {
+                        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+                        if (setter) {
+                            setter.call(idInput, nextId);
+                        } else {
+                            idInput.value = nextId;
+                        }
+                        idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        idInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    } finally {
+                        setTimeout(() => { isInternalUpdate = false; }, 100);
                     }
-                    idInput.dispatchEvent(new Event('input', { bubbles: true }));
-                    idInput.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
 
             function scanAndAutoFill() {
+                if (isInternalUpdate) return;
                 const labels = Array.from(document.querySelectorAll('label, span, div'))
                     .filter(el => el.textContent.trim().toUpperCase() === 'ID');
                     
@@ -239,38 +246,46 @@
                 });
             }
 
-            // EVENT DRIVEN REFRESH: Only trigger auto-fill when new elements are added or dropdowns change
             let scanTimeout;
             function triggerScan() {
+                if (isInternalUpdate) return;
                 clearTimeout(scanTimeout);
-                scanTimeout = setTimeout(scanAndAutoFill, 200);
+                scanTimeout = setTimeout(scanAndAutoFill, 300);
             }
 
-            // 1. Listen for dropdown changes (Category / Color change)
+            // 1. Listen for SELECT changes only (Category / Color selection change)
             document.addEventListener('change', (e) => {
-                if (e.target && (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT')) {
+                if (isInternalUpdate) return;
+                if (e.target && e.target.tagName === 'SELECT') {
                     triggerScan();
                 }
             });
 
-            // 2. Listen for clicks on "Add" buttons or list controls
+            // 2. Listen for clicks on "Add" buttons
             document.addEventListener('click', (e) => {
+                if (isInternalUpdate) return;
                 const text = e.target ? (e.target.textContent || '').toLowerCase() : '';
                 if (text.includes('add') || text.includes('new')) {
                     triggerScan();
                 }
             });
 
-            // 3. Selective MutationObserver ONLY for child node additions (new list items added to DOM), ignoring characterData/typing!
+            // 3. Selective MutationObserver ONLY for added element nodes
             const observer = new MutationObserver((mutations) => {
-                let hasAddedNodes = false;
+                if (isInternalUpdate) return;
+                let hasAddedElements = false;
                 for (const m of mutations) {
                     if (m.addedNodes && m.addedNodes.length > 0) {
-                        hasAddedNodes = true;
-                        break;
+                        for (const node of m.addedNodes) {
+                            if (node.nodeType === 1) { // ELEMENT_NODE
+                                hasAddedElements = true;
+                                break;
+                            }
+                        }
                     }
+                    if (hasAddedElements) break;
                 }
-                if (hasAddedNodes) {
+                if (hasAddedElements) {
                     triggerScan();
                 }
             });
