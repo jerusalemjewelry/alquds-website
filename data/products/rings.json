@@ -1,2 +1,20 @@
-﻿{"products_list": []}
-
+{
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 19,
+      "taxable": true,
+      "name": "21k Ring",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 10,
+      "weight": "23",
+      "id": "R11",
+      "image": "assets/logo_alquds.png",
+      "description": "nice ring",
+      "category": "rings"
+    }
+  ]
+}

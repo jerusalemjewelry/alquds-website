@@ -1,2 +1,52 @@
-﻿{"products_list": []}
-
+{
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 23,
+      "taxable": true,
+      "name": "21k Kursi Jaber Full Set",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 9,
+      "weight": "91.50",
+      "id": "Kc1",
+      "image": "assets/koursi-jaber-91.50.png",
+      "description": "Indulge in the ultimate expression of Middle Eastern bridal luxury with the legendary 21k Kursi Jaber Full Set. Known as one of the most prestigious traditional designs, this masterfully coordinated collection represents wealth, high status, and unmatched artisan heritage.\n\nHandcrafted in high-purity, solid 21k yellow gold, this breathtaking bridal set includes:\n\nThe Kursi Jaber Necklace: A majestic, multi-tiered statement piece featuring layered gold-bead drape chains anchored by ornate circular side shields, leading down to a double-tier center medallion adorned with delicate hanging gold fringes that catch the light with every movement.\nMatching Bracelet: A heavy, custom-link bracelet centered by a matching filigree shield medallion.\nMatching Dangle Earrings: Elegant drop earrings designed with matching circular shields and drop-fringe details.\nMatching Ring: A beautifully detailed statement ring that rounds out the set.\nDesigned for the grandest occasions, weddings, and heirloom collections, the Kursi Jaber set is a true investment in gold and family heritage.\n\nPurity: Solid 21k Yellow Gold.\nSet Includes: Multi-tier Necklace, Bracelet, Dangle Earrings, and Ring.\nDesign: Traditional Middle Eastern \"Kursi Jaber\" (Chair of Jaber) Filigree.\nOccasion: Bridal wear, major life celebrations, and prestige heirloom gifting.",
+      "category": "kladas"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 6,
+      "taxable": true,
+      "name": "21k Klada ( Coin Necklace ) ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 10,
+      "weight": "144.30",
+      "id": "Kc2",
+      "image": "assets/klada1-144.30.png",
+      "description": "Elevate your collection with this masterfully crafted 21k Klada (Coin Necklace), a timeless statement of heritage, prestige, and high-purity gold craftsmanship.\n\nHand-detailed in rich, solid 21k yellow gold, this majestic necklace features a symmetrical gallery of large, ornate circular medallions. Each medallion is detailed with intricate filigree, beadwork, and textured borders that reflect light beautifully. The links are connected by custom horizontal spacer bars, draping elegantly down to a magnificent focal medallion at the center.\n\nA heritage treasure of lasting value, this traditional Klada is perfect for weddings, major celebrations, or as a primary family heirloom to pass down through generations.\n\nPurity: Solid 21k Yellow Gold (warm Middle Eastern gold finish).\nDesign: Traditional Medallion Coin-Link Statement Necklace.\nDetails: Heavy engraving, filigree craftsmanship, and secure custom lock.\nOccasion: Bridal, heritage celebrations, and prestige collection.",
+      "category": "kladas"
+    },
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 7,
+      "taxable": true,
+      "name": "21k Klada ( Coin Necklace )",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 10,
+      "weight": "137.45",
+      "id": "Kc3",
+      "image": "assets/kc2.png",
+      "description": "Elevate your collection with this masterfully crafted 21k Klada (Coin Necklace), a timeless statement of heritage, prestige, and high-purity gold craftsmanship.\n\nHand-detailed in rich, solid 21k yellow gold, this majestic necklace features a symmetrical gallery of large, ornate circular medallions. Each medallion is detailed with intricate filigree, beadwork, and textured borders that reflect light beautifully. The links are connected by custom horizontal spacer bars, draping elegantly down to a magnificent focal medallion at the center.\n\nA heritage treasure of lasting value, this traditional Klada is perfect for weddings, major celebrations, or as a primary family heirloom to pass down through generations.\n\nPurity: Solid 21k Yellow Gold (warm Middle Eastern gold finish).\nDesign: Traditional Medallion Coin-Link Statement Necklace.\nDetails: Heavy engraving, filigree craftsmanship, and secure custom lock.\nOccasion: Bridal, heritage celebrations, and prestige collection.",
+      "category": "kladas"
+    }
+  ]
+}

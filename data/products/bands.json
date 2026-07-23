@@ -1,3 +1,20 @@
 {
-    "products_list": []
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 22,
+      "taxable": true,
+      "name": "21k Band",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 20,
+      "weight": "2",
+      "id": "B1",
+      "image": "assets/logo_alquds.png",
+      "description": "nice band",
+      "category": "bands"
+    }
+  ]
 }
