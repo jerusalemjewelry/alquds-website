@@ -2,6 +2,14 @@
   "products_list": [
     {
       "color": "Yellow Gold",
+      "karat": 21,
+      "isDynamic": true,
+      "featured": true,
+      "taxable": true,
+      "outOfStock": false
+    },
+    {
+      "color": "Yellow Gold",
       "laborPerGram": 20,
       "taxable": true,
       "name": "21k Gold Heritage Islamic Pendant ",
