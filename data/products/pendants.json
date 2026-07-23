@@ -2,11 +2,19 @@
   "products_list": [
     {
       "color": "Yellow Gold",
-      "karat": 21,
-      "isDynamic": true,
-      "featured": true,
+      "laborPerGram": 20,
       "taxable": true,
-      "outOfStock": false
+      "name": "21k Gold Iraq Map Pendant ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 15,
+      "weight": "5.20",
+      "id": "P104",
+      "image": "assets/pendant-5.20.png",
+      "description": " Add a touch of radiant elegance to your collection with our solid 21k gold pendants. Crafted from high-purity, deep-lustered 21k yellow gold, these versatile pieces showcase a beautiful blend of traditional Middle Eastern motifs and sophisticated modern designs. Perfect for pairing with your favorite gold chain to create a custom look, or for layering with other necklaces. A timeless accessory for everyday luxury, and a beautiful heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nVersatility: Designed to easily slide onto any gold chain (please note: chain is sold separately).\nIncluded Items: Please refer to the product image for the exact item details.\nCraftsmanship: High-polish finish with hand-finished filigree details.\nOccasion: A wonderful gift for birthdays, anniversaries, or a luxury addition to your daily jewelry",
+      "category": "pendants"
     },
     {
       "color": "Yellow Gold",
@@ -21,7 +29,7 @@
       "weight": "1.85",
       "id": "P103",
       "image": "assets/pendant-1.85.png",
-      "description": " Add a touch of radiant elegance to your collection with our solid 21k gold pendants. Crafted from high-purity, deep-lustered 21k yellow gold, these versatile pieces showcase a beautiful blend of traditional Middle Eastern motifs and sophisticated modern designs. Perfect for pairing with your favorite gold chain to create a custom look, or for layering with other necklaces. A timeless accessory for everyday luxury, and a beautiful heirloom to pass down through generations.\n\nMaterial: 21k Solid Yellow Gold\nVersatility: Designed to easily slide onto any gold chain (please note: chain is sold separately).\nIncluded Items: Please refer to the product image for the exact item details.\nCraftsmanship: High-polish finish with hand-finished filigree details.\nOccasion: A wonderful gift for birthdays, anniversaries, or a luxury addition to your daily jewelry",
+      "description": "cc",
       "category": "pendants"
     },
     {
