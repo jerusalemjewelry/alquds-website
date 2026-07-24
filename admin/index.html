@@ -317,12 +317,18 @@
                 });
             }
 
+            // PERFORMANCE UPGRADE: Replaced the heavy DOM MutationObserver with lightweight event listeners.
+            // This stops the browser from continuously scanning the page while you are typing!
             let scanTimeout;
-            const observer = new MutationObserver(() => {
+            function triggerScan() {
                 clearTimeout(scanTimeout);
-                scanTimeout = setTimeout(scanAndAutoFill, 300);
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
+                scanTimeout = setTimeout(scanAndAutoFill, 600);
+            }
+            
+            // Only scan when clicking (like opening a category) or changing a field, never while typing!
+            document.body.addEventListener('click', triggerScan);
+            document.body.addEventListener('focusout', triggerScan);
+            document.body.addEventListener('change', triggerScan);
 
         })();
     </script>
