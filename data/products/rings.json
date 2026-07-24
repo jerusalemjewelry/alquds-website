@@ -12,7 +12,7 @@
       "marginPercent": 10,
       "weight": "23",
       "id": "R11",
-      "image": "/.netlify/images?url=/assets/logo_alquds.png",
+      "image": "assets/logo_alquds.png",
       "description": "nice ring",
       "category": "rings"
     }

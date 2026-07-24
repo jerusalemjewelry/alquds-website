@@ -11,7 +11,7 @@
             "laborPerGram": 6.0,
             "itemNo": "NC-2001",
             "color": "Yellow Gold",
-            "image": "/.netlify/images?url=/assets/product_necklace_1.png",
+            "image": "assets/product_necklace_1.png",
             "description": "Statement necklace with classic design. Heavy weight construction for lasting beauty.",
             "featured": true
         }

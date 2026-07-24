@@ -1077,9 +1077,20 @@ async function initApp() {
         const rawProducts = productsResults.flatMap(data => data.products_list || []);
 
 
-        // 2. Calculate Prices
+        // 2. Calculate Prices and Optimize Images
         products = rawProducts.map(p => {
             const calculatedPrice = calculatePrice(p, pricingConfig);
+            if (p.image && p.image.startsWith('assets/')) {
+                p.image = '/.netlify/images?url=/' + p.image;
+            }
+            if (p.additionalImages) {
+                p.additionalImages = p.additionalImages.map(imgObj => {
+                    if (imgObj && imgObj.image_url && imgObj.image_url.startsWith('assets/')) {
+                        return { image_url: '/.netlify/images?url=/' + imgObj.image_url };
+                    }
+                    return imgObj;
+                });
+            }
             return { ...p, price: calculatedPrice };
         });
 

@@ -12,11 +12,11 @@
       "marginPercent": 25,
       "weight": 8,
       "id": "Np1",
-      "image": "/.netlify/images?url=/assets/Np1.png",
+      "image": "assets/Np1.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/ayra-neck.jpg"
+        "assets/ayra-neck.jpg"
       ]
     },
     {
@@ -31,11 +31,11 @@
       "marginPercent": 25,
       "weight": 8.5,
       "id": "Np2",
-      "image": "/.netlify/images?url=/assets/name-plates-np26.png",
+      "image": "assets/name-plates-np26.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/gemini_generated_image_dt3c9rdt3c9rdt3c-1-.png"
+        "assets/gemini_generated_image_dt3c9rdt3c9rdt3c-1-.png"
       ]
     },
     {
@@ -50,11 +50,11 @@
       "marginPercent": 25,
       "weight": 9,
       "id": "Np3",
-      "image": "/.netlify/images?url=/assets/Np3.jpg",
+      "image": "assets/Np3.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/double-heart.jpg"
+        "assets/double-heart.jpg"
       ]
     },
     {
@@ -69,11 +69,11 @@
       "marginPercent": 25,
       "weight": 9.5,
       "id": "Np4",
-      "image": "/.netlify/images?url=/assets/name-plates-np28.png",
+      "image": "assets/name-plates-np28.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/tree-neck.jpg"
+        "assets/tree-neck.jpg"
       ]
     },
     {
@@ -88,11 +88,11 @@
       "marginPercent": 25,
       "weight": 10,
       "id": "Np5",
-      "image": "/.netlify/images?url=/assets/Np5.jpg",
+      "image": "assets/Np5.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/Np5_model.png"
+        "assets/Np5_model.png"
       ]
     },
     {
@@ -107,11 +107,11 @@
       "marginPercent": 25,
       "weight": 8,
       "id": "Np6",
-      "image": "/.netlify/images?url=/assets/Np6.png",
+      "image": "assets/Np6.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/zainab-neck.jpg"
+        "assets/zainab-neck.jpg"
       ]
     },
     {
@@ -126,11 +126,11 @@
       "marginPercent": 25,
       "weight": 8.5,
       "id": "Np7",
-      "image": "/.netlify/images?url=/assets/Np7.png",
+      "image": "assets/Np7.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/slayman-neck.jpg"
+        "assets/slayman-neck.jpg"
       ]
     },
     {
@@ -145,11 +145,11 @@
       "marginPercent": 25,
       "weight": 9,
       "id": "Np8",
-      "image": "/.netlify/images?url=/assets/Np8.png",
+      "image": "assets/Np8.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/h.png"
+        "assets/h.png"
       ]
     },
     {
@@ -164,11 +164,11 @@
       "marginPercent": 25,
       "weight": 9.5,
       "id": "Np9",
-      "image": "/.netlify/images?url=/assets/Np9.jpg",
+      "image": "assets/Np9.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/nijma.png"
+        "assets/nijma.png"
       ]
     },
     {
@@ -183,11 +183,11 @@
       "marginPercent": 25,
       "weight": 10,
       "id": "Np10",
-      "image": "/.netlify/images?url=/assets/Np10.png",
+      "image": "assets/Np10.png",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/jazeera-neck.jpg"
+        "assets/jazeera-neck.jpg"
       ]
     },
     {
@@ -202,11 +202,11 @@
       "marginPercent": 25,
       "weight": "10.5",
       "id": "Np11",
-      "image": "/.netlify/images?url=/assets/divided-p1.jpg",
+      "image": "assets/divided-p1.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/divided-p2.jpg"
+        "assets/divided-p2.jpg"
       ]
     },
     {
@@ -221,11 +221,11 @@
       "marginPercent": 25,
       "weight": "11",
       "id": "Np12",
-      "image": "/.netlify/images?url=/assets/pc1.jpg",
+      "image": "assets/pc1.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/pc2.jpg"
+        "assets/pc2.jpg"
       ]
     },
     {
@@ -240,11 +240,11 @@
       "marginPercent": 25,
       "weight": "11.5",
       "id": "Np13",
-      "image": "/.netlify/images?url=/assets/m1.jpg",
+      "image": "assets/m1.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/m2.jpg"
+        "assets/m2.jpg"
       ]
     },
     {
@@ -259,11 +259,11 @@
       "marginPercent": 25,
       "weight": "12",
       "id": "Np14",
-      "image": "/.netlify/images?url=/assets/m3.jpg",
+      "image": "assets/m3.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/m4.jpg"
+        "assets/m4.jpg"
       ]
     },
     {
@@ -278,11 +278,11 @@
       "marginPercent": 25,
       "weight": "12.5",
       "id": "Np15",
-      "image": "/.netlify/images?url=/assets/m5.jpg",
+      "image": "assets/m5.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/m6.jpg"
+        "assets/m6.jpg"
       ]
     },
     {
@@ -297,11 +297,11 @@
       "marginPercent": 25,
       "weight": "13",
       "id": "Np16",
-      "image": "/.netlify/images?url=/assets/m8.jpg",
+      "image": "assets/m8.jpg",
       "description": "Elegant custom gold name plate.",
       "category": "name-plates",
       "additionalImages": [
-        "/.netlify/images?url=/assets/m7.jpg"
+        "assets/m7.jpg"
       ]
     }
   ]

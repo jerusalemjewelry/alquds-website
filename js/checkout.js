@@ -80,10 +80,11 @@ function renderCheckout(cart) {
         const isExempt = isItemExempt(item);
         const exemptLabel = isExempt ? '<div style="color: #4ade80; font-size: 0.8rem; margin-top: 4px;">Tax Exempt (Bullion)</div>' : '';
 
+        const imageUrl = (item.image && item.image.startsWith('assets/')) ? '/.netlify/images?url=/' + item.image : (item.image || '/.netlify/images?url=/assets/placeholder.png');
         return `
             <div class="flex items-center gap-4 mb-4" style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
                 <div style="width: 70px; height: 70px; flex-shrink: 0; background: #000; border: 1px solid #333; overflow: hidden; border-radius: 4px;">
-                    <img src="${item.image || '/.netlify/images?url=/assets/placeholder.png'}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="${imageUrl}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div style="flex: 1;">
                     <div class="text-white" style="font-family: var(--font-heading); font-size: 1rem; line-height: 1.2; margin-bottom: 5px;">

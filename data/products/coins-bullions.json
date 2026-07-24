@@ -11,7 +11,7 @@
       "premium": 150,
       "weight": 1,
       "id": "Cb1",
-      "image": "/.netlify/images?url=/assets/pamp_1oz_gold.jpg",
+      "image": "assets/pamp_1oz_gold.jpg",
       "description": "Invest in timeless elegance with the world-renowned 1 oz PAMP Suisse Gold Bar, featuring the iconic Lady Fortuna design. Minted in Switzerland by PAMP (Produits Artistiques Métaux Précieux), this 24-karat (999.9 purity) gold bar represents the pinnacle of quality and craftsmanship. Each bar is individually sealed in assay packaging, guaranteeing its authenticity, weight (31.104g), and purity. A favorite among investors and collectors alike, PAMP Suisse bars are recognized globally for their superior artistry and value retention.",
       "category": "coins-bullions"
     },
@@ -26,7 +26,7 @@
       "premium": 50,
       "weight": 8,
       "id": "Cb2",
-      "image": "/.netlify/images?url=/assets/english_sovereign_22k.jpg.png",
+      "image": "assets/english_sovereign_22k.jpg.png",
       "description": "A classic symbol of British heritage, the 22k Gold Sovereign is one of the world's most recognizable and trusted bullion coins. Weighing approximately 8 grams with a purity of 91.67% gold (22 karat), this historic coin often features the legendary design of Saint George slaying the Dragon by Benedetto Pistrucci. Whether for investment or as a collector's piece, the English Sovereign offers a perfect blend of historical significance, durability, and intrinsic value.",
       "category": "coins-bullions"
     },
@@ -41,7 +41,7 @@
       "premium": 50,
       "weight": 8,
       "id": "Cb3",
-      "image": "/.netlify/images?url=/assets/english_sovereign_21k.jpg.jpg",
+      "image": "assets/english_sovereign_21k.jpg.jpg",
       "description": "A stunning 21k gold replica of the classic English Sovereign style coin, widely admired and known as the Lira. This 8-gram piece captures the historic beauty of the original design featuring King George V and Saint George slaying the Dragon. Crafted in high-purity 21 karat gold, it serves as both a beautiful jewelry component and a tangible store of value.",
       "category": "coins-bullions"
     },
@@ -56,7 +56,7 @@
       "premium": 40,
       "weight": 7,
       "id": "Cb4",
-      "image": "/.netlify/images?url=/assets/turkish_coin_21k.jpg",
+      "image": "assets/turkish_coin_21k.jpg",
       "description": "Rich in history and culture, this 21k Turkish Gold Coin is a cherished symbol of prosperity and tradition. Weighing 7 grams, it features intricate calligraphy and design elements reminiscent of the Ottoman era. Popular for weddings, gifts, and investment, Turkey's gold coins are renowned for their distinct reddish-gold hue and high purity, making this piece a stunning addition to any collection.",
       "category": "coins-bullions"
     },
@@ -71,7 +71,7 @@
       "premium": 250,
       "weight": 40,
       "id": "Cb8",
-      "image": "/.netlify/images?url=/assets/english_sovereign_22k.jpg",
+      "image": "assets/english_sovereign_22k.jpg",
       "description": "Capture the essence of British numismatic history with this magnificent 21-karat Mkhamas coin. A high-purity replica of the classic English Sovereign, this 40-gram coin features the legendary King George and the Dragon motif in exquisite detail. Weighing a substantial 40 grams, it is a bold statement piece that combines the prestige of the English Mkhamas style with the intrinsic value of 21k gold.\"",
       "category": "coins-bullions"
     },
@@ -86,7 +86,7 @@
       "premium": 200,
       "weight": 35,
       "id": "Cb9",
-      "image": "/.netlify/images?url=/assets/turkish_gold_coin_darker_yellow_1771699457704.jpg",
+      "image": "assets/turkish_gold_coin_darker_yellow_1771699457704.jpg",
       "description": "Immerse yourself in Ottoman heritage with this exquisite 35-gram Turkish Mkhamas, also known as the Rashadi. Crafted in rich 21-karat gold, this substantial coin features intricate calligraphy and traditional patterns reflecting the artistry of a bygone era. Weighing an impressive 35 grams, it is a treasured piece for both its cultural significance and its solid investment value, perfect for adornment or as a centerpiece in any gold collection",
       "category": "coins-bullions"
     },
@@ -101,7 +101,7 @@
       "premium": 40,
       "weight": 7,
       "id": "Cb10",
-      "image": "/.netlify/images?url=/assets/palestine_21k_gold_coins_side_by_side_1771697516468.jpg",
+      "image": "assets/palestine_21k_gold_coins_side_by_side_1771697516468.jpg",
       "description": "Celebrate heritage and elegance with our stunning 21k Gold Palestine Coin. This exquisite piece is meticulously crafted with a rich, warm yellow gold hue that radiates timeless beauty.\n\nThe obverse features the intricate and beautifully textured outline of Palestine, framed by elegant olive branches at the base, and adorned with the Arabic inscription \"دولة فلسطين\" (State of Palestine) gracefully curved along the top.\n\nOn the reverse, a central, detailed olive branch design—a universal symbol of peace and resilience—takes center stage. It is elegantly topped with \"PALESTINE\" in bold English lettering, while the year \"1927\" and its Arabic equivalent rest perfectly at the bottom.\n\nPerfect for collectors, as a meaningful gift, or as a proud symbol of identity, this beautifully detailed and polished 21-karat gold coin is a true masterpiece.",
       "category": "coins-bullions"
     },
@@ -116,7 +116,7 @@
       "premium": 200,
       "weight": 41.7,
       "id": "Cb5",
-      "image": "/.netlify/images?url=/assets/mexican_centenario_50p.jpg",
+      "image": "assets/mexican_centenario_50p.jpg",
       "description": "First minted in 1921 to commemorate the centennial of Mexico's independence from Spain, the 50 Pesos 'Centenario' is one of the most beautiful and substantial gold bullion coins in the world. It features the breathtaking 'Winged Victory' (Angel of Independence) on the obverse and the Mexican Coat of Arms on the reverse. With a gold content of 1.2057 troy ounces (37.5 grams of pure gold) and a purity of 90% (21.6 karat), this large, historic coin is a prestigious addition to any portfolio.",
       "category": "coins-bullions"
     },
@@ -131,7 +131,7 @@
       "premium": 10,
       "weight": 1,
       "id": "Cb6",
-      "image": "/.netlify/images?url=/assets/fine_silver_bars_1oz_composition_1770688214592.jpg",
+      "image": "assets/fine_silver_bars_1oz_composition_1770688214592.jpg",
       "description": "Diversify your portfolio with this 1 oz Silver Round. These rounds are sourced from various reputable mints (e.g., Sunshine Mint, Buffalo, etc.) and are guaranteed to contain 1 troy ounce of .999 fine silver. A cost-effective way to invest in silver bullion, providing the same metal content as sovereign coins at a lower premium.",
       "category": "coins-bullions"
     },
@@ -146,7 +146,7 @@
       "premium": 350,
       "weight": 32.15,
       "id": "Cb7",
-      "image": "/.netlify/images?url=/assets/silver_1kg_random.jpg",
+      "image": "assets/silver_1kg_random.jpg",
       "description": "A serious investment for the dedicated stacker, this 1 Kilo (32.15 troy ounces) Silver Bar offers substantial value and weight. Sourced from various world-class mints, each bar is hallmarked with its weight and .999 fineness. Perfect for those looking to acquire larger quantities of silver at a competitive price point, balancing significant metal content with ease of storage.",
       "category": "coins-bullions"
     }
