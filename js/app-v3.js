@@ -1733,6 +1733,21 @@ function renderProductDetail() {
         product = products.find(p => String(p.itemNo).trim() === searchId);
     }
 
+    // WooCommerce Slug Fallback (e.g. "21k-gold-bangle-9171" -> tries to match 9171 or exact name)
+    if (!product && searchId.includes('-')) {
+        // Match by Item No at the end of the slug
+        product = products.find(p => p.itemNo && searchId.endsWith(`-${String(p.itemNo).trim()}`));
+        
+        // Deep Fallback: Match by slugified name
+        if (!product) {
+            product = products.find(p => {
+                if (!p.name) return false;
+                const nameSlug = String(p.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                return searchId === nameSlug || searchId.startsWith(nameSlug);
+            });
+        }
+    }
+
     if (!product) {
         console.error(`Product not found. Searched for ID: "${searchId}" in ${products.length} products.`);
         container.innerHTML = `<h2 class="text-white">Product not found. (ID: ${searchId})</h2><p class="text-muted">Please check if the product exists in the database.</p>`;
