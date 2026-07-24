@@ -168,7 +168,7 @@
             <a href="checkout.html" class="btn btn-primary"
                 style="width: 100%; padding: 20px; display: block; text-align: center; text-decoration: none;">PROCEED
                 TO CHECKOUT</a>
-            <a href="catalog.html" class="block mt-4 text-muted text-sm">Continue Shopping</a>
+            <a href="/" class="block mt-4 text-muted text-sm">Continue Shopping</a>
         </div>
     </div>
 
@@ -215,13 +215,13 @@
                 total += itemTotal;
                 return `
                     <div class="cart-item-card">
-                        <a href="product.html?id=${item.id}">
+                        <a href="/product/${item.id}/">
                             <img src="${item.image}" class="cart-item-image hover-gold" style="cursor:pointer; border:1px solid #333;">
                         </a>
                         
                         <div class="cart-item-details">
                             <h4 class="text-white" style="font-family: var(--font-heading); margin-bottom: 5px; font-size: 1.1rem;">
-                                <a href="product.html?id=${item.id}" class="text-white hover-gold" style="text-decoration:none;">${item.name}</a>
+                                <a href="/product/${item.id}/" class="text-white hover-gold" style="text-decoration:none;">${item.name}</a>
                             </h4>
                             <div class="text-muted" style="font-size: 0.95rem;">${item.karat ? item.karat + ' Gold' : ''}</div>
                             <div class="text-gold font-bold mt-1" style="font-size: 1.1rem;">$${item.price.toLocaleString()}</div>
@@ -456,11 +456,11 @@
                 totalQty += item.quantity;
                 return `
                     <div class="mini-cart-item">
-                        <a href="product.html?id=${item.id}">
+                        <a href="/product/${item.id}/">
                             <img src="${item.image}" class="mini-cart-img" alt="${item.name}">
                         </a>
                         <div class="mini-cart-details">
-                            <div class="mini-cart-title"><a href="product.html?id=${item.id}" class="hover-gold">${item.name}</a></div>
+                            <div class="mini-cart-title"><a href="/product/${item.id}/" class="hover-gold">${item.name}</a></div>
                             <div class="text-muted" style="font-size: 0.8rem;">${item.quantity} x $${item.price.toLocaleString()}</div>
                         </div>
                     </div>

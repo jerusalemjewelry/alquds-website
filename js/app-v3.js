@@ -355,11 +355,11 @@ function renderMiniCart() {
         totalQty += item.quantity;
         return `
             <div class="mini-cart-item">
-                <a href="product.html?id=${item.id}">
+                <a href="/product/${item.id}/">
                     <img src="${item.image}" class="mini-cart-img" alt="${item.name}">
                 </a>
                 <div class="mini-cart-details">
-                    <div class="mini-cart-title"><a href="product.html?id=${item.id}" class="hover-gold">${item.name}</a></div>
+                    <div class="mini-cart-title"><a href="/product/${item.id}/" class="hover-gold">${item.name}</a></div>
                     <div class="text-muted" style="font-size: 0.8rem;">${item.quantity} x $${item.price.toLocaleString()}</div>
                 </div>
                 <!-- Remove via mini cart? maybe later. Just show summary for now -->
@@ -706,7 +706,7 @@ function renderCartDrawer() {
             <div class="cart-drawer-item">
                 <img src="${item.image}" class="cart-drawer-img" alt="${item.name}">
                 <div class="cart-drawer-details">
-                    <a href="product.html?id=${item.id}" class="cart-drawer-title">${item.name}</a>
+                    <a href="/product/${item.id}/" class="cart-drawer-title">${item.name}</a>
                     <div class="cart-drawer-meta">${metaDetails}</div>
                     <div class="cart-drawer-price-qty">
                         <div class="cart-drawer-qty-controls">
@@ -993,7 +993,7 @@ function createProductCard(product) {
     return `
         <div class="${cardClass}">
             <div class="product-card-image-container" ${containerAttrs} style="position: relative; overflow: hidden;">
-                <a href="product.html?id=${encodeURIComponent(product.id)}" style="display: block;">
+                <a href="/product/${encodeURIComponent(product.id)}/" style="display: block;">
                     ${overlayHTML}
                     <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                 </a>
@@ -1007,7 +1007,7 @@ function createProductCard(product) {
                     ${product.metal === 'Silver' ? 'Silver' : (product.metal === 'Platinum' ? 'Platinum' : (product.karat ? product.karat + 'k Gold' : 'Gold'))} 
                     | ${product.id}
                 </div>
-                <h3 class="product-title"><a href="product.html?id=${encodeURIComponent(product.id)}">${product.name}</a></h3>
+                <h3 class="product-title"><a href="/product/${encodeURIComponent(product.id)}/">${product.name}</a></h3>
                 <div class="product-price">$${product.price ? product.price.toLocaleString() : 'N/A'}</div>
             </div>
         </div>
@@ -1017,7 +1017,7 @@ function createProductCard(product) {
 // Create Category Card HTML
 function createCategoryCard(categoryName, image, parentCat, labelOverride) {
     const display = labelOverride || (categoryName.charAt(0).toUpperCase() + categoryName.slice(1));
-    const link = `catalog.html?cat=${parentCat}&sub=${categoryName}`;
+    const link = `/product-category/${parentCat}-${categoryName}/`;
 
     return `
         <div class="category-card-container" onclick="window.location.href='${link}'">
@@ -1027,10 +1027,45 @@ function createCategoryCard(categoryName, image, parentCat, labelOverride) {
     `;
 }
 
+// URL Parser for native WooCommerce URL format
+function parseWooUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let cat = urlParams.get('cat');
+    let sub = urlParams.get('sub');
+    let search = urlParams.get('search');
+    let id = urlParams.get('id');
+
+    const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
+    
+    if (path === '/yellow-gold-jewelry') cat = 'yellow-gold';
+    else if (path === '/white-gold-jewelry') cat = 'white-gold';
+    else if (path === '/silver-jewelry') cat = 'silver';
+    else if (path === '/diamonds' || path === '/diamond-jewelry') cat = 'diamonds';
+    else if (path === '/coins-bullions') cat = 'coins-bullions';
+    else if (path.startsWith('/product-category/')) {
+        const slug = path.split('/product-category/')[1];
+        if (slug.startsWith('yellow-gold-')) {
+            cat = 'yellow-gold';
+            sub = slug.substring(12);
+        } else if (slug.startsWith('white-gold-')) {
+            cat = 'white-gold';
+            sub = slug.substring(11);
+        } else if (slug.startsWith('silver-')) {
+            cat = 'silver';
+            sub = slug.substring(7);
+        } else {
+            search = slug;
+        }
+    } else if (path.startsWith('/product/')) {
+        id = path.split('/product/')[1];
+    }
+    
+    return { cat, sub, search, id };
+}
+
 function setActiveNavLink() {
     const currentPath = window.location.pathname;
-    const urlParams = new URLSearchParams(window.location.search);
-    const category = urlParams.get('cat');
+    const { cat: category } = parseWooUrl();
     const navLinks = document.querySelectorAll('.nav-link');
 
     navLinks.forEach(link => {
@@ -1153,10 +1188,7 @@ function renderCatalog(reset = true) {
         sortSelect.value = currentSortOption;
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const catParam = urlParams.get('cat');
-    const subParam = urlParams.get('sub');
-    const searchParam = urlParams.get('search');
+    const { cat: catParam, sub: subParam, search: searchParam } = parseWooUrl();
 
     const sidebar = document.querySelector('aside');
     if (sidebar && catParam === 'silver') {
@@ -1465,7 +1497,7 @@ function renderCatalog(reset = true) {
                 const isActive = (cat.id === subParam) ? 'active' : '';
                 return `
                     <li>
-                        <a href="catalog.html?cat=${parent}&sub=${cat.id}" class="sidebar-category-link ${isActive}">
+                        <a href="/product-category/${parent}-${cat.id}/" class="sidebar-category-link ${isActive}">
                             ${cat.label}
                         </a>
                     </li>
@@ -1685,7 +1717,7 @@ function updateSidebar(categories, parentCat, activeSub) {
         const isActive = (cat.id === activeSub) ? 'text-gold' : 'text-muted';
         return `
             <li>
-                <a href="catalog.html?cat=${parentCat}&sub=${cat.id}" class="${isActive} hover:text-white transition-colors">
+                <a href="/product-category/${parentCat}-${cat.id}/" class="${isActive} hover:text-white transition-colors">
                     ${cat.label}
                 </a>
             </li>
@@ -1717,8 +1749,7 @@ function renderProductDetail() {
     const container = document.getElementById('product-detail-container');
     if (!container) return;
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+    const { id } = parseWooUrl();
 
     if (!id) { container.innerHTML = '<h2 class="text-white">Product not found (No ID provided).</h2>'; return; }
 
@@ -1880,21 +1911,21 @@ function renderProductDetail() {
     }
 
     // Back to Category Link
-    let backUrl = 'catalog.html';
+    let backUrl = '/';
     let catSlug = String(product.category || '').toLowerCase();
 
     // Determine the most appropriate parent link
     if (product.category === 'coins-bullions') {
-        backUrl = 'catalog.html?cat=coins-bullions';
+        backUrl = '/coins-bullions/';
     } else if (catSlug === 'diamonds') {
-        backUrl = 'catalog.html?cat=diamonds';
+        backUrl = '/diamond-jewelry/';
     } else if (product.metal === 'Silver') {
-        backUrl = `catalog.html?cat=silver&sub=${catSlug}`;
+        backUrl = `/product-category/silver-${catSlug}/`;
     } else if (product.color === 'White Gold') {
-        backUrl = `catalog.html?cat=white-gold&sub=${catSlug}`;
+        backUrl = `/product-category/white-gold-${catSlug}/`;
     } else {
         // Default to Yellow Gold
-        backUrl = `catalog.html?cat=yellow-gold&sub=${catSlug}`;
+        backUrl = `/product-category/yellow-gold-${catSlug}/`;
     }
 
     let catObj = YELLOW_GOLD_CATS.find(c => c.id === catSlug) || 

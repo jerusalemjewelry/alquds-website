@@ -48,7 +48,7 @@ function renderEmptyState() {
                     <i class="fa-solid fa-cart-shopping text-muted" style="font-size: 4rem; margin-bottom: 20px;"></i>
                     <h1 class="text-white mb-4">Your Bag is Empty</h1>
                     <p class="text-muted mb-8">It looks like you haven't added any jewelry to your collection yet.</p>
-                    <a href="catalog.html" class="btn btn-primary" style="padding: 15px 40px; text-decoration: none;">START SHOPPING</a>
+                    <a href="/" class="btn btn-primary" style="padding: 15px 40px; text-decoration: none;">START SHOPPING</a>
                 </div>
             `;
         }

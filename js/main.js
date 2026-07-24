@@ -52,7 +52,7 @@ function createProductCard(product) {
     return `
         <div class="product-card">
             <div style="position: relative; overflow: hidden;">
-                <a href="product.html?id=${product.id}">
+                <a href="/product/${product.id}/">
                     <img src="${product.image}" alt="${product.name}" class="product-image">
                 </a>
                 <button onclick="addToCart(${product.id})" style="position: absolute; bottom: 10px; right: 10px; background: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 2;">
@@ -61,7 +61,7 @@ function createProductCard(product) {
             </div>
             <div class="product-info">
                 <div class="product-meta">${product.karat} Gold | ${product.weight}</div>
-                <h3 class="product-title"><a href="product.html?id=${product.id}">${product.name}</a></h3>
+                <h3 class="product-title"><a href="/product/${product.id}/">${product.name}</a></h3>
                 <div class="product-price">$${product.price.toLocaleString()}</div>
             </div>
         </div>
