@@ -1088,7 +1088,7 @@ async function initApp() {
     try {
         // 1. Fetch Data
         // 1. Fetch Data
-        const pricingRes = await fetch('data/pricing.json?t=' + new Date().getTime());
+        const pricingRes = await fetch('/data/pricing.json?t=' + new Date().getTime());
         pricingConfig = await pricingRes.json();
 
         // Fetch all category files dynamically
@@ -1100,7 +1100,7 @@ async function initApp() {
         ];
 
         const productPromises = categoryFiles.map(cat =>
-            fetch(`data/products/${cat}.json?t=${new Date().getTime()}`)
+            fetch(`/data/products/${cat}.json?t=${new Date().getTime()}`)
                 .then(res => {
                     if (!res.ok) return { products_list: [] };
                     return res.json();

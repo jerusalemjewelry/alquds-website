@@ -107,8 +107,8 @@ async function initApp() {
     try {
         // 1. Fetch Data
         const [pricingRes, productsRes] = await Promise.all([
-            fetch('pricing.json?t=' + new Date().getTime()),
-            fetch('data/products.json?t=' + new Date().getTime())
+            fetch('/data/pricing.json?t=' + new Date().getTime()),
+            fetch('/data/products.json?t=' + new Date().getTime())
         ]);
 
         pricingConfig = await pricingRes.json();
