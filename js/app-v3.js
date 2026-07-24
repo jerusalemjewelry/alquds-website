@@ -839,6 +839,7 @@ let currentPage = 1;
 let currentFilteredProducts = [];
 let activeFrameFilter = null; // 'coin' or 'ounce'
 let activeBangleSizeFilter = null; // 'small', 'medium', 'large', or 'xlarge'
+let activePendantFilter = null; // 'evil-eye', 'maps', 'islamic'
 let currentSortOption = 'featured'; // 'featured', 'price-asc', 'price-desc', 'id-asc', 'name-asc'
 
 // Style injection for animated oval filters on frames page
@@ -922,6 +923,15 @@ window.toggleFrameFilter = function(type) {
         activeFrameFilter = null;
     } else {
         activeFrameFilter = type;
+    }
+    renderCatalog(true);
+};
+
+window.togglePendantFilter = function(type) {
+    if (activePendantFilter === type) {
+        activePendantFilter = null;
+    } else {
+        activePendantFilter = type;
     }
     renderCatalog(true);
 };
@@ -1561,6 +1571,49 @@ function renderCatalog(reset = true) {
         }
     } else {
         if (bangleFilterContainer) bangleFilterContainer.remove();
+    }
+
+    // Pendants page custom filters
+    const isPendantsPage = (subParam === 'pendants' || catParam === 'pendants');
+    let pendantFilterContainer = document.getElementById('pendant-filter-container');
+    if (isPendantsPage) {
+        if (!pendantFilterContainer) {
+            pendantFilterContainer = document.createElement('div');
+            pendantFilterContainer.id = 'pendant-filter-container';
+            pendantFilterContainer.className = 'frames-filter-container';
+            pendantFilterContainer.innerHTML = `
+                <button class="frames-filter-btn ${activePendantFilter === 'evil-eye' ? 'active' : ''}" onclick="togglePendantFilter('evil-eye')">Evil Eye</button>
+                <button class="frames-filter-btn ${activePendantFilter === 'maps' ? 'active' : ''}" onclick="togglePendantFilter('maps')">Maps</button>
+                <button class="frames-filter-btn ${activePendantFilter === 'islamic' ? 'active' : ''}" onclick="togglePendantFilter('islamic')">Islamic</button>
+            `;
+            grid.parentNode.insertBefore(pendantFilterContainer, grid);
+        } else {
+            const btns = pendantFilterContainer.querySelectorAll('.frames-filter-btn');
+            if (btns.length === 3) {
+                btns[0].className = `frames-filter-btn ${activePendantFilter === 'evil-eye' ? 'active' : ''}`;
+                btns[1].className = `frames-filter-btn ${activePendantFilter === 'maps' ? 'active' : ''}`;
+                btns[2].className = `frames-filter-btn ${activePendantFilter === 'islamic' ? 'active' : ''}`;
+            }
+        }
+        
+        if (activePendantFilter) {
+            currentFilteredProducts = currentFilteredProducts.filter(p => {
+                const name = String(p.name || '').toLowerCase();
+                if (activePendantFilter === 'evil-eye') {
+                    return name.includes('evil eye') || name.includes('evileye');
+                }
+                if (activePendantFilter === 'maps') {
+                    const countries = ['palestine', 'lebanon', 'syria', 'iraq', 'yemen', 'jordan', 'egypt', 'morocco', 'algeria', 'tunisia', 'libya', 'sudan', 'somalia', 'djibouti', 'mauritania', 'oman', 'saudi', 'kuwait', 'qatar', 'bahrain', 'emirates', 'uae', 'map'];
+                    return countries.some(country => name.includes(country));
+                }
+                if (activePendantFilter === 'islamic') {
+                    return name.includes('islamic') || name.includes('allah') || name.includes('ayat') || name.includes('quran') || name.includes('mosque') || name.includes('mashallah') || name.includes('bismillah');
+                }
+                return true;
+            });
+        }
+    } else {
+        if (pendantFilterContainer) pendantFilterContainer.remove();
     }
 
     // Apply Sorting Options
