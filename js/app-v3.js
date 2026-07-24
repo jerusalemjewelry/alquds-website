@@ -1756,18 +1756,18 @@ function renderProductDetail() {
     // Normalize ID for comparison
     const searchId = id.trim();
 
-    // Find product - Robust comparison
-    let product = products.find(p => String(p.id).trim() === searchId);
+    // Find product - Robust comparison (Case Insensitive)
+    let product = products.find(p => String(p.id).trim().toLowerCase() === searchId);
 
     // Fallback: Try finding by Item No if ID lookup fails
     if (!product) {
-        product = products.find(p => String(p.itemNo).trim() === searchId);
+        product = products.find(p => String(p.itemNo).trim().toLowerCase() === searchId);
     }
 
     // WooCommerce Slug Fallback (e.g. "21k-gold-bangle-9171" -> tries to match 9171 or exact name)
     if (!product && searchId.includes('-')) {
         // Match by Item No at the end of the slug
-        product = products.find(p => p.itemNo && searchId.endsWith(`-${String(p.itemNo).trim()}`));
+        product = products.find(p => p.itemNo && searchId.endsWith(`-${String(p.itemNo).trim().toLowerCase()}`));
         
         // Deep Fallback: Match by slugified name
         if (!product) {
