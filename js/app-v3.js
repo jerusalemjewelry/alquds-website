@@ -174,46 +174,46 @@ const MATERIAL_MAP = {
 
 // Defined Categories for Grid View
 const YELLOW_GOLD_CATS = [
-    { id: 'necklaces', label: 'Necklace Sets', image: 'assets/cat_necklaces.png' },
-    { id: 'long-necklaces', label: 'Necklaces', image: 'assets/cat_yg_long_necklaces.png' },
-    { id: 'bangles', label: 'Bangles', image: 'assets/cat_bangles.png' },
-    { id: 'bangle-sets', label: 'Bangle Sets', image: 'assets/cat_bangle_sets.png' },
-    { id: 'chains', label: 'Chains', image: 'assets/cat_chains.png' },
-    { id: 'rings', label: 'Rings', image: 'assets/cat_rings.png' },
-    { id: 'earrings', label: 'Earrings', image: 'assets/cat_earrings.png' },
-    { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_bracelets.png' },
-    { id: 'pendants', label: 'Pendants', image: 'assets/cat_pendants.png' },
-    { id: 'frames', label: 'Frames', image: 'assets/cat_coins_v2.png' },
-    { id: 'anklets', label: 'Anklets', image: 'assets/cat_anklets.png' },
-    { id: 'children', label: 'Children', image: 'assets/cat_children.png' },
-    { id: 'kladas', label: 'Kladas', image: 'assets/cat_kladas.png' },
-    { id: 'bands', label: 'Bands', image: 'assets/cat_mens.png' },
-    { id: 'belts', label: 'Belts', image: 'assets/cat_belts.png' },
-    { id: 'name-plates', label: 'Name Plates', image: 'assets/cat_name_plates.png' },
-    { id: 'chokers', label: 'Chokers', image: 'assets/cat_chokers.png' },
-    { id: 'hand-chains', label: 'Hand Chains / Kaffs', image: 'assets/cat_hand_chains.png' },
-    { id: 'pins', label: 'Pins', image: 'assets/cat_pins.png' },
-    { id: 'christian-pendants', label: 'Christian Pendants', image: 'assets/cat_christian_pendants.png' }
+    { id: 'necklaces', label: 'Necklace Sets', image: '/.netlify/images?url=/assets/cat_necklaces.png' },
+    { id: 'long-necklaces', label: 'Necklaces', image: '/.netlify/images?url=/assets/cat_yg_long_necklaces.png' },
+    { id: 'bangles', label: 'Bangles', image: '/.netlify/images?url=/assets/cat_bangles.png' },
+    { id: 'bangle-sets', label: 'Bangle Sets', image: '/.netlify/images?url=/assets/cat_bangle_sets.png' },
+    { id: 'chains', label: 'Chains', image: '/.netlify/images?url=/assets/cat_chains.png' },
+    { id: 'rings', label: 'Rings', image: '/.netlify/images?url=/assets/cat_rings.png' },
+    { id: 'earrings', label: 'Earrings', image: '/.netlify/images?url=/assets/cat_earrings.png' },
+    { id: 'bracelets', label: 'Bracelets', image: '/.netlify/images?url=/assets/cat_bracelets.png' },
+    { id: 'pendants', label: 'Pendants', image: '/.netlify/images?url=/assets/cat_pendants.png' },
+    { id: 'frames', label: 'Frames', image: '/.netlify/images?url=/assets/cat_coins_v2.png' },
+    { id: 'anklets', label: 'Anklets', image: '/.netlify/images?url=/assets/cat_anklets.png' },
+    { id: 'children', label: 'Children', image: '/.netlify/images?url=/assets/cat_children.png' },
+    { id: 'kladas', label: 'Kladas', image: '/.netlify/images?url=/assets/cat_kladas.png' },
+    { id: 'bands', label: 'Bands', image: '/.netlify/images?url=/assets/cat_mens.png' },
+    { id: 'belts', label: 'Belts', image: '/.netlify/images?url=/assets/cat_belts.png' },
+    { id: 'name-plates', label: 'Name Plates', image: '/.netlify/images?url=/assets/cat_name_plates.png' },
+    { id: 'chokers', label: 'Chokers', image: '/.netlify/images?url=/assets/cat_chokers.png' },
+    { id: 'hand-chains', label: 'Hand Chains / Kaffs', image: '/.netlify/images?url=/assets/cat_hand_chains.png' },
+    { id: 'pins', label: 'Pins', image: '/.netlify/images?url=/assets/cat_pins.png' },
+    { id: 'christian-pendants', label: 'Christian Pendants', image: '/.netlify/images?url=/assets/cat_christian_pendants.png' }
 ];
 
 const WHITE_GOLD_CATS = [
-    { id: 'necklaces', label: 'Necklace Sets', image: 'assets/cat_wg_necklaces.png' },
-    { id: 'bangles', label: 'Bangles', image: 'assets/cat_wg_bangles.png' },
-    { id: 'bangle-sets', label: 'Bangle Sets', image: 'assets/cat_wg_bangle_sets.png' },
-    { id: 'chains', label: 'Chains', image: 'assets/cat_wg_chains.png' },
-    { id: 'rings', label: 'Rings', image: 'assets/cat_wg_rings.png' },
-    { id: 'earrings', label: 'Earrings', image: 'assets/cat_wg_earrings.png' },
-    { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_wg_bracelets.png' },
-    { id: 'pendants', label: 'Pendants', image: 'assets/cat_wg_pendants.png' }
+    { id: 'necklaces', label: 'Necklace Sets', image: '/.netlify/images?url=/assets/cat_wg_necklaces.png' },
+    { id: 'bangles', label: 'Bangles', image: '/.netlify/images?url=/assets/cat_wg_bangles.png' },
+    { id: 'bangle-sets', label: 'Bangle Sets', image: '/.netlify/images?url=/assets/cat_wg_bangle_sets.png' },
+    { id: 'chains', label: 'Chains', image: '/.netlify/images?url=/assets/cat_wg_chains.png' },
+    { id: 'rings', label: 'Rings', image: '/.netlify/images?url=/assets/cat_wg_rings.png' },
+    { id: 'earrings', label: 'Earrings', image: '/.netlify/images?url=/assets/cat_wg_earrings.png' },
+    { id: 'bracelets', label: 'Bracelets', image: '/.netlify/images?url=/assets/cat_wg_bracelets.png' },
+    { id: 'pendants', label: 'Pendants', image: '/.netlify/images?url=/assets/cat_wg_pendants.png' }
 ];
 
 const SILVER_CATS = [
-    { id: 'rings', label: 'Rings', image: 'assets/cat_sv_rings.png' },
-    { id: 'bands', label: 'Bands', image: 'assets/cat_sv_bands.png' },
-    { id: 'pendants', label: 'Pendants', image: 'assets/cat_sv_pendants.png' },
-    { id: 'bracelets', label: 'Bracelets', image: 'assets/cat_sv_bracelets.png' },
-    { id: 'chains', label: 'Chains', image: 'assets/cat_sv_chains.png' },
-    { id: 'women', label: 'Women', image: 'assets/cat_sv_women.png' }
+    { id: 'rings', label: 'Rings', image: '/.netlify/images?url=/assets/cat_sv_rings.png' },
+    { id: 'bands', label: 'Bands', image: '/.netlify/images?url=/assets/cat_sv_bands.png' },
+    { id: 'pendants', label: 'Pendants', image: '/.netlify/images?url=/assets/cat_sv_pendants.png' },
+    { id: 'bracelets', label: 'Bracelets', image: '/.netlify/images?url=/assets/cat_sv_bracelets.png' },
+    { id: 'chains', label: 'Chains', image: '/.netlify/images?url=/assets/cat_sv_chains.png' },
+    { id: 'women', label: 'Women', image: '/.netlify/images?url=/assets/cat_sv_women.png' }
 ];
 
 // Helper: Calculate Price dynamically
@@ -1021,7 +1021,7 @@ function createCategoryCard(categoryName, image, parentCat, labelOverride) {
 
     return `
         <div class="category-card-container" onclick="window.location.href='${link}'">
-            <img src="${image}" alt="${display}" class="category-card-image" onerror="this.src='assets/placeholder.png'">
+            <img src="${image}" alt="${display}" class="category-card-image" onerror="this.src='/.netlify/images?url=/assets/placeholder.png'">
             <div class="category-card-label">${display}</div>
         </div>
     `;
@@ -1314,7 +1314,7 @@ function renderCatalog(reset = true) {
 
             catHTML = categoriesInScope.map(cat => {
                 const sample = scopeProducts.find(p => p.category === cat);
-                return createCategoryCard(cat, sample ? sample.image : 'assets/placeholder.png', catParam);
+                return createCategoryCard(cat, sample ? sample.image : '/.netlify/images?url=/assets/placeholder.png', catParam);
             }).join('');
 
             grid.innerHTML = catHTML;
