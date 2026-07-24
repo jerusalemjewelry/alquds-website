@@ -11,7 +11,7 @@
       "marginPercent": 15,
       "weight": 45,
       "id": 1,
-      "image": "assets/product_bangle_1.png",
+      "image": "/.netlify/images?url=/assets/product_bangle_1.png",
       "description": "Exquisite traditional bangle set featuring intricate Middle Eastern craftsmanship.",
       "category": "bangles"
     },
@@ -26,7 +26,7 @@
       "marginPercent": 18,
       "weight": 60,
       "id": 2,
-      "image": "assets/product_necklace_1.png",
+      "image": "/.netlify/images?url=/assets/product_necklace_1.png",
       "description": "Statement necklace with classic design. Heavy weight construction for lasting beauty.",
       "category": "chains"
     },
@@ -41,7 +41,7 @@
       "marginPercent": 20,
       "weight": 15,
       "id": 3,
-      "image": "assets/product_necklace_1.png",
+      "image": "/.netlify/images?url=/assets/product_necklace_1.png",
       "description": "A beautiful delicate necklace for everyday wear.",
       "category": "necklaces"
     },
@@ -56,7 +56,7 @@
       "marginPercent": 10,
       "weight": "32",
       "id": "b1",
-      "image": "assets/screenshot-2025-12-29-134022.png",
+      "image": "/.netlify/images?url=/assets/screenshot-2025-12-29-134022.png",
       "description": "ffff",
       "category": "bangles"
     },
@@ -71,7 +71,7 @@
       "marginPercent": 0,
       "weight": "0",
       "id": "CS 1 ",
-      "image": "assets/gemini_generated_image_1hfasx1hfasx1hfa.png",
+      "image": "/.netlify/images?url=/assets/gemini_generated_image_1hfasx1hfasx1hfa.png",
       "description": "Custom Name ",
       "category": "name-plates"
     },
@@ -86,7 +86,7 @@
       "marginPercent": 40,
       "weight": "4 ",
       "id": "cs2",
-      "image": "assets/gemini_generated_image_3n092i3n092i3n09-1-.png",
+      "image": "/.netlify/images?url=/assets/gemini_generated_image_3n092i3n092i3n09-1-.png",
       "description": "4-5 grams approximately ",
       "category": "name-plates"
     }
