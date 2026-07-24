@@ -2,6 +2,22 @@
   "products_list": [
     {
       "color": "Yellow Gold",
+      "laborPerGram": 1115,
+      "taxable": true,
+      "name": "test",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 10,
+      "weight": "42.90",
+      "id": "P123",
+      "image": "assets/18k-bangle-11.0.png",
+      "description": "test",
+      "category": "pendants"
+    },
+    {
+      "color": "Yellow Gold",
       "laborPerGram": 20,
       "taxable": true,
       "name": "21k Gold Palestine Olive Tree Pendant ",
