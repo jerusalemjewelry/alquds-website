@@ -1,6 +1,6 @@
-const STATIC_CACHE_NAME = 'alquds-static-v3'; // Bumped version to v3
-const IMAGE_CACHE_NAME = 'alquds-images-v3';
-const DATA_CACHE_NAME = 'alquds-data-v3';
+const STATIC_CACHE_NAME = 'alquds-static-v4'; // Bumped version to v3
+const IMAGE_CACHE_NAME = 'alquds-images-v4';
+const DATA_CACHE_NAME = 'alquds-data-v4';
 
 const PRECACHE_ASSETS = [
   '/',
