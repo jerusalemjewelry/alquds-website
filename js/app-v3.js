@@ -1351,7 +1351,7 @@ function renderCatalog(reset = true) {
 
             const categoriesInScope = [...new Set(scopeProducts.map(p => p.category))];
             if (categoriesInScope.length === 0) {
-                grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found in this collection.</p>';
+                grid.innerHTML = '<div class="col-span-4 flex flex-col items-center justify-center py-20 text-center"><h2 style="font-family: \\\'Playfair Display\\\', serif; color: var(--gold); margin-bottom: 15px; font-style: italic; letter-spacing: 2px; font-size: 2.5rem; width: 100%;">Coming Soon</h2><p class="text-muted text-lg" style="max-width: 500px; margin: 0 auto; width: 100%;">We are currently curating a stunning collection for this category. Check back soon for exclusive new arrivals.</p></div>';
                 return;
             }
 
@@ -1683,7 +1683,7 @@ function renderCatalog(reset = true) {
     const itemsToShow = currentFilteredProducts.slice(start, end);
 
     if (itemsToShow.length === 0) {
-        grid.innerHTML = '<p class="col-span-4 text-center text-muted">No products found.</p>';
+        grid.innerHTML = '<div class="col-span-4 flex flex-col items-center justify-center py-20 text-center"><h2 style="font-family: \\\'Playfair Display\\\', serif; color: var(--gold); margin-bottom: 15px; font-style: italic; letter-spacing: 2px; font-size: 2.5rem; width: 100%;">Coming Soon</h2><p class="text-muted text-lg" style="max-width: 500px; margin: 0 auto; width: 100%;">We are currently curating a stunning collection for this category. Check back soon for exclusive new arrivals.</p></div>';
         removeLoadMore();
         return;
     }
