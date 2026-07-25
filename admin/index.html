@@ -50,9 +50,61 @@
 </head>
 
 <body>
-    <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Security Gate for Admin -->
+    <div id="pin-gate" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#050505; z-index:999999; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; font-family: 'Playfair Display', serif;">
+        <h2 style="color:#D4AF37; margin-bottom: 20px; font-size: 2.5rem; letter-spacing: 2px;">Admin Access</h2>
+        <p style="margin-bottom: 20px; font-family: 'Lato', sans-serif;">Please enter the Master PIN to access the CMS.</p>
+        <input type="password" id="pin-input" style="padding:15px; font-size:24px; text-align:center; letter-spacing:8px; border-radius:5px; border:1px solid #D4AF37; background:#121212; color:white; margin-bottom: 20px; width: 200px; outline: none;" maxlength="6" autofocus />
+        <button id="pin-submit" style="padding:10px 40px; font-size:18px; background:#D4AF37; color:black; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-family: 'Lato', sans-serif;">Unlock</button>
+        <p id="pin-error" style="color:#ff4c4c; margin-top:15px; display:none; font-family: 'Lato', sans-serif;">Incorrect PIN. This attempt has been logged.</p>
+    </div>
+
+    <script>
+        (async function() {
+            const gate = document.getElementById('pin-gate');
+            const input = document.getElementById('pin-input');
+            const btn = document.getElementById('pin-submit');
+            const err = document.getElementById('pin-error');
+            
+            async function hashPIN(pin) {
+                const msgBuffer = new TextEncoder().encode(pin);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            function loadCMS() {
+                gate.style.display = 'none';
+                const s1 = document.createElement('script');
+                s1.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+                document.body.appendChild(s1);
+                const s2 = document.createElement('script');
+                s2.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
+                document.body.appendChild(s2);
+            }
+
+            if (sessionStorage.getItem('admin_unlocked') === 'true') {
+                loadCMS();
+            } else {
+                btn.onclick = async () => {
+                    const hash = await hashPIN(input.value);
+                    // Hash corresponds to Master PIN
+                    if (hash === '90b1fc044bfe0837dbd28a13862d79989f2e908e1b9eb20dfc5fbad54940b3ba') { 
+                        sessionStorage.setItem('admin_unlocked', 'true');
+                        loadCMS();
+                    } else {
+                        err.style.display = 'block';
+                        input.value = '';
+                        setTimeout(() => err.style.display = 'none', 3000);
+                    }
+                };
+                
+                input.addEventListener('keyup', (e) => {
+                    if(e.key === 'Enter') btn.onclick();
+                });
+            }
+        })();
+    </script>
 
     <script>
         // Automatic ID Generator for Alquds Jewelry Admin Panel
