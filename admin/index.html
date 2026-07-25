@@ -89,7 +89,7 @@
                 btn.onclick = async () => {
                     const hash = await hashPIN(input.value);
                     // Hash corresponds to Master PIN
-                    if (hash === '90b1fc044bfe0837dbd28a13862d79989f2e908e1b9eb20dfc5fbad54940b3ba') { 
+                    if (hash === 'da1120c3855f36498839b1e50a97acc3039f176ce5005d5e1f9576145349dee3') { 
                         sessionStorage.setItem('admin_unlocked', 'true');
                         loadCMS();
                     } else {
