@@ -372,6 +372,7 @@ function renderCheckout(cart) {
                 const stateVal = stateDropdown ? stateDropdown.value : '';
 
                 return actions.order.create({
+                    intent: 'AUTHORIZE',
                     application_context: {
                         shipping_preference: 'NO_SHIPPING'
                     },
@@ -390,7 +391,7 @@ function renderCheckout(cart) {
                 });
             },
             onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
+                return actions.order.authorize().then(function (details) {
                     // Extract total
                     const totalPaid = details.purchase_units[0].amount.value;
                     const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
