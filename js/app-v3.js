@@ -321,7 +321,7 @@ function injectMiniCart() {
                     <span>TOTAL:</span>
                     <span id="mini-cart-total">$0.00</span>
                 </div>
-                <a href="cart.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center; padding: 10px;">VIEW CART & CHECKOUT</a>
+                <a href="/cart.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center; padding: 10px;">VIEW CART & CHECKOUT</a>
             </div>
         `;
         wrapper.appendChild(dropdown);
@@ -632,7 +632,7 @@ function injectCartDrawer() {
                 <span id="cart-drawer-subtotal-val">$0.00</span>
             </div>
             <div class="cart-drawer-actions">
-                <a href="checkout.html" class="cart-drawer-btn cart-drawer-btn-checkout">PROCEED TO CHECKOUT</a>
+                <a href="/checkout.html" class="cart-drawer-btn cart-drawer-btn-checkout">PROCEED TO CHECKOUT</a>
                 <button class="cart-drawer-btn cart-drawer-btn-continue" onclick="closeCartDrawer()">CONTINUE SHOPPING</button>
             </div>
         </div>
@@ -649,7 +649,7 @@ function injectCartDrawer() {
     document.body.appendChild(drawer);
 
     // Redirect header cart link to open drawer on click
-    document.querySelectorAll('a[href="cart.html"]').forEach(link => {
+    document.querySelectorAll('a[href="/cart.html"], a[href="cart.html"]').forEach(link => {
         link.addEventListener('click', (e) => {
             if (!window.location.pathname.includes('cart.html')) {
                 e.preventDefault();
