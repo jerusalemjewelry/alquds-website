@@ -106,3 +106,6 @@
 /about/ /about.html 200
 /faq /faq.html 200
 /faq/ /faq.html 200
+
+# Catch-all to fix Netlify 404s
+/* /index.html 200
