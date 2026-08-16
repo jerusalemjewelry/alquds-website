@@ -395,6 +395,18 @@ function renderCheckout(cart) {
                     const totalPaid = details.purchase_units[0].amount.value;
                     const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
 
+                    // Send Confirmation Email automatically in the background
+                    fetch('/.netlify/functions/send-order-email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            customerEmail: details.payer.email_address,
+                            customerName: details.payer.name.given_name,
+                            orderNumber: orderId,
+                            total: totalPaid
+                        })
+                    }).catch(err => console.error("Email trigger failed", err));
+
                     // Clear the cart and redirect to order confirmation
                     localStorage.removeItem('alquds_cart');
                     window.location.href = `order-confirmation.html?id=${orderId}&total=${totalPaid}&method=PayPal`;
