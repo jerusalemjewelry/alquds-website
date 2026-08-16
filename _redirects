@@ -1,3 +1,4 @@
+https://alquds-webstite.netlify.app/* https://alqudsjewelry.com/:splat 301!
 /product/:slug /product.html?id=:slug 200
 
 # Yellow Gold
