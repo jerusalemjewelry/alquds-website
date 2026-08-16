@@ -2,148 +2,25 @@
 <html lang="en">
 
 <head>
-        <script>
-        (function() {
-            function registerPolicy(win) {
-                if (win.trustedTypes && win.trustedTypes.createPolicy && !win.trustedTypes.defaultPolicy) {
-                    try {
-                        win.trustedTypes.createPolicy('default', {
-                            createHTML: function(string) { return string; },
-                            createScript: function(string) { return string; },
-                            createScriptURL: function(string) { return string; }
-                        });
-                    } catch (e) {
-                        console.warn("Failed to register default Trusted Types policy:", e);
-                    }
-                }
-            }
-
-            registerPolicy(window);
-
-            // Intercept iframe elements to inject policy into same-origin/blank frames
-            var originalCreate = document.createElement;
-            document.createElement = function(tagName, options) {
-                var el = originalCreate.call(document, tagName, options);
-                if (tagName && tagName.toLowerCase() === 'iframe') {
-                    el.addEventListener('load', function() {
-                        try {
-                            if (el.contentWindow) {
-                                registerPolicy(el.contentWindow);
-                            }
-                        } catch (e) {}
-                    });
-                    setTimeout(function() {
-                        try {
-                            if (el.contentWindow) {
-                                registerPolicy(el.contentWindow);
-                            }
-                        } catch (e) {}
-                    }, 0);
-                }
-                return el;
-            };
-        })();
-    </script>
     <meta charset="UTF-8">
     <title>Shopping Cart - Alquds Jewelry</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Responsive Cart Layout */
-        .cart-item-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 4px;
-            border: 1px solid #333;
-            margin-bottom: 1rem;
-        }
-
-        .cart-item-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .cart-item-details {
-            flex: 1;
-        }
-
-        .cart-item-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        @media (max-width: 600px) {
-            .cart-item-card {
-                flex-wrap: wrap;
-                /* Allow wrapping */
-                text-align: left;
-            }
-
-            .cart-item-image {
-                width: 100px;
-                /* Bigger image on mobile */
-                height: 100px;
-            }
-
-            .cart-item-details {
-                min-width: 100%;
-                /* Force details to new line if needed, or just take space */
-                margin-top: 10px;
-            }
-
-            /* Re-order for mobile: Image left, details right? Or stacked? 
-               Let's keep image left, details right, but move specific controls if needed.
-               Actually, squashed usually means width issue. 
-               Let's try a Grid layout for mobile */
-            .cart-item-card {
-                display: grid;
-                grid-template-columns: 100px 1fr;
-                grid-template-areas:
-                    "image details"
-                    "image controls";
-                gap: 15px;
-            }
-
-            .cart-item-image {
-                grid-area: image;
-            }
-
-            .cart-item-details {
-                grid-area: details;
-            }
-
-            /* For the controls, put them in a row below details or beside? */
-            .cart-item-controls-wrapper {
-                grid-area: controls;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <header class="header-main">
         <div class="container flex justify-between items-center">
             <div class="logo">
-                <a href="index.html" class="text-gold"
-                    style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 1px; white-space: nowrap;">
-                    ALQUDS <span class="text-white">JEWELRY</span>
-                </a>
+                <a href="/" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem;">ALQUDS <span
+                        class="text-white">JEWELRY</span></a>
             </div>
             <div class="header-actions">
-                <a href="cart.html" class="text-white relative">
+                <a href="/cart.html" class="text-white relative">
                     <i class="fa-solid fa-shopping-bag"></i>
                     <span id="cart-count">0</span>
                 </a>
@@ -165,312 +42,37 @@
         </div>
 
         <div class="mt-5 text-center">
-            <a href="checkout.html" class="btn btn-primary"
-                style="width: 100%; padding: 20px; display: block; text-align: center; text-decoration: none;">PROCEED
-                TO CHECKOUT</a>
-            <a href="/" class="block mt-4 text-muted text-sm">Continue Shopping</a>
+            <button class="btn btn-primary" style="width: 100%; padding: 20px;">PROCEED TO CHECKOUT</button>
+            <a href="catalog.html" class="block mt-4 text-muted text-sm">Continue Shopping</a>
         </div>
     </div>
 
-    <!-- Custom Confirmation Modal -->
-    <div id="custom-confirm"
-        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9000; align-items:center; justify-content:center; backdrop-filter: blur(2px);">
-        <div
-            style="background:#111; padding:30px; border:1px solid var(--color-gold); text-align:center; max-width:400px; border-radius:4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <h3 class="text-gold mb-3" style="font-family: var(--font-heading); font-size: 1.5rem;">Clear Shopping Bag?
-            </h3>
-            <p class="text-muted mb-6">This action will remove all items from your cart and cannot be undone.</p>
-            <div class="flex justify-center gap-4">
-                <button onclick="closeConfirm(false)"
-                    style="padding:10px 25px; border:1px solid #333; background:transparent; color: #888; cursor:pointer; font-family:var(--font-body);">CANCEL</button>
-                <button onclick="closeConfirm(true)" class="btn btn-primary"
-                    style="padding:10px 25px; font-size:0.9rem;">YES, CLEAR IT</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Removed deprecated main.js -->
+    <script src="js/main.js"></script>
     <script>
-        // Cart Management Functions
-        function renderCart() {
+        document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('cart-items');
             const totalEl = document.getElementById('total-price');
-            // Refresh cart from storage to ensure sync
-            cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
 
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-muted text-center py-5">Your bag is currently empty.</p>';
-                totalEl.innerText = '$0.00';
-                updateCartCount();
-
-                // Hide or remove clear button if empty
-                const existingClear = document.getElementById('clear-cart-container');
-                if (existingClear) existingClear.remove();
-                return;
-            }
-
-            let total = 0;
-            container.innerHTML = cart.map((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                return `
-                    <div class="cart-item-card">
-                        <a href="/product/${item.id}/">
-                            <img src="${item.image}" class="cart-item-image hover-gold" style="cursor:pointer; border:1px solid #333;">
-                        </a>
-                        
-                        <div class="cart-item-details">
-                            <h4 class="text-white" style="font-family: var(--font-heading); margin-bottom: 5px; font-size: 1.1rem;">
-                                <a href="/product/${item.id}/" class="text-white hover-gold" style="text-decoration:none;">${item.name}</a>
-                            </h4>
-                            <div class="text-muted" style="font-size: 0.95rem;">${item.karat ? item.karat + ' Gold' : ''}</div>
-                            <div class="text-gold font-bold mt-1" style="font-size: 1.1rem;">$${item.price.toLocaleString()}</div>
-                        </div>
-
-                        <div class="cart-item-controls-wrapper" style="flex-direction: column; align-items: center; gap: 5px;">
-                            <!-- Quantity Controls -->
-                            <div class="flex items-center gap-2">
-                                <button onclick="updateQty('${item.id}', -1)" class="quantity-btn" 
-                                    onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
-                                    onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
-                                    style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 32px; height: 32px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
-                                    <i class="fa-solid fa-minus" style="font-size: 0.8rem;"></i>
-                                </button>
-                                <span class="text-white font-bold mx-2" style="font-size: 1.1rem; min-width: 25px; text-align: center;">${item.quantity}</span>
-                                <button onclick="updateQty('${item.id}', 1)" class="quantity-btn" 
-                                    onmouseover="this.style.background='var(--color-gold)'; this.style.color='black';" 
-                                    onmouseout="this.style.background='transparent'; this.style.color='var(--color-gold)';"
-                                    style="border: 1px solid var(--color-gold); color: var(--color-gold); background: transparent; width: 32px; height: 32px; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
-                                    <i class="fa-solid fa-plus" style="font-size: 0.8rem;"></i>
-                                </button>
+                container.innerHTML = '<p class="text-muted">Your bag is empty.</p>';
+            } else {
+                let total = 0;
+                container.innerHTML = cart.map(item => {
+                    total += item.price * item.quantity;
+                    return `
+                        <div class="flex items-center gap-4 mb-4" style="background: #1a1a1a; padding: 15px;">
+                            <img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover;">
+                            <div style="flex: 1;">
+                                <h4 class="text-white">${item.name}</h4>
+                                <div class="text-gold">$${item.price.toLocaleString()}</div>
                             </div>
-
-                            <!-- Remove Text Button -->
-                            <button onclick="confirmRemove('${item.id}')" 
-                                onmouseover="this.style.color='var(--color-gold)';" 
-                                onmouseout="this.style.color='white';"
-                                class="text-xs underline" 
-                                style="color: white; background: transparent; border: none; cursor: pointer; margin-top: 8px; margin-left: 15px; letter-spacing: 1px; transition: color 0.3s; font-weight: normal; font-family: var(--font-body); font-size: 0.75rem;">
-                                REMOVE
-                            </button>
+                            <div class="text-muted">x${item.quantity}</div>
                         </div>
-                    </div>
-                `;
-            }).join('');
-
-            totalEl.innerText = '$' + total.toLocaleString();
-            updateCartCount();
-
-            // Ensure Clear Button Exists
-            addClearButton();
-        }
-
-        // Global functions for inline onclick handlers
-        // Track item to remove
-        let itemToRemove = null;
-
-        window.updateQty = function (id, change) {
-            const item = cart.find(p => p.id === id);
-            if (!item) return;
-
-            item.quantity += change;
-
-            if (item.quantity <= 0) {
-                // If quantity goes to 0, ask for confirmation
-                window.confirmRemove(id);
-                return;
+                    `;
+                }).join('');
+                totalEl.innerText = '$' + total.toLocaleString();
             }
-
-            localStorage.setItem('alquds_cart', JSON.stringify(cart));
-            renderCart();
-        };
-
-        window.confirmRemove = function (id) {
-            itemToRemove = id;
-            const modal = document.getElementById('custom-confirm');
-            const title = modal.querySelector('h3');
-            const text = modal.querySelector('p');
-            const confirmBtn = modal.querySelector('.btn-primary');
-
-            // Update Modal Content for Single Item
-            title.innerText = 'Remove Item?';
-            text.innerText = 'Are you sure you want to remove this item from your bag?';
-            confirmBtn.innerText = 'YES, REMOVE';
-            confirmBtn.onclick = () => closeConfirm(true); // Default action
-
-            modal.style.display = 'flex';
-        };
-
-        window.triggerClearCart = function () {
-            itemToRemove = 'ALL'; // Special flag for clear all
-            const modal = document.getElementById('custom-confirm');
-            const title = modal.querySelector('h3');
-            const text = modal.querySelector('p');
-            const confirmBtn = modal.querySelector('.btn-primary');
-
-            title.innerText = 'Clear Shopping Bag?';
-            text.innerText = 'This action will remove all items from your cart and cannot be undone.';
-            confirmBtn.innerText = 'YES, CLEAR IT';
-
-            modal.style.display = 'flex';
-        };
-
-        window.closeConfirm = function (confirmed) {
-            document.getElementById('custom-confirm').style.display = 'none';
-
-            if (confirmed) {
-                if (itemToRemove === 'ALL') {
-                    cart = [];
-                    localStorage.removeItem('alquds_cart');
-                    renderCart();
-                    showToast("Cart cleared successfully");
-                } else if (itemToRemove) {
-                    cart = cart.filter(p => p.id !== itemToRemove);
-                    localStorage.setItem('alquds_cart', JSON.stringify(cart));
-                    renderCart();
-                    showToast("Item removed");
-                }
-            }
-            itemToRemove = null;
-        };
-
-        // Reused Toast Logic
-        function showToast(message) {
-            const existing = document.getElementById('cart-toast');
-            if (existing) existing.remove();
-
-            const toast = document.createElement('div');
-            toast.id = 'cart-toast';
-            toast.style.cssText = `
-                position: fixed; top: 20px; right: 20px; background: rgba(5, 5, 5, 0.95);
-                color: var(--color-gold); padding: 15px 25px; border: 1px solid var(--color-gold);
-                border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 10000;
-                font-family: var(--font-heading); font-size: 1rem; transform: translateY(-20px);
-                opacity: 0; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;
-            `;
-
-            toast.innerHTML = `<i class="fa-solid fa-check-circle" style="color: #4CAF50;"></i> ${message}`;
-            document.body.appendChild(toast);
-
-            requestAnimationFrame(() => {
-                toast.style.transform = 'translateY(0)';
-                toast.style.opacity = '1';
-            });
-
-            setTimeout(() => {
-                toast.style.transform = 'translateY(-20px)';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        function addClearButton() {
-            const totalContainer = document.getElementById('cart-total');
-            let clearContainer = document.getElementById('clear-cart-container');
-
-            if (!clearContainer && totalContainer) {
-                clearContainer = document.createElement('div');
-                clearContainer.id = 'clear-cart-container';
-                totalContainer.parentNode.insertBefore(clearContainer, totalContainer.nextSibling);
-            }
-
-            if (clearContainer) {
-                // Gold Style Button
-                clearContainer.innerHTML = '<button onclick="triggerClearCart()" class="text-xs hover:text-white underline mt-2" style="color: var(--color-gold); background:none; border:none; cursor:pointer; letter-spacing:1px;">CLEAR CART</button>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCart();
         });
-
-        // --- Mini Cart & Shared Logic (Inlined from app-v3.js for Cart Page) ---
-
-        function updateCartCount() {
-            // Ensure mini cart HTML exists (Injection)
-            injectMiniCart();
-
-            const count = cart.reduce((acc, item) => acc + item.quantity, 0);
-            const badge = document.getElementById('cart-count');
-            if (badge) badge.innerText = count;
-
-            renderMiniCart();
-        }
-
-        function injectMiniCart() {
-            if (document.getElementById('mini-cart')) return;
-
-            const cartLink = document.querySelector('a[href="cart.html"]');
-            if (!cartLink) return;
-
-            if (!cartLink.parentElement.classList.contains('cart-wrapper')) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'cart-wrapper';
-                cartLink.parentNode.insertBefore(wrapper, cartLink);
-                wrapper.appendChild(cartLink);
-
-                const dropdown = document.createElement('div');
-                dropdown.id = 'mini-cart';
-                dropdown.className = 'mini-cart';
-                dropdown.innerHTML = `
-                    <div class="mini-cart-header">
-                        <span>SHOPPING BAG</span>
-                        <span id="mini-cart-count">0 ITEMS</span>
-                    </div>
-                    <div id="mini-cart-items" class="mini-cart-items"></div>
-                    <div id="mini-cart-footer" class="mini-cart-footer">
-                        <div class="mini-cart-total">
-                            <span>TOTAL:</span>
-                            <span id="mini-cart-total">$0.00</span>
-                        </div>
-                        <a href="cart.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center; padding: 10px;">VIEW CART & CHECKOUT</a>
-                    </div>
-                `;
-                wrapper.appendChild(dropdown);
-            }
-        }
-
-        function renderMiniCart() {
-            const list = document.getElementById('mini-cart-items');
-            const totalEl = document.getElementById('mini-cart-total');
-            const countEl = document.getElementById('mini-cart-count');
-
-            if (!list) return;
-
-            if (cart.length === 0) {
-                list.innerHTML = '<p class="text-muted text-center py-4">Your bag is empty.</p>';
-                if (totalEl) totalEl.innerText = '$0.00';
-                if (countEl) countEl.innerText = '0 ITEMS';
-                document.getElementById('mini-cart-footer').style.display = 'none';
-                return;
-            }
-
-            document.getElementById('mini-cart-footer').style.display = 'block';
-
-            let total = 0;
-            let totalQty = 0;
-
-            const itemsHTML = cart.map(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                totalQty += item.quantity;
-                return `
-                    <div class="mini-cart-item">
-                        <a href="/product/${item.id}/">
-                            <img src="${item.image}" class="mini-cart-img" alt="${item.name}">
-                        </a>
-                        <div class="mini-cart-details">
-                            <div class="mini-cart-title"><a href="/product/${item.id}/" class="hover-gold">${item.name}</a></div>
-                            <div class="text-muted" style="font-size: 0.8rem;">${item.quantity} x $${item.price.toLocaleString()}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            list.innerHTML = itemsHTML;
-            if (totalEl) totalEl.innerText = '$' + total.toLocaleString();
-            if (countEl) countEl.innerText = totalQty + (totalQty === 1 ? ' ITEM' : ' ITEMS');
-        }
     </script>
 </body>
 
