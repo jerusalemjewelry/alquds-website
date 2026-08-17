@@ -411,6 +411,18 @@ function renderCheckout(cart) {
                     const totalPaid = details.purchase_units[0].amount.value;
                     const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
 
+                    // Re-extract form variables since they are block-scoped to createOrder
+                    const firstName = document.querySelector('input[name="firstName"]')?.value || '';
+                    const lastName = document.querySelector('input[name="lastName"]')?.value || '';
+                    const phone = document.querySelector('input[name="phone"]')?.value || '';
+                    const address = document.querySelector('input[name="address"]')?.value || '';
+                    const city = document.querySelector('input[name="city"]')?.value || '';
+                    const zip = document.querySelector('input[name="zip"]')?.value || '';
+                    const stateDropdown = document.querySelector('select[name="state"]');
+                    const stateVal = stateDropdown ? stateDropdown.value : '';
+                    const countryDropdown = document.querySelector('select[name="country"]');
+                    const countryVal = countryDropdown ? countryDropdown.value : 'US';
+
                     // Send Confirmation Email automatically in the background
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
