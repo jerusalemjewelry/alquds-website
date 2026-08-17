@@ -370,11 +370,13 @@ function renderCheckout(cart) {
                 const zip = document.querySelector('input[name="zip"]')?.value || '';
                 const stateDropdown = document.querySelector('select[name="state"]');
                 const stateVal = stateDropdown ? stateDropdown.value : '';
+                const countryDropdown = document.querySelector('select[name="country"]');
+                const countryVal = countryDropdown ? countryDropdown.value : 'US';
 
                 return actions.order.create({
                     intent: 'AUTHORIZE',
                     application_context: {
-                        shipping_preference: 'NO_SHIPPING'
+                        shipping_preference: 'SET_PROVIDED_ADDRESS'
                     },
                     payer: {
                         name: {
@@ -386,6 +388,19 @@ function renderCheckout(cart) {
                     purchase_units: [{
                         amount: {
                             value: freshTotal
+                        },
+                        description: cart.map(i => `${i.quantity}x ${i.name}`).join(", ").substring(0, 127),
+                        shipping: {
+                            name: {
+                                full_name: `${firstName} ${lastName}`.trim() || 'Customer'
+                            },
+                            address: {
+                                address_line_1: address || 'N/A',
+                                admin_area_2: city || 'N/A',
+                                admin_area_1: stateVal || 'N/A',
+                                postal_code: zip || '00000',
+                                country_code: (countryVal === 'OTHER' ? 'US' : countryVal) || 'US'
+                            }
                         }
                     }]
                 });
@@ -404,7 +419,17 @@ function renderCheckout(cart) {
                             customerEmail: details.payer.email_address,
                             customerName: details.payer.name.given_name,
                             orderNumber: orderId,
-                            total: totalPaid
+                            total: totalPaid,
+                            cartItems: cart,
+                            shippingAddress: {
+                                name: `${firstName} ${lastName}`.trim(),
+                                address: address,
+                                city: city,
+                                state: stateVal,
+                                zip: zip,
+                                country: countryVal,
+                                phone: phone
+                            }
                         })
                     }).catch(err => console.error("Email trigger failed", err));
 
