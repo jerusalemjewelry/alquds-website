@@ -373,6 +373,24 @@ function renderCheckout(cart) {
                 const countryDropdown = document.querySelector('select[name="country"]');
                 const countryVal = countryDropdown ? countryDropdown.value : 'US';
 
+                // Calculate Strict PayPal Breakdown
+                let calcItemTotal = 0;
+                const paypalItems = cart.map(item => {
+                    const unitPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+                    const qty = parseInt(item.quantity) || 1;
+                    calcItemTotal += (unitPrice * qty);
+                    return {
+                        name: item.name.substring(0, 127),
+                        sku: (item.id || item.sku || 'N/A').toString().substring(0, 127),
+                        unit_amount: { currency_code: 'USD', value: unitPrice.toFixed(2) },
+                        quantity: qty.toString()
+                    };
+                });
+                const domShipping = parseFloat(document.getElementById('checkout-shipping-cost')?.innerText.replace(/[^0-9.]/g, '') || 0);
+                const domTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.]/g, '') || 0);
+                const domFee = parseFloat(document.getElementById('checkout-fee-amount')?.innerText.replace(/[^0-9.]/g, '') || 0);
+                const preciseTotal = (calcItemTotal + domShipping + domTax + domFee).toFixed(2);
+
                 return actions.order.create({
                     intent: 'AUTHORIZE',
                     application_context: {
@@ -387,8 +405,16 @@ function renderCheckout(cart) {
                     },
                     purchase_units: [{
                         amount: {
-                            value: freshTotal
+                            currency_code: 'USD',
+                            value: preciseTotal,
+                            breakdown: {
+                                item_total: { currency_code: 'USD', value: calcItemTotal.toFixed(2) },
+                                shipping: { currency_code: 'USD', value: domShipping.toFixed(2) },
+                                tax_total: { currency_code: 'USD', value: domTax.toFixed(2) },
+                                handling: { currency_code: 'USD', value: domFee.toFixed(2) }
+                            }
                         },
+                        items: paypalItems,
                         description: cart.map(i => `${i.quantity}x ${i.name}`).join(", ").substring(0, 127),
                         shipping: {
                             name: {
