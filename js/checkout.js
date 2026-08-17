@@ -450,10 +450,11 @@ function renderCheckout(cart) {
                     const countryDropdown = document.querySelector('select[name="country"]');
                     const countryVal = countryDropdown ? countryDropdown.value : 'US';
 
-                    // Send Confirmation Email automatically in the background
+                    // Send Confirmation Email automatically in the background (keepalive ensures it sends even if page unloads)
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
+                        keepalive: true,
                         body: JSON.stringify({
                             customerEmail: details.payer.email_address,
                             customerName: details.payer.name.given_name,
@@ -472,7 +473,7 @@ function renderCheckout(cart) {
                         })
                     }).catch(err => console.error("Email trigger failed", err));
 
-                    // Clear the cart and redirect to order confirmation
+                    // Clear the cart and redirect to order confirmation INSTANTLY
                     localStorage.removeItem('alquds_cart');
                     isRedirecting = true;
                     window.location.href = `order-confirmation.html?id=${orderId}&total=${totalPaid}&method=PayPal`;
