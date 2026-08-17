@@ -12,6 +12,7 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
 // Dynamic shipping cost now calculated in calculateTotals()
 
 document.addEventListener('DOMContentLoaded', () => {
+    let isRedirecting = false;
     console.log("=== CHECKOUT LOADED ===");
 
     // 1. Get LocalStorage Cart Objects
@@ -473,10 +474,12 @@ function renderCheckout(cart) {
 
                     // Clear the cart and redirect to order confirmation
                     localStorage.removeItem('alquds_cart');
+                    isRedirecting = true;
                     window.location.href = `order-confirmation.html?id=${orderId}&total=${totalPaid}&method=PayPal`;
                 });
             },
             onError: function (err) {
+                if (isRedirecting) return; // Ignore errors caused by page unload during success redirect
                 console.error("PayPal Error:", err);
                 alert("There was an error processing your PayPal payment. Please try again.");
             }
