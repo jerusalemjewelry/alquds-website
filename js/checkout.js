@@ -204,6 +204,9 @@ function renderCheckout(cart) {
         if (typeof window.forcePayPalRefresh === 'function') {
             window.forcePayPalRefresh();
         }
+        if (typeof window.forceStripeRefresh === 'function') {
+            window.forceStripeRefresh();
+        }
     }
 
     // Helper: Centralized Exemption Logic
@@ -492,6 +495,175 @@ function renderCheckout(cart) {
         }).render('#paypal-button-container');
     };
 
+    };
+
+    // --- STRIPE INTEGRATION ---
+    const stripePublicKey = 'pk_live_51TwpnVAIeLqFl7hQaCuhcDV5h6n4CxkOSfTlS8fQayo89ZH2QpyifO9ofXj1zspdl5dN0x5T3IbOYqQMzaFqiJXt00ygJzL0wZ';
+    let stripe, elements, paymentElement;
+
+    const radios = document.querySelectorAll('input[name="paymentMethod"]');
+    const stripeContainer = document.getElementById('stripe-container');
+    const paypalContainer = document.getElementById('paypal-container');
+    const stripeSubmitBtn = document.getElementById('stripe-submit-btn');
+    const stripeError = document.getElementById('stripe-error-message');
+
+    if (radios.length > 0) {
+        radios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'stripe') {
+                    if (stripeContainer) stripeContainer.style.display = 'block';
+                    if (paypalContainer) paypalContainer.style.display = 'none';
+                } else {
+                    if (stripeContainer) stripeContainer.style.display = 'none';
+                    if (paypalContainer) paypalContainer.style.display = 'block';
+                }
+            });
+        });
+    }
+
+    window.forceStripeRefresh = async function() {
+        if (!document.getElementById('stripe-payment-element')) return;
+        
+        try {
+            if (!stripe) {
+                stripe = Stripe(stripePublicKey);
+            }
+            
+            if (!window.currentGrandTotal) return;
+
+            const response = await fetch('/.netlify/functions/create-stripe-intent', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: window.currentGrandTotal })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Stripe Intent Error:", data);
+                return;
+            }
+
+            const appearance = {
+                theme: 'night',
+                variables: {
+                    colorPrimary: '#d4af37',
+                    colorBackground: '#111111',
+                    colorText: '#ffffff',
+                    colorDanger: '#ff4444',
+                    fontFamily: 'Lato, sans-serif',
+                }
+            };
+
+            elements = stripe.elements({ clientSecret: data.clientSecret, appearance });
+            
+            const peContainer = document.getElementById('stripe-payment-element');
+            peContainer.innerHTML = ''; // Clear old
+
+            paymentElement = elements.create('payment');
+            paymentElement.mount('#stripe-payment-element');
+
+        } catch (error) {
+            console.error('Failed to initialize Stripe:', error);
+        }
+    };
+
+    if (stripeSubmitBtn) {
+        stripeSubmitBtn.addEventListener('click', async () => {
+            if (!stripe || !elements) return;
+
+            // Validate form
+            const form = document.getElementById('checkout-form');
+            const checkbox = document.getElementById('policy-agreement');
+            
+            if (!form.checkValidity() || !checkbox.checked) {
+                document.getElementById('checkout-error-box').style.display = 'block';
+                window.scrollTo({ top: document.getElementById('checkout-error-box').offsetTop - 100, behavior: 'smooth' });
+                return;
+            }
+            document.getElementById('checkout-error-box').style.display = 'none';
+
+            stripeSubmitBtn.disabled = true;
+            stripeSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> PROCESSING...';
+            stripeError.style.display = 'none';
+
+            const firstName = document.querySelector('input[name="firstName"]')?.value || '';
+            const lastName = document.querySelector('input[name="lastName"]')?.value || '';
+            const email = document.querySelector('input[name="email"]')?.value || '';
+            const address = document.querySelector('input[name="address"]')?.value || '';
+            const city = document.querySelector('input[name="city"]')?.value || '';
+            const zip = document.querySelector('input[name="zip"]')?.value || '';
+            const stateVal = document.querySelector('select[name="state"]')?.value || '';
+            const countryVal = document.querySelector('select[name="country"]')?.value || 'US';
+            const phone = document.querySelector('input[name="phone"]')?.value || '';
+
+            // Save details to localStorage in case of 3D Secure redirect
+            localStorage.setItem('alquds_checkout_details', JSON.stringify({
+                firstName, lastName, email, address, city, zip, stateVal, countryVal, phone,
+                totalPaid: window.currentGrandTotal,
+                cart: JSON.parse(localStorage.getItem('alquds_cart') || '[]')
+            }));
+
+            const { error, paymentIntent } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: window.location.origin + '/order-confirmation.html',
+                    payment_method_data: {
+                        billing_details: {
+                            name: `${firstName} ${lastName}`.trim(),
+                            email: email,
+                            address: {
+                                line1: address,
+                                city: city,
+                                state: stateVal,
+                                postal_code: zip,
+                                country: countryVal === 'OTHER' ? 'US' : countryVal
+                            }
+                        }
+                    }
+                },
+                redirect: 'if_required'
+            });
+
+            if (error) {
+                stripeError.innerText = error.message;
+                stripeError.style.display = 'block';
+                stripeSubmitBtn.disabled = false;
+                stripeSubmitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> PAY NOW';
+            } else if (paymentIntent && (paymentIntent.status === 'requires_capture' || paymentIntent.status === 'succeeded')) {
+                const orderId = paymentIntent.id;
+
+                fetch('/.netlify/functions/send-order-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    keepalive: true,
+                    body: JSON.stringify({
+                        customerEmail: email,
+                        customerName: firstName,
+                        orderNumber: orderId,
+                        total: window.currentGrandTotal,
+                        cartItems: JSON.parse(localStorage.getItem('alquds_cart') || '[]'),
+                        shippingAddress: {
+                            name: `${firstName} ${lastName}`.trim(),
+                            address: address,
+                            city: city,
+                            state: stateVal,
+                            zip: zip,
+                            country: countryVal,
+                            phone: phone
+                        }
+                    })
+                }).catch(err => console.error("Email trigger failed", err));
+
+                localStorage.removeItem('alquds_cart');
+                localStorage.removeItem('alquds_checkout_details');
+                isRedirecting = true;
+                window.location.href = `order-confirmation.html?id=${orderId}&total=${window.currentGrandTotal}&method=Stripe`;
+            }
+        });
+    }
+
     // Run the integration on initial load
     window.forcePayPalRefresh();
+    window.forceStripeRefresh();
 }
