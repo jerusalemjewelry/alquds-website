@@ -568,6 +568,14 @@ function renderCheckout(cart) {
 
         } catch (error) {
             console.error('Failed to initialize Stripe:', error);
+            const peContainer = document.getElementById('stripe-payment-element');
+            if (peContainer) {
+                peContainer.innerHTML = `<div style="color: #ff4444; text-align: center; font-size: 0.9rem; padding: 10px;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Initialization Error:</b><br>
+                    ${error.message || error}<br><br>
+                    Are you testing this locally instead of on the live website?
+                </div>`;
+            }
         }
     };
 
