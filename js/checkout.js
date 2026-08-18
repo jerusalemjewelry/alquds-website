@@ -523,12 +523,17 @@ function renderCheckout(cart) {
         if (!document.getElementById('stripe-payment-element')) return;
         
         try {
+            alert("DEBUG: Starting Stripe initialization. Public Key: " + stripePublicKey.substring(0, 10) + "...");
             if (!stripe) {
                 stripe = Stripe(stripePublicKey);
             }
             
-            if (!window.currentGrandTotal) return;
+            if (!window.currentGrandTotal) {
+                alert("DEBUG: window.currentGrandTotal is empty!");
+                return;
+            }
 
+            alert("DEBUG: Fetching payment intent for amount: " + window.currentGrandTotal);
             const response = await fetch('/.netlify/functions/create-stripe-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -536,6 +541,7 @@ function renderCheckout(cart) {
             });
 
             const data = await response.json();
+            alert("DEBUG: Fetch returned status " + response.status);
 
             if (!response.ok) {
                 console.error("Stripe Intent Error:", data);
@@ -558,6 +564,7 @@ function renderCheckout(cart) {
                 }
             };
 
+            alert("DEBUG: Mounting Stripe elements...");
             elements = stripe.elements({ clientSecret: data.clientSecret, appearance });
             
             const peContainer = document.getElementById('stripe-payment-element');
@@ -565,8 +572,10 @@ function renderCheckout(cart) {
 
             paymentElement = elements.create('payment');
             paymentElement.mount('#stripe-payment-element');
+            alert("DEBUG: Stripe successfully mounted on the page.");
 
         } catch (error) {
+            alert("DEBUG CATCH ERROR: " + error.message);
             console.error('Failed to initialize Stripe:', error);
             const peContainer = document.getElementById('stripe-payment-element');
             if (peContainer) {
