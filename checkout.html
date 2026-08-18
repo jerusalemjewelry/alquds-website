@@ -347,32 +347,8 @@
                             </div>
 
                             <!-- Payment Method Selector -->
-                            <div style="margin-bottom: 20px; text-align: left; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 4px; border: 1px solid #333;">
-                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 10px;">
-                                    <input type="radio" name="paymentMethod" value="stripe" checked style="accent-color: var(--color-gold); width: 18px; height: 18px;">
-                                    <span style="font-size: 1rem; color: white; font-weight: bold;">Credit Card / Apple Pay <i class="fa-brands fa-apple" style="margin-left: 5px;"></i></span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                    <input type="radio" name="paymentMethod" value="paypal" style="accent-color: var(--color-gold); width: 18px; height: 18px;">
-                                    <span style="font-size: 1rem; color: white; font-weight: bold;">PayPal <i class="fa-brands fa-paypal" style="color: #00457C; margin-left: 5px;"></i></span>
-                                </label>
-                            </div>
-
-                            <!-- Stripe Container -->
-                            <div id="stripe-container">
-                                <div id="stripe-payment-element" style="background: white; padding: 15px; border-radius: 4px; margin-bottom: 15px;">
-                                    <!-- Stripe Elements will be mounted here -->
-                                </div>
-                                <button type="button" id="stripe-submit-btn" class="btn btn-primary" style="width: 100%; font-size: 1.2rem; padding: 12px; font-weight: bold; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px;">
-                                    <i class="fa-solid fa-lock"></i> PAY NOW
-                                </button>
-                                <div id="stripe-error-message" style="display: none; color: #ff4444; margin-top: 10px; font-size: 0.9rem; text-align: center;"></div>
-                            </div>
-
-                            <!-- PayPal Container -->
-                            <div id="paypal-container" style="display: none;">
-                                <div id="paypal-button-container"></div>
-                            </div>
+                            <!-- Payment Container -->
+                            <div id="paypal-button-container" style="margin-top: 20px;"></div>
                             
                             <div style="text-align: right; font-size: 0.7rem; color: #555; margin-top: 5px; margin-bottom: 5px;">v11.0</div>
 
@@ -407,12 +383,10 @@
     </footer>
 
     <script src="/js/app-v3.js?v=3"></script>
-    <!-- Stripe JS SDK -->
-    <script src="https://js.stripe.com/v3/"></script>
     <!-- PayPal JS SDK -->
     <script
         src="https://www.paypal.com/sdk/js?client-id=ARSQREN12OLoqH-YJg1upHA8e01ozDaOuM68-zolghKktdh0DG4x7-imjH6sdWDt15te4JUNxNCmGftw&currency=USD&intent=authorize&disable-funding=card,credit,paylater"></script>
-    <script src="/js/checkout.js?v=11"></script>
+    <script src="/js/checkout.js?v=12"></script>
 </body>
 
 </html>
