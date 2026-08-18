@@ -260,6 +260,78 @@
                     <button class="btn btn-primary" style="padding: 10px 15px;">GO</button>
                 </div>
             </div>
+            <div class="detail-row">
+                <span class="text-muted">Status</span>
+                <span class="text-white font-bold" style="color: #4CAF50;">Payment Successful</span>
+            </div>
+            <div class="detail-row">
+                <span class="text-muted">Estimated Processing</span>
+                <span class="text-white" id="processing-msg">1-2 Business Days</span>
+            </div>
+            <div class="detail-row">
+                <span class="text-muted">Shipping Method</span>
+                <span class="text-white">Express Insured ($50)</span>
+            </div>
+            <div class="detail-row">
+                <span class="text-muted">Payment Method</span>
+                <span class="text-white" id="payment-method-display">Credit Card</span>
+            </div>
+            <div class="detail-row"
+                style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3);">
+                <span class="text-white" style="font-size: 1.3rem;">Total Paid</span>
+                <span class="text-gold font-bold" style="font-size: 1.5rem;" id="total-paid">$0.00</span>
+            </div>
+
+            <p class="text-center text-muted mt-4 text-sm" style="font-size: 0.85rem; font-style: italic;">
+                *For your security, all high-value shipments require an adult signature upon delivery.
+            </p>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="index.html" class="btn btn-primary"
+                style="padding: 12px 30px; font-size: 1.1rem; border-radius: 4px;">RETURN TO HOME</a>
+            <a href="/" class="btn"
+                style="color: white; border: 1px solid white; background: transparent; padding: 12px 30px; font-size: 1.1rem; margin-left: 15px; border-radius: 4px;">CONTINUE
+                SHOPPING</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container grid grid-cols-4">
+            <div class="footer-col" style="grid-column: span 1.5;">
+                <h3>ALQUDS <span class="text-white">JEWELRY</span></h3>
+                <p style="color: #aaa; font-size: 0.9rem; max-width: 300px;">
+                    Crafting memories in 21k Gold. Over 20 years of excellence in custom jewelry design and retail.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Collections</h4>
+                <ul>
+                    <li><a href="/yellow-gold-jewelry/" class="text-muted">21k Gold</a></li>
+                    <li><a href="/white-gold-jewelry/" class="text-muted">18k Gold</a></li>
+                    <li><a href="/diamond-jewelry/" class="text-muted">Diamond Jewelry</a></li>
+                    <li><a href="/product-category/yellow-gold-name-plates/" class="text-muted">Custom Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="/about-us/" class="text-muted">Our Heritage (About Us)</a></li>
+                    <li><a href="/contact/" class="text-muted">Contact Us</a></li>
+                    <li><a href="/shipping-procedures/" class="text-muted">Shipping Policy</a></li>
+                    <li><a href="/faq/" class="text-muted">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="text-muted text-sm mb-3">Subscribe for exclusive offers.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Your Email"
+                        style="padding: 10px; background: #222; border: 1px solid #333; color: white; width: 100%;">
+                    <button class="btn btn-primary" style="padding: 10px 15px;">GO</button>
+                </div>
+            </div>
         </div>
         <div class="copyright text-center py-4"
             style="border-top: 1px solid #333; margin-top: 40px; color: var(--color-text-muted);">
@@ -272,26 +344,70 @@
     <script>
         // Extract parameters from Checkout redirection
         const urlParams = new URLSearchParams(window.location.search);
-        const orderId = urlParams.get('id');
-        const paymentMethod = urlParams.get('method');
-        const totalPaid = urlParams.get('total');
+        
+        // Handle Asynchronous Stripe Redirects (3D Secure / Apple Pay)
+        const stripeStatus = urlParams.get('redirect_status');
+        const stripeIntent = urlParams.get('payment_intent');
 
-        if (orderId) {
-            document.getElementById('order-id').innerText = orderId;
+        if (stripeStatus === 'succeeded' || stripeStatus === 'requires_capture') {
+            const checkoutDetails = JSON.parse(localStorage.getItem('alquds_checkout_details') || 'null');
+            if (checkoutDetails) {
+                document.getElementById('order-id').innerText = stripeIntent;
+                document.getElementById('payment-method-display').innerText = 'Credit Card / Apple Pay';
+                document.getElementById('total-paid').innerText = '$' + parseFloat(checkoutDetails.totalPaid).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                
+                // Fire confirmation email
+                fetch('/.netlify/functions/send-order-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    keepalive: true,
+                    body: JSON.stringify({
+                        customerEmail: checkoutDetails.email,
+                        customerName: checkoutDetails.firstName,
+                        orderNumber: stripeIntent,
+                        total: checkoutDetails.totalPaid,
+                        cartItems: checkoutDetails.cart || [],
+                        shippingAddress: {
+                            name: `${checkoutDetails.firstName} ${checkoutDetails.lastName}`.trim(),
+                            address: checkoutDetails.address,
+                            city: checkoutDetails.city,
+                            state: checkoutDetails.stateVal,
+                            zip: checkoutDetails.zip,
+                            country: checkoutDetails.countryVal,
+                            phone: checkoutDetails.phone
+                        }
+                    })
+                }).catch(err => console.error("Email trigger failed from redirect", err));
+
+                // Clear storage
+                localStorage.removeItem('alquds_checkout_details');
+                localStorage.removeItem('alquds_cart');
+            } else {
+                // Refresh case: already processed
+                document.getElementById('order-id').innerText = stripeIntent;
+                document.getElementById('payment-method-display').innerText = 'Credit Card / Apple Pay';
+            }
         } else {
-            document.getElementById('order-id').innerText = Math.floor(100000 + Math.random() * 900000);
-        }
+            // Standard synchronous redirects (PayPal or seamless Stripe)
+            const orderId = urlParams.get('id');
+            const paymentMethod = urlParams.get('method');
+            const totalPaid = urlParams.get('total');
 
-        if (paymentMethod) {
-            // "Credit Card" or "PayPal"
-            document.getElementById('payment-method-display').innerText = decodeURIComponent(paymentMethod);
-        }
+            if (orderId) {
+                document.getElementById('order-id').innerText = orderId;
+            } else if (!stripeIntent) {
+                document.getElementById('order-id').innerText = Math.floor(100000 + Math.random() * 900000);
+            }
 
-        if (totalPaid) {
-            // Format total exactly as $X,XXX.00
-            const floatTotal = parseFloat(totalPaid);
-            if (!isNaN(floatTotal)) {
-                document.getElementById('total-paid').innerText = '$' + floatTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            if (paymentMethod) {
+                document.getElementById('payment-method-display').innerText = decodeURIComponent(paymentMethod);
+            }
+
+            if (totalPaid) {
+                const floatTotal = parseFloat(totalPaid);
+                if (!isNaN(floatTotal)) {
+                    document.getElementById('total-paid').innerText = '$' + floatTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
             }
         }
 
