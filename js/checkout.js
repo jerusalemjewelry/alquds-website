@@ -495,8 +495,6 @@ function renderCheckout(cart) {
         }).render('#paypal-button-container');
     };
 
-    };
-
     // --- STRIPE INTEGRATION ---
     const stripePublicKey = 'pk_live_51TwpnVAIeLqFl7hQaCuhcDV5h6n4CxkOSfTlS8fQayo89ZH2QpyifO9ofXj1zspdl5dN0x5T3IbOYqQMzaFqiJXt00ygJzL0wZ';
     let stripe, elements, paymentElement;
