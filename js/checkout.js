@@ -539,6 +539,11 @@ function renderCheckout(cart) {
 
             if (!response.ok) {
                 console.error("Stripe Intent Error:", data);
+                const peContainer = document.getElementById('stripe-payment-element');
+                peContainer.innerHTML = `<div style="color: #ff4444; text-align: center; font-size: 0.9rem; padding: 10px;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Stripe Connection Error:</b><br>
+                    ${data.error || 'Could not connect to Stripe Backend. Did you upload create-stripe-intent.js and re-deploy Netlify after adding the Secret Key?'}
+                </div>`;
                 return;
             }
 
