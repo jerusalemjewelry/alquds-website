@@ -434,8 +434,13 @@ function renderCheckout(cart) {
             },
             onApprove: function (data, actions) {
                 return actions.order.authorize().then(function (details) {
-                    // Extract total
-                    const totalPaid = details.purchase_units[0].amount.value;
+                    // Extract total safely depending on PayPal's response structure
+                    const authAmount = details.purchase_units?.[0]?.payments?.authorizations?.[0]?.amount?.value;
+                    const captureAmount = details.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value;
+                    const rootAmount = details.purchase_units?.[0]?.amount?.value;
+                    const fallbackAmount = document.getElementById('checkout-total')?.innerText.replace(/[^0-9.]/g, '') || '0.00';
+                    
+                    const totalPaid = rootAmount || authAmount || captureAmount || fallbackAmount;
                     const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
 
                     // Re-extract form variables since they are block-scoped to createOrder
