@@ -1,0 +1,32 @@
+name: Monthly Website Backup
+
+on:
+  schedule:
+    # Runs at midnight (00:00 UTC) on the 1st day of every month
+    - cron: '0 0 1 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI for testing or immediate backups
+
+jobs:
+  create-backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create tags and releases
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get Current Date
+        id: date
+        run: |
+          echo "TAG_NAME=backup-$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          echo "RELEASE_TITLE=Backup - $(date +'%B %Y')" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$TAG_NAME" \
+            --title "$RELEASE_TITLE" \
+            --notes "Automated monthly backup of the Alquds Jewelry website code." \
+            --target main
