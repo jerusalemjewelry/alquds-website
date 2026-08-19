@@ -1,0 +1,43 @@
+name: Update Live Metal Prices
+
+on:
+  schedule:
+    # Runs at 13:00, 17:00, and 21:00 UTC (8:00 AM, 12:00 PM, 4:00 PM EST)
+    - cron: '0 13,17,21 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Required to push commits back to the repo
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch Live Prices
+        env:
+          GOLD_API_KEY: ${{ secrets.GOLD_API_KEY }}
+        run: |
+          node scripts/fetch-prices.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/pricing.json
+          
+          # Only commit and push if there are changes
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-update live metal prices"
+            git push
+          else
+            echo "No price changes to commit."
+          fi
