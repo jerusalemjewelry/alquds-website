@@ -1141,7 +1141,44 @@ async function initApp() {
         // 4. Render Catalog
         const catalogGrid = document.getElementById('product-grid');
         if (catalogGrid) {
-            renderCatalog();
+            const savedStateStr = sessionStorage.getItem('catalogState_' + window.location.pathname);
+            let targetPage = 1;
+            let targetScrollY = 0;
+            if (savedStateStr) {
+                const state = JSON.parse(savedStateStr);
+                targetPage = state.currentPage || 1;
+                targetScrollY = state.scrollY || 0;
+                sessionStorage.removeItem('catalogState_' + window.location.pathname);
+            }
+
+            renderCatalog(true);
+
+            if (targetPage > 1) {
+                for (let i = 2; i <= targetPage; i++) {
+                    currentPage = i;
+                    renderCatalog(false);
+                }
+            }
+
+            if (targetScrollY > 0) {
+                setTimeout(() => {
+                    window.scrollTo({ top: targetScrollY, behavior: 'instant' });
+                }, 100);
+            }
+
+            // Save state when clicking a product
+            if (!window.scrollListenerAttached) {
+                document.addEventListener('click', (e) => {
+                    const productLink = e.target.closest('a[href^="/product/"]');
+                    if (productLink) {
+                        sessionStorage.setItem('catalogState_' + window.location.pathname, JSON.stringify({
+                            currentPage: currentPage,
+                            scrollY: window.scrollY
+                        }));
+                    }
+                });
+                window.scrollListenerAttached = true;
+            }
         }
 
         // 5. Render Product Detail
