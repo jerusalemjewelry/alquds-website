@@ -2034,6 +2034,35 @@ function renderProductDetail() {
             </div>
         </div>
     `;
+
+    // Inject JSON-LD Structured Data for Google Shopping & AI SEO
+    const scriptId = 'product-json-ld';
+    let oldScript = document.getElementById(scriptId);
+    if (oldScript) oldScript.remove();
+    
+    const isOutOfStock = product.outOfStock === true;
+    const isDynamic = product.isDynamic !== false;
+    
+    const jsonLd = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": product.name,
+        "image": product.image ? ("https://alqudsjewelry.com" + product.image.replace('/.netlify/images?url=', '')) : "",
+        "description": product.description || "Premium Middle Eastern Gold Jewelry",
+        "offers": {
+            "@type": "Offer",
+            "url": window.location.href,
+            "priceCurrency": "USD",
+            "price": product.price || 0,
+            "availability": isOutOfStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
+        }
+    };
+    
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = scriptId;
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
 }
 
 // Name Plates Modal Functions
