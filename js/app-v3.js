@@ -2040,7 +2040,6 @@ function renderProductDetail() {
     let oldScript = document.getElementById(scriptId);
     if (oldScript) oldScript.remove();
     
-    const isOutOfStock = product.outOfStock === true;
     const isDynamic = product.isDynamic !== false;
     
     const jsonLd = {
