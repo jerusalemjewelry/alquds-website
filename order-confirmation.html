@@ -345,16 +345,14 @@
         // Extract parameters from Checkout redirection
         const urlParams = new URLSearchParams(window.location.search);
         
-        // Handle Asynchronous Stripe Redirects (Stripe Checkout / Apple Pay)
-        const stripeSessionId = urlParams.get('session_id');
+        // Handle Asynchronous Stripe Redirects (3D Secure / Apple Pay)
         const stripeStatus = urlParams.get('redirect_status');
         const stripeIntent = urlParams.get('payment_intent');
 
-        if (stripeSessionId || stripeStatus === 'succeeded' || stripeStatus === 'requires_capture') {
+        if (stripeStatus === 'succeeded' || stripeStatus === 'requires_capture') {
             const checkoutDetails = JSON.parse(localStorage.getItem('alquds_checkout_details') || 'null');
             if (checkoutDetails) {
-                const finalOrderId = stripeSessionId ? stripeSessionId.substring(0, 14) : (stripeIntent || Math.floor(100000 + Math.random() * 900000));
-                document.getElementById('order-id').innerText = finalOrderId;
+                document.getElementById('order-id').innerText = stripeIntent;
                 document.getElementById('payment-method-display').innerText = 'Credit Card / Apple Pay';
                 document.getElementById('total-paid').innerText = '$' + parseFloat(checkoutDetails.totalPaid).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 
@@ -366,7 +364,7 @@
                     body: JSON.stringify({
                         customerEmail: checkoutDetails.email,
                         customerName: checkoutDetails.firstName,
-                        orderNumber: finalOrderId,
+                        orderNumber: stripeIntent,
                         total: checkoutDetails.totalPaid,
                         cartItems: checkoutDetails.cart || [],
                         shippingAddress: {
@@ -386,8 +384,7 @@
                 localStorage.removeItem('alquds_cart');
             } else {
                 // Refresh case: already processed
-                const finalOrderId = stripeSessionId ? stripeSessionId.substring(0, 14) : (stripeIntent || Math.floor(100000 + Math.random() * 900000));
-                document.getElementById('order-id').innerText = finalOrderId;
+                document.getElementById('order-id').innerText = stripeIntent;
                 document.getElementById('payment-method-display').innerText = 'Credit Card / Apple Pay';
             }
         } else {
