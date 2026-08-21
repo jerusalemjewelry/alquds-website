@@ -1,4 +1,4 @@
-﻿// Register Default Trusted Types Policy for DOM Compatibility
+// Register Default Trusted Types Policy for DOM Compatibility
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
     if (!window.trustedTypes.defaultPolicy) {
         window.trustedTypes.createPolicy('default', {
@@ -398,7 +398,7 @@ function renderCheckout(cart) {
                             total: details.purchase_units[0].amount.value
                         })
                     }).catch(e => console.error(e));
-                    window.location.href = '/order-confirmation.html?order=' + orderId;
+                    window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + details.purchase_units[0].amount.value + '&method=PayPal';
                 });
             },
             onError: function (err) {
