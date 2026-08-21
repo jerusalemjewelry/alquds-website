@@ -15,11 +15,14 @@ exports.handler = async (event) => {
                   '</ul>';
     }
 
+    const itemIds = cartItems && cartItems.length > 0 ? cartItems.map(item => item.id || item.sku || 'N/A').join(', ') : 'N/A';
+
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #333;">Thank you for your order, ${customerName}! 🎉</h2>
         <p style="color: #555; font-size: 16px;">We've successfully received your order and our team is getting it ready for you.</p>
         <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="margin: 5px 0;"><strong>Item ID(s):</strong> ${itemIds}</p>
           <p style="margin: 5px 0;"><strong>Order Number:</strong> #${orderNumber}</p>
           <p style="margin: 5px 0;"><strong>Total Paid:</strong> $${total}</p>
           ${itemsHtml}
