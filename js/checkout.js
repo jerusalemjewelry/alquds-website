@@ -1,4 +1,4 @@
-// Register Default Trusted Types Policy for DOM Compatibility
+﻿// Register Default Trusted Types Policy for DOM Compatibility
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
     if (!window.trustedTypes.defaultPolicy) {
         window.trustedTypes.createPolicy('default', {
@@ -297,85 +297,26 @@ function renderCheckout(cart) {
         window.paypal.Buttons({
             onClick: function (data, actions) {
                 const form = document.getElementById('checkout-form');
-                const errorBox = document.getElementById('checkout-error-box');
                 const policyAgreement = document.getElementById('policy-agreement');
-
-                // If the form is missing required info...
                 if (form && !form.checkValidity()) {
-                    // Show our Custom Red Error Box
-                    if (errorBox) {
-                        errorBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i> <strong>Oops!</strong> Looks like you forgot to fill out your Personal & Shipping info. Please complete it before paying.`;
-                        errorBox.style.display = 'block';
-                    }
-
-                    // Actually highlight the missing fields for them
                     form.reportValidity();
-
-                    // Crucial: Reject the paypal action so it gracefully cancels the window 
                     return actions.reject();
                 }
-
-                // If the policy agreement is not checked...
                 if (policyAgreement && !policyAgreement.checked) {
-                    if (errorBox) {
-                        errorBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i> You must agree to the Shipping & Return policies before placing your order.`;
-                        errorBox.style.display = 'block';
-                    }
                     policyAgreement.reportValidity();
                     return actions.reject();
                 }
-
-                // If everything is good, hide the error box if it was showing
-                if (errorBox) errorBox.style.display = 'none';
-
-                // Show the reset button when they click a payment option
-                if (resetBtn) resetBtn.style.display = 'block';
                 return actions.resolve();
             },
             onCancel: function (data) {
-                // Hide it if they cancel/close the popup window
-                if (resetBtn) resetBtn.style.display = 'none';
+                // Do nothing
             },
             createOrder: function (data, actions) {
-                // Ensure form validates before launching paypal
                 const form = document.getElementById('checkout-form');
-                if (form && !form.checkValidity()) {
-                    form.reportValidity();
-                    return false; // Prevent PayPal window if form is invalid
-                }
-
-                const policyAgreement = document.getElementById('policy-agreement');
-                if (policyAgreement && !policyAgreement.checked) {
-                    policyAgreement.reportValidity();
-                    return false;
-                }
-
-                // Dynamically fetch the absolute latest accurate total straight from the DOM 
-                // right at the second the PayPal window launches
-                const currentTotalEl = document.getElementById('checkout-total');
-                let freshTotal = "0.00";
-
-                if (currentTotalEl) {
-                    // Extract the raw number from text like "$8,987.40"
-                    const rawText = currentTotalEl.innerText.replace(/[^0-9.]/g, '');
-                    freshTotal = parseFloat(rawText || 0).toFixed(2);
-                }
-
-                // Extract user data from the form to auto-fill the PayPal/Credit Card window
-                const firstName = document.querySelector('input[name="firstName"]')?.value || '';
-                const lastName = document.querySelector('input[name="lastName"]')?.value || '';
-                const email = document.querySelector('input[name="email"]')?.value || '';
-                const phone = document.querySelector('input[name="phone"]')?.value || '';
-                const address = document.querySelector('input[name="address"]')?.value || '';
-                const city = document.querySelector('input[name="city"]')?.value || '';
-                const zip = document.querySelector('input[name="zip"]')?.value || '';
-                const stateDropdown = document.querySelector('select[name="state"]');
-                const stateVal = stateDropdown ? stateDropdown.value : '';
-                const countryDropdown = document.querySelector('select[name="country"]');
-                const countryVal = countryDropdown ? countryDropdown.value : 'US';
-
-                // Calculate Strict PayPal Breakdown
+                if (form && !form.checkValidity()) return false;
+                
                 let calcItemTotal = 0;
+                let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
                 const paypalItems = cart.map(item => {
                     const unitPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
                     const qty = parseInt(item.quantity) || 1;
@@ -387,21 +328,29 @@ function renderCheckout(cart) {
                         quantity: qty.toString()
                     };
                 });
-                const domShipping = parseFloat(document.getElementById('checkout-shipping-cost')?.innerText.replace(/[^0-9.]/g, '') || 0);
-                const domTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.]/g, '') || 0);
-                const domFee = parseFloat(document.getElementById('checkout-fee-amount')?.innerText.replace(/[^0-9.]/g, '') || 0);
+                
+                const domShippingStr = document.getElementById('checkout-shipping-cost')?.innerText || '0';
+                const domShipping = domShippingStr.includes('Free') ? 0 : parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0);
+                const domTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0);
+                const domFee = 0; // No wire transfer fees when using PayPal/Credit Card
                 const preciseTotal = (calcItemTotal + domShipping + domTax + domFee).toFixed(2);
-
+                
+                const firstName = document.querySelector('input[name="firstName"]')?.value || '';
+                const lastName = document.querySelector('input[name="lastName"]')?.value || '';
+                const email = document.querySelector('input[name="email"]')?.value || '';
+                const address = document.querySelector('input[name="address"]')?.value || '';
+                const city = document.querySelector('input[name="city"]')?.value || '';
+                const zip = document.querySelector('input[name="zip"]')?.value || '';
+                const stateDropdown = document.querySelector('select[name="state"]');
+                const stateVal = stateDropdown ? stateDropdown.value : '';
+                const countryDropdown = document.querySelector('select[name="country"]');
+                const countryVal = countryDropdown ? countryDropdown.value : 'US';
+                
                 return actions.order.create({
                     intent: 'AUTHORIZE',
-                    application_context: {
-                        shipping_preference: 'SET_PROVIDED_ADDRESS'
-                    },
+                    application_context: { shipping_preference: 'SET_PROVIDED_ADDRESS' },
                     payer: {
-                        name: {
-                            given_name: firstName,
-                            surname: lastName
-                        },
+                        name: { given_name: firstName, surname: lastName },
                         email_address: email || undefined
                     },
                     purchase_units: [{
@@ -411,22 +360,18 @@ function renderCheckout(cart) {
                             breakdown: {
                                 item_total: { currency_code: 'USD', value: calcItemTotal.toFixed(2) },
                                 shipping: { currency_code: 'USD', value: domShipping.toFixed(2) },
-                                tax_total: { currency_code: 'USD', value: domTax.toFixed(2) },
-                                handling: { currency_code: 'USD', value: domFee.toFixed(2) }
+                                tax_total: { currency_code: 'USD', value: domTax.toFixed(2) }
                             }
                         },
                         items: paypalItems,
-                        description: cart.map(i => `${i.quantity}x ${i.name}`).join(", ").substring(0, 127),
                         shipping: {
-                            name: {
-                                full_name: `${firstName} ${lastName}`.trim() || 'Customer'
-                            },
+                            name: { full_name: (firstName + " " + lastName).trim() || 'Customer' },
                             address: {
                                 address_line_1: address || 'N/A',
                                 admin_area_2: city || 'N/A',
                                 admin_area_1: stateVal || 'N/A',
                                 postal_code: zip || '00000',
-                                country_code: (countryVal === 'OTHER' ? 'US' : countryVal) || 'US'
+                                country_code: countryVal === 'OTHER' ? 'US' : countryVal
                             }
                         }
                     }]
@@ -434,28 +379,13 @@ function renderCheckout(cart) {
             },
             onApprove: function (data, actions) {
                 return actions.order.authorize().then(function (details) {
-                    // Extract total safely depending on PayPal's response structure
-                    const authAmount = details.purchase_units?.[0]?.payments?.authorizations?.[0]?.amount?.value;
-                    const captureAmount = details.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value;
-                    const rootAmount = details.purchase_units?.[0]?.amount?.value;
-                    const fallbackAmount = document.getElementById('checkout-total')?.innerText.replace(/[^0-9.]/g, '') || '0.00';
-                    
-                    const totalPaid = rootAmount || authAmount || captureAmount || fallbackAmount;
                     const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
-
-                    // Re-extract form variables since they are block-scoped to createOrder
-                    const firstName = document.querySelector('input[name="firstName"]')?.value || '';
-                    const lastName = document.querySelector('input[name="lastName"]')?.value || '';
-                    const phone = document.querySelector('input[name="phone"]')?.value || '';
-                    const address = document.querySelector('input[name="address"]')?.value || '';
-                    const city = document.querySelector('input[name="city"]')?.value || '';
-                    const zip = document.querySelector('input[name="zip"]')?.value || '';
-                    const stateDropdown = document.querySelector('select[name="state"]');
-                    const stateVal = stateDropdown ? stateDropdown.value : '';
-                    const countryDropdown = document.querySelector('select[name="country"]');
-                    const countryVal = countryDropdown ? countryDropdown.value : 'US';
-
-                    // Send Confirmation Email automatically in the background (keepalive ensures it sends even if page unloads)
+                    localStorage.setItem('alquds_latest_order', JSON.stringify({
+                        id: orderId,
+                        method: 'PayPal/Credit Card',
+                        status: 'Authorized',
+                        details: details
+                    }));
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -464,33 +394,21 @@ function renderCheckout(cart) {
                             customerEmail: details.payer.email_address,
                             customerName: details.payer.name.given_name,
                             orderNumber: orderId,
-                            total: totalPaid,
-                            cartItems: cart,
-                            shippingAddress: {
-                                name: `${firstName} ${lastName}`.trim(),
-                                address: address,
-                                city: city,
-                                state: stateVal,
-                                zip: zip,
-                                country: countryVal,
-                                phone: phone
-                            }
+                            cart: JSON.parse(localStorage.getItem('alquds_cart')) || [],
+                            total: details.purchase_units[0].amount.value
                         })
-                    }).catch(err => console.error("Email trigger failed", err));
-
-                    // Clear the cart and redirect to order confirmation INSTANTLY
-                    localStorage.removeItem('alquds_cart');
-                    isRedirecting = true;
-                    window.location.href = `order-confirmation.html?id=${orderId}&total=${totalPaid}&method=PayPal`;
+                    }).catch(e => console.error(e));
+                    window.location.href = '/success.html?order=' + orderId;
                 });
             },
             onError: function (err) {
-                if (isRedirecting) return; // Ignore errors caused by page unload during success redirect
-                console.error("PayPal Error:", err);
-                alert("There was an error processing your PayPal payment. Please try again.");
+                console.error('PayPal Error:', err);
+                alert('PayPal Error: ' + (err.message || 'There was an issue processing your payment. Please try again.'));
             }
         }).render('#paypal-button-container');
     };
+
+
 
     // Run the integration on initial load
     window.forcePayPalRefresh();
