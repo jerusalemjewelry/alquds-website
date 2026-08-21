@@ -11,11 +11,11 @@ exports.handler = async (event) => {
       itemsHtml = '<hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">' + 
                   '<h3 style="margin: 0 0 10px 0; font-size: 16px;">Order Summary:</h3>' + 
                   '<ul style="margin: 0; padding-left: 20px;">' + 
-                  cartItems.map(item => `<li style="margin-bottom: 5px; color: #555;">${item.quantity}x <strong>${item.name}</strong> (Item ID: ${item.id || item.sku || 'N/A'}) - $${parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")).toFixed(2)}</li>`).join('') + 
+                  cartItems.map(item => `<li style="margin-bottom: 5px; color: #555;">${item.quantity}x <strong>${item.name}</strong> (Item ID: ${item.itemNo || item.id || item.sku || 'N/A'}) - $${parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")).toFixed(2)}</li>`).join('') + 
                   '</ul>';
     }
 
-    const itemIds = cartItems && cartItems.length > 0 ? cartItems.map(item => item.id || item.sku || 'N/A').join(', ') : 'N/A';
+    const itemIds = cartItems && cartItems.length > 0 ? cartItems.map(item => item.itemNo || item.id || item.sku || 'N/A').join(', ') : 'N/A';
 
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
