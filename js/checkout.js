@@ -394,7 +394,7 @@ function renderCheckout(cart) {
                             customerEmail: details.payer.email_address,
                             customerName: details.payer.name.given_name,
                             orderNumber: orderId,
-                            cart: JSON.parse(localStorage.getItem('alquds_cart')) || [],
+                            cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
                             total: details.purchase_units[0].amount.value
                         })
                     }).catch(e => console.error(e));
