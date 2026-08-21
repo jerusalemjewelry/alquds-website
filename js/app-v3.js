@@ -1445,7 +1445,7 @@ function renderCatalog(reset = true) {
             title.parentNode.style.flexDirection = 'column';
             title.insertAdjacentHTML('afterend', `
                 <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
-                    <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
+                    <a href="/ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
                         <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
                     </a>
                 </div>
@@ -1457,7 +1457,7 @@ function renderCatalog(reset = true) {
         if (sidebar) {
             sidebar.insertAdjacentHTML('beforeend', `
                 <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
-                    <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated" style="font-size: 1rem !important;">
+                    <a href="/ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated" style="font-size: 1rem !important;">
                         <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
                     </a>
                 </div>
@@ -1469,7 +1469,7 @@ function renderCatalog(reset = true) {
             title.parentNode.style.flexDirection = 'column';
             title.insertAdjacentHTML('afterend', `
                 <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
-                    <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                    <a href="/necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
                         <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
                     </a>
                 </div>
@@ -1481,7 +1481,7 @@ function renderCatalog(reset = true) {
         if (sidebar) {
             sidebar.insertAdjacentHTML('beforeend', `
                 <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
-                    <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated" style="font-size: 1rem !important;">
+                    <a href="/necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated" style="font-size: 1rem !important;">
                         <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
                     </a>
                 </div>
@@ -1493,7 +1493,7 @@ function renderCatalog(reset = true) {
             title.parentNode.style.flexDirection = 'column';
             title.insertAdjacentHTML('afterend', `
                 <div id="catalog-sizer-link" style="text-align: center; margin-top: 12px; margin-bottom: 12px; display: flex; justify-content: center; width: 100%;">
-                    <a href="wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                    <a href="/wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
                         <i class="fa-solid fa-ruler-horizontal"></i> Wrist Sizing Guide
                     </a>
                 </div>
@@ -1505,7 +1505,7 @@ function renderCatalog(reset = true) {
         if (sidebar) {
             sidebar.insertAdjacentHTML('beforeend', `
                 <div id="sidebar-sizer-link" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: left; width: 100%;">
-                    <a href="wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated" style="font-size: 1rem !important;">
+                    <a href="/wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated" style="font-size: 1rem !important;">
                         <i class="fa-solid fa-ruler-horizontal"></i> Wrist Sizing Guide
                     </a>
                 </div>
@@ -1870,7 +1870,7 @@ function renderProductDetail() {
     if (isRingOrBand) {
         sizerLinkHTML = `
             <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
-                <a href="ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
+                <a href="/ring-sizer/index.html" target="_blank" class="ring-sizer-link-integrated">
                     <i class="fa-solid fa-ruler-horizontal"></i> Ring Sizing Guide
                 </a>
             </div>
@@ -1878,7 +1878,7 @@ function renderProductDetail() {
     } else if (isNecklaceOrChain) {
         sizerLinkHTML = `
             <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
-                <a href="necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                <a href="/necklace-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
                     <i class="fa-solid fa-ruler-horizontal"></i> Necklace Sizing Guide
                 </a>
             </div>
@@ -1886,7 +1886,7 @@ function renderProductDetail() {
     } else if (isWristwear) {
         sizerLinkHTML = `
             <div style="margin-top: -10px; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; width: 100%;">
-                <a href="wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
+                <a href="/wrist-sizer/index.html" target="_blank" class="necklace-sizer-link-integrated">
                     <i class="fa-solid fa-ruler-horizontal"></i> Wrist Sizing Guide
                 </a>
             </div>
