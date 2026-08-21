@@ -693,10 +693,18 @@ function renderCheckout(cart) {
         stripeBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             
-            // Validate terms
-            const termsCheckbox = document.getElementById('termsCheckbox');
-            if (termsCheckbox && !termsCheckbox.checked) {
-                alert("Please agree to the Terms & Conditions before checking out.");
+            // Validate entire form first
+            const form = document.getElementById('checkout-form');
+            if (form && !form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Validate terms (Correct ID is policy-agreement)
+            const policyAgreement = document.getElementById('policy-agreement');
+            if (policyAgreement && !policyAgreement.checked) {
+                policyAgreement.reportValidity();
+                alert("Please agree to the Shipping & Return policies before checking out.");
                 return;
             }
             
