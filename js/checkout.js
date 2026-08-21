@@ -492,6 +492,269 @@ function renderCheckout(cart) {
         }).render('#paypal-button-container');
     };
 
+    // --- STRIPE CHECKOUT LOGIC ---
+    const stripeBtn = document.getElementById('stripe-checkout-btn');
+    if (stripeBtn) {
+        stripeBtn.addEventListener('click', async (e) => {
+                if (form && !form.checkValidity()) {
+                    // Show our Custom Red Error Box
+                    if (errorBox) {
+                        errorBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i> <strong>Oops!</strong> Looks like you forgot to fill out your Personal & Shipping info. Please complete it before paying.`;
+                        errorBox.style.display = 'block';
+                    }
+
+                    // Actually highlight the missing fields for them
+                    form.reportValidity();
+
+                    // Crucial: Reject the paypal action so it gracefully cancels the window 
+                    return actions.reject();
+                }
+
+                // If the policy agreement is not checked...
+                if (policyAgreement && !policyAgreement.checked) {
+                    if (errorBox) {
+                        errorBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i> You must agree to the Shipping & Return policies before placing your order.`;
+                        errorBox.style.display = 'block';
+                    }
+                    policyAgreement.reportValidity();
+                    return actions.reject();
+                }
+
+                // If everything is good, hide the error box if it was showing
+                if (errorBox) errorBox.style.display = 'none';
+
+                // Show the reset button when they click a payment option
+                if (resetBtn) resetBtn.style.display = 'block';
+                return actions.resolve();
+            },
+            onCancel: function (data) {
+                // Hide it if they cancel/close the popup window
+                if (resetBtn) resetBtn.style.display = 'none';
+            },
+            createOrder: function (data, actions) {
+                // Ensure form validates before launching paypal
+                const form = document.getElementById('checkout-form');
+                if (form && !form.checkValidity()) {
+                    form.reportValidity();
+                    return false; // Prevent PayPal window if form is invalid
+                }
+
+                const policyAgreement = document.getElementById('policy-agreement');
+                if (policyAgreement && !policyAgreement.checked) {
+                    policyAgreement.reportValidity();
+                    return false;
+                }
+
+                // Dynamically fetch the absolute latest accurate total straight from the DOM 
+                // right at the second the PayPal window launches
+                const currentTotalEl = document.getElementById('checkout-total');
+                let freshTotal = "0.00";
+
+                if (currentTotalEl) {
+                    // Extract the raw number from text like "$8,987.40"
+                    const rawText = currentTotalEl.innerText.replace(/[^0-9.]/g, '');
+                    freshTotal = parseFloat(rawText || 0).toFixed(2);
+                }
+
+                // Extract user data from the form to auto-fill the PayPal/Credit Card window
+                const firstName = document.querySelector('input[name="firstName"]')?.value || '';
+                const lastName = document.querySelector('input[name="lastName"]')?.value || '';
+                const email = document.querySelector('input[name="email"]')?.value || '';
+                const phone = document.querySelector('input[name="phone"]')?.value || '';
+                const address = document.querySelector('input[name="address"]')?.value || '';
+                const city = document.querySelector('input[name="city"]')?.value || '';
+                const zip = document.querySelector('input[name="zip"]')?.value || '';
+                const stateDropdown = document.querySelector('select[name="state"]');
+                const stateVal = stateDropdown ? stateDropdown.value : '';
+                const countryDropdown = document.querySelector('select[name="country"]');
+                const countryVal = countryDropdown ? countryDropdown.value : 'US';
+
+                // Calculate Strict PayPal Breakdown
+                let calcItemTotal = 0;
+                const paypalItems = cart.map(item => {
+                    const unitPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+                    const qty = parseInt(item.quantity) || 1;
+                    calcItemTotal += (unitPrice * qty);
+                    return {
+                        name: item.name.substring(0, 127),
+                        sku: (item.id || item.sku || 'N/A').toString().substring(0, 127),
+                        unit_amount: { currency_code: 'USD', value: unitPrice.toFixed(2) },
+                        quantity: qty.toString()
+                    };
+                });
+                const domShipping = parseFloat(document.getElementById('checkout-shipping-cost')?.innerText.replace(/[^0-9.]/g, '') || 0);
+                const domTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.]/g, '') || 0);
+                const domFee = parseFloat(document.getElementById('checkout-fee-amount')?.innerText.replace(/[^0-9.]/g, '') || 0);
+                const preciseTotal = (calcItemTotal + domShipping + domTax + domFee).toFixed(2);
+
+                return actions.order.create({
+                    intent: 'AUTHORIZE',
+                    application_context: {
+                        shipping_preference: 'SET_PROVIDED_ADDRESS'
+                    },
+                    payer: {
+                        name: {
+                            given_name: firstName,
+                            surname: lastName
+                        },
+                        email_address: email || undefined
+                    },
+                    purchase_units: [{
+                        amount: {
+                            currency_code: 'USD',
+                            value: preciseTotal,
+                            breakdown: {
+                                item_total: { currency_code: 'USD', value: calcItemTotal.toFixed(2) },
+                                shipping: { currency_code: 'USD', value: domShipping.toFixed(2) },
+                                tax_total: { currency_code: 'USD', value: domTax.toFixed(2) },
+                                handling: { currency_code: 'USD', value: domFee.toFixed(2) }
+                            }
+                        },
+                        items: paypalItems,
+                        description: cart.map(i => `${i.quantity}x ${i.name}`).join(", ").substring(0, 127),
+                        shipping: {
+                            name: {
+                                full_name: `${firstName} ${lastName}`.trim() || 'Customer'
+                            },
+                            address: {
+                                address_line_1: address || 'N/A',
+                                admin_area_2: city || 'N/A',
+                                admin_area_1: stateVal || 'N/A',
+                                postal_code: zip || '00000',
+                                country_code: (countryVal === 'OTHER' ? 'US' : countryVal) || 'US'
+                            }
+                        }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.authorize().then(function (details) {
+                    // Extract total safely depending on PayPal's response structure
+                    const authAmount = details.purchase_units?.[0]?.payments?.authorizations?.[0]?.amount?.value;
+                    const captureAmount = details.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value;
+                    const rootAmount = details.purchase_units?.[0]?.amount?.value;
+                    const fallbackAmount = document.getElementById('checkout-total')?.innerText.replace(/[^0-9.]/g, '') || '0.00';
+                    
+                    const totalPaid = rootAmount || authAmount || captureAmount || fallbackAmount;
+                    const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
+
+                    // Re-extract form variables since they are block-scoped to createOrder
+                    const firstName = document.querySelector('input[name="firstName"]')?.value || '';
+                    const lastName = document.querySelector('input[name="lastName"]')?.value || '';
+                    const phone = document.querySelector('input[name="phone"]')?.value || '';
+                    const address = document.querySelector('input[name="address"]')?.value || '';
+                    const city = document.querySelector('input[name="city"]')?.value || '';
+                    const zip = document.querySelector('input[name="zip"]')?.value || '';
+                    const stateDropdown = document.querySelector('select[name="state"]');
+                    const stateVal = stateDropdown ? stateDropdown.value : '';
+                    const countryDropdown = document.querySelector('select[name="country"]');
+                    const countryVal = countryDropdown ? countryDropdown.value : 'US';
+
+                    // Send Confirmation Email automatically in the background (keepalive ensures it sends even if page unloads)
+                    fetch('/.netlify/functions/send-order-email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        keepalive: true,
+                        body: JSON.stringify({
+                            customerEmail: details.payer.email_address,
+                            customerName: details.payer.name.given_name,
+                            orderNumber: orderId,
+                            total: totalPaid,
+                            cartItems: cart,
+                            shippingAddress: {
+                                name: `${firstName} ${lastName}`.trim(),
+                                address: address,
+                                city: city,
+                                state: stateVal,
+                                zip: zip,
+                                country: countryVal,
+                                phone: phone
+                            }
+                        })
+                    }).catch(err => console.error("Email trigger failed", err));
+
+                    // Clear the cart and redirect to order confirmation INSTANTLY
+                    localStorage.removeItem('alquds_cart');
+                    isRedirecting = true;
+                    window.location.href = `order-confirmation.html?id=${orderId}&total=${totalPaid}&method=PayPal`;
+                });
+            },
+            onError: function (err) {
+                if (isRedirecting) return; // Ignore errors caused by page unload during success redirect
+                console.error("PayPal Error:", err);
+                alert("There was an error processing your PayPal payment. Please try again.");
+            }
+        }).render('#paypal-button-container');
+    };
+
+    // --- STRIPE CHECKOUT LOGIC ---
+    const stripeBtn = document.getElementById('stripe-checkout-btn');
+    if (stripeBtn) {
+        stripeBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            // Validate terms
+            const termsCheckbox = document.getElementById('termsCheckbox');
+            if (termsCheckbox && !termsCheckbox.checked) {
+                alert("Please agree to the Terms & Conditions before checking out.");
+                return;
+            }
+            
+            stripeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading secure checkout...';
+            stripeBtn.disabled = true;
+            
+            try {
+                // Save customer details for the order confirmation email later
+                const firstName = document.querySelector('input[name="firstName"]')?.value || '';
+                const lastName = document.querySelector('input[name="lastName"]')?.value || '';
+                const email = document.querySelector('input[name="email"]')?.value || '';
+                const phone = document.querySelector('input[name="phone"]')?.value || '';
+                const address = document.querySelector('input[name="address"]')?.value || '';
+                const city = document.querySelector('input[name="city"]')?.value || '';
+                const zip = document.querySelector('input[name="zip"]')?.value || '';
+                const stateDropdown = document.querySelector('select[name="state"]');
+                const stateVal = stateDropdown ? stateDropdown.value : '';
+                const countryDropdown = document.querySelector('select[name="country"]');
+                const countryVal = countryDropdown ? countryDropdown.value : 'US';
+                const totalPaid = document.getElementById('checkout-total')?.innerText.replace(/[^0-9.]/g, '') || '0.00';
+
+                localStorage.setItem('alquds_checkout_details', JSON.stringify({
+                    firstName, lastName, email, phone, address, city, zip, stateVal, countryVal, totalPaid, cart
+                }));
+
+                // Send cart to Netlify backend to create a secure Stripe Session
+                const response = await fetch('/.netlify/functions/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        cart: cart,
+                        successUrl: window.location.origin + '/order-confirmation.html?session_id={CHECKOUT_SESSION_ID}',
+                        cancelUrl: window.location.href
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                if (data.url) {
+                    // Redirect to Stripe Hosted Checkout Page
+                    window.location.href = data.url;
+                } else {
+                    throw new Error("No checkout URL returned from server.");
+                }
+                
+            } catch (err) {
+                console.error("Stripe Error:", err);
+                alert("Error launching secure checkout: " + err.message);
+                stripeBtn.innerHTML = '<i class="fa-regular fa-credit-card"></i> Checkout with Stripe';
+                stripeBtn.disabled = false;
+            }
+        });
+    }
+
     // Run the integration on initial load
     window.forcePayPalRefresh();
 }
