@@ -38,6 +38,9 @@ exports.handler = async (event, context) => {
             payment_method_types: ['card', 'link'], // 'link' includes Apple Pay / Google Pay if enabled in Stripe
             line_items: lineItems,
             mode: 'payment',
+            payment_intent_data: {
+                capture_method: 'manual', // Ensures it only AUTHORIZES the card, so you can void or capture exact amounts later
+            },
             success_url: successUrl,
             cancel_url: cancelUrl,
             shipping_address_collection: {
