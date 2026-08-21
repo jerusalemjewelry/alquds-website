@@ -398,7 +398,7 @@ function renderCheckout(cart) {
                             total: details.purchase_units[0].amount.value
                         })
                     }).catch(e => console.error(e));
-                    window.location.href = '/success.html?order=' + orderId;
+                    window.location.href = '/order-confirmation.html?order=' + orderId;
                 });
             },
             onError: function (err) {
