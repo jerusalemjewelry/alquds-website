@@ -323,7 +323,7 @@ function renderCheckout(cart) {
                     calcItemTotal += (unitPrice * qty);
                     return {
                         name: item.name.substring(0, 127),
-                        sku: (item.id || item.sku || 'N/A').toString().substring(0, 127),
+                        sku: (item.itemNo || item.id || item.sku || 'N/A').toString().substring(0, 127),
                         unit_amount: { currency_code: 'USD', value: unitPrice.toFixed(2) },
                         quantity: qty.toString()
                     };
@@ -332,7 +332,8 @@ function renderCheckout(cart) {
                 const domShippingStr = document.getElementById('checkout-shipping-cost')?.innerText || '0';
                 const domShipping = domShippingStr.includes('Free') ? 0 : parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0);
                 const domTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0);
-                const domFee = 0; // No wire transfer fees when using PayPal/Credit Card
+                const domFeeStr = document.getElementById('checkout-fee-amount')?.innerText || '0';
+                const domFee = parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0);
                 const preciseTotal = (calcItemTotal + domShipping + domTax + domFee).toFixed(2);
                 
                 const firstName = document.querySelector('input[name="firstName"]')?.value || '';
@@ -360,7 +361,8 @@ function renderCheckout(cart) {
                             breakdown: {
                                 item_total: { currency_code: 'USD', value: calcItemTotal.toFixed(2) },
                                 shipping: { currency_code: 'USD', value: domShipping.toFixed(2) },
-                                tax_total: { currency_code: 'USD', value: domTax.toFixed(2) }
+                                tax_total: { currency_code: 'USD', value: domTax.toFixed(2) },
+                                handling: { currency_code: 'USD', value: domFee.toFixed(2) }
                             }
                         },
                         items: paypalItems,
