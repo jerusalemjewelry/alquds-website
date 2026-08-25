@@ -339,6 +339,7 @@ function renderCheckout(cart) {
                 const firstName = document.querySelector('input[name="firstName"]')?.value || '';
                 const lastName = document.querySelector('input[name="lastName"]')?.value || '';
                 const email = document.querySelector('input[name="email"]')?.value || '';
+                const phone = document.querySelector('input[name="phone"]')?.value || '';
                 const address = document.querySelector('input[name="address"]')?.value || '';
                 const city = document.querySelector('input[name="city"]')?.value || '';
                 const zip = document.querySelector('input[name="zip"]')?.value || '';
@@ -347,12 +348,24 @@ function renderCheckout(cart) {
                 const countryDropdown = document.querySelector('select[name="country"]');
                 const countryVal = countryDropdown ? countryDropdown.value : 'US';
                 
+                // Sanitize State & Country for PayPal Address Verification
+                const cleanState = (stateVal && stateVal !== 'OTHER') ? stateVal : 'IL';
+                const cleanCountry = (countryVal && countryVal !== 'OTHER') ? countryVal : 'US';
+                const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
+                
                 return actions.order.create({
-                    intent: 'AUTHORIZE',
-                    application_context: { shipping_preference: 'SET_PROVIDED_ADDRESS' },
+                    intent: 'CAPTURE',
+                    application_context: { 
+                        shipping_preference: 'SET_PROVIDED_ADDRESS',
+                        user_action: 'PAY_NOW'
+                    },
                     payer: {
                         name: { given_name: firstName, surname: lastName },
-                        email_address: email || undefined
+                        email_address: email || undefined,
+                        phone: cleanPhone ? {
+                            phone_type: 'MOBILE',
+                            phone_number: { national_number: cleanPhone }
+                        } : undefined
                     },
                     purchase_units: [{
                         amount: {
@@ -371,21 +384,21 @@ function renderCheckout(cart) {
                             address: {
                                 address_line_1: address || 'N/A',
                                 admin_area_2: city || 'N/A',
-                                admin_area_1: stateVal || 'N/A',
+                                admin_area_1: cleanState,
                                 postal_code: zip || '00000',
-                                country_code: countryVal === 'OTHER' ? 'US' : countryVal
+                                country_code: cleanCountry
                             }
                         }
                     }]
                 });
             },
             onApprove: function (data, actions) {
-                return actions.order.authorize().then(function (details) {
+                return actions.order.capture().then(function (details) {
                     const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
                     localStorage.setItem('alquds_latest_order', JSON.stringify({
                         id: orderId,
                         method: 'PayPal/Credit Card',
-                        status: 'Authorized',
+                        status: 'Completed',
                         details: details
                     }));
                     fetch('/.netlify/functions/send-order-email', {
@@ -393,19 +406,22 @@ function renderCheckout(cart) {
                         headers: { 'Content-Type': 'application/json' },
                         keepalive: true,
                         body: JSON.stringify({
-                            customerEmail: details.payer.email_address,
-                            customerName: details.payer.name.given_name,
+                            customerEmail: details.payer?.email_address || email,
+                            customerName: details.payer?.name?.given_name || firstName,
                             orderNumber: orderId,
                             cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
                             total: details.purchase_units[0].amount.value
                         })
                     }).catch(e => console.error(e));
                     window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + details.purchase_units[0].amount.value + '&method=PayPal';
+                }).catch(function (err) {
+                    console.error('PayPal Capture Error:', err);
+                    alert('Payment Error: ' + (err.message || 'There was an issue capturing your payment. Please try again or check your card details.'));
                 });
             },
             onError: function (err) {
                 console.error('PayPal Error:', err);
-                alert('PayPal Error: ' + (err.message || 'There was an issue processing your payment. Please try again.'));
+                alert('Payment Processing Error: ' + (err.message || 'There was an issue processing your payment. Please ensure your card details and billing address are valid and try again.'));
             }
         }).render('#paypal-button-container');
     };
