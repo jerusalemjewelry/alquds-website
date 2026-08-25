@@ -321,9 +321,11 @@ function renderCheckout(cart) {
                     const unitPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
                     const qty = parseInt(item.quantity) || 1;
                     calcItemTotal += (unitPrice * qty);
+                    const cleanName = (item.name || 'Jewelry Item').replace(/[^\w\s-]/gi, '').substring(0, 120);
+                    const cleanSku = String(item.itemNo || item.id || item.sku || 'ITEM').replace(/[^\w-]/gi, '').substring(0, 60) || 'ITEM';
                     return {
-                        name: item.name.substring(0, 127),
-                        sku: (item.itemNo || item.id || item.sku || 'N/A').toString().substring(0, 127),
+                        name: cleanName,
+                        sku: cleanSku,
                         unit_amount: { currency_code: 'USD', value: unitPrice.toFixed(2) },
                         quantity: qty.toString()
                     };
@@ -348,19 +350,19 @@ function renderCheckout(cart) {
                 const countryDropdown = document.querySelector('select[name="country"]');
                 const countryVal = countryDropdown ? countryDropdown.value : 'US';
                 
-                // Sanitize State & Country for PayPal Address Verification
-                const cleanState = (stateVal && stateVal !== 'OTHER') ? stateVal : 'IL';
-                const cleanCountry = (countryVal && countryVal !== 'OTHER') ? countryVal : 'US';
+                // Sanitize State & Country for PayPal API Address Verification (AVS)
+                const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
+                const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
                 const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
                 
                 return actions.order.create({
-                    intent: 'CAPTURE',
+                    intent: 'AUTHORIZE',
                     application_context: { 
                         shipping_preference: 'SET_PROVIDED_ADDRESS',
-                        user_action: 'PAY_NOW'
+                        user_action: 'CONTINUE'
                     },
                     payer: {
-                        name: { given_name: firstName, surname: lastName },
+                        name: { given_name: firstName || 'Valued', surname: lastName || 'Customer' },
                         email_address: email || undefined,
                         phone: cleanPhone ? {
                             phone_type: 'MOBILE',
@@ -382,10 +384,10 @@ function renderCheckout(cart) {
                         shipping: {
                             name: { full_name: (firstName + " " + lastName).trim() || 'Customer' },
                             address: {
-                                address_line_1: address || 'N/A',
-                                admin_area_2: city || 'N/A',
+                                address_line_1: address || '123 Main St',
+                                admin_area_2: city || 'Bridgeview',
                                 admin_area_1: cleanState,
-                                postal_code: zip || '00000',
+                                postal_code: zip ? zip.replace(/[^0-9]/g, '') : '60455',
                                 country_code: cleanCountry
                             }
                         }
@@ -393,14 +395,19 @@ function renderCheckout(cart) {
                 });
             },
             onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                    const orderId = details.id || Math.floor(100000 + Math.random() * 900000);
+                return actions.order.authorize().then(function (details) {
+                    console.log('PayPal Authorization Details:', details);
+                    const authObj = details.purchase_units?.[0]?.payments?.authorizations?.[0];
+                    const authId = authObj?.id || details.id || Math.floor(100000 + Math.random() * 900000);
+
                     localStorage.setItem('alquds_latest_order', JSON.stringify({
-                        id: orderId,
+                        id: authId,
+                        orderId: details.id,
                         method: 'PayPal/Credit Card',
-                        status: 'Completed',
+                        status: 'Authorized (Pending Manual Capture)',
                         details: details
                     }));
+
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -408,20 +415,21 @@ function renderCheckout(cart) {
                         body: JSON.stringify({
                             customerEmail: details.payer?.email_address || email,
                             customerName: details.payer?.name?.given_name || firstName,
-                            orderNumber: orderId,
+                            orderNumber: authId,
                             cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
                             total: details.purchase_units[0].amount.value
                         })
                     }).catch(e => console.error(e));
-                    window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + details.purchase_units[0].amount.value + '&method=PayPal';
+
+                    window.location.href = '/order-confirmation.html?id=' + authId + '&total=' + details.purchase_units[0].amount.value + '&method=PayPal';
                 }).catch(function (err) {
-                    console.error('PayPal Capture Error:', err);
-                    alert('Payment Error: ' + (err.message || 'There was an issue capturing your payment. Please try again or check your card details.'));
+                    console.error('PayPal Authorization Error:', err);
+                    alert('Payment Authorization Error: ' + (err.message || 'There was an issue holding funds on your card. Please verify your card details or try another payment method.'));
                 });
             },
             onError: function (err) {
                 console.error('PayPal Error:', err);
-                alert('Payment Processing Error: ' + (err.message || 'There was an issue processing your payment. Please ensure your card details and billing address are valid and try again.'));
+                alert('Payment Processing Error: ' + (err.message || 'There was an issue processing your payment with PayPal. Please check your card details and address, or try again.'));
             }
         }).render('#paypal-button-container');
     };
