@@ -2,8 +2,8 @@ name: Update Live Metal Prices
 
 on:
   schedule:
-    # Runs at 13:00, 15:00, 17:00, 19:00, and 21:00 UTC (8am, 10am, 12pm, 2pm, 4pm CDT)
-    - cron: '0 13,15,17,19,21 * * *'
+    # Runs once daily 7 days a week at 14:00 UTC (9:00 AM CDT) - 3 calls/day * 30 days = 90 calls/month
+    - cron: '0 14 * * *'
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
