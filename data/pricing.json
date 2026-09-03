@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-09-03T17:42:34.051Z",
-  "silverChangePercent": 2.81,
-  "spotPrice24kOunce": 4492.26,
-  "platinumChangePercent": 3.97,
+  "lastUpdated": "2026-09-03T14:24:00.000-05:00",
+  "silverChangePercent": 2.48,
+  "spotPrice24kOunce": 4474.5,
+  "platinumChangePercent": 3.47,
   "gramsPerOunce": 31.104,
-  "platinumPriceOunce": 1833.04,
-  "silverPriceOunce": 67.164,
-  "openingPriceGold": 4388.315,
+  "platinumPriceOunce": 1827,
+  "silverPriceOunce": 67.058,
+  "openingPriceGold": 4448.1,
   "taxStateCode": "IL",
-  "goldChangePercent": 2.37,
+  "goldChangePercent": 1.99,
   "taxPercent": 0,
-  "openingPricePlatinum": 1763.085,
-  "openingPriceSilver": 65.3305
+  "openingPricePlatinum": 1797.425,
+  "openingPriceSilver": 66.5275
 }
