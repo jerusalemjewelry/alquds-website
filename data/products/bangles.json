@@ -1064,7 +1064,7 @@
       "name": "21k Gold Heritage Bangle - English Coin Design ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "40.15",
