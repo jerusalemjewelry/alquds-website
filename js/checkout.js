@@ -548,9 +548,14 @@ function renderCheckout(cart) {
                         headers: { 'Content-Type': 'application/json' },
                         keepalive: true,
                         body: JSON.stringify(emailPayload)
-                    }).then(r => r.json()).then(resData => {
+                    }).then(r => {
+                        if (!r.ok) throw new Error('HTTP ' + r.status);
+                        return r.json();
+                    }).then(resData => {
                         console.log('Email Dispatch Success:', resData);
-                        localStorage.setItem('alquds_email_sent_' + orderId, 'true');
+                        if (resData.customerEmailSent || resData.adminEmailSent) {
+                            localStorage.setItem('alquds_email_sent_' + orderId, 'true');
+                        }
                     }).catch(e => {
                         console.error('Email Dispatch Error:', e);
                     }).finally(() => {
