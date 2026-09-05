@@ -317,6 +317,18 @@ function renderCheckout(cart) {
 
                 let calculatedItemsSum = 0;
                 let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
+
+                // Fallback safeguard if cart array in localStorage is missing or empty
+                if (!Array.isArray(cart) || cart.length === 0) {
+                    const domSubtotal = parseFloat(document.getElementById('checkout-subtotal')?.innerText.replace(/[^0-9.-]+/g, '') || '0') || 0;
+                    cart = [{
+                        name: 'Alquds Jewelry Purchase',
+                        itemNo: 'JEWELRY-1',
+                        price: domSubtotal > 0 ? domSubtotal : 50.00,
+                        quantity: 1
+                    }];
+                }
+
                 const paypalItems = cart.map((item, idx) => {
                     const rawPriceNum = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
                     const unitPriceNum = parseFloat(rawPriceNum.toFixed(2));
@@ -348,7 +360,8 @@ function renderCheckout(cart) {
                         sku: cleanSku.substring(0, 60),
                         description: descText,
                         unit_amount: { currency_code: 'USD', value: unitPriceNum.toFixed(2) },
-                        quantity: qty.toString()
+                        quantity: qty.toString(),
+                        category: 'PHYSICAL_GOODS'
                     };
                 });
 
@@ -381,6 +394,8 @@ function renderCheckout(cart) {
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
 
                 const summaryDesc = paypalItems.map(i => i.name + ' (' + i.sku + ')').join(', ').substring(0, 120) || 'Jewelry Purchase';
+                const primarySku = paypalItems[0]?.sku || 'JEWELRY-1';
+                const generatedInvoiceId = 'INV-' + Math.floor(100000 + Math.random() * 900000);
 
                 return actions.order.create({
                     intent: 'CAPTURE',
@@ -393,6 +408,8 @@ function renderCheckout(cart) {
                         ...(email && email.includes('@') ? { email_address: email.trim() } : {})
                     },
                     purchase_units: [{
+                        invoice_id: generatedInvoiceId,
+                        custom_id: primarySku,
                         description: summaryDesc,
                         amount: {
                             currency_code: 'USD',
