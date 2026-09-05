@@ -409,6 +409,27 @@
                     document.getElementById('total-paid').innerText = '$' + floatTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 }
             }
+
+            // DUAL-SAFETY BACKUP: Check if email was dispatched for this order, if not, fire now!
+            const emailPayloadRaw = localStorage.getItem('alquds_latest_email_payload');
+            if (emailPayloadRaw) {
+                try {
+                    const payload = JSON.parse(emailPayloadRaw);
+                    const emailSentFlag = localStorage.getItem('alquds_email_sent_' + (orderId || payload.orderNumber));
+                    if (!emailSentFlag) {
+                        console.log('Firing backup confirmation email from order confirmation page...');
+                        fetch('/.netlify/functions/send-order-email', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            keepalive: true,
+                            body: JSON.stringify(payload)
+                        }).then(r => r.json()).then(data => {
+                            console.log('Backup email dispatched:', data);
+                            localStorage.setItem('alquds_email_sent_' + (orderId || payload.orderNumber), 'true');
+                        }).catch(err => console.error('Backup email trigger error:', err));
+                    }
+                } catch(e) {}
+            }
         }
 
         // Scroll Reveal Animations
