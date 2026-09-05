@@ -317,18 +317,35 @@ function renderCheckout(cart) {
 
                 let calcItemTotal = 0;
                 let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
-                const paypalItems = cart.map(item => {
+                const paypalItems = cart.map((item, idx) => {
                     const unitPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
                     const qty = parseInt(item.quantity) || 1;
                     calcItemTotal += (unitPrice * qty);
-                    const rawName = item.name || 'Jewelry Item';
-                    const rawSku = String(item.itemNo || item.id || item.sku || 'ITEM');
-                    const cleanName = rawName.replace(/[^\w\s-]/gi, '').trim().substring(0, 120) || 'Jewelry Item';
-                    const cleanSku = rawSku.replace(/[^\w-]/gi, '').trim().substring(0, 60) || 'ITEM';
+
+                    const baseName = (item.name || item.title || 'Jewelry Item').trim();
+                    const rawSkuCandidate = item.itemNo || item.sku || item.id || item.code;
+                    const fallbackSku = 'ITEM-' + (idx + 1);
+                    const cleanSku = (rawSkuCandidate ? String(rawSkuCandidate).replace(/[^a-zA-Z0-9_.-]/g, '').trim() : '') || fallbackSku;
+
+                    const specDetails = [];
+                    if (item.karat) specDetails.push(item.karat + 'k Gold');
+                    if (item.weight && item.weight !== 'N/A' && item.weight !== 'Varies') specDetails.push(item.weight + 'g');
+                    if (item.size) specDetails.push('Size: ' + item.size);
+                    if (item.length) specDetails.push('Length: ' + item.length);
+                    if (item.customName) specDetails.push('Custom: ' + item.customName);
+
+                    const specStr = specDetails.length > 0 ? ' (' + specDetails.join(', ') + ')' : '';
+
+                    let cleanName = (baseName + specStr).replace(/[^\w\s.,&'()-]/gi, '').trim();
+                    if (!cleanName) cleanName = baseName.replace(/[^\w\s.,&'()-]/gi, '').trim() || 'Jewelry Item';
+                    cleanName = cleanName.substring(0, 127);
+
+                    const descText = (baseName + (specDetails.length > 0 ? ' | ' + specDetails.join(' | ') : '') + ' | SKU: ' + cleanSku).substring(0, 127);
+
                     return {
                         name: cleanName,
-                        sku: cleanSku,
-                        description: (rawName + ' (ID: ' + cleanSku + ')').substring(0, 127),
+                        sku: cleanSku.substring(0, 60),
+                        description: descText,
                         unit_amount: { currency_code: 'USD', value: unitPrice.toFixed(2) },
                         quantity: qty.toString(),
                         category: 'PHYSICAL_GOODS'
