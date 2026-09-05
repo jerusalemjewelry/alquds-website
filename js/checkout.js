@@ -355,10 +355,10 @@ function renderCheckout(cart) {
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
 
                 return actions.order.create({
-                    intent: 'CAPTURE',
+                    intent: 'AUTHORIZE',
                     application_context: {
                         shipping_preference: 'SET_PROVIDED_ADDRESS',
-                        user_action: 'PAY_NOW'
+                        user_action: 'CONTINUE'
                     },
                     payer: {
                         name: { given_name: firstName || 'Valued', surname: lastName || 'Customer' },
@@ -390,16 +390,16 @@ function renderCheckout(cart) {
                 });
             },
             onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                    console.log('PayPal Payment Completed:', details);
-                    const captureObj = details.purchase_units?.[0]?.payments?.captures?.[0];
-                    const orderId = captureObj?.id || details.id || Math.floor(100000 + Math.random() * 900000);
+                return actions.order.authorize().then(function (details) {
+                    console.log('PayPal Authorization Details:', details);
+                    const authObj = details.purchase_units?.[0]?.payments?.authorizations?.[0];
+                    const authId = authObj?.id || details.id || Math.floor(100000 + Math.random() * 900000);
 
                     localStorage.setItem('alquds_latest_order', JSON.stringify({
-                        id: orderId,
+                        id: authId,
                         orderId: details.id,
                         method: 'PayPal/Credit Card',
-                        status: 'Completed',
+                        status: 'Authorized (Pending Manual Capture)',
                         details: details
                     }));
 
@@ -410,16 +410,16 @@ function renderCheckout(cart) {
                         body: JSON.stringify({
                             customerEmail: details.payer?.email_address,
                             customerName: details.payer?.name?.given_name,
-                            orderNumber: orderId,
+                            orderNumber: authId,
                             cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
                             total: details.purchase_units[0].amount.value
                         })
                     }).catch(e => console.error(e));
 
-                    window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + details.purchase_units[0].amount.value + '&method=PayPal';
+                    window.location.href = '/order-confirmation.html?id=' + authId + '&total=' + details.purchase_units[0].amount.value + '&method=PayPal';
                 }).catch(function (err) {
-                    console.error('PayPal Capture Error:', err);
-                    alert('Payment Error: ' + (err.message || 'There was an issue processing your payment. Please verify your card details or try another payment method.'));
+                    console.error('PayPal Authorization Error:', err);
+                    alert('Payment Authorization Error: ' + (err.message || 'There was an issue holding funds on your card. Please verify your card details or try another payment method.'));
                 });
             },
             onError: function (err) {
