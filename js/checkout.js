@@ -321,11 +321,14 @@ function renderCheckout(cart) {
                     const unitPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
                     const qty = parseInt(item.quantity) || 1;
                     calcItemTotal += (unitPrice * qty);
-                    const cleanName = (item.name || 'Jewelry Item').replace(/[^\w\s-]/gi, '').trim().substring(0, 120) || 'Jewelry Item';
-                    const cleanSku = String(item.itemNo || item.id || item.sku || 'ITEM').replace(/[^\w-]/gi, '').trim().substring(0, 60) || 'ITEM';
+                    const rawName = item.name || 'Jewelry Item';
+                    const rawSku = String(item.itemNo || item.id || item.sku || 'ITEM');
+                    const cleanName = rawName.replace(/[^\w\s-]/gi, '').trim().substring(0, 120) || 'Jewelry Item';
+                    const cleanSku = rawSku.replace(/[^\w-]/gi, '').trim().substring(0, 60) || 'ITEM';
                     return {
                         name: cleanName,
                         sku: cleanSku,
+                        description: (rawName + ' (ID: ' + cleanSku + ')').substring(0, 127),
                         unit_amount: { currency_code: 'USD', value: unitPrice.toFixed(2) },
                         quantity: qty.toString(),
                         category: 'PHYSICAL_GOODS'
@@ -355,6 +358,8 @@ function renderCheckout(cart) {
                 const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
 
+                const summaryDesc = paypalItems.map(i => i.name + ' (' + i.sku + ')').join(', ').substring(0, 120) || 'Jewelry Purchase';
+
                 return actions.order.create({
                     intent: 'CAPTURE',
                     application_context: {
@@ -366,6 +371,7 @@ function renderCheckout(cart) {
                         ...(email && email.includes('@') ? { email_address: email.trim() } : {})
                     },
                     purchase_units: [{
+                        description: summaryDesc,
                         amount: {
                             currency_code: 'USD',
                             value: exactGrandTotal,
