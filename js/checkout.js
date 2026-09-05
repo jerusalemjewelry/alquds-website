@@ -280,6 +280,88 @@ function renderCheckout(cart) {
         });
     }
 
+    // --- HELPER: GET CHECKOUT DATA & CALCULATIONS ---
+    function getCheckoutData() {
+        let calculatedItemsSum = 0;
+        let cart = [];
+        try {
+            const rawCart = localStorage.getItem('alquds_cart');
+            cart = rawCart ? JSON.parse(rawCart) : [];
+        } catch (e) {
+            cart = [];
+        }
+
+        if (!Array.isArray(cart) || cart.length === 0) {
+            const domSubtotal = parseFloat(document.getElementById('checkout-subtotal')?.innerText.replace(/[^0-9.-]+/g, '') || '0') || 0;
+            cart = [{
+                name: 'Alquds Jewelry Purchase',
+                itemNo: 'JEWELRY-1',
+                price: domSubtotal > 0 ? domSubtotal : 50.00,
+                quantity: 1
+            }];
+        }
+
+        const paypalItems = cart.map((item, idx) => {
+            const rawPriceNum = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+            const unitPriceNum = parseFloat(rawPriceNum.toFixed(2));
+            const qty = parseInt(item.quantity) || 1;
+            calculatedItemsSum += (unitPriceNum * qty);
+
+            const baseName = (item.name || item.title || 'Jewelry Item').trim();
+            const rawSkuCandidate = item.itemNo || item.sku || item.id || item.code;
+            const fallbackSku = 'ITEM-' + (idx + 1);
+            const cleanSku = (rawSkuCandidate ? String(rawSkuCandidate).replace(/[^a-zA-Z0-9_.-]/g, '').trim() : '') || fallbackSku;
+
+            const specDetails = [];
+            if (item.karat) specDetails.push(item.karat + 'k Gold');
+            if (item.weight && item.weight !== 'N/A' && item.weight !== 'Varies') specDetails.push(item.weight + 'g');
+            if (item.size) specDetails.push('Size: ' + item.size);
+            if (item.length) specDetails.push('Length: ' + item.length);
+            if (item.customName) specDetails.push('Custom: ' + item.customName);
+
+            const specStr = specDetails.length > 0 ? ' (' + specDetails.join(', ') + ')' : '';
+
+            let cleanName = (baseName + specStr).replace(/[^\w\s.,&'()-]/gi, '').trim();
+            if (!cleanName) cleanName = baseName.replace(/[^\w\s.,&'()-]/gi, '').trim() || 'Jewelry Item';
+            cleanName = cleanName.substring(0, 127);
+
+            const descText = (baseName + (specDetails.length > 0 ? ' | ' + specDetails.join(' | ') : '') + ' | SKU: ' + cleanSku).substring(0, 127);
+
+            return {
+                name: cleanName,
+                sku: cleanSku.substring(0, 60),
+                description: descText,
+                unit_amount: { currency_code: 'USD', value: unitPriceNum.toFixed(2) },
+                quantity: qty.toString(),
+                category: 'PHYSICAL_GOODS'
+            };
+        });
+
+        const domShippingStr = document.getElementById('checkout-shipping-cost')?.innerText || '0';
+        const rawShipping = domShippingStr.includes('Free') ? 0 : (parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0));
+        const shippingNum = parseFloat(rawShipping.toFixed(2));
+
+        const rawTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0);
+        const taxNum = parseFloat(rawTax.toFixed(2));
+
+        const domFeeStr = document.getElementById('checkout-fee-amount')?.innerText || '0';
+        const rawFee = parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0);
+        const handlingNum = parseFloat(rawFee.toFixed(2));
+
+        const itemTotalNum = parseFloat(calculatedItemsSum.toFixed(2));
+        const exactGrandTotal = (itemTotalNum + shippingNum + taxNum + handlingNum).toFixed(2);
+
+        return {
+            cart,
+            paypalItems,
+            itemTotalNum,
+            shippingNum,
+            taxNum,
+            handlingNum,
+            exactGrandTotal
+        };
+    }
+
     // --- PAYPAL INTEGRATION ---
     window.forcePayPalRefresh = function () {
         if (!window.paypal) {
@@ -315,69 +397,7 @@ function renderCheckout(cart) {
                 const form = document.getElementById('checkout-form');
                 if (form && !form.checkValidity()) return false;
 
-                let calculatedItemsSum = 0;
-                let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
-
-                // Fallback safeguard if cart array in localStorage is missing or empty
-                if (!Array.isArray(cart) || cart.length === 0) {
-                    const domSubtotal = parseFloat(document.getElementById('checkout-subtotal')?.innerText.replace(/[^0-9.-]+/g, '') || '0') || 0;
-                    cart = [{
-                        name: 'Alquds Jewelry Purchase',
-                        itemNo: 'JEWELRY-1',
-                        price: domSubtotal > 0 ? domSubtotal : 50.00,
-                        quantity: 1
-                    }];
-                }
-
-                const paypalItems = cart.map((item, idx) => {
-                    const rawPriceNum = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
-                    const unitPriceNum = parseFloat(rawPriceNum.toFixed(2));
-                    const qty = parseInt(item.quantity) || 1;
-                    calculatedItemsSum += (unitPriceNum * qty);
-
-                    const baseName = (item.name || item.title || 'Jewelry Item').trim();
-                    const rawSkuCandidate = item.itemNo || item.sku || item.id || item.code;
-                    const fallbackSku = 'ITEM-' + (idx + 1);
-                    const cleanSku = (rawSkuCandidate ? String(rawSkuCandidate).replace(/[^a-zA-Z0-9_.-]/g, '').trim() : '') || fallbackSku;
-
-                    const specDetails = [];
-                    if (item.karat) specDetails.push(item.karat + 'k Gold');
-                    if (item.weight && item.weight !== 'N/A' && item.weight !== 'Varies') specDetails.push(item.weight + 'g');
-                    if (item.size) specDetails.push('Size: ' + item.size);
-                    if (item.length) specDetails.push('Length: ' + item.length);
-                    if (item.customName) specDetails.push('Custom: ' + item.customName);
-
-                    const specStr = specDetails.length > 0 ? ' (' + specDetails.join(', ') + ')' : '';
-
-                    let cleanName = (baseName + specStr).replace(/[^\w\s.,&'()-]/gi, '').trim();
-                    if (!cleanName) cleanName = baseName.replace(/[^\w\s.,&'()-]/gi, '').trim() || 'Jewelry Item';
-                    cleanName = cleanName.substring(0, 127);
-
-                    const descText = (baseName + (specDetails.length > 0 ? ' | ' + specDetails.join(' | ') : '') + ' | SKU: ' + cleanSku).substring(0, 127);
-
-                    return {
-                        name: cleanName,
-                        sku: cleanSku.substring(0, 60),
-                        description: descText,
-                        unit_amount: { currency_code: 'USD', value: unitPriceNum.toFixed(2) },
-                        quantity: qty.toString(),
-                        category: 'PHYSICAL_GOODS'
-                    };
-                });
-
-                const domShippingStr = document.getElementById('checkout-shipping-cost')?.innerText || '0';
-                const rawShipping = domShippingStr.includes('Free') ? 0 : (parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0));
-                const shippingNum = parseFloat(rawShipping.toFixed(2));
-
-                const rawTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0);
-                const taxNum = parseFloat(rawTax.toFixed(2));
-
-                const domFeeStr = document.getElementById('checkout-fee-amount')?.innerText || '0';
-                const rawFee = parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0);
-                const handlingNum = parseFloat(rawFee.toFixed(2));
-                
-                const itemTotalNum = parseFloat(calculatedItemsSum.toFixed(2));
-                const exactGrandTotal = (itemTotalNum + shippingNum + taxNum + handlingNum).toFixed(2);
+                const checkoutData = getCheckoutData();
 
                 const firstName = document.querySelector('input[name="firstName"]')?.value || '';
                 const lastName = document.querySelector('input[name="lastName"]')?.value || '';
@@ -393,8 +413,8 @@ function renderCheckout(cart) {
                 const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
 
-                const summaryDesc = paypalItems.map(i => i.name + ' (' + i.sku + ')').join(', ').substring(0, 120) || 'Jewelry Purchase';
-                const primarySku = paypalItems[0]?.sku || 'JEWELRY-1';
+                const summaryDesc = checkoutData.paypalItems.map(i => i.name + ' (' + i.sku + ')').join(', ').substring(0, 120) || 'Jewelry Purchase';
+                const primarySku = checkoutData.paypalItems[0]?.sku || 'JEWELRY-1';
                 const generatedInvoiceId = 'INV-' + Math.floor(100000 + Math.random() * 900000);
 
                 return actions.order.create({
@@ -413,15 +433,15 @@ function renderCheckout(cart) {
                         description: summaryDesc,
                         amount: {
                             currency_code: 'USD',
-                            value: exactGrandTotal,
+                            value: checkoutData.exactGrandTotal,
                             breakdown: {
-                                item_total: { currency_code: 'USD', value: itemTotalNum.toFixed(2) },
-                                shipping: { currency_code: 'USD', value: shippingNum.toFixed(2) },
-                                tax_total: { currency_code: 'USD', value: taxNum.toFixed(2) },
-                                handling: { currency_code: 'USD', value: handlingNum.toFixed(2) }
+                                item_total: { currency_code: 'USD', value: checkoutData.itemTotalNum.toFixed(2) },
+                                shipping: { currency_code: 'USD', value: checkoutData.shippingNum.toFixed(2) },
+                                tax_total: { currency_code: 'USD', value: checkoutData.taxNum.toFixed(2) },
+                                handling: { currency_code: 'USD', value: checkoutData.handlingNum.toFixed(2) }
                             }
                         },
-                        items: paypalItems,
+                        items: checkoutData.paypalItems,
                         shipping: {
                             name: { full_name: (firstName + " " + lastName).trim() || 'Customer' },
                             address: {
@@ -440,6 +460,7 @@ function renderCheckout(cart) {
                     console.log('PayPal Payment Completed:', details);
                     const captureObj = details.purchase_units?.[0]?.payments?.captures?.[0];
                     const orderId = captureObj?.id || details.id || Math.floor(100000 + Math.random() * 900000);
+                    const checkoutData = getCheckoutData();
 
                     localStorage.setItem('alquds_latest_order', JSON.stringify({
                         id: orderId,
@@ -459,7 +480,7 @@ function renderCheckout(cart) {
                     const formCountry = document.querySelector('select[name="country"]')?.value || 'US';
                     const formPhone = document.querySelector('input[name="phone"]')?.value || '';
 
-                    const cartItemsToEmail = JSON.parse(localStorage.getItem('alquds_cart')) || [];
+                    const cartItemsToEmail = checkoutData.cart;
 
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
@@ -470,11 +491,11 @@ function renderCheckout(cart) {
                             customerName: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Valued Customer',
                             orderNumber: orderId,
                             paymentMethod: 'PayPal / Credit Card',
-                            subtotal: itemTotalNum.toFixed(2),
-                            shippingCost: shippingNum.toFixed(2),
-                            taxAmount: taxNum.toFixed(2),
-                            handlingFee: handlingNum.toFixed(2),
-                            total: details.purchase_units?.[0]?.amount?.value || exactGrandTotal,
+                            subtotal: checkoutData.itemTotalNum.toFixed(2),
+                            shippingCost: checkoutData.shippingNum.toFixed(2),
+                            taxAmount: checkoutData.taxNum.toFixed(2),
+                            handlingFee: checkoutData.handlingNum.toFixed(2),
+                            total: details.purchase_units?.[0]?.amount?.value || checkoutData.exactGrandTotal,
                             cartItems: cartItemsToEmail,
                             shippingAddress: {
                                 name: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Customer',
@@ -488,7 +509,7 @@ function renderCheckout(cart) {
                         })
                     }).then(r => r.json()).then(resData => console.log('Email Dispatch Success:', resData)).catch(e => console.error('Email Dispatch Error:', e)).finally(() => {
                         localStorage.removeItem('alquds_cart');
-                        window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || exactGrandTotal) + '&method=PayPal';
+                        window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || checkoutData.exactGrandTotal) + '&method=PayPal';
                     });
                 }).catch(function (err) {
                     console.error('PayPal Authorization Error:', err);
