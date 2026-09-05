@@ -1,5 +1,5 @@
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'BAA1meBJLQLzbDmIEf-l-Dx-sCRygXfKNLqsm6ZQfI-tEfL1s6Le7WFm2gd0CYK4jWGkiELo2qe1KKnVrI';
-const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || 'EJSXRXLayB5vHS_5QL_iz0G62UWMX5I9MiCCP1Wtc2ccDIs1gUtBmkBRUOqndTF7MuAZUeWq7tJgR18X';
+const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || 'EBJ7TZ0s-qThXtnDIw5tCCp3JF_xt-Iu8SOlyhEJ29IE5Q8IVWM3e29HP3fMgVQ_OE9Jc2nwKamhYKAl';
 const PAYPAL_API_BASE = process.env.PAYPAL_API_BASE || 'https://api-m.paypal.com';
 
 async function getAccessToken() {
