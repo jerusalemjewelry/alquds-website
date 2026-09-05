@@ -423,9 +423,14 @@
                             headers: { 'Content-Type': 'application/json' },
                             keepalive: true,
                             body: JSON.stringify(payload)
-                        }).then(r => r.json()).then(data => {
+                        }).then(r => {
+                            if (!r.ok) throw new Error('HTTP ' + r.status);
+                            return r.json();
+                        }).then(data => {
                             console.log('Backup email dispatched:', data);
-                            localStorage.setItem('alquds_email_sent_' + (orderId || payload.orderNumber), 'true');
+                            if (data.customerEmailSent || data.adminEmailSent) {
+                                localStorage.setItem('alquds_email_sent_' + (orderId || payload.orderNumber), 'true');
+                            }
                         }).catch(err => console.error('Backup email trigger error:', err));
                     }
                 } catch(e) {}
