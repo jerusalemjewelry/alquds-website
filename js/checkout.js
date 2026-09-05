@@ -377,13 +377,21 @@ function renderCheckout(cart) {
                         }
                     })
                 }).then(function (res) {
-                    return res.json();
-                }).then(function (orderData) {
-                    if (orderData.error || !orderData.id) {
-                        console.error('Server Create Order Error:', orderData);
-                        throw new Error(orderData.error?.details?.[0]?.description || orderData.error?.name || 'Failed to create PayPal authorization order on server');
+                    return res.json().then(function (data) {
+                        return { ok: res.ok, status: res.status, data: data };
+                    });
+                }).then(function (resObj) {
+                    if (!resObj.ok || resObj.data.error || !resObj.data.id) {
+                        console.error('Server Create Order Error:', resObj);
+                        var errPayload = resObj.data?.error || resObj.data;
+                        var msg = errPayload?.details?.[0]?.description 
+                               || errPayload?.message 
+                               || errPayload?.name 
+                               || (typeof errPayload === 'string' ? errPayload : JSON.stringify(errPayload))
+                               || 'Failed to create PayPal authorization order on server';
+                        throw new Error(msg);
                     }
-                    return orderData.id;
+                    return resObj.data.id;
                 });
             },
             onApprove: function (data, actions) {
@@ -392,11 +400,20 @@ function renderCheckout(cart) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ orderID: data.orderID })
                 }).then(function (res) {
-                    return res.json();
-                }).then(function (details) {
-                    if (details.error) {
-                        console.error('Server Authorize Error:', details.error);
-                        throw new Error(details.error?.details?.[0]?.description || details.error?.name || 'Failed to authorize PayPal payment');
+                    return res.json().then(function (details) {
+                        return { ok: res.ok, status: res.status, details: details };
+                    });
+                }).then(function (resObj) {
+                    var details = resObj.details;
+                    if (!resObj.ok || details.error) {
+                        console.error('Server Authorize Error:', resObj);
+                        var errPayload = details?.error || details;
+                        var msg = errPayload?.details?.[0]?.description 
+                               || errPayload?.message 
+                               || errPayload?.name 
+                               || (typeof errPayload === 'string' ? errPayload : JSON.stringify(errPayload))
+                               || 'Failed to authorize PayPal payment';
+                        throw new Error(msg);
                     }
                     console.log('PayPal Payment Authorized:', details);
                     const authObj = details.purchase_units?.[0]?.payments?.authorizations?.[0];
@@ -446,7 +463,7 @@ function renderCheckout(cart) {
                     window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || exactGrandTotal) + '&method=PayPal';
                 }).catch(function (err) {
                     console.error('PayPal Authorization Error:', err);
-                    alert('Payment Authorization Error: ' + (err.message || 'There was an issue holding funds on your card. Please verify your card details or try another payment method.'));
+                    alert('Payment Processing Error: ' + (err.message || 'There was an issue processing your payment. Please check your card details and try again.'));
                 });
             },
             onError: function (err) {
