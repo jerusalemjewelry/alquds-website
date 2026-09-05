@@ -362,6 +362,44 @@ function renderCheckout(cart) {
         };
     }
 
+    function saveCustomerInfo() {
+        try {
+            const formEmail = document.querySelector('input[name="email"]')?.value?.trim() || '';
+            const formFirstName = document.querySelector('input[name="firstName"]')?.value?.trim() || '';
+            const formLastName = document.querySelector('input[name="lastName"]')?.value?.trim() || '';
+            const formAddress = document.querySelector('input[name="address"]')?.value?.trim() || '';
+            const formCity = document.querySelector('input[name="city"]')?.value?.trim() || '';
+            const formState = document.querySelector('select[name="state"]')?.value?.trim() || '';
+            const formZip = document.querySelector('input[name="zip"]')?.value?.trim() || '';
+            const formCountry = document.querySelector('select[name="country"]')?.value?.trim() || 'US';
+            const formPhone = document.querySelector('input[name="phone"]')?.value?.trim() || '';
+
+            const data = {
+                email: formEmail,
+                firstName: formFirstName,
+                lastName: formLastName,
+                address: formAddress,
+                city: formCity,
+                state: formState,
+                zip: formZip,
+                country: formCountry,
+                phone: formPhone
+            };
+            if (formEmail || formFirstName || formAddress) {
+                localStorage.setItem('alquds_customer_info', JSON.stringify(data));
+            }
+            return data;
+        } catch (e) {
+            return {};
+        }
+    }
+
+    // Attach real-time input listeners to auto-save customer details
+    document.querySelectorAll('#checkout-form input, #checkout-form select').forEach(input => {
+        input.addEventListener('input', saveCustomerInfo);
+        input.addEventListener('change', saveCustomerInfo);
+    });
+
     // --- PAYPAL INTEGRATION ---
     window.forcePayPalRefresh = function () {
         if (!window.paypal) {
@@ -378,6 +416,7 @@ function renderCheckout(cart) {
 
         window.paypal.Buttons({
             onClick: function (data, actions) {
+                saveCustomerInfo();
                 const form = document.getElementById('checkout-form');
                 const policyAgreement = document.getElementById('policy-agreement');
                 if (form && !form.checkValidity()) {
@@ -398,17 +437,16 @@ function renderCheckout(cart) {
                 if (form && !form.checkValidity()) return false;
 
                 const checkoutData = getCheckoutData();
+                const cust = saveCustomerInfo();
 
-                const firstName = document.querySelector('input[name="firstName"]')?.value || '';
-                const lastName = document.querySelector('input[name="lastName"]')?.value || '';
-                const email = document.querySelector('input[name="email"]')?.value || '';
-                const address = document.querySelector('input[name="address"]')?.value || '';
-                const city = document.querySelector('input[name="city"]')?.value || '';
-                const zip = document.querySelector('input[name="zip"]')?.value || '';
-                const stateDropdown = document.querySelector('select[name="state"]');
-                const stateVal = stateDropdown ? stateDropdown.value : '';
-                const countryDropdown = document.querySelector('select[name="country"]');
-                const countryVal = countryDropdown ? countryDropdown.value : 'US';
+                const firstName = cust.firstName || document.querySelector('input[name="firstName"]')?.value || '';
+                const lastName = cust.lastName || document.querySelector('input[name="lastName"]')?.value || '';
+                const email = cust.email || document.querySelector('input[name="email"]')?.value || '';
+                const address = cust.address || document.querySelector('input[name="address"]')?.value || '';
+                const city = cust.city || document.querySelector('input[name="city"]')?.value || '';
+                const zip = cust.zip || document.querySelector('input[name="zip"]')?.value || '';
+                const stateVal = cust.state || document.querySelector('select[name="state"]')?.value || '';
+                const countryVal = cust.country || document.querySelector('select[name="country"]')?.value || 'US';
 
                 const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
@@ -462,6 +500,17 @@ function renderCheckout(cart) {
                     const orderId = captureObj?.id || details.id || Math.floor(100000 + Math.random() * 900000);
                     const checkoutData = getCheckoutData();
 
+                    const currentCust = saveCustomerInfo();
+                    let savedCust = {};
+                    try {
+                        savedCust = JSON.parse(localStorage.getItem('alquds_customer_info') || '{}');
+                    } catch (e) {}
+
+                    const finalEmail = currentCust.email || savedCust.email || details.payer?.email_address || 'jerusalemjewelry@yahoo.com';
+                    const finalFirstName = currentCust.firstName || savedCust.firstName || details.payer?.name?.given_name || 'Valued';
+                    const finalLastName = currentCust.lastName || savedCust.lastName || details.payer?.name?.surname || 'Customer';
+                    const finalName = (finalFirstName + ' ' + finalLastName).trim();
+
                     localStorage.setItem('alquds_latest_order', JSON.stringify({
                         id: orderId,
                         orderId: details.id,
@@ -470,46 +519,43 @@ function renderCheckout(cart) {
                         details: details
                     }));
 
-                    const formEmail = document.querySelector('input[name="email"]')?.value || '';
-                    const formFirstName = document.querySelector('input[name="firstName"]')?.value || '';
-                    const formLastName = document.querySelector('input[name="lastName"]')?.value || '';
-                    const formAddress = document.querySelector('input[name="address"]')?.value || '';
-                    const formCity = document.querySelector('input[name="city"]')?.value || '';
-                    const formState = document.querySelector('select[name="state"]')?.value || '';
-                    const formZip = document.querySelector('input[name="zip"]')?.value || '';
-                    const formCountry = document.querySelector('select[name="country"]')?.value || 'US';
-                    const formPhone = document.querySelector('input[name="phone"]')?.value || '';
+                    const emailPayload = {
+                        customerEmail: finalEmail,
+                        customerName: finalName,
+                        orderNumber: orderId,
+                        paymentMethod: 'PayPal / Credit Card',
+                        subtotal: checkoutData.itemTotalNum.toFixed(2),
+                        shippingCost: checkoutData.shippingNum.toFixed(2),
+                        taxAmount: checkoutData.taxNum.toFixed(2),
+                        handlingFee: checkoutData.handlingNum.toFixed(2),
+                        total: details.purchase_units?.[0]?.amount?.value || checkoutData.exactGrandTotal,
+                        cartItems: checkoutData.cart,
+                        shippingAddress: {
+                            name: finalName,
+                            address: currentCust.address || savedCust.address || details.purchase_units?.[0]?.shipping?.address?.address_line_1 || '',
+                            city: currentCust.city || savedCust.city || details.purchase_units?.[0]?.shipping?.address?.admin_area_2 || '',
+                            state: currentCust.state || savedCust.state || details.purchase_units?.[0]?.shipping?.address?.admin_area_1 || '',
+                            zip: currentCust.zip || savedCust.zip || details.purchase_units?.[0]?.shipping?.address?.postal_code || '',
+                            country: currentCust.country || savedCust.country || details.purchase_units?.[0]?.shipping?.address?.country_code || 'US',
+                            phone: currentCust.phone || savedCust.phone || 'Not provided'
+                        }
+                    };
 
-                    const cartItemsToEmail = checkoutData.cart;
+                    localStorage.setItem('alquds_latest_email_payload', JSON.stringify(emailPayload));
 
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         keepalive: true,
-                        body: JSON.stringify({
-                            customerEmail: formEmail || details.payer?.email_address,
-                            customerName: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Valued Customer',
-                            orderNumber: orderId,
-                            paymentMethod: 'PayPal / Credit Card',
-                            subtotal: checkoutData.itemTotalNum.toFixed(2),
-                            shippingCost: checkoutData.shippingNum.toFixed(2),
-                            taxAmount: checkoutData.taxNum.toFixed(2),
-                            handlingFee: checkoutData.handlingNum.toFixed(2),
-                            total: details.purchase_units?.[0]?.amount?.value || checkoutData.exactGrandTotal,
-                            cartItems: cartItemsToEmail,
-                            shippingAddress: {
-                                name: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Customer',
-                                address: formAddress,
-                                city: formCity,
-                                state: formState,
-                                zip: formZip,
-                                country: formCountry,
-                                phone: formPhone
-                            }
-                        })
-                    }).then(r => r.json()).then(resData => console.log('Email Dispatch Success:', resData)).catch(e => console.error('Email Dispatch Error:', e)).finally(() => {
+                        body: JSON.stringify(emailPayload)
+                    }).then(r => r.json()).then(resData => {
+                        console.log('Email Dispatch Success:', resData);
+                        localStorage.setItem('alquds_email_sent_' + orderId, 'true');
+                    }).catch(e => {
+                        console.error('Email Dispatch Error:', e);
+                    }).finally(() => {
                         localStorage.removeItem('alquds_cart');
-                        window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || checkoutData.exactGrandTotal) + '&method=PayPal';
+                        window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + emailPayload.total + '&method=PayPal';
                     });
                 }).catch(function (err) {
                     console.error('PayPal Authorization Error:', err);
