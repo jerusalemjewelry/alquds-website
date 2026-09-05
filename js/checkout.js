@@ -315,12 +315,13 @@ function renderCheckout(cart) {
                 const form = document.getElementById('checkout-form');
                 if (form && !form.checkValidity()) return false;
 
-                let calcItemTotal = 0;
+                let calculatedItemsSum = 0;
                 let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
                 const paypalItems = cart.map((item, idx) => {
-                    const unitPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+                    const rawPriceNum = parseFloat(String(item.price).replace(/[^0-9.-]+/g, "")) || 0;
+                    const unitPriceNum = parseFloat(rawPriceNum.toFixed(2));
                     const qty = parseInt(item.quantity) || 1;
-                    calcItemTotal += (unitPrice * qty);
+                    calculatedItemsSum += (unitPriceNum * qty);
 
                     const baseName = (item.name || item.title || 'Jewelry Item').trim();
                     const rawSkuCandidate = item.itemNo || item.sku || item.id || item.code;
@@ -346,19 +347,23 @@ function renderCheckout(cart) {
                         name: cleanName,
                         sku: cleanSku.substring(0, 60),
                         description: descText,
-                        unit_amount: { currency_code: 'USD', value: unitPrice.toFixed(2) },
-                        quantity: qty.toString(),
-                        category: 'PHYSICAL_GOODS'
+                        unit_amount: { currency_code: 'USD', value: unitPriceNum.toFixed(2) },
+                        quantity: qty.toString()
                     };
                 });
 
                 const domShippingStr = document.getElementById('checkout-shipping-cost')?.innerText || '0';
-                const shippingNum = domShippingStr.includes('Free') ? 0 : (parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0));
-                const taxNum = (parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0));
+                const rawShipping = domShippingStr.includes('Free') ? 0 : (parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0));
+                const shippingNum = parseFloat(rawShipping.toFixed(2));
+
+                const rawTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0);
+                const taxNum = parseFloat(rawTax.toFixed(2));
+
                 const domFeeStr = document.getElementById('checkout-fee-amount')?.innerText || '0';
-                const handlingNum = (parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0));
+                const rawFee = parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0);
+                const handlingNum = parseFloat(rawFee.toFixed(2));
                 
-                const itemTotalNum = parseFloat(calcItemTotal.toFixed(2));
+                const itemTotalNum = parseFloat(calculatedItemsSum.toFixed(2));
                 const exactGrandTotal = (itemTotalNum + shippingNum + taxNum + handlingNum).toFixed(2);
 
                 const firstName = document.querySelector('input[name="firstName"]')?.value || '';
