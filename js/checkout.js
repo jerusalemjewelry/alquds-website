@@ -355,50 +355,56 @@ function renderCheckout(cart) {
                 const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
 
-                return actions.order.create({
-                    intent: 'AUTHORIZE',
-                    application_context: {
-                        shipping_preference: 'SET_PROVIDED_ADDRESS',
-                        user_action: 'CONTINUE'
-                    },
-                    payer: {
-                        name: { given_name: firstName || 'Valued', surname: lastName || 'Customer' },
-                        ...(email && email.includes('@') ? { email_address: email.trim() } : {})
-                    },
-                    purchase_units: [{
-                        amount: {
-                            currency_code: 'USD',
-                            value: exactGrandTotal,
-                            breakdown: {
-                                item_total: { currency_code: 'USD', value: itemTotalNum.toFixed(2) },
-                                shipping: { currency_code: 'USD', value: shippingNum.toFixed(2) },
-                                tax_total: { currency_code: 'USD', value: taxNum.toFixed(2) },
-                                handling: { currency_code: 'USD', value: handlingNum.toFixed(2) }
-                            }
-                        },
+                return fetch('/.netlify/functions/create-paypal-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
                         items: paypalItems,
-                        shipping: {
-                            name: { full_name: (firstName + " " + lastName).trim() || 'Customer' },
-                            address: {
-                                address_line_1: address || '123 Main St',
-                                admin_area_2: city || 'Bridgeview',
-                                admin_area_1: cleanState,
-                                postal_code: zip ? zip.replace(/[^0-9]/g, '') : '60455',
-                                country_code: cleanCountry
-                            }
+                        amounts: {
+                            grandTotal: exactGrandTotal,
+                            itemTotal: itemTotalNum.toFixed(2),
+                            shipping: shippingNum.toFixed(2),
+                            tax: taxNum.toFixed(2),
+                            handling: handlingNum.toFixed(2)
+                        },
+                        shippingAddress: {
+                            name: (firstName + ' ' + lastName).trim() || 'Customer',
+                            address: address || '123 Main St',
+                            city: city || 'Bridgeview',
+                            state: cleanState,
+                            zip: zip ? zip.replace(/[^0-9]/g, '') : '60455',
+                            country: cleanCountry
                         }
-                    }]
+                    })
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (orderData) {
+                    if (orderData.error || !orderData.id) {
+                        console.error('Server Create Order Error:', orderData);
+                        throw new Error(orderData.error?.details?.[0]?.description || orderData.error?.name || 'Failed to create PayPal authorization order on server');
+                    }
+                    return orderData.id;
                 });
             },
             onApprove: function (data, actions) {
-                return actions.order.authorize().then(function (details) {
+                return fetch('/.netlify/functions/authorize-paypal-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderID: data.orderID })
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (details) {
+                    if (details.error) {
+                        console.error('Server Authorize Error:', details.error);
+                        throw new Error(details.error?.details?.[0]?.description || details.error?.name || 'Failed to authorize PayPal payment');
+                    }
                     console.log('PayPal Payment Authorized:', details);
                     const authObj = details.purchase_units?.[0]?.payments?.authorizations?.[0];
-                    const orderId = authObj?.id || details.id || Math.floor(100000 + Math.random() * 900000);
+                    const orderId = authObj?.id || details.id || data.orderID;
 
                     localStorage.setItem('alquds_latest_order', JSON.stringify({
                         id: orderId,
-                        orderId: details.id,
+                        orderId: details.id || data.orderID,
                         method: 'PayPal/Credit Card (Authorization Hold)',
                         status: 'Authorized',
                         details: details
@@ -423,7 +429,7 @@ function renderCheckout(cart) {
                             customerName: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Valued Customer',
                             orderNumber: orderId,
                             cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
-                            total: details.purchase_units?.[0]?.amount?.value || '0.00',
+                            total: details.purchase_units?.[0]?.amount?.value || exactGrandTotal,
                             shippingAddress: {
                                 name: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Customer',
                                 address: formAddress,
@@ -437,7 +443,7 @@ function renderCheckout(cart) {
                     }).catch(e => console.error('Email Dispatch Error:', e));
 
                     localStorage.removeItem('alquds_cart');
-                    window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || '0.00') + '&method=PayPal';
+                    window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || exactGrandTotal) + '&method=PayPal';
                 }).catch(function (err) {
                     console.error('PayPal Authorization Error:', err);
                     alert('Payment Authorization Error: ' + (err.message || 'There was an issue holding funds on your card. Please verify your card details or try another payment method.'));
