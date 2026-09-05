@@ -459,6 +459,8 @@ function renderCheckout(cart) {
                     const formCountry = document.querySelector('select[name="country"]')?.value || 'US';
                     const formPhone = document.querySelector('input[name="phone"]')?.value || '';
 
+                    const cartItemsToEmail = JSON.parse(localStorage.getItem('alquds_cart')) || [];
+
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -467,8 +469,13 @@ function renderCheckout(cart) {
                             customerEmail: formEmail || details.payer?.email_address,
                             customerName: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Valued Customer',
                             orderNumber: orderId,
-                            cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
+                            paymentMethod: 'PayPal / Credit Card',
+                            subtotal: itemTotalNum.toFixed(2),
+                            shippingCost: shippingNum.toFixed(2),
+                            taxAmount: taxNum.toFixed(2),
+                            handlingFee: handlingNum.toFixed(2),
                             total: details.purchase_units?.[0]?.amount?.value || exactGrandTotal,
+                            cartItems: cartItemsToEmail,
                             shippingAddress: {
                                 name: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Customer',
                                 address: formAddress,
@@ -479,7 +486,7 @@ function renderCheckout(cart) {
                                 phone: formPhone
                             }
                         })
-                    }).catch(e => console.error('Email Dispatch Error:', e));
+                    }).then(r => r.json()).then(resData => console.log('Email Dispatch Success:', resData)).catch(e => console.error('Email Dispatch Error:', e));
 
                     localStorage.removeItem('alquds_cart');
                     window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || exactGrandTotal) + '&method=PayPal';
