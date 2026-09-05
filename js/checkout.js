@@ -486,10 +486,10 @@ function renderCheckout(cart) {
                                 phone: formPhone
                             }
                         })
-                    }).then(r => r.json()).then(resData => console.log('Email Dispatch Success:', resData)).catch(e => console.error('Email Dispatch Error:', e));
-
-                    localStorage.removeItem('alquds_cart');
-                    window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || exactGrandTotal) + '&method=PayPal';
+                    }).then(r => r.json()).then(resData => console.log('Email Dispatch Success:', resData)).catch(e => console.error('Email Dispatch Error:', e)).finally(() => {
+                        localStorage.removeItem('alquds_cart');
+                        window.location.href = '/order-confirmation.html?id=' + orderId + '&total=' + (details.purchase_units?.[0]?.amount?.value || exactGrandTotal) + '&method=PayPal';
+                    });
                 }).catch(function (err) {
                     console.error('PayPal Authorization Error:', err);
                     alert('Payment Processing Error: ' + (err.message || 'There was an issue processing your payment. Please check your card details and try again.'));
