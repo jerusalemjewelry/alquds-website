@@ -332,11 +332,12 @@ function renderCheckout(cart) {
                 });
                 
                 const domShippingStr = document.getElementById('checkout-shipping-cost')?.innerText || '0';
-                const domShipping = domShippingStr.includes('Free') ? 0 : parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0);
-                const domTax = parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0);
+                const shippingNum = domShippingStr.includes('Free') ? 0 : (parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0));
+                const taxNum = (parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0));
                 const domFeeStr = document.getElementById('checkout-fee-amount')?.innerText || '0';
-                const domFee = parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0);
-                const preciseTotal = (calcItemTotal + domShipping + domTax + domFee).toFixed(2);
+                const handlingNum = (parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0));
+                const itemTotalNum = parseFloat(calcItemTotal.toFixed(2));
+                const exactGrandTotal = (itemTotalNum + shippingNum + taxNum + handlingNum).toFixed(2);
                 
                 const firstName = document.querySelector('input[name="firstName"]')?.value || '';
                 const lastName = document.querySelector('input[name="lastName"]')?.value || '';
@@ -349,12 +350,24 @@ function renderCheckout(cart) {
                 const stateVal = stateDropdown ? stateDropdown.value : '';
                 const countryDropdown = document.querySelector('select[name="country"]');
                 const countryVal = countryDropdown ? countryDropdown.value : 'US';
+
+                // Read dedicated mandatory billing inputs
+                const billingAddress = document.querySelector('input[name="billingAddress"]')?.value || address;
+                const billingCity = document.querySelector('input[name="billingCity"]')?.value || city;
+                const billingZip = document.querySelector('input[name="billingZip"]')?.value || zip;
+                const billingStateDropdown = document.querySelector('select[name="billingState"]');
+                const billingStateVal = billingStateDropdown ? billingStateDropdown.value : stateVal;
+                const billingCountryDropdown = document.querySelector('select[name="billingCountry"]');
+                const billingCountryVal = billingCountryDropdown ? billingCountryDropdown.value : countryVal;
                 
                 // Sanitize State & Country for PayPal API Address Verification (AVS)
                 const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
-                const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
                 
+                const cleanBillingState = (billingStateVal && billingStateVal !== 'OTHER' && billingStateVal.length === 2) ? billingStateVal.toUpperCase() : cleanState;
+                const cleanBillingCountry = (billingCountryVal && billingCountryVal !== 'OTHER' && billingCountryVal.length === 2) ? billingCountryVal.toUpperCase() : cleanCountry;
+                const cleanBillingZipFormatted = billingZip ? billingZip.replace(/[^0-9]/g, '') : zip.replace(/[^0-9]/g, '');
+
                 return actions.order.create({
                     intent: 'AUTHORIZE',
                     application_context: { 
@@ -364,20 +377,23 @@ function renderCheckout(cart) {
                     payer: {
                         name: { given_name: firstName || 'Valued', surname: lastName || 'Customer' },
                         email_address: email || undefined,
-                        phone: cleanPhone ? {
-                            phone_type: 'MOBILE',
-                            phone_number: { national_number: cleanPhone }
-                        } : undefined
+                        address: {
+                            address_line_1: billingAddress || address || '123 Main St',
+                            admin_area_2: billingCity || city || 'Bridgeview',
+                            admin_area_1: cleanBillingState,
+                            postal_code: cleanBillingZipFormatted || '60455',
+                            country_code: cleanBillingCountry
+                        }
                     },
                     purchase_units: [{
                         amount: {
                             currency_code: 'USD',
-                            value: preciseTotal,
+                            value: exactGrandTotal,
                             breakdown: {
-                                item_total: { currency_code: 'USD', value: calcItemTotal.toFixed(2) },
-                                shipping: { currency_code: 'USD', value: domShipping.toFixed(2) },
-                                tax_total: { currency_code: 'USD', value: domTax.toFixed(2) },
-                                handling: { currency_code: 'USD', value: domFee.toFixed(2) }
+                                item_total: { currency_code: 'USD', value: itemTotalNum.toFixed(2) },
+                                shipping: { currency_code: 'USD', value: shippingNum.toFixed(2) },
+                                tax_total: { currency_code: 'USD', value: taxNum.toFixed(2) },
+                                handling: { currency_code: 'USD', value: handlingNum.toFixed(2) }
                             }
                         },
                         items: paypalItems,
