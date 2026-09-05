@@ -282,15 +282,15 @@ function renderCheckout(cart) {
 
     // --- PAYPAL INTEGRATION ---
     window.forcePayPalRefresh = function () {
-        if (!window.paypal) return;
+        if (!window.paypal) {
+            console.log("PayPal SDK not loaded yet.");
+            return;
+        }
 
         const container = document.getElementById('paypal-button-container');
         if (!container) return;
-
-        // Wipe out any existing opened buttons or iframes to prevent locked frames
         container.innerHTML = '';
 
-        // Hide the reset button just in case we are resetting the view
         const resetBtn = document.getElementById('reset-paypal-container');
         if (resetBtn) resetBtn.style.display = 'none';
 
@@ -314,7 +314,7 @@ function renderCheckout(cart) {
             createOrder: function (data, actions) {
                 const form = document.getElementById('checkout-form');
                 if (form && !form.checkValidity()) return false;
-                
+
                 let calcItemTotal = 0;
                 let cart = JSON.parse(localStorage.getItem('alquds_cart')) || [];
                 const paypalItems = cart.map(item => {
@@ -330,19 +330,19 @@ function renderCheckout(cart) {
                         quantity: qty.toString()
                     };
                 });
-                
+
                 const domShippingStr = document.getElementById('checkout-shipping-cost')?.innerText || '0';
                 const shippingNum = domShippingStr.includes('Free') ? 0 : (parseFloat(domShippingStr.replace(/[^0-9.-]+/g, '') || 0));
                 const taxNum = (parseFloat(document.getElementById('checkout-tax-amount')?.innerText.replace(/[^0-9.-]+/g, '') || 0));
                 const domFeeStr = document.getElementById('checkout-fee-amount')?.innerText || '0';
                 const handlingNum = (parseFloat(domFeeStr.replace(/[^0-9.-]+/g, '') || 0));
+                
                 const itemTotalNum = parseFloat(calcItemTotal.toFixed(2));
                 const exactGrandTotal = (itemTotalNum + shippingNum + taxNum + handlingNum).toFixed(2);
-                
+
                 const firstName = document.querySelector('input[name="firstName"]')?.value || '';
                 const lastName = document.querySelector('input[name="lastName"]')?.value || '';
                 const email = document.querySelector('input[name="email"]')?.value || '';
-                const phone = document.querySelector('input[name="phone"]')?.value || '';
                 const address = document.querySelector('input[name="address"]')?.value || '';
                 const city = document.querySelector('input[name="city"]')?.value || '';
                 const zip = document.querySelector('input[name="zip"]')?.value || '';
@@ -356,7 +356,7 @@ function renderCheckout(cart) {
 
                 return actions.order.create({
                     intent: 'AUTHORIZE',
-                    application_context: { 
+                    application_context: {
                         shipping_preference: 'SET_PROVIDED_ADDRESS',
                         user_action: 'CONTINUE'
                     },
@@ -408,8 +408,8 @@ function renderCheckout(cart) {
                         headers: { 'Content-Type': 'application/json' },
                         keepalive: true,
                         body: JSON.stringify({
-                            customerEmail: details.payer?.email_address || email,
-                            customerName: details.payer?.name?.given_name || firstName,
+                            customerEmail: details.payer?.email_address,
+                            customerName: details.payer?.name?.given_name,
                             orderNumber: authId,
                             cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
                             total: details.purchase_units[0].amount.value
@@ -428,8 +428,6 @@ function renderCheckout(cart) {
             }
         }).render('#paypal-button-container');
     };
-
-
 
     // Run the integration on initial load
     window.forcePayPalRefresh();
