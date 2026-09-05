@@ -351,22 +351,8 @@ function renderCheckout(cart) {
                 const countryDropdown = document.querySelector('select[name="country"]');
                 const countryVal = countryDropdown ? countryDropdown.value : 'US';
 
-                // Read dedicated mandatory billing inputs
-                const billingAddress = document.querySelector('input[name="billingAddress"]')?.value || address;
-                const billingCity = document.querySelector('input[name="billingCity"]')?.value || city;
-                const billingZip = document.querySelector('input[name="billingZip"]')?.value || zip;
-                const billingStateDropdown = document.querySelector('select[name="billingState"]');
-                const billingStateVal = billingStateDropdown ? billingStateDropdown.value : stateVal;
-                const billingCountryDropdown = document.querySelector('select[name="billingCountry"]');
-                const billingCountryVal = billingCountryDropdown ? billingCountryDropdown.value : countryVal;
-                
-                // Sanitize State & Country for PayPal API Address Verification (AVS)
                 const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
-                
-                const cleanBillingState = (billingStateVal && billingStateVal !== 'OTHER' && billingStateVal.length === 2) ? billingStateVal.toUpperCase() : cleanState;
-                const cleanBillingCountry = (billingCountryVal && billingCountryVal !== 'OTHER' && billingCountryVal.length === 2) ? billingCountryVal.toUpperCase() : cleanCountry;
-                const cleanBillingZipFormatted = billingZip ? billingZip.replace(/[^0-9]/g, '') : zip.replace(/[^0-9]/g, '');
 
                 return actions.order.create({
                     intent: 'AUTHORIZE',
@@ -376,14 +362,7 @@ function renderCheckout(cart) {
                     },
                     payer: {
                         name: { given_name: firstName || 'Valued', surname: lastName || 'Customer' },
-                        email_address: email || undefined,
-                        address: {
-                            address_line_1: billingAddress || address || '123 Main St',
-                            admin_area_2: billingCity || city || 'Bridgeview',
-                            admin_area_1: cleanBillingState,
-                            postal_code: cleanBillingZipFormatted || '60455',
-                            country_code: cleanBillingCountry
-                        }
+                        email_address: email || undefined
                     },
                     purchase_units: [{
                         amount: {
