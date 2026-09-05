@@ -355,89 +355,52 @@ function renderCheckout(cart) {
                 const cleanState = (stateVal && stateVal !== 'OTHER' && stateVal.length === 2) ? stateVal.toUpperCase() : 'IL';
                 const cleanCountry = (countryVal && countryVal !== 'OTHER' && countryVal.length === 2) ? countryVal.toUpperCase() : 'US';
 
-                return fetch('/.netlify/functions/create-paypal-order', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        items: paypalItems,
-                        amounts: {
-                            grandTotal: exactGrandTotal,
-                            itemTotal: itemTotalNum.toFixed(2),
-                            shipping: shippingNum.toFixed(2),
-                            tax: taxNum.toFixed(2),
-                            handling: handlingNum.toFixed(2)
+                return actions.order.create({
+                    intent: 'CAPTURE',
+                    application_context: {
+                        shipping_preference: 'SET_PROVIDED_ADDRESS',
+                        user_action: 'PAY_NOW'
+                    },
+                    payer: {
+                        name: { given_name: firstName || 'Valued', surname: lastName || 'Customer' },
+                        ...(email && email.includes('@') ? { email_address: email.trim() } : {})
+                    },
+                    purchase_units: [{
+                        amount: {
+                            currency_code: 'USD',
+                            value: exactGrandTotal,
+                            breakdown: {
+                                item_total: { currency_code: 'USD', value: itemTotalNum.toFixed(2) },
+                                shipping: { currency_code: 'USD', value: shippingNum.toFixed(2) },
+                                tax_total: { currency_code: 'USD', value: taxNum.toFixed(2) },
+                                handling: { currency_code: 'USD', value: handlingNum.toFixed(2) }
+                            }
                         },
-                        shippingAddress: {
-                            name: (firstName + ' ' + lastName).trim() || 'Customer',
-                            address: address || '123 Main St',
-                            city: city || 'Bridgeview',
-                            state: cleanState,
-                            zip: zip ? zip.replace(/[^0-9]/g, '') : '60455',
-                            country: cleanCountry
+                        items: paypalItems,
+                        shipping: {
+                            name: { full_name: (firstName + " " + lastName).trim() || 'Customer' },
+                            address: {
+                                address_line_1: address || '123 Main St',
+                                admin_area_2: city || 'Bridgeview',
+                                admin_area_1: cleanState,
+                                postal_code: zip ? zip.replace(/[^0-9]/g, '') : '60455',
+                                country_code: cleanCountry
+                            }
                         }
-                    })
-                }).then(function (res) {
-                    return res.text().then(function (text) {
-                        var data;
-                        try {
-                            data = JSON.parse(text);
-                        } catch (e) {
-                            console.error('Non-JSON server response:', text);
-                            throw new Error('Backend Function Endpoint Error (HTTP ' + res.status + '). Please make sure netlify.toml and netlify/functions/ are uploaded.');
-                        }
-                        return { ok: res.ok, status: res.status, data: data };
-                    });
-                }).then(function (resObj) {
-                    if (!resObj.ok || resObj.data.error || !resObj.data.id) {
-                        console.error('Server Create Order Error:', resObj);
-                        var errPayload = resObj.data?.error || resObj.data;
-                        var msg = errPayload?.details?.[0]?.description 
-                               || errPayload?.message 
-                               || errPayload?.name 
-                               || (typeof errPayload === 'string' ? errPayload : JSON.stringify(errPayload))
-                               || 'Failed to create PayPal authorization order on server';
-                        throw new Error(msg);
-                    }
-                    return resObj.data.id;
+                    }]
                 });
             },
             onApprove: function (data, actions) {
-                return fetch('/.netlify/functions/authorize-paypal-order', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ orderID: data.orderID })
-                }).then(function (res) {
-                    return res.text().then(function (text) {
-                        var details;
-                        try {
-                            details = JSON.parse(text);
-                        } catch (e) {
-                            console.error('Non-JSON server response:', text);
-                            throw new Error('Backend Authorization Endpoint Error (HTTP ' + res.status + ')');
-                        }
-                        return { ok: res.ok, status: res.status, details: details };
-                    });
-                }).then(function (resObj) {
-                    var details = resObj.details;
-                    if (!resObj.ok || details.error) {
-                        console.error('Server Authorize Error:', resObj);
-                        var errPayload = details?.error || details;
-                        var msg = errPayload?.details?.[0]?.description 
-                               || errPayload?.message 
-                               || errPayload?.name 
-                               || (typeof errPayload === 'string' ? errPayload : JSON.stringify(errPayload))
-                               || 'Failed to authorize PayPal payment';
-                        throw new Error(msg);
-                    }
-                    console.log('PayPal Payment Authorized:', details);
-                    const authObj = details.purchase_units?.[0]?.payments?.authorizations?.[0];
-                    const orderId = authObj?.id || details.id || data.orderID;
+                return actions.order.capture().then(function (details) {
+                    console.log('PayPal Payment Completed:', details);
+                    const captureObj = details.purchase_units?.[0]?.payments?.captures?.[0];
+                    const orderId = captureObj?.id || details.id || Math.floor(100000 + Math.random() * 900000);
 
                     localStorage.setItem('alquds_latest_order', JSON.stringify({
                         id: orderId,
-                        orderId: details.id || data.orderID,
-                        method: 'PayPal/Credit Card (Authorization Hold)',
-                        status: 'Authorized',
+                        orderId: details.id,
+                        method: 'PayPal/Credit Card',
+                        status: 'Completed',
                         details: details
                     }));
 
