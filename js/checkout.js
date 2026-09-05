@@ -377,7 +377,14 @@ function renderCheckout(cart) {
                         }
                     })
                 }).then(function (res) {
-                    return res.json().then(function (data) {
+                    return res.text().then(function (text) {
+                        var data;
+                        try {
+                            data = JSON.parse(text);
+                        } catch (e) {
+                            console.error('Non-JSON server response:', text);
+                            throw new Error('Backend Function Endpoint Error (HTTP ' + res.status + '). Please make sure netlify.toml and netlify/functions/ are uploaded.');
+                        }
                         return { ok: res.ok, status: res.status, data: data };
                     });
                 }).then(function (resObj) {
@@ -400,7 +407,14 @@ function renderCheckout(cart) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ orderID: data.orderID })
                 }).then(function (res) {
-                    return res.json().then(function (details) {
+                    return res.text().then(function (text) {
+                        var details;
+                        try {
+                            details = JSON.parse(text);
+                        } catch (e) {
+                            console.error('Non-JSON server response:', text);
+                            throw new Error('Backend Authorization Endpoint Error (HTTP ' + res.status + ')');
+                        }
                         return { ok: res.ok, status: res.status, details: details };
                     });
                 }).then(function (resObj) {
