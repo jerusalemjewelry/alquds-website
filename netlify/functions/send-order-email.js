@@ -196,72 +196,58 @@ exports.handler = async (event) => {
       </html>
     `;
 
-    // Send email via Resend API
-    const recipients = [customerEmail];
-    if (customerEmail !== adminEmail) {
-      recipients.push(adminEmail);
-    }
-
-    const payload = {
-      from: fromSender,
-      to: recipients,
-      subject: `Order Confirmation #${orderNumber} - Alquds Jewelry`,
-      html: emailHtml
-    };
-
-    const resendResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const resendData = await resendResponse.json().catch(() => ({}));
-
-    if (!resendResponse.ok) {
-      console.error('Resend API Error details:', resendData);
-      
-      // If error is due to unverified from domain, attempt sending via onboarding fallback address
-      if (resendResponse.status === 403 && fromSender.includes('@alqudsjewelry.com')) {
-        console.log('Attempting fallback sending via onboarding@resend.dev...');
-        const fallbackPayload = {
-          ...payload,
-          from: 'Alquds Jewelry <onboarding@resend.dev>'
-        };
-
-        const fallbackResponse = await fetch('https://api.resend.com/emails', {
+    // Helper function to send via Resend API
+    async function sendResend(fromAddress, toAddresses) {
+      try {
+        const resp = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${API_KEY}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(fallbackPayload)
+          body: JSON.stringify({
+            from: fromAddress,
+            to: toAddresses,
+            subject: `Order Confirmation #${orderNumber} - Alquds Jewelry`,
+            html: emailHtml
+          })
         });
-
-        const fallbackData = await fallbackResponse.json().catch(() => ({}));
-        if (fallbackResponse.ok) {
-          return {
-            statusCode: 200,
-            body: JSON.stringify({ message: 'Email sent successfully via fallback domain!', data: fallbackData })
-          };
-        }
+        const data = await resp.json().catch(() => ({}));
+        return { ok: resp.ok, status: resp.status, data };
+      } catch (err) {
+        return { ok: false, status: 500, data: { message: err.message } };
       }
-
-      return {
-        statusCode: resendResponse.status,
-        body: JSON.stringify({
-          error: 'Resend API error',
-          details: resendData
-        })
-      };
     }
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Order confirmation email sent successfully!', data: resendData })
-    };
+    const targetRecipients = Array.from(new Set([customerEmail, adminEmail].filter(Boolean)));
+
+    // Step 1: Try custom domain to customer & admin
+    let result = await sendResend(fromSender, targetRecipients);
+
+    // Step 2: If custom domain failed, try onboarding@resend.dev to customer & admin
+    if (!result.ok) {
+      console.log('Step 1 failed, retrying via onboarding@resend.dev...', result.data);
+      result = await sendResend('Alquds Jewelry <onboarding@resend.dev>', targetRecipients);
+    }
+
+    // Step 3: If still failed (e.g. Resend onboarding restricted recipient list), send to admin email only
+    if (!result.ok) {
+      console.log('Step 2 failed, retrying directly to admin email...', result.data);
+      result = await sendResend('Alquds Jewelry <onboarding@resend.dev>', [adminEmail]);
+    }
+
+    if (result.ok) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Order confirmation email sent successfully!', data: result.data })
+      };
+    } else {
+      console.error('All email dispatch attempts failed:', result.data);
+      return {
+        statusCode: result.status || 500,
+        body: JSON.stringify({ error: 'Resend API error after all retry attempts', details: result.data })
+      };
+    }
 
   } catch (error) {
     console.error('Error in send-order-email function:', error);
