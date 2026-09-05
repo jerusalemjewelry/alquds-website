@@ -403,18 +403,37 @@ function renderCheckout(cart) {
                         details: details
                     }));
 
+                    const formEmail = document.querySelector('input[name="email"]')?.value || '';
+                    const formFirstName = document.querySelector('input[name="firstName"]')?.value || '';
+                    const formLastName = document.querySelector('input[name="lastName"]')?.value || '';
+                    const formAddress = document.querySelector('input[name="address"]')?.value || '';
+                    const formCity = document.querySelector('input[name="city"]')?.value || '';
+                    const formState = document.querySelector('select[name="state"]')?.value || '';
+                    const formZip = document.querySelector('input[name="zip"]')?.value || '';
+                    const formCountry = document.querySelector('select[name="country"]')?.value || 'US';
+                    const formPhone = document.querySelector('input[name="phone"]')?.value || '';
+
                     fetch('/.netlify/functions/send-order-email', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         keepalive: true,
                         body: JSON.stringify({
-                            customerEmail: details.payer?.email_address,
-                            customerName: details.payer?.name?.given_name,
+                            customerEmail: formEmail || details.payer?.email_address,
+                            customerName: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Valued Customer',
                             orderNumber: authId,
                             cartItems: JSON.parse(localStorage.getItem('alquds_cart')) || [],
-                            total: details.purchase_units[0].amount.value
+                            total: details.purchase_units?.[0]?.amount?.value || '0.00',
+                            shippingAddress: {
+                                name: (formFirstName + ' ' + formLastName).trim() || details.payer?.name?.given_name || 'Customer',
+                                address: formAddress,
+                                city: formCity,
+                                state: formState,
+                                zip: formZip,
+                                country: formCountry,
+                                phone: formPhone
+                            }
                         })
-                    }).catch(e => console.error(e));
+                    }).catch(e => console.error('Email Dispatch Error:', e));
 
                     window.location.href = '/order-confirmation.html?id=' + authId + '&total=' + details.purchase_units[0].amount.value + '&method=PayPal';
                 }).catch(function (err) {
