@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <script>
+        (function() {
+            function registerPolicy(win) {
+                if (win.trustedTypes && win.trustedTypes.createPolicy && !win.trustedTypes.defaultPolicy) {
+                    try {
+                        win.trustedTypes.createPolicy('default', {
+                            createHTML: function(string) { return string; },
+                            createScript: function(string) { return string; },
+                            createScriptURL: function(string) { return string; }
+                        });
+                    } catch (e) {
+                        console.warn("Failed to register default Trusted Types policy:", e);
+                    }
+                }
+            }
+
+            registerPolicy(window);
+
+            // Intercept iframe elements to inject policy into same-origin/blank frames
+            var originalCreate = document.createElement;
+            document.createElement = function(tagName, options) {
+                var el = originalCreate.call(document, tagName, options);
+                if (tagName && tagName.toLowerCase() === 'iframe') {
+                    el.addEventListener('load', function() {
+                        try {
+                            if (el.contentWindow) {
+                                registerPolicy(el.contentWindow);
+                            }
+                        } catch (e) {}
+                    });
+                    setTimeout(function() {
+                        try {
+                            if (el.contentWindow) {
+                                registerPolicy(el.contentWindow);
+                            }
+                        } catch (e) {}
+                    }, 0);
+                }
+                return el;
+            };
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Alquds Jewelry</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css?v=3">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header-main">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <a href="/" class="text-gold"
+                    style="font-family: var(--font-heading); font-size: 1.8rem; letter-spacing: 1px; white-space: nowrap;">
+                    ALQUDS <span class="text-white">JEWELRY</span>
+                </a>
+            </div>
+            <div class="header-actions flex gap-4 items-center">
+                <a href="/cart.html" class="text-white relative">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span id="cart-count"
+                        style="position: absolute; top: -8px; right: -8px; background: var(--color-gold); color: black; font-size: 0.7rem; padding: 2px 5px; border-radius: 50%;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 40px 20px; max-width: 1000px;">
+        <h1 class="text-center mb-5">Secure Checkout</h1>
+
+        <form id="checkout-form">
+            <!-- STEP 1: PERSONAL DATA -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">1</span> Personal & Shipping Info
+                </div>
+                <div class="checkout-step-content">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">First Name *</label>
+                            <input type="text" name="firstName" required autocomplete="given-name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name *</label>
+                            <input type="text" name="lastName" required autocomplete="family-name">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" name="email" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" name="phone" required placeholder="(123) 456-7890" autocomplete="tel">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Shipping Address *</label>
+                        <input type="text" name="address" required autocomplete="street-address">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">City *</label>
+                            <input type="text" name="city" required autocomplete="address-level2">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Zip Code *</label>
+                            <input type="text" name="zip" required autocomplete="postal-code">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="form-group">
+                            <label class="form-label">State/Region *</label>
+                            <select name="state" required autocomplete="address-level1"
+                                style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--color-gray); color: white; border-radius: 4px;">
+                                <option value="" disabled selected>Select State</option>
+                                <option value="AL">Alabama</option>
+                                <option value="AK">Alaska</option>
+                                <option value="AZ">Arizona</option>
+                                <option value="AR">Arkansas</option>
+                                <option value="CA">California</option>
+                                <option value="CO">Colorado</option>
+                                <option value="CT">Connecticut</option>
+                                <option value="DE">Delaware</option>
+                                <option value="FL">Florida</option>
+                                <option value="GA">Georgia</option>
+                                <option value="HI">Hawaii</option>
+                                <option value="ID">Idaho</option>
+                                <option value="IL">Illinois</option>
+                                <option value="IN">Indiana</option>
+                                <option value="IA">Iowa</option>
+                                <option value="KS">Kansas</option>
+                                <option value="KY">Kentucky</option>
+                                <option value="LA">Louisiana</option>
+                                <option value="ME">Maine</option>
+                                <option value="MD">Maryland</option>
+                                <option value="MA">Massachusetts</option>
+                                <option value="MI">Michigan</option>
+                                <option value="MN">Minnesota</option>
+                                <option value="MS">Mississippi</option>
+                                <option value="MO">Missouri</option>
+                                <option value="MT">Montana</option>
+                                <option value="NE">Nebraska</option>
+                                <option value="NV">Nevada</option>
+                                <option value="NH">New Hampshire</option>
+                                <option value="NJ">New Jersey</option>
+                                <option value="NM">New Mexico</option>
+                                <option value="NY">New York</option>
+                                <option value="NC">North Carolina</option>
+                                <option value="ND">North Dakota</option>
+                                <option value="OH">Ohio</option>
+                                <option value="OK">Oklahoma</option>
+                                <option value="OR">Oregon</option>
+                                <option value="PA">Pennsylvania</option>
+                                <option value="RI">Rhode Island</option>
+                                <option value="SC">South Carolina</option>
+                                <option value="SD">South Dakota</option>
+                                <option value="TN">Tennessee</option>
+                                <option value="TX">Texas</option>
+                                <option value="UT">Utah</option>
+                                <option value="VT">Vermont</option>
+                                <option value="VA">Virginia</option>
+                                <option value="WA">Washington</option>
+                                <option value="WV">West Virginia</option>
+                                <option value="WI">Wisconsin</option>
+                                <option value="WY">Wyoming</option>
+                                <option value="OTHER">Other / International</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Country *</label>
+                            <select name="country"
+                                style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--color-gray); color: white; border-radius: 4px;">
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: PAYMENT & SHIPPING -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">2</span> Payment & Shipping
+                </div>
+                <div class="checkout-step-content">
+                    <!-- Changed to checkout-grid for better responsive control -->
+                    <div class="checkout-grid" style="align-items: start;">
+
+                        <!-- Col 1: Payment -->
+                        <div
+                            style="background: rgba(255,255,255,0.03); padding: 25px; border: 1px solid var(--color-gray); border-radius: 4px;">
+                            <h3 class="mb-3 text-white"
+                                style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
+                                Payment Method</h3>
+
+                            <div class="flex gap-4 payment-mini-icons flex-wrap mb-4"
+                                style="align-items: center; border-radius: 4px;">
+                                <img src="/.netlify/images?url=/assets/visa.png" style="height:25px; object-fit: contain;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                                    style="height:25px; object-fit: contain;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg"
+                                    style="height:25px; background: white; padding: 2px; border-radius: 2px; object-fit: contain;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
+                                    style="height:25px; border-radius: 2px; object-fit: contain;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+                                    style="height:25px; object-fit: contain;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+                                    style="height:28px; background: white; border-radius: 2px; padding: 2px; object-fit: contain;">
+                            </div>
+
+                            <div class="mb-4 text-muted" style="font-size: 0.85rem; line-height: 1.5;">
+                                Payments are securely processed via PayPal.
+                                <br><br>
+                                <strong class="text-white">You do NOT need a PayPal account.</strong> You can pay
+                                directly with any major Credit or Debit card, or use your PayPal account.
+                            </div>
+                        </div>
+
+                        <!-- Col 2: Shipping -->
+                        <div
+                            style="background: rgba(255,255,255,0.03); padding: 25px; border: 1px solid var(--color-gray); border-radius: 4px;">
+                            <h3 class="mb-3 text-white"
+                                style="font-size: 1.1rem; border-bottom: 1px solid var(--color-gray); padding-bottom: 15px; margin-bottom: 20px;">
+                                Shipping Method</h3>
+                            <label class="shipping-method-box mb-3"
+                                style="display: flex; align-items: center; padding: 15px; border-radius: 4px; border: 1px solid var(--color-gray); cursor: pointer; transition: all 0.3s; margin-bottom: 10px; background: rgba(0,0,0,0.5);">
+                                <input type="radio" name="shipping" value="standard" class="radio-gold"
+                                    style="accent-color: var(--color-gold);">
+                                <div style="flex: 1; margin-left: 15px;">
+                                    <div class="text-white" style="font-weight: bold;">Standard Insured</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">3-5 Business Days UPS</div>
+                                </div>
+                                <div class="text-gold" style="font-weight: bold;" id="cost-standard">Calc...</div>
+                            </label>
+
+                            <label class="shipping-method-box mb-3"
+                                style="display: flex; align-items: center; padding: 15px; border-radius: 4px; border: 1px solid var(--color-gray); cursor: pointer; transition: all 0.3s; margin-bottom: 10px; background: rgba(0,0,0,0.5);">
+                                <input type="radio" name="shipping" value="express" checked class="radio-gold"
+                                    style="accent-color: var(--color-gold);">
+                                <div style="flex: 1; margin-left: 15px;">
+                                    <div class="text-white" style="font-weight: bold;">Express Insured</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">2 Business Days UPS</div>
+                                </div>
+                                <div class="text-gold" style="font-weight: bold;" id="cost-express">Calc...</div>
+                            </label>
+
+                            <label class="shipping-method-box"
+                                style="display: flex; align-items: center; padding: 15px; border-radius: 4px; border: 1px solid var(--color-gray); cursor: pointer; transition: all 0.3s; background: rgba(0,0,0,0.5);">
+                                <input type="radio" name="shipping" value="overnight" class="radio-gold"
+                                    style="accent-color: var(--color-gold);">
+                                <div style="flex: 1; margin-left: 15px;">
+                                    <div class="text-white" style="font-weight: bold;">Overnight Insured</div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">1 Business Day UPS</div>
+                                </div>
+                                <div class="text-gold" style="font-weight: bold;" id="cost-overnight">Calc...</div>
+                            </label>
+
+                            <div class="mt-3 text-muted" style="font-size: 0.85rem;">
+                                <i class="fa-solid fa-shield-halved text-gold"></i> Shipping costs dynamically
+                                calculated based on the insured value of your items.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: OVERVIEW -->
+            <div class="checkout-step">
+                <div class="checkout-step-header">
+                    <span class="checkout-step-number">3</span> Order Overview
+                </div>
+                <div class="checkout-step-content">
+                    <div id="checkout-items" class="mb-4"
+                        style="border-bottom: 1px solid var(--color-gray); padding-bottom: 20px;">
+                        <!-- JS populated -->
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="flex flex-col items-center" style="align-items: flex-end;">
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
+                            <span class="text-muted">Subtotal:</span>
+                            <span class="text-white" id="checkout-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
+                            <span class="text-muted">Insured Shipping:</span>
+                            <span class="text-white" id="checkout-shipping-cost">$0.00</span>
+                        </div>
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;">
+                            <span class="text-muted">Card Service Fee (3%):</span>
+                            <span class="text-white" id="checkout-fee-amount">$0.00</span>
+                        </div>
+                        <div class="flex justify-between" style="width: 300px; margin-bottom: 10px;" id="checkout-tax-row">
+                            <span class="text-muted" id="tax-label">Estimated Tax:</span>
+                            <span class="text-white" id="checkout-tax-amount">$0.00</span>
+                        </div>
+                        <div class="flex justify-between"
+                            style="width: 300px; border-top: 1px solid var(--color-gray); padding-top: 10px; margin-top: 5px;">
+                            <span class="text-gold" style="font-size: 1.3rem; font-weight: bold;">Grand Total:</span>
+                            <span class="text-gold" style="font-size: 1.3rem; font-weight: bold;"
+                                id="checkout-total">$0.00</span>
+                        </div>
+
+                        <!-- PayPal Button Container -->
+                        <div id="submit-paypal-container" style="width: 300px; margin-top: 20px;">
+                            <!-- Zelle / Wire discount notice -->
+                            <div style="background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--color-gold); padding: 15px; border-radius: 4px; font-size: 0.82rem; line-height: 1.5; color: #ccc; margin-bottom: 20px; text-align: left;">
+                                <i class="fa-solid fa-percent text-gold" style="margin-right: 8px;"></i>
+                                <strong style="color: #ffffff;">Save 3% via Zelle or Wire</strong>
+                                <span style="display: block; margin-top: 5px;">Prefer to pay via Zelle or Bank Wire? You can save <strong class="text-gold">3%</strong> on your order! Please call us at <a href="tel:+17082339508" style="color: var(--color-gold); font-weight: bold; text-decoration: underline;">(708) 233-9508</a> to place your order.</span>
+                            </div>
+
+                            <div id="checkout-error-box"
+                                style="display: none; background: rgba(255, 68, 68, 0.1); border: 1px solid #ff4444; color: #ff4444; padding: 12px; border-radius: 4px; font-size: 0.9rem; margin-bottom: 15px; text-align: center;">
+                                <i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>
+                                <strong>Oops!</strong> Looks like you forgot to fill out your Personal & Shipping info
+                                in Step 1. Please complete it before paying.
+                            </div>
+
+                            <div style="margin-top: 15px; margin-bottom: 20px; text-align: left;">
+                                <label style="display: flex; align-items: start; gap: 10px; color: #bbb; cursor: pointer; font-size: 0.85rem; line-height: 1.4; user-select: none;">
+                                    <input type="checkbox" id="policy-agreement" required style="accent-color: var(--color-gold); cursor: pointer; width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0;">
+                                    <span>I agree to the <a href="/shipping-procedures/" target="_blank" style="color: var(--color-gold); text-decoration: underline;">Shipping, Exchange & Return policies</a> *</span>
+                                </label>
+                            </div>
+
+                            <!-- Payment Method Selector -->
+                            <!-- Payment Container -->
+                            <div id="paypal-button-container" style="margin-top: 20px;"></div>
+                            
+                            <div style="text-align: right; font-size: 0.8rem; color: var(--color-gold); font-weight: bold; margin-top: 5px; margin-bottom: 5px;">v14.0</div>
+
+                            <div id="reset-paypal-container"
+                                style="display: none; text-align: center; margin-top: 15px;">
+                                <a href="javascript:window.location.reload()" class="text-muted"
+                                    style="font-size: 0.9rem; text-decoration: underline; transition: color 0.3s;"
+                                    onmouseover="this.style.color='var(--color-gold)'" onmouseout="this.style.color=''">
+                                    <i class="fa-solid fa-rotate-left" style="margin-right: 5px;"></i> Change Payment
+                                    Option
+                                </a>
+                            </div>
+
+                            <div class="mt-4" style="text-align: center;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="text-muted">&copy; 2025 Alquds Jewelry. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app-v3.js?v=3"></script>
+    <!-- PayPal JS SDK -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=BAA1meBJLQLzbDmIEf-l-Dx-sCRygXfKNLqsm6ZQfI-tEfL1s6Le7WFm2gd0CYK4jWGkiELo2qe1KKnVrI&currency=USD&intent=capture&disable-funding=credit,paylater"></script>
+    <script src="/js/checkout.js?v=14.0"></script>
+</body>
+
+</html>
