@@ -3,6 +3,42 @@
     {
       "unit": "oz",
       "metal": "Gold",
+      "name": "24k Kishek Olive Tree Oval Half Ounce Bar",
+      "featured": false,
+      "karat": 24,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 100,
+      "weight": 15.55,
+      "id": "Cb13",
+      "image": "assets/kishek-olive-tree-ounce.png",
+      "description": " Pure 24K Gold: Minted in high-purity 24 Karat gold (99.9%+ pure fine gold).\nDistinctive Square Format: Crafted in a clean, modern oval profile that highlights the detailed relief artwork.\nSought-After 1/2 oz Weight: Contains 0.5 Troy Ounces (approx. 15.55 grams) of fine gold, providing an accessible and liquid weight unit for collectors and investors alike.\nSymbol of Heritage & Resilience: Features an intricately struck Olive Tree, making it a popular choice for milestone gifts, weddings, family heirlooms, and personal collection.\nFine Artisanal Detail: Combines bullion investment value with fine jewelry-grade aesthetic craftsmanship.",
+      "category": "coins-bullions",
+      "additionalImages": [
+        "assets/kishek-olive-tree-oval-half-ounce.png"
+      ]
+    },
+    {
+      "unit": "oz",
+      "metal": "Gold",
+      "name": "24k Kishek Olive Tree Square Half Ounce Bar",
+      "featured": false,
+      "karat": 24,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 100,
+      "weight": 15.55,
+      "id": "Cb12",
+      "image": "assets/kishek-olive-tree-square-half-ounce.png",
+      "description": "Pure 24K Gold: Minted in high-purity 24 Karat gold (99.9%+ pure fine gold).\nDistinctive Square Format: Crafted in a clean, modern square profile that highlights the detailed relief artwork.\nSought-After 1/2 oz Weight: Contains 0.5 Troy Ounces (approx. 15.55 grams) of fine gold, providing an accessible and liquid weight unit for collectors and investors alike.\nSymbol of Heritage & Resilience: Features an intricately struck Olive Tree, making it a popular choice for milestone gifts, weddings, family heirlooms, and personal collection.\nFine Artisanal Detail: Combines bullion investment value with fine jewelry-grade aesthetic craftsmanship.",
+      "category": "coins-bullions",
+      "additionalImages": [
+        "assets/kishe-olive-tree-half-square-ounce.png"
+      ]
+    },
+    {
+      "unit": "oz",
+      "metal": "Gold",
       "name": "24k Valcambi Suisse Full Ounce Bar",
       "featured": true,
       "karat": 24,
