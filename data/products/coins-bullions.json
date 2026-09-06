@@ -3,6 +3,24 @@
     {
       "unit": "oz",
       "metal": "Gold",
+      "name": "24k Rose Half Ounce Bar",
+      "featured": false,
+      "karat": 24,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 100,
+      "weight": 15.55,
+      "id": "Cb14",
+      "image": "assets/half-rose-ounce.png",
+      "description": "Pure 24K Fine Gold: Struck in 99.99% pure gold (.9999 fineness).\nHalf Troy Ounce Weight: Contains exactly 0.5 Troy Ounces (15.55 grams) of fine gold.\nIntricate Floral Artistry: Minted with a detailed high-relief blooming rose and stem motif.\nVersatile Gift & Investment: A favorite choice for weddings, anniversaries, birthdays, Valentine's Day, and family heritage gifts.\nProtective Mint Packaging: Sealed in protective tamper-evident assay packaging to preserve condition, mirror proof finish, and authenticity.",
+      "category": "coins-bullions",
+      "additionalImages": [
+        "assets/half-rose-ounce-back.png"
+      ]
+    },
+    {
+      "unit": "oz",
+      "metal": "Gold",
       "name": "24k Kishek Olive Tree Oval Half Ounce Bar",
       "featured": false,
       "karat": 24,
