@@ -3,37 +3,34 @@
     {
       "unit": "oz",
       "metal": "Gold",
-      "name": "24k Rose Half Ounce Bar",
+      "name": "24k 1 oz PAMP Suisse Gold Bar - Lady Fortuna",
       "featured": false,
       "karat": 24,
       "outOfStock": false,
       "isDynamic": true,
-      "premium": 100,
-      "weight": 15.55,
-      "id": "Cb14",
-      "image": "assets/half-rose-ounce.png",
-      "description": "Pure 24K Fine Gold: Struck in 99.99% pure gold (.9999 fineness).\nHalf Troy Ounce Weight: Contains exactly 0.5 Troy Ounces (15.55 grams) of fine gold.\nIntricate Floral Artistry: Minted with a detailed high-relief blooming rose and stem motif.\nVersatile Gift & Investment: A favorite choice for weddings, anniversaries, birthdays, Valentine's Day, and family heritage gifts.\nProtective Mint Packaging: Sealed in protective tamper-evident assay packaging to preserve condition, mirror proof finish, and authenticity.",
-      "category": "coins-bullions",
-      "additionalImages": [
-        "assets/half-rose-ounce-back.png"
-      ]
+      "premium": 150,
+      "weight": 1,
+      "id": "Cb1",
+      "image": "assets/pamp_1oz_gold.jpg",
+      "description": "Invest in timeless elegance with the world-renowned 1 oz PAMP Suisse Gold Bar, featuring the iconic Lady Fortuna design. Minted in Switzerland by PAMP (Produits Artistiques Métaux Précieux), this 24-karat (999.9 purity) gold bar represents the pinnacle of quality and craftsmanship. Each bar is individually sealed in assay packaging, guaranteeing its authenticity, weight (31.104g), and purity. A favorite among investors and collectors alike, PAMP Suisse bars are recognized globally for their superior artistry and value retention.",
+      "category": "coins-bullions"
     },
     {
       "unit": "oz",
       "metal": "Gold",
-      "name": "24k Kishek Olive Tree Oval Half Ounce Bar",
-      "featured": false,
+      "name": "24k Valcambi Suisse Full Ounce Bar",
+      "featured": true,
       "karat": 24,
       "outOfStock": false,
       "isDynamic": true,
-      "premium": 100,
-      "weight": 15.55,
-      "id": "Cb13",
-      "image": "assets/kishek-olive-tree-ounce.png",
-      "description": " Pure 24K Gold: Minted in high-purity 24 Karat gold (99.9%+ pure fine gold).\nDistinctive Square Format: Crafted in a clean, modern oval profile that highlights the detailed relief artwork.\nSought-After 1/2 oz Weight: Contains 0.5 Troy Ounces (approx. 15.55 grams) of fine gold, providing an accessible and liquid weight unit for collectors and investors alike.\nSymbol of Heritage & Resilience: Features an intricately struck Olive Tree, making it a popular choice for milestone gifts, weddings, family heirlooms, and personal collection.\nFine Artisanal Detail: Combines bullion investment value with fine jewelry-grade aesthetic craftsmanship.",
+      "premium": 125,
+      "weight": 31.1,
+      "id": "Cb11",
+      "image": "assets/valcambi-suisse-full-ounce-front.png",
+      "description": "1 oz Valcambi Suisse 24K Gold Bar (In Assay Card)\nOverview\nRenowned for precision Swiss engineering and unmatched purity, the 1 oz Valcambi Suisse 24K Gold Bar is one of the most recognized and liquid gold bullion products in the world. Struck from 1 troy ounce of .9999 fine gold (24 karat), this bar represents the gold standard in physical precious metal investing. Produced by Valcambi SA, an LBMA-accredited refinery based in Balerna, Switzerland, each bar comes sealed in a tamper-evident assay card verifying its weight, purity, and authenticity.",
       "category": "coins-bullions",
       "additionalImages": [
-        "assets/kishek-olive-tree-oval-half-ounce.png"
+        "assets/valcambi-back-side.png"
       ]
     },
     {
@@ -57,35 +54,38 @@
     {
       "unit": "oz",
       "metal": "Gold",
-      "name": "24k Valcambi Suisse Full Ounce Bar",
-      "featured": true,
+      "name": "24k Kishek Olive Tree Oval Half Ounce Bar",
+      "featured": false,
       "karat": 24,
       "outOfStock": false,
       "isDynamic": true,
-      "premium": 125,
-      "weight": 31.1,
-      "id": "Cb11",
-      "image": "assets/valcambi-suisse-full-ounce-front.png",
-      "description": "1 oz Valcambi Suisse 24K Gold Bar (In Assay Card)\nOverview\nRenowned for precision Swiss engineering and unmatched purity, the 1 oz Valcambi Suisse 24K Gold Bar is one of the most recognized and liquid gold bullion products in the world. Struck from 1 troy ounce of .9999 fine gold (24 karat), this bar represents the gold standard in physical precious metal investing. Produced by Valcambi SA, an LBMA-accredited refinery based in Balerna, Switzerland, each bar comes sealed in a tamper-evident assay card verifying its weight, purity, and authenticity.",
+      "premium": 100,
+      "weight": 15.55,
+      "id": "Cb13",
+      "image": "assets/kishek-olive-tree-ounce.png",
+      "description": " Pure 24K Gold: Minted in high-purity 24 Karat gold (99.9%+ pure fine gold).\nDistinctive Square Format: Crafted in a clean, modern oval profile that highlights the detailed relief artwork.\nSought-After 1/2 oz Weight: Contains 0.5 Troy Ounces (approx. 15.55 grams) of fine gold, providing an accessible and liquid weight unit for collectors and investors alike.\nSymbol of Heritage & Resilience: Features an intricately struck Olive Tree, making it a popular choice for milestone gifts, weddings, family heirlooms, and personal collection.\nFine Artisanal Detail: Combines bullion investment value with fine jewelry-grade aesthetic craftsmanship.",
       "category": "coins-bullions",
       "additionalImages": [
-        "assets/valcambi-back-side.png"
+        "assets/kishek-olive-tree-oval-half-ounce.png"
       ]
     },
     {
       "unit": "oz",
       "metal": "Gold",
-      "name": "24k 1 oz PAMP Suisse Gold Bar - Lady Fortuna",
+      "name": "24k Rose Half Ounce Bar",
       "featured": false,
       "karat": 24,
       "outOfStock": false,
       "isDynamic": true,
-      "premium": 150,
-      "weight": 1,
-      "id": "Cb1",
-      "image": "assets/pamp_1oz_gold.jpg",
-      "description": "Invest in timeless elegance with the world-renowned 1 oz PAMP Suisse Gold Bar, featuring the iconic Lady Fortuna design. Minted in Switzerland by PAMP (Produits Artistiques Métaux Précieux), this 24-karat (999.9 purity) gold bar represents the pinnacle of quality and craftsmanship. Each bar is individually sealed in assay packaging, guaranteeing its authenticity, weight (31.104g), and purity. A favorite among investors and collectors alike, PAMP Suisse bars are recognized globally for their superior artistry and value retention.",
-      "category": "coins-bullions"
+      "premium": 100,
+      "weight": 15.55,
+      "id": "Cb14",
+      "image": "assets/half-rose-ounce.png",
+      "description": "Pure 24K Fine Gold: Struck in 99.99% pure gold (.9999 fineness).\nHalf Troy Ounce Weight: Contains exactly 0.5 Troy Ounces (15.55 grams) of fine gold.\nIntricate Floral Artistry: Minted with a detailed high-relief blooming rose and stem motif.\nVersatile Gift & Investment: A favorite choice for weddings, anniversaries, birthdays, Valentine's Day, and family heritage gifts.\nProtective Mint Packaging: Sealed in protective tamper-evident assay packaging to preserve condition, mirror proof finish, and authenticity.",
+      "category": "coins-bullions",
+      "additionalImages": [
+        "assets/half-rose-ounce-back.png"
+      ]
     },
     {
       "unit": "g",
