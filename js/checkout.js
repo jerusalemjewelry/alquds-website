@@ -387,6 +387,34 @@ function renderCheckout(cart) {
             };
             if (formEmail || formFirstName || formAddress) {
                 localStorage.setItem('alquds_customer_info', JSON.stringify(data));
+
+                // Always auto-generate latest email payload in real time so order-confirmation backup can fire
+                try {
+                    const checkoutData = getCheckoutData();
+                    const finalName = (formFirstName + ' ' + formLastName).trim() || 'Valued Customer';
+                    const emailPayload = {
+                        customerEmail: formEmail || 'jerusalemjewelry@yahoo.com',
+                        customerName: finalName,
+                        orderNumber: 'INV-' + Math.floor(100000 + Math.random() * 900000),
+                        paymentMethod: 'PayPal / Credit Card',
+                        subtotal: checkoutData.itemTotalNum.toFixed(2),
+                        shippingCost: checkoutData.shippingNum.toFixed(2),
+                        taxAmount: checkoutData.taxNum.toFixed(2),
+                        handlingFee: checkoutData.handlingNum.toFixed(2),
+                        total: checkoutData.exactGrandTotal,
+                        cartItems: checkoutData.cart,
+                        shippingAddress: {
+                            name: finalName,
+                            address: formAddress,
+                            city: formCity,
+                            state: formState,
+                            zip: formZip,
+                            country: formCountry,
+                            phone: formPhone || 'Not provided'
+                        }
+                    };
+                    localStorage.setItem('alquds_latest_email_payload', JSON.stringify(emailPayload));
+                } catch(e) {}
             }
             return data;
         } catch (e) {
