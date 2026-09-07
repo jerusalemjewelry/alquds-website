@@ -2241,9 +2241,9 @@ function openLightbox(src) {
         overlay.id = 'lightbox-overlay';
         overlay.className = 'lightbox-overlay';
         overlay.innerHTML = `
-    < button class="lightbox-close" onclick = "closeLightbox()" >& times;</button >
-        <img src="" class="lightbox-image" id="lightbox-img">
-            `;
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img src="" class="lightbox-image" id="lightbox-img" alt="Enlarged view" onerror="if (this.src.includes('/.netlify/images?url=')) { this.src = decodeURIComponent(this.src.split('?url=')[1]); }">
+        `;
         document.body.appendChild(overlay);
 
         // Close on click outside
@@ -2258,7 +2258,9 @@ function openLightbox(src) {
     }
 
     const img = document.getElementById('lightbox-img');
-    img.src = src;
+    if (img) {
+        img.src = normalizeImageUrl(src) || src;
+    }
 
     // Slight delay for animation
     setTimeout(() => {
