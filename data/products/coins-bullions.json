@@ -16,7 +16,7 @@
       "category": "coins-bullions"
     },
     {
-      "unit": "oz",
+      "unit": "g",
       "metal": "Gold",
       "name": "24k 1 oz PAMP Suisse Gold Bar - Lady Fortuna",
       "featured": true,
@@ -24,7 +24,7 @@
       "outOfStock": false,
       "isDynamic": true,
       "premium": 150,
-      "weight": 1,
+      "weight": 31.1,
       "id": "Cb1",
       "image": "assets/pamp_1oz_gold.jpg",
       "description": "Invest in timeless elegance with the world-renowned 1 oz PAMP Suisse Gold Bar, featuring the iconic Lady Fortuna design. Minted in Switzerland by PAMP (Produits Artistiques Métaux Précieux), this 24-karat (999.9 purity) gold bar represents the pinnacle of quality and craftsmanship. Each bar is individually sealed in assay packaging, guaranteeing its authenticity, weight (31.104g), and purity. A favorite among investors and collectors alike, PAMP Suisse bars are recognized globally for their superior artistry and value retention.",
