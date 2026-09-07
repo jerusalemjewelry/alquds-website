@@ -165,6 +165,21 @@
     {
       "unit": "g",
       "metal": "Gold",
+      "name": "21k Turkish Half Mkhamas (Rashadi) ",
+      "featured": false,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 100,
+      "weight": 17.95,
+      "id": "Cb15",
+      "image": "assets/turkish_gold_coin_darker_yellow_1771699457704.jpg",
+      "description": "Steeped in rich Ottoman history and regional tradition, the 21K Turkish Half Mkhamas (Rashadi) is one of the most prestigious gold pieces in Middle Eastern and Levantine jewelry traditions. Inspired by the historic Reşat Lira coins minted during the reign of Ottoman Sultan Mehmed V Reşad, the Mkhamas (derived from the Arabic word for five) represents a multi-Lira weight class.\n\nThe Half Mkhamas (Nisf Mukhamas) corresponds to the 2.5 Lira size, offering a substantial, impressive gold piece struck in 21K (.875 Fine) Gold. Celebrated for its intricate calligraphic artwork and high gold content, it serves as both a high-liquidity gold store and a cherished bridal or family heirloom.",
+      "category": "coins-bullions"
+    },
+    {
+      "unit": "g",
+      "metal": "Gold",
       "name": "21k Palestine Gold Coin",
       "featured": true,
       "karat": 21,
