@@ -161,6 +161,41 @@ function getRandomItems(array, count) {
     return shuffled.slice(0, Math.min(count, array.length));
 }
 
+// Utility: Normalize and Optimize Image URLs
+function normalizeImageUrl(imgInput) {
+    if (!imgInput) return '';
+    
+    let url = imgInput;
+    if (typeof imgInput === 'object') {
+        url = imgInput.image_url || imgInput.image || imgInput.url || '';
+    }
+    
+    if (typeof url !== 'string' || !url.trim()) return '';
+    url = url.trim();
+
+    // Full external URLs or Data URIs return unchanged
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+        return url;
+    }
+
+    // Handle Netlify image proxy URLs
+    if (url.startsWith('/.netlify/images') || url.startsWith('.netlify/images')) {
+        return url.startsWith('/') ? url : '/' + url;
+    }
+
+    // Ensure leading slash if starting with assets/
+    if (url.startsWith('assets/')) {
+        url = '/' + url;
+    }
+
+    // Convert local /assets/ to Netlify image optimization URL
+    if (url.startsWith('/assets/')) {
+        return '/.netlify/images?url=' + url;
+    }
+
+    return url.startsWith('/') ? url : '/' + url;
+}
+
 
 
 // Config: Map URL 'cat' to Product Data Properties
@@ -963,29 +998,29 @@ function createProductCard(product) {
     const iconClass = isOutOfStock ? 'fa-solid fa-ban' : 'fa-solid fa-plus';
 
     // Image list for slider
-    let images = [product.image];
-    if (product.additionalImages && Array.isArray(product.additionalImages)) {
-        product.additionalImages.forEach(img => {
-            if (img) {
-                const src = (typeof img === 'object') ? (img.image || '') : img;
-                if (src && !images.includes(src)) images.push(src);
-            }
-        });
-    }
+    const mainImg = normalizeImageUrl(product.image);
+    let images = mainImg ? [mainImg] : [];
+    const addArr = Array.isArray(product.additionalImages) ? product.additionalImages : (product.additionalImages ? [product.additionalImages] : []);
+    addArr.forEach(img => {
+        const src = normalizeImageUrl(img);
+        if (src && !images.includes(src)) {
+            images.push(src);
+        }
+    });
 
     let sliderControlsHTML = '';
     let containerAttrs = '';
     if (images.length > 1) {
         containerAttrs = `data-images="${encodeURIComponent(JSON.stringify(images))}" data-current-index="0"`;
         sliderControlsHTML = `
-            <button class="prod-slider-btn prod-slider-prev" onclick="window.flipProductImage(this, 'prev', event)">
+            <button class="prod-slider-btn prod-slider-prev" onclick="window.flipProductImage(this, 'prev', event)" aria-label="Previous Image">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
-            <button class="prod-slider-btn prod-slider-next" onclick="window.flipProductImage(this, 'next', event)">
+            <button class="prod-slider-btn prod-slider-next" onclick="window.flipProductImage(this, 'next', event)" aria-label="Next Image">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
             <div class="prod-slider-dots">
-                ${images.map((_, i) => `<span class="prod-slider-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
+                ${images.map((_, i) => `<span class="prod-slider-dot ${i === 0 ? 'active' : ''}" onclick="window.goToProductImage(this, ${i}, event)"></span>`).join('')}
             </div>
         `;
     }
@@ -995,7 +1030,7 @@ function createProductCard(product) {
             <div class="product-card-image-container" ${containerAttrs} style="position: relative; overflow: hidden;">
                 <a href="/product/${encodeURIComponent(product.id)}/" style="display: block;">
                     ${overlayHTML}
-                    <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                    <img src="${mainImg}" alt="${product.name}" class="product-image" loading="lazy" onerror="if (this.src.includes('/.netlify/images?url=')) { this.src = decodeURIComponent(this.src.split('?url=')[1]); }">
                 </a>
                 ${sliderControlsHTML}
                 <button ${btnAction} class="${btnClass}">
@@ -1112,21 +1147,21 @@ async function initApp() {
         const rawProducts = productsResults.flatMap(data => data.products_list || []);
 
 
-        // 2. Calculate Prices and Optimize Images
+        // 2. Calculate Prices and Normalize Images
         products = rawProducts.map(p => {
             const calculatedPrice = calculatePrice(p, pricingConfig);
-            if (p.image && p.image.startsWith('assets/')) {
-                p.image = '/.netlify/images?url=/' + p.image;
-            }
-            if (p.additionalImages) {
-                p.additionalImages = p.additionalImages.map(imgObj => {
-                    if (imgObj && imgObj.image_url && imgObj.image_url.startsWith('assets/')) {
-                        return { image_url: '/.netlify/images?url=/' + imgObj.image_url };
-                    }
-                    return imgObj;
-                });
-            }
-            return { ...p, price: calculatedPrice };
+            const mainImg = normalizeImageUrl(p.image);
+            const addArr = Array.isArray(p.additionalImages) ? p.additionalImages : (p.additionalImages ? [p.additionalImages] : []);
+            const addImages = addArr
+                .map(img => normalizeImageUrl(img))
+                .filter(img => img && img !== mainImg);
+
+            return { 
+                ...p, 
+                image: mainImg,
+                additionalImages: addImages,
+                price: calculatedPrice 
+            };
         });
 
         // 3. Render Home Featured (4 Random Items)
@@ -1899,10 +1934,15 @@ function renderProductDetail() {
         : `<button onclick="addToCart('${product.id}')" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem; margin-bottom: 20px;"><i class="fa-solid fa-shopping-bag" style="margin-right: 8px;"></i> ADD TO CART</button>`;
 
     // Image Gallery Logic
-    const allImages = [product.image];
-    if (product.additionalImages && Array.isArray(product.additionalImages)) {
-        allImages.push(...product.additionalImages);
-    }
+    const mainImg = normalizeImageUrl(product.image);
+    const allImages = mainImg ? [mainImg] : [];
+    const addArr = Array.isArray(product.additionalImages) ? product.additionalImages : (product.additionalImages ? [product.additionalImages] : []);
+    addArr.forEach(img => {
+        const src = normalizeImageUrl(img);
+        if (src && !allImages.includes(src)) {
+            allImages.push(src);
+        }
+    });
 
     // Store state for navigation
     window.currentProductImages = allImages;
@@ -1942,6 +1982,7 @@ function renderProductDetail() {
                      style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #444; cursor: pointer; border-radius: 4px; transition: border-color 0.2s;"
                      onmouseover="this.style.borderColor='var(--color-gold)'"
                      onmouseout="this.style.borderColor='#444'"
+                     onerror="if (this.src.includes('/.netlify/images?url=')) { this.src = decodeURIComponent(this.src.split('?url=')[1]); }"
                 >
             `).join('')}
         </div>`;
@@ -2273,6 +2314,35 @@ window.flipProductImage = function(btn, dir, event) {
             dot.classList.remove('active');
         }
     });
+};
+
+window.goToProductImage = function(dotEl, targetIndex, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    const container = dotEl.closest('.product-card-image-container');
+    if (!container) return;
+    const img = container.querySelector('.product-image');
+    if (!img) return;
+    
+    const imagesStr = container.getAttribute('data-images');
+    if (!imagesStr) return;
+    const images = JSON.parse(decodeURIComponent(imagesStr));
+    
+    if (targetIndex >= 0 && targetIndex < images.length) {
+        img.src = images[targetIndex];
+        container.setAttribute('data-current-index', targetIndex);
+        
+        const dots = container.querySelectorAll('.prod-slider-dot');
+        dots.forEach((dot, idx) => {
+            if (idx === targetIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
 };
 
 // Inject Styles for Card Image Slider
