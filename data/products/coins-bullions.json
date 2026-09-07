@@ -31,7 +31,7 @@
       "category": "coins-bullions"
     },
     {
-      "unit": "oz",
+      "unit": "g",
       "metal": "Gold",
       "name": "24k Valcambi Suisse Full Ounce Bar",
       "featured": true,
@@ -39,7 +39,7 @@
       "outOfStock": false,
       "isDynamic": true,
       "premium": 125,
-      "weight": 1,
+      "weight": 31.1,
       "id": "Cb11",
       "image": "assets/valcambi-back-side.png",
       "description": "1 oz Valcambi Suisse 24K Gold Bar (In Assay Card)\nOverview\nRenowned for precision Swiss engineering and unmatched purity, the 1 oz Valcambi Suisse 24K Gold Bar is one of the most recognized and liquid gold bullion products in the world. Struck from 1 troy ounce of .9999 fine gold (24 karat), this bar represents the gold standard in physical precious metal investing. Produced by Valcambi SA, an LBMA-accredited refinery based in Balerna, Switzerland, each bar comes sealed in a tamper-evident assay card verifying its weight, purity, and authenticity.",
