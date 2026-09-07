@@ -150,6 +150,21 @@
     {
       "unit": "g",
       "metal": "Gold",
+      "name": "21k English Half Mkhamas Coin",
+      "featured": true,
+      "karat": 24,
+      "outOfStock": false,
+      "isDynamic": true,
+      "premium": 125,
+      "weight": 25,
+      "id": "Cb16",
+      "image": "assets/english_sovereign_22k.jpg",
+      "description": "The 21K English Half Mkhamas (often referred to in Arabic as Nisf Mukhamas Injeleezi - نصف مخمس إنجليزي) is one of the most prestigious and recognizable gold coin designs across Middle Eastern and Levantine markets. Based on the world-famous British Sovereign motif, this coin features the legendary image of Saint George slaying the Dragon.\n\nWhile standard sovereigns are individual coin units, the Half Mkhamas format represents a 2.5-unit size (equivalent in scale to 2.5 standard English sovereigns). Struck in rich 21K (.875 Fine) Gold, this coin medallion offers an impressive weight and diameter, making it a standout centerpiece for wearable coin necklaces (Kordana), bridal sets, and bullion collections.",
+      "category": "coins-bullions"
+    },
+    {
+      "unit": "g",
+      "metal": "Gold",
       "name": "21k Turkish Mkhamas (Rashadi)",
       "featured": true,
       "karat": 21,
