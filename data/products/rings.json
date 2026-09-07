@@ -1,3 +1,20 @@
 {
-  "products_list": []
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 1,
+      "taxable": true,
+      "name": "test ring 1 ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 1,
+      "weight": "0.01",
+      "id": "R1",
+      "image": "assets/placeholder.png",
+      "description": "test",
+      "category": "rings"
+    }
+  ]
 }
