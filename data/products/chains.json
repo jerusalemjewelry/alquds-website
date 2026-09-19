@@ -2,18 +2,18 @@
   "products_list": [
     {
       "color": "Yellow Gold",
-      "laborPerGram": 6,
-      "name": "Royal Heritage Necklace",
+      "laborPerGram": 25,
+      "taxable": true,
+      "name": "21k Gold Heritage Chain - 3mm Wheat Style (26 inches)",
       "featured": true,
       "karat": 21,
       "outOfStock": false,
-      "itemNo": "NC-2001",
       "isDynamic": true,
-      "marginPercent": 18,
-      "weight": 60,
-      "id": "Ch1",
-      "image": "assets/placeholder.png",
-      "description": "Statement necklace with classic design. Heavy weight construction for lasting beauty.",
+      "marginPercent": 15,
+      "weight": "6.25",
+      "id": "Ch2",
+      "image": "assets/chain-1.png",
+      "description": "21k Gold Chains Collection\nDiscover the rich tradition and brilliant luster of authentic 21-karat gold chains. Hand-selected for exceptional quality, weight, and durability, our 21k chains represent the gold standard of Middle Eastern craftsmanship. Priced transparently according to live gold market rates.",
       "category": "chains"
     }
   ]
