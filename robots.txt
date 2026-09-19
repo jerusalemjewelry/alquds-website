@@ -2,5 +2,9 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /checkout.html
+Disallow: /order-confirmation.html
+Disallow: /contact-success.html
+Disallow: /cart.html
+Disallow: /*.php
 
 Sitemap: https://alqudsjewelry.com/sitemap.xml
