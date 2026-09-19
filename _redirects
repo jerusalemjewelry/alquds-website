@@ -1,6 +1,15 @@
 https://alquds-webstite.netlify.app/* https://alqudsjewelry.com/:splat 301!
 /product/:slug /product.html?id=:slug 200
 
+# Block Vulnerability & Bot Scanners Immediately (Returns light 404)
+/*.php          / 404!
+/wp-admin/*     / 404!
+/wp-content/*   / 404!
+/wp-includes/*  / 404!
+/xmlrpc.php     / 404!
+/.env*          / 404!
+/.git*          / 404!
+
 # Yellow Gold
 /yellow-gold-jewelry /catalog.html?cat=yellow-gold 200
 /yellow-gold-jewelry/ /catalog.html?cat=yellow-gold 200
