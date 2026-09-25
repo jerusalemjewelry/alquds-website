@@ -183,7 +183,7 @@
       "name": "22k Gold Heritage Bangle (3 Tone) ",
       "featured": true,
       "karat": 22,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "12.95",
