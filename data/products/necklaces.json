@@ -295,7 +295,7 @@
       "name": "21k Loza Gold Heritage Necklace Set ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "42.16",
