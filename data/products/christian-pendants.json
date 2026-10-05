@@ -167,7 +167,7 @@
       "name": "18k Mary Medallion Pendant",
       "featured": true,
       "karat": 18,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "3.25",
