@@ -343,7 +343,7 @@
       "name": "21k Gold Coin (Lira) Frame (bezel) ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 15,
       "weight": "7.15",
