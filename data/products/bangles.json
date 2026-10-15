@@ -873,7 +873,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "18.95",
       "id": "B22",
       "image": "assets/bangle-18.95.jpg",
