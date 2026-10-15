@@ -777,7 +777,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "51.90",
       "id": "B28",
       "image": "assets/bangle-51.90.png",
