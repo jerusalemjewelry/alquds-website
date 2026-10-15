@@ -217,7 +217,7 @@
       "karat": 21,
       "outOfStock": true,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "18.0",
       "id": "B63",
       "image": "assets/bangle-18.0.png",
