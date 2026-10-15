@@ -393,7 +393,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "13.70",
       "id": "B52",
       "image": "assets/bangle-13.70.png",
