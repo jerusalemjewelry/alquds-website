@@ -809,7 +809,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "22.0",
       "id": "B26",
       "image": "assets/bangle-22.0.png",
