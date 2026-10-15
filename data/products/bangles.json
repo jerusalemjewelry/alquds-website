@@ -313,7 +313,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "17.50",
       "id": "B57",
       "image": "assets/bangle-17.50.png",
