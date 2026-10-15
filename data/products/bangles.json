@@ -281,7 +281,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "10.0",
       "id": "B59",
       "image": "assets/bangle-10.0.png",
