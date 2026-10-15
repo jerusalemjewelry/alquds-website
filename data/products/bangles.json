@@ -361,7 +361,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "14.80",
       "id": "B54",
       "image": "assets/bangle-14.80.png",
