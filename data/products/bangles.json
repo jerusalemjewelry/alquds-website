@@ -329,7 +329,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "20.80",
       "id": "B56",
       "image": "assets/bangle-20.80.png",
