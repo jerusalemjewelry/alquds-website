@@ -889,7 +889,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 11,
+      "marginPercent": 15,
       "weight": "29.20",
       "id": "B21",
       "image": "assets/bangle-29.20.png",
