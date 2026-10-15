@@ -1066,7 +1066,7 @@
       "karat": 21,
       "outOfStock": false,
       "isDynamic": true,
-      "marginPercent": 10,
+      "marginPercent": 15,
       "weight": "26.50",
       "id": "B10",
       "image": "assets/bangle-26.50.png",
