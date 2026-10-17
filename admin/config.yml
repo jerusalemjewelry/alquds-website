@@ -85,8 +85,10 @@ collections:
                   - {label: "silver", value: "silver"}
                   - {label: "diamonds", value: "diamonds"}
                   - {label: "coins-bullions", value: "coins-bullions"}
-              - {label: "Karat", name: "karat", widget: "number", default: 21}
-              - {label: "Weight (Grams)", name: "weight", widget: "string"}
+              - {label: "Karat (Gold only)", name: "karat", widget: "number", default: 21, required: false}
+              - {label: "Weight in Grams (Gold only)", name: "weight", widget: "string", required: false}
+              - {label: "Purity (Silver only, e.g. 0.925 Sterling Silver)", name: "purity", widget: "string", required: false}
+              - {label: "Thickness in mm (Silver only, e.g. 9)", name: "thickness", widget: "string", required: false}
               - {label: "Margin Percentage (%)", name: "marginPercent", widget: "number"}
               - {label: "Labor Charge Per Gram ($)", name: "laborPerGram", widget: "number"}
               - {label: "Image", name: "image", widget: "image"}
