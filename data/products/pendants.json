@@ -759,7 +759,7 @@
       "name": "21k Gold Heritage Islamic Pendant ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 15,
       "weight": "1.90",
