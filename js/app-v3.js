@@ -732,8 +732,8 @@ function renderCartDrawer() {
         subtotal += itemTotal;
         
         let metaDetails = `${item.karat}k`;
-        if (item.metal === 'Silver') metaDetails = 'Silver';
-        if (item.weight && item.weight !== 'Varies' && item.weight !== 'N/A') {
+        if (item.metal === 'Silver' || item.color === 'Silver' || item.category === 'silver') metaDetails = 'Silver';
+        if (item.weight && item.weight !== 'Varies' && item.weight !== 'N/A' && Number(item.weight) > 0) {
             metaDetails += ` • ${item.weight}g`;
         }
 
@@ -1039,7 +1039,7 @@ function createProductCard(product) {
             </div>
             <div class="product-info">
                 <div class="product-meta">
-                    ${product.metal === 'Silver' ? 'Silver' : (product.metal === 'Platinum' ? 'Platinum' : (product.karat ? product.karat + 'k Gold' : 'Gold'))} 
+                    ${(product.metal === 'Silver' || product.color === 'Silver' || product.category === 'silver') ? 'Silver' : (product.metal === 'Platinum' ? 'Platinum' : (product.karat ? product.karat + 'k Gold' : 'Gold'))} 
                     | ${product.id}
                 </div>
                 <h3 class="product-title"><a href="/product/${encodeURIComponent(product.id)}/">${product.name}</a></h3>
@@ -1997,7 +1997,7 @@ function renderProductDetail() {
         backUrl = '/coins-bullions/';
     } else if (catSlug === 'diamonds') {
         backUrl = '/diamond-jewelry/';
-    } else if (product.metal === 'Silver') {
+    } else if (product.metal === 'Silver' || product.color === 'Silver' || product.category === 'silver') {
         backUrl = `/product-category/silver-${catSlug}/`;
     } else if (product.color === 'White Gold') {
         backUrl = `/product-category/white-gold-${catSlug}/`;
