@@ -92,7 +92,7 @@ function renderCheckout(cart) {
                         ${item.name}
                     </div>
                     <div class="text-muted" style="font-size: 0.8rem;">
-                        ${item.karat ? item.karat + ' Gold' : ''} | Qty: <span class="text-white">${qty}</span>
+                        ${(item.metal === 'Silver' || item.color === 'Silver' || item.category === 'silver') ? 'Silver | ' : (item.karat ? item.karat + 'k Gold | ' : '')}Qty: <span class="text-white">${qty}</span>
                     </div>
                     ${exemptLabel}
                 </div>
@@ -313,8 +313,13 @@ function renderCheckout(cart) {
             const cleanSku = (rawSkuCandidate ? String(rawSkuCandidate).replace(/[^a-zA-Z0-9_.-]/g, '').trim() : '') || fallbackSku;
 
             const specDetails = [];
-            if (item.karat) specDetails.push(item.karat + 'k Gold');
-            if (item.weight && item.weight !== 'N/A' && item.weight !== 'Varies') specDetails.push(item.weight + 'g');
+            if (item.metal === 'Silver' || item.color === 'Silver' || item.category === 'silver') {
+                specDetails.push(item.purity || '0.925 Silver');
+                if (item.thickness) specDetails.push(String(item.thickness).replace(/mm$/i, '').trim() + 'mm');
+            } else {
+                if (item.karat) specDetails.push(item.karat + 'k Gold');
+                if (item.weight && item.weight !== 'N/A' && item.weight !== 'Varies' && Number(item.weight) > 0) specDetails.push(item.weight + 'g');
+            }
             if (item.size) specDetails.push('Size: ' + item.size);
             if (item.length) specDetails.push('Length: ' + item.length);
             if (item.customName) specDetails.push('Custom: ' + item.customName);
