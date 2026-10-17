@@ -2043,6 +2043,24 @@ function renderProductDetail() {
                     <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Item No.:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">${product.itemNo || product.id || 'N/A'}</td></tr>
                 `;
             })()
+            : (product.color === 'Silver' || product.category === 'silver') ?
+            (() => {
+                // Silver: show Purity + Thickness (mm) instead of Karats / Weight
+                const purityDisplay = product.purity || '0.925 Sterling Silver';
+                let thicknessDisplay = 'N/A';
+                if (product.thickness !== undefined && product.thickness !== null && String(product.thickness).trim() !== '') {
+                    const t = String(product.thickness).trim();
+                    thicknessDisplay = /mm$/i.test(t) ? t : `${t} mm`;
+                } else {
+                    const m = String(product.name || '').match(/(\d+(?:\.\d+)?)\s*mm/i);
+                    if (m) thicknessDisplay = `${m[1]} mm`;
+                }
+                return `
+                    <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${purityDisplay}</td></tr>
+                    <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Thickness:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${thicknessDisplay}</td></tr>
+                    <tr><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Item No.:</td><td style="padding: 12px 0; color: var(--color-gold); text-align: right; font-weight: 500;">${product.itemNo || product.id || 'N/A'}</td></tr>
+                `;
+            })()
             :
             `<tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Purity:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.karat} Karats</td></tr>
                          <tr style="border-bottom: 1px solid #333;"><td style="padding: 12px 0; color: var(--color-text-muted); font-size: 0.9rem;">Weight:</td><td style="padding: 12px 0; color: white; text-align: right; font-weight: 500;">${product.weight} ${product.weight === 'Varies' ? '' : 'Gms'}</td></tr>
