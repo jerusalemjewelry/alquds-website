@@ -1,3 +1,21 @@
 {
-    "products_list": []
+  "products_list": [
+    {
+      "color": "Yellow Gold",
+      "laborPerGram": 0,
+      "taxable": true,
+      "name": "0.925 Sterling Silver Chain Figaro Style - 9mm Thick (22inches)",
+      "featured": true,
+      "karat": 0,
+      "outOfStock": false,
+      "fixedPrice": 850,
+      "isDynamic": false,
+      "marginPercent": 0,
+      "weight": "0",
+      "id": "Ch1",
+      "image": "assets/silver-chain-1.png",
+      "description": "Italian 925 Sterling Silver Figaro Chain – 9mm | 22\"\nThis Figaro chain is made in Italy from solid .925 sterling silver. The pattern is the classic Figaro: groups of short, flat links broken up by one longer link, repeated along the chain.\n\nAt 9mm wide, it's a heavy chain that stands out whether you wear it by itself or with a pendant. The 22-inch length sits just below the collarbone and works for both men and women.\n\nWhy You'll Love It\nGenuine .925 sterling silver, stamped to show it's authentic\nMade in Italy by skilled silversmiths, with tight, even links\nPolished to a high shine that catches the light\n9mm wide, with real weight and a solid feel\n22-inch length that suits most necklines\nSecure lobster clasp, easy to put on and take off\nHypoallergenic and safe for everyday wear\nGood for layering or for wearing with a pendant",
+      "category": "chains"
+    }
+  ]
 }
