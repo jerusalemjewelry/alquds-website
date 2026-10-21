@@ -644,7 +644,7 @@
       "name": "21k Gold Heritage Coin Necklace Set (Does not include Coin) ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "33.08",
