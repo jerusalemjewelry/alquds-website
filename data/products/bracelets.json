@@ -2,6 +2,23 @@
   "products_list": [
     {
       "color": "Yellow Gold",
+      "laborPerGram": 0,
+      "taxable": true,
+      "name": "bracelet 10-24-26",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "fixedPrice": 8947,
+      "isDynamic": false,
+      "marginPercent": 0,
+      "weight": "0.00",
+      "id": "Br47",
+      "image": "assets/placeholder.png",
+      "description": "custom order",
+      "category": "bracelets"
+    },
+    {
+      "color": "Yellow Gold",
       "laborPerGram": 20,
       "taxable": true,
       "name": "21k Gold Heritage Bracelet ",
