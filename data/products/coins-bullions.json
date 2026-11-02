@@ -36,7 +36,7 @@
       "name": "24k Valcambi Suisse Full Ounce Bar",
       "featured": true,
       "karat": 24,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "premium": 125,
       "weight": 31.1,
