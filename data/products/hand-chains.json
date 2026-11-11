@@ -55,7 +55,7 @@
       "name": "21k Gold Heritage Hand Chain/Kaff",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 20,
       "weight": "3.15",
