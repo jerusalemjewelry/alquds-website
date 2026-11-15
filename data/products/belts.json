@@ -2,6 +2,22 @@
   "products_list": [
     {
       "color": "Yellow Gold",
+      "laborPerGram": 37,
+      "taxable": true,
+      "name": "21k Gold Heritage Belt (light) ",
+      "featured": true,
+      "karat": 21,
+      "outOfStock": false,
+      "isDynamic": true,
+      "marginPercent": 0,
+      "weight": "59.25",
+      "id": "Bt3",
+      "image": "assets/belt-59.25-37.png",
+      "description": "Description: Make an unforgettable statement of luxury and prestige with our solid 21k gold coin frame belts. A crowning masterpiece of traditional Middle Eastern bridal wear, this belt is intricately crafted from high-purity 21k yellow gold, featuring a spectacular row of gold-framed coins linked together in a seamless, majestic band. Designed to sit elegantly at the waist over traditional gowns or kaftans, it is the ultimate symbol of heritage, wealth, and celebration. A breathtaking heirloom piece to be treasured for generations.\n\nMaterial: 21k Solid Yellow Gold\nDesign: detailed decorative frames.\nFit: Designed with an adjustable clasp to sit comfortably at the waist.\nOccasion: The ultimate bridal dowry showcase, perfect for weddings, henna parties, and grand cultural celebrations.",
+      "category": "belts"
+    },
+    {
+      "color": "Yellow Gold",
       "laborPerGram": 9,
       "taxable": true,
       "name": "21k Gold Heritage Coin Frame Belt - 13 Bezels",
