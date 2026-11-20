@@ -584,7 +584,7 @@
       "featured": true,
       "karat": 21,
       "outOfStock": false,
-      "isDynamic": true,
+      "isDynamic": false,
       "marginPercent": 11,
       "weight": "121.30",
       "id": "BS30",
