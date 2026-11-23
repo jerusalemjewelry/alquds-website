@@ -583,7 +583,7 @@
       "name": "21k Gold Heritage Bangles Set of 6 (Large-21cm)",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": false,
       "marginPercent": 11,
       "weight": "121.30",
