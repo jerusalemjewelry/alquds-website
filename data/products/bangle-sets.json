@@ -519,7 +519,7 @@
       "name": "21k Sabalah Gold Heritage Bangle (Large-21cm) ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "15.05",
