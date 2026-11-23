@@ -823,7 +823,7 @@
       "name": "21k SOLID Gold Heritage Bangles Set of 4 (Medium-20cm) ",
       "featured": true,
       "karat": 21,
-      "outOfStock": false,
+      "outOfStock": true,
       "isDynamic": true,
       "marginPercent": 11,
       "weight": "74.40",
