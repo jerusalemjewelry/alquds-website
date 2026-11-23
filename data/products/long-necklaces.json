@@ -104,7 +104,7 @@
       "featured": true,
       "karat": 21,
       "outOfStock": false,
-      "isDynamic": true,
+      "isDynamic": false,
       "marginPercent": 0,
       "weight": "18.65",
       "id": "LN40",
